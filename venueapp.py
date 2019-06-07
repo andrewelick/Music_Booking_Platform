@@ -886,6 +886,3 @@ def spotify_resources():
 #------#--------#--------#-------#--------#---------
 
 app.secret_key = "Jesus Di3d 4or Your Zins"
-
-if __name__ == "__main__":
-    app.run(debug=True)
