@@ -1,1 +1,1 @@
-web: gunicorn venueapp.py:app
+web: gunicorn venueapp:app
