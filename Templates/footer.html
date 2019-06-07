@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style>
+    #footer {
+      padding: 10px;
+      font-size:13px;
+      color: #383838;
+      text-align: center;
+    }
+
+    .footerlink {
+      text-decoration: none;
+      color: #383838;
+      margin-right:10px;
+    }
+    </style>
+  </head>
+  <body>
+    <!--- Footer --->
+    <div id='footer'>
+      <a href='/terms' class='footerlink'>Terms & Conditions</a>
+      <a href="/privacy" class='footerlink'>Privacy</a>
+      <a href='/contact' class='footerlink'>Contact Us</a>
+      <span>&copy; 2019 AppVenue</span>
+    </div>
+    <!-- End of Footer --->
+
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 768 && screenWidth < 1000) {
+            $("#footer").width(screenWidth);
+        }
+        else if (screenWidth > 1000){
+            sideMargin = (screenWidth - 1000) / 2;
+            $("#footer").width(1000).css("margin-left", sideMargin);
+        }
+    </script>
+  </body>
+</html>

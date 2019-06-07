@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="static/croppie.css" />
+    <script src="static/croppie.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #setupcontainer {
+          padding: 15px;
+          border-radius: 5px;
+          background-color: #FFFFFF;
+          box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .button_upload, input[type="submit"] {
+            position: relative;
+            border: 0px;
+            background-color: #328CC1;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+            display: block;
+            cursor: pointer;
+            margin: 0 auto;
+            width: 100px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .upload_picture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 130px;
+            opacity: 0;
+        }
+
+        .upload_picture:hover, .button_upload:hover, input[type="submit"]:hover {
+            cursor: pointer;
+            background-color: #3494cb;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        #save_picture {
+            display: none;
+        }
+
+        #demo-basic {
+            margin: 0 auto;
+            margin-bottom: 20px;
+            width: 200px;
+            height: 200px;
+        }
+
+        select, input[type='text'] {
+          box-sizing: border-box;
+          border: 1px solid;
+          width:100%;
+          padding:10px;
+          margin-bottom: 10px;
+          font-size: 13px;
+          font-family: inherit;
+          border-radius: 5px;
+          background-color: #FFFFFF;
+          border-color: #d2d2d2;
+          outline: none;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          transition: 150ms ease;
+        }
+
+        select:focus, input[type='text']:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        button {
+          border: 0;
+          width:50%;
+          padding:10px;
+          position:relative;
+          left:-2px;
+          font-size: 14px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        textarea {
+          box-sizing: border-box;
+          font-family: inherit;
+          width:100%;
+          padding:10px;
+          font-size:14px;
+          margin-top:20px;
+          border:1px solid;
+          border-radius: 5px;
+          border-color:#d2d2d2;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+      <div id="setupcontainer">
+        <form action="" method="POST">
+
+          {{ get_flashed_messages()[0] }}
+
+          <h2 style="color:#383838;">Edit profile</h2>
+
+          <!--- Profile picture --->
+          <div id="demo-basic" class="profilepicture"></div>
+          </br>
+
+          <!-- Upload button -->
+          <a class="button_upload" id="upload_picture_button">
+              <span>Upload</span>
+              <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
+          </a>
+
+          <!--- Save picture button --->
+          <a class="button_upload" id="save_picture">
+              <span>Save</span>
+          </a>
+
+          <div id="success_message"></div>
+
+
+          <!--- Genre selection --->
+          <div class='artist_setup_selection'>
+            <div style='margin-top:30px;margin-bottom:10px;'>Genre</div>
+
+              <select name="genre" class='selectform'>
+                <option id='0'>Rock</option>
+                <option id='1'>Jazz</option>
+                <option id='2'>Blues</option>
+                <option id='3'>Electronic</option>
+                <option id='4'>Dance</option>
+                <option id='5'>Folk</option>
+                <option id='6'>Soul</option>
+                <option id='7'>Country</option>
+                <option id='8'>Punk</option>
+                <option id='9'>R&B</option>
+                <option id='10'>HipHop/Rap</option>
+                <option id='11'>Heavy Metal</option>
+                <option id='12'>Alernative</option>
+                <option id='13'>Christian</option>
+                <option id='14'>Gospel</option>
+                <option id='15'>Other</option>
+              </select>
+          </div>
+          <!--- End of genre selection --->
+
+          <!--- Member total section --->
+          <div class='artist_setup_selection'>
+            <div style='margin-top:20px;margin-bottom:20px;'>How big is your group?</div>
+              <select name='member_total' id='member_number'>
+                  <option value='1'>Soloist</option>
+                  <option value='2'>2 members</option>
+                  <option value='3'>3 members</option>
+                  <option value='4'>4 members</option>
+                  <option value='5'>5 members</option>
+                  <option value='6'>6 members</option>
+                  <option value='7'>7 members</option>
+                  <option value='8'>8 members</option>
+                  <option value='9'>9 members</option>
+                  <option value='10'>10+ members</option>
+                </select>
+          </div>
+          <!--- End member total selection --->
+          </br>
+          <!--- Bio section --->
+          <div class='artist_setup_selection'>
+            <div>Bio</div>
+            <textarea name='bio' placeholder="Who you are, what you play, what you need." rows='4'/>{% print profile_details[3] %}</textarea>
+          </div>
+          <!--- End of Bio section --->
+
+          <div style='margin-top:20px;margin-bottom:10px;'>Youtube music video</div>
+          {% if profile_links[1] != "" %}
+          <input type='text' name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
+          {% else %}
+          <input type='text' name='youtube' placeholder="Youtube video link" />
+          {% endif %}
+          <div style='margin-top:20px;margin-bottom:10px;'>Soundcloud</div>
+          <input type='text' name='soundcloud' placeholder="Soundcloud profile" value="{% print profile_links[2] %}" />
+
+          <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
+          <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
+
+          <div style='margin-top:20px;margin-bottom:10px;'>Twitter</div>
+          <input type='text' name='twitter' placeholder='Twitter profile' value="{% print profile_links[4] %}"/>
+
+          <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
+          <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
+
+          <div style='margin-top:20px;margin-bottom:10px;'>Facebook</div>
+          <input type='text' name='facebook' placeholder="Facebook profile" value="{% print profile_links[6] %}" />
+
+          </br>
+
+          <input type='Submit' value="Save" id="submit_button" />
+        </form>
+      </div>
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 700) / 2
+            $(".mobilegridrow-2").width(700).css("margin-left",margin).css("margin-right", margin)
+            //Resize profile picture
+            $(".profilepicture").css("width", "25%");
+            //Resize text inputs
+            $("select").width(400);
+            $("textarea").width(400);
+            $("input").width(400);
+            $("#submit_button").width(100);
+
+        }
+
+        //Picture cropper upload
+        var basic = $('#demo-basic').croppie({
+            enableExif: true,
+            viewport: {
+                width: 200,
+                height: 200,
+            },
+        });
+
+        basic.croppie('bind', {
+            url: 'static/user_pictures/profile_pictures/{% print uid %}_profile.jpg',
+        });
+
+        $('#upload_picture_button input').on('change', function () {
+            readFile(this);
+            $('#save_picture').show()
+        });
+
+        function readFile(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#demo-basic').croppie('bind', {
+                    url: e.target.result
+                });
+            }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#save_picture").click(function() {
+            $("#demo-basic").croppie('result', 'blob').then(function(resp) {
+
+                var formData = new FormData();
+                formData.append('picture', resp);
+
+                $.ajax({
+                    url: '/setupaccount',
+                    type: "POST",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData
+                }).done(function(data) {
+
+                    result = JSON.parse(data)
+
+                    if (result['result'] == 'success') {
+                        $("#success_message").html("Picture saved!").css("color", "green")
+                        $(".button_upload").hide()
+                    }
+                })
+
+            });
+        })
+
+    </script>
+
+  </body>
+</html>

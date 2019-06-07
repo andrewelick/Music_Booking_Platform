@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #profilecontainer {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        #profilepicture {
+          box-sizing: border-box;
+          width: 125px;
+          border-radius: 100%;
+          margin-right: 5px;
+          float: left;
+        }
+
+        #bio {
+          font-size: 14px;
+          padding: 10px;
+          float: left;
+        }
+
+        .socialbar {
+          padding-top: 5px;
+        }
+
+        .socialicon {
+          height: 25px;
+          width: 25px;
+          padding: 2px;
+        }
+
+        .profilepicture_mini {
+          box-sizing: border-box;
+          width: 50px;
+          border-radius: 100px;
+          margin-right: 5px;
+          float: left;
+        }
+
+        .contact {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            margin-top:5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            background-color: #328CC1;
+            color: #FFFFFF
+        }
+
+        #editprofile {
+            display: inline-block;
+            width: 100px;
+            padding: 7px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size:12px;
+            color:#FFFFFF;
+            background-color:#328CC1;
+            text-align: center
+        }
+
+        #currentlistings {
+          max-width: 700px;
+          margin: auto;
+          margin-top:10px;
+          padding: 10px;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #pastListings {
+            max-width: 700px;
+            margin: auto;
+            margin-top:10px;
+            padding: 10px;
+            border-radius: 5px;
+            border-color: #d2d2d2;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .singlelisting {
+          padding: 10px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid;
+          border-color: #d2d2d2
+        }
+
+        .listing_stats_option {
+          margin-top:-5px;
+          padding:5px;
+          border-radius: 5px;
+          font-size:11px;
+          background-color:#596B83;
+          color:#FFFFFF;
+        }
+
+        textarea {
+          padding: 8px;
+          width: 70%;
+          font-family: inherit;
+          border-radius: 5px;
+          resize: none;
+        }
+
+        input[type="submit"] {
+          padding: 10px;
+          padding-left: 20px;
+          padding-right: 20px;
+          margin-right: 10px;
+          border-radius: 5px;
+          float: right;
+          border: 0;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        #contact_send_message_container {
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          width: 100%;
+          box-sizing: border-box;
+          z-index: 99;
+          text-align: center;
+          background-color: #FFFFFF;
+          transition: 0.3s;
+          overflow: hidden;
+          box-shadow: 0 0px 15px 0 #111111;
+        }
+
+        #blackbackground {
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          z-index:10;
+          height:100%;
+          width:100%;
+          background-color:#000000;
+          opacity:.8
+        }
+
+        #closesendmessage {
+          position: absolute;
+          top:10px;
+          right:10px;
+          padding:5px;
+          color:#000000;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+        <!--- Profile container --->
+        <div id="profilecontainer" class="container">
+
+            <!--- Profile picture --->
+            <img src="static/user_pictures/profile_pictures/{% print venue_details[0] %}_profile.jpg" id='profilepicture' />
+
+            <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
+                <!--- Artist name --->
+                <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print venue_details[1] %}</span>
+
+                <br/>
+                <div style='font-size:13px;'>{% print venue_details[2] %} | {% print venue_details[3] %}</div>
+
+                <!--- Social bar --->
+                <div class="socialbar">
+                  <!--- Twitter --->
+                  {% if venue_links[1] != None %}
+                  <a href="{% print venue_links[1] %}" target="_blank"><img src="static/twittericon.png" height=32 class='socialicon' /></a>
+                  {% endif%}
+                  <!--- Instagram --->
+                  {% if venue_links[2] != None %}
+                  <a href="{% print venue_links[2] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
+                  {% endif %}
+
+                  {% if venue_links[3] != None %}
+                  <a href="{% print venue_links[3] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
+                  {% endif %}
+                </div>
+                <!--- End of Social bar --->
+
+                <!--- Contact bar --->
+                <div id="contactbar">
+                    {% if email != session['username'] %}
+                        <a href="#" class="contact" id="messageartist" onclick="show_send_message()">Messsage</a>
+                    {% endif %}
+                </div>
+                <!--- End of contact bar --->
+
+                <!--- Edit profile button --->
+                {% if email == session['username'] %}
+                    <a href="/editprofile" id="editprofile">Edit profile</a>
+                {% endif %}
+
+            </div>
+            <!--- End of Profile container --->
+
+            <!--- Bio --->
+            <span id="bio">{% print venue_details[4] %}</span>
+
+        </div>
+
+      <!--- Contact send message screen --->
+      <div id="contact_send_message_container" style="display:none">
+        <div style="padding-bottom: 5px;border-bottom: 1px solid;font-size: 18px;border-color: #d2d2d2;">Send message to:</div>
+        <span id="closesendmessage" onclick="hide_send_message()">x</span>
+        </br>
+
+        <!--- Message rec profile --->
+        <div id="message_rec_profile" style="margin-bottom: 15px;">
+          <img src='static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' style="height:50px;width: 50px;border-radius: 100px" />
+          <span class="rec_name" style="display:inline;position:relative;top:-19px;">{% print venue_details[1] %}</span>
+        </div>
+        <!--- End Message rec profile --->
+
+        <!--- Send message form --->
+        <form action="/profile" method="POST">
+          <input type="hidden" name="rec_id" value="{% print uid %}" />
+          <textarea name="send_message" placeholder="Type your message here" rows=2></textarea>
+          <input type="submit" value="Send" />
+        </form>
+        <!--- End of send message form --->
+
+      </div>
+      <!--- End of Contact send message screen --->
+
+      <!--- Black background for send messages screen --->
+      <div id="blackbackground" onclick="hide_send_message()" style="display:none"></div>
+      <!--- End of Black background --->
+
+      <!--- Current user venue listings --->
+      <div id="currentlistings">
+        <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Current show listings</div>
+
+        {% for x in active_show %}
+            <!--- Single Active listing --->
+            <div class="singlelisting">
+
+              <!--- Link to single listing page --->
+              <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
+              <!--- Listing header --->
+              <div class="lisiting_header" style='text-align:left'>
+                <!-- Profile picture --->
+                <img src="static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
+                <!--- Profile name --->
+                <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
+                <!--- Listed price --->
+                <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
+              </div>
+              <!--- End Listing header -->
+              <!--- Listing body --->
+              <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
+                <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
+              </div>
+              <!--- End Listing body --->
+              <!--- Lisiting stats -->
+              <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
+                <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
+                <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
+                <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
+              </div>
+              <!--- End of Listing stats --->
+              </a>
+              <!--- End of link to single page --->
+            </div>
+            <!--- End of Single listing --->
+        {% endfor %}
+
+        {% if active_show|length == 0 %}
+            <div style="padding: 20px;font-size: 14px;">They do not currently have any shows open</div>
+        {% endif %}
+
+      </div>
+      <!--- End current user venue listings --->
+
+        <!--- Past listings container --->
+        <div id="pastListings">
+            <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Past show listings</div>
+
+            {% for x in winning_show %}
+                <!--- Single Past listing --->
+                <div class="singlelisting">
+
+                  <!--- Link to single listing page --->
+                  <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
+                  <!--- Listing header --->
+                  <div class="lisiting_header" style='text-align:left'>
+                      <!-- Profile picture --->
+                      <img src="static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
+                      <!--- Profile name --->
+                      <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
+                      <!--- Listed price --->
+                      <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
+                  </div>
+                  <!--- End Listing header -->
+                  <!--- Listing body --->
+                  <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
+                    <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
+                  </div>
+                  <!--- End Listing body --->
+                  <!--- Lisiting stats -->
+                  <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
+                    <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
+                    <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
+                    <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
+                  </div>
+                  <!--- End of Listing stats --->
+                  </a>
+                  <!--- End of link to single page --->
+                </div>
+                <!--- End of Single Past listing --->
+            {% endfor %}
+
+            {% if winning_show|length == 0 %}
+                <div style="padding: 20px;font-size: 14px;">No past shows</div>
+            {% endif %}
+
+        </div>
+        <!--- End of Past listings container --->
+
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            var margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            var margin = (screenWidth - 700) / 2
+            $(".mobilegridrow-2").width(700).css("margin-left",margin).css("margin-right", margin);
+            //Squash message container
+            var message_continer_margin = (screenWidth - 400) / 2
+            $("#contact_send_message_container").css("width", 400).css("margin-left", message_continer_margin).css("border-radius", "5px")
+
+            //Shrink listings containers
+            $("#currentlistings").css("width", 500)
+            $("#pastListings").css("width", 500)
+        }
+    </script>
+
+    <!--- Show send message container --->
+    <script type="text/javascript">
+      function show_send_message(){
+
+        document.getElementById("blackbackground").style.display = "block";
+        document.getElementById("contact_send_message_container").style.display = "block";
+        document.getElementsByTagName("body")[0].style.position = "fixed";
+
+        var height = window.innerHeight;
+        var newheight = height + 1;
+
+        document.getElementById("contact_send_message_container").style.marginTop = height/3+"px";
+      }
+    </script>
+    <!--- End of show send message container --->
+
+    <!--- Hide send message container --->
+    <script type="text/javascript">
+      function hide_send_message(){
+        document.getElementById("contact_send_message_container").style.display = "none";
+        document.getElementById("contact_send_message_container").style.marginTop = "0px";
+        document.getElementsByTagName("body")[0].style.position = "relative";
+        document.getElementById("blackbackground").style.display = "none";
+      }
+    </script>
+    <!--- End of window size for send message menu --->
+
+  </body>
+</html>

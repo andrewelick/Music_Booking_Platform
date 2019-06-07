@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-image: url("static/background.png");
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          padding-top:50px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #login_container {
+          padding: 10px;
+          font-size: 20px;
+          border-radius: 5px;
+          background-color: #FFFFFF;
+          box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+          box-sizing: border-box;
+          border: 1px solid;
+          width:100%;
+          padding:10px;
+          margin-bottom: 10px;
+          font-size: 16px;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          outline: none;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          transition: 150ms ease;
+        }
+
+        input:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        input[type='submit'] {
+          border: 0;
+          border-radius: 5px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        input[type='submit']:hover {
+            background-color: #3494cb;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .forgotpassword {
+          font-size: 15px;
+        }
+
+        #error_message {
+          padding: 10px;
+          font-size: 15px;
+          color: red;
+        }
+
+        .invalidForm {
+            border-color: #fa755a;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+      <!--- Login Container --->
+      <div id="login_container">
+        <div>Sign in to your account</div>
+        </br>
+        <span style='font-size:15px;color:red'>{{ get_flashed_messages()[0] }}</span>
+
+        <form action='/login' method="POST">
+          <input type='text' name='login_email' id="login_email" placeholder='Email' />
+          <input type='password' name='login_password' id="login_password" placeholder="Password" />
+
+          <div id="error_message"></div>
+
+          <input type="Submit" id="login_button" value="Sign in" />
+
+        </form>
+
+        <a href='/forgot' class='forgotpassword'>Forgot your password?</a>
+      </div>
+      <!--- End of Login container --->
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+
+        //Check if field is still empty
+        $("input").focusout(function() {
+            length = $(this).val().length
+
+            if (length != 0) {
+                $(this).removeClass("invalidForm")
+            }
+        })
+
+        //Function to check all fields if they are empty
+        function checkEmpty() {
+            //Array to hold any error from empty field
+            var fields_empty = []
+
+            //Loop through each input field
+            $(":input").each(function() {
+                //Length of field
+                field_length = $(this).val().length
+
+                //If length is 0, invalid
+                if (field_length == 0) {
+                    $(this).addClass("invalidForm")
+                    fields_empty.push("empty")
+                }
+            });
+
+            //If any fields are empty
+            if (fields_empty.length > 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        };
+
+        //Validate form
+        $("form").submit(function() {
+            event.preventDefault();
+
+            fields_empty = checkEmpty()
+
+            //If any fields are empty
+            if (fields_empty == true) {
+                $("#error_message").html("Please fill out all fields")
+            }
+            else {
+                email = $("#login_email").val()
+                password = $("#login_password").val()
+
+                //Send call to server to check
+                $.ajax({
+                    url: "/login",
+                    type: "POST",
+                    data: {
+                        login_email: email,
+                        login_password: password
+                    }
+                }).done(function(data) {
+                    //If login is incorrect
+                    if (data == "Incorrect email/password combination") {
+                        $("#error_message").html(data)
+                    }
+                    else {
+                        window.location.href = data;
+                    }
+                })
+            }
+        });
+    </script>
+  </body>
+</html>

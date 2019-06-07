@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <title>VenueApp</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          padding-top:20px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #showcontainer {
+          max-width: 700px;
+          margin: auto;
+          padding-bottom: 10px;
+          border-radius: 5px;
+          text-align: left;
+          background-color: #ffffff;
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #venuepicture {
+          width: 60px;
+          height: 60px;
+          border-radius: 100px;
+          float:left;
+          box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .show_details_stats {
+          padding-top:10px;
+          font-size:11px;
+          text-align: center;
+        }
+
+        .show_details_stats_bubble {
+          padding: 4px;
+          border: 1px solid;
+          border-radius: 5px;
+          background-color:#596B83;
+          color: #ffffff;
+        }
+
+        #make_bid_container {
+          max-width: 700px;
+          margin: auto;
+          margin-top:10px;
+          padding-bottom: 10px;
+          border-radius: 5px;
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card_header {
+          box-sizing: border-box;
+          margin-bottom: 10px;
+          padding: 10px;
+          text-align: center;
+          font-size: 16px;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          color: #FFFFFF;
+          background-color: #232f42;
+          box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        #profilecontainer {
+          padding: 10px;
+        }
+
+        #bidscontainer {
+          max-width: 700px;
+          margin: auto;
+          margin-top:10px;
+          padding-bottom: 10px;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #bid_message {
+          margin-top: 10px;
+          color: red;
+        }
+
+        #single_bid_container {
+          text-align: left;
+        }
+
+        .singlebid {
+          border-bottom: 1px solid;
+          padding: 10px;
+          min-height: 50px;
+          border-color: #e2e2e2;
+        }
+
+        .bid_picture {
+          display: inline;
+          float: left;
+          height: 50px;
+          width: 50px;
+          border-radius: 100px;
+        }
+
+        input[type="number"] {
+          width: 45px;
+          padding: 5px;
+          margin: 5px;
+          border-radius: 5px;
+          font-size: 17px;
+          border: 1px solid;
+          border-color: #d2d2d2;
+        }
+
+        input[type="submit"], button {
+          margin-top: 10px;
+          padding: 10px;
+          width: 200px;
+          border-radius: 5px;
+          border: 0;
+          font-size: 14px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        a {
+          color: blue;
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+
+        textarea {
+          box-sizing: border-box;
+          padding: 10px;
+          width: 100%;
+          font-family: inherit;
+          resize: none;
+          border: 0;
+          border-radius: 5px;
+
+        }
+
+        .acceptbid {
+          padding:5px;
+          margin-top:-10px;
+          float:right;
+          border:0px;
+          border-radius: 5px;
+          color:#FFFFFF;
+          background-color:#328CC1
+        }
+
+        .deletebid {
+          padding:0px;
+          float:right;
+          border: 0px;
+          border-radius: 5px;
+          font-size: 12px;
+          color: red;
+          background-color:#FFFFFF;
+        }
+
+        .deletebid:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .popupcard {
+          box-sizing: border-box;
+          position:fixed;
+          top:0;
+          left:0;
+          width:100%;
+          padding:20px;
+          padding-top:30px;
+          padding-bottom:30px;
+          z-index:99;
+          text-align: center;
+          background-color:#FFFFFF;
+          display:none;
+          transition: 0.5s;
+          box-shadow: 0 0px 15px 0 #111111;
+        }
+
+        .blackbackground {
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          z-index:10;
+          height:100%;
+          width:100%;
+          background-color:#000000;
+          opacity:.8;
+        }
+
+        #confirm_deletebid_container {
+
+        }
+
+        #close_confirm_delete {
+          position: absolute;
+          top:5px;
+          right:10px;
+          padding:5px;
+          color:#000000;
+        }
+
+        .acceptbid {
+          width:80px;
+          font-size: 12px;
+        }
+
+        #winner_bid_card {
+          max-width: 700px;
+          margin: auto;
+          margin-top:20px;
+          padding:20px;
+          border-radius: 5px;
+          box-sizing: border-box;
+          color: #FFFFFF;
+          background: rgb(248,19,213);
+          background: linear-gradient(0deg, rgba(248,19,213,1) 0%, rgba(77,158,255,1) 100%);
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+        .gridcol-3 {width:35%}
+        .gridcol-4 {width:15%}
+        .gridfooter {display: none}
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <!--- Header --->
+    {% include "header.html" %}
+
+    <!-- Mobile welcome picture with text -->
+    <div class='mobilegridrow-2' style="border:1">
+
+      <!--- Show snapchot --->
+      <div id="showcontainer">
+        <div class="card_header">Show details</div>
+
+        <!--- Profile container --->
+        <div id="profilecontainer">
+          <a href="/profile?uid={% print show_details[1] %}"><img src="static/user_pictures/profile_pictures/{% print show_details[1] %}_profile.jpg" id="venuepicture"/></a>
+          <div style="margin-left:70px;font-size:14px;">
+            <a href="/profile?uid={% print show_details[1] %}"><font style='font-size:15px;'><b>{% print venue_details[1] %}</b></font></a>
+
+            <div style="padding-top:2px;">{% print venue_details[3] %}</div>
+            <div style='padding-top:2px;'>{% print show_details[5].strftime("%b %d, %Y") %} <font style='font-size:11px'>at</font> {% print show_details[5].strftime("%H:%M") %}<font style="font-size:11px;">{% print show_details[6] %}</font></div>
+            <div style="padding-top:10px;font-size:12px;">Description: {% print show_details[3] %}</div>
+          </div>
+          <!--- Show stats --->
+          <div class="show_details_stats">
+            <font class="show_details_stats_bubble">Wants: {% print show_details[4] %}</font>
+            <font class="show_details_stats_bubble">Offering: ${% print show_details[2] %}</font>
+          </div>
+          <!--- End of show stats --->
+
+        </div>
+        <!--- End of profile container --->
+      </div>
+      <!--- End of show snapshot --->
+
+      <!-- If there is a winning bid --->
+      {% if winning_bid %}
+      <!--- Winner card --->
+      <div id="winner_bid_card">
+
+        <!--- If show is by user venue --->
+        {% if uid == show_details[1] %}
+        <div style="margin-bottom:10px;">This artist will be performing at your show</div>
+        {% else %}
+        <div style="margin-bottom:10px;">An artist has been chosen for this show</div>
+        {% endif %}
+
+        <!--- Profile picture --->
+        <a href="/profile?uid={% print winning_bid[0] %}"><img src="static/user_pictures/profile_pictures/{% print winning_bid[0] %}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
+
+        </br>
+        <!--- Name --->
+        <a href="/profile?uid={% print winning_bid[0] %}" style="color:#FFFFFF">{% print winning_bid[1][0] %}</a>
+        <div style="font-size:13px;">Genre: {% print winning_bid[1][1] %}</div>
+
+
+        {% if account_type == "artist" %}
+          <!--- If winner is user --->
+          {% if uid == winning_bid[0] %}
+          <div style="padding-top:10px;font-size:13px;">You have won this show and are expected to perform at the listed date and time. You will be paid at the date of the show if all requirements are met.</div>
+          <div style="font-size:13px;"><b>Please contact venue if you have any questions or concerns</b></div>
+          </br>
+          {% endif %}
+          <!--- End of winner is user -->
+
+          </br>
+          <a href="/" style="color:#FFFFFF">Go back to listings</a>
+        {% endif %}
+
+        <!--- If show is by venue --->
+        {% if uid == show_details[1] %}
+          </br>
+          <textarea name="send_winner_message" placeholder="Send a message" rows=1 style="padding-right:75px;"></textarea>
+          <input type="submit" value="Send" style="margin:0;padding-left:15px;padding-right:15px;padding-bottom:9px;border-top-left-radius:0;border-bottom-left-radius:0;position:relative;top:-40px;float:right;width: auto;background-color:#4d9eff"/>
+        {% endif %}
+        <!--- End of show is by venue --->
+      </div>
+      <!--- End of winner card --->
+
+      <!-- If there is no winner --->
+      {% else %}
+        <!--- Make a bid --->
+        {% if account_type == "artist" %}
+        <div id="make_bid_container">
+          <div class="card_header">Make a bid</div>
+
+          <form action="{{ url_for("one_show_page", id=show_details[0]) }}" method="POST">
+            <label>Enter your price:<input type="number" name="new_bid_price" placeholder="$500" min="50" step="5" required/></label>
+            </br>
+            <font style="position: relative;top:-5px;font-size:11px;color:#383838">Minimum is $50</font>
+            </br>
+            <input type="submit" value="Place Bid" />
+          </form>
+
+          <div id="bid_message">{{ get_flashed_messages()[0] }}</div>
+        </div>
+        {% endif %}
+        <!--- End of Make a bid --->
+
+        <!--- Bids container --->
+        <div id="bidscontainer">
+          <div class="card_header">Bids</div>
+
+          <!-- Bids stats --->
+          <div style="padding:5px;font-size:14px;">
+          {% if bids_stats[0] == 1 %}
+            <font class="show_details_stats_bubble">1 bid</font>
+          {% elif bids_stats[0] > 0 %}
+            <font>{% print bids_stats[0] %} bids <font style="font-size:11px;color:#383838">ranging from</font> ${% print bids_stats[1] %} - ${% print bids_stats[2] %}</font>
+          {% endif %}
+        </div>
+          <!-- End of bids stats --->
+
+          <!--- All bids cards --->
+          <div id="single_bid_container">
+          {% if bids_info != 0 %}
+            {% for x in bids_info %}
+
+            <!-- Single bid --->
+            <div class="singlebid" style="font-size:14px;">
+              <!--- Profile picture --->
+              <a href="/profile?uid={% print x[2] %}"><img src="static/user_pictures/profile_pictures/{% print x[2] %}_profile.jpg" class="bid_picture" /></a>
+              <!--- Name --->
+              <font style="padding-left: 10px;border: 0px solid;"><a href="/profile?uid={% print x[2] %}" style="text-decoration:none;">{% print bidder_details(x[2])[0] %}</a></font>
+              <!--- Bid price --->
+              <font style="float:right;font-size:17px;" class="bid_price" name="{% print x[3] %}">${% print x[3] %}</font>
+              </br>
+              <!--- Artist genre --->
+              <font style="padding-left: 10px;font-size:12px;">Genre: {% print bidder_details(x[2])[1][0] %}</font>
+
+              </br>
+
+              <!--- Venue accept bid button --->
+              {% if account_type == "venue" %}
+              <button id="acceptbid" class="acceptbid" onclick="show_accept_bid()" name="{% print bidder_details(x[2])[0] %}" value="{% print x[2] %}">Accept offer</button>
+              {% endif %}
+              <!--- End Venue accept bid button --->
+
+              <!--- Delete bid button --->
+              {% if x[2] == uid %}
+              <span id="deletebidbutton" class="deletebid" onclick="show_confirm_delete_bid()">Delete Bid</span>
+              {% endif %}
+              <!--- End of Delete bid button --->
+
+            </div>
+            <!-- End of single bid --->
+            </br>
+            {% endfor %}
+          {% else %}
+            <div style="padding:10px;text-align:center">This are currently no bids on this show</div>
+          {% endif %}
+          </div>
+          <!-- End of all bids card --->
+        </div>
+        <!--- End of bids container --->
+
+      <!--- End of no winning bid --->
+      {% endif %}
+
+    </div>
+    <!--- End of Description card --->
+
+    <!--- Confirm delete bid card --->
+    <div id="confirm_deletebid_container" class="popupcard">
+      <span id="close_confirm_delete" onclick="hide_confirm_delete_bid()">x</span>
+
+      <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
+
+      <form action="" method="POST">
+        <button value="Delete Bid" name="deletebid">Delete bid</button>
+      </form>
+    </div>
+    <!--- End of confirm delete bid card --->
+
+    <!--- Black background for delete bid screen --->
+    <div id="deleteblackbackground" class="blackbackground" onclick="hide_confirm_delete_bid()" style="display:none"></div>
+    <!--- End of Black background --->
+
+    <!--- Aceept offfer by venue --->
+    <div id="accept_bid_offer" class="popupcard">
+      <!--- Hide card button --->
+      <span id="close_confirm_delete" onclick="hide_accept_bid()">x</span>
+      <!--- Accept offer title --->
+      <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
+      <!--- Accept offer button --->
+      <form action="" method="POST" name="accept_bid_offer">
+        <input type="hidden" id="winning_bidder_uid" name="winning_bidder_uid" value="winneruid" />
+        <input type="hidden" id="winning_bidder_price" name="winning_bidder_price" value="winnerprice" />
+        <button value="Accept Offer" name="acceptoffer">Accept offer</button>
+      </form>
+      <!--- Disclaimer --->
+      <div style='padding-top: 10px;font-size:12px;color:#383838'>Accepting this offer will close bidding for this show and notify artist that they are performing. You will be charged for the agreed amount and held by venueapp till the time of the show.</div>
+    </div>
+    <!--- End of accept offer by venue --->
+
+    <!--- Black background for acceot bid --->
+    <div id="acceptblackbackground" class="blackbackground" onclick="hide_accept_bid()" style="display:none"></div>
+    <!--- End of Black background --->
+
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 1000) / 2
+            $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin);
+            $("#confirm_deletebid_container").width(400).css("margin-left", margin+300)
+        }
+    </script>
+
+    <!--- Show confirm delete bid card --->
+    <script type="text/javascript">
+    function show_confirm_delete_bid(){
+      //Show black background
+      document.getElementById("deleteblackbackground").style.display = "block";
+      //Show delete bid card
+      document.getElementById("confirm_deletebid_container").style.display = "block";
+      //Lock body so user cannot scroll
+      document.getElementsByTagName("body")[0].style.position = "fixed";
+
+      //Get height of window
+      var height = window.innerHeight;
+      var newheight = height + 1;
+
+      //Set margin of delete bid card to create sliding animation
+      document.getElementById("confirm_deletebid_container").style.marginTop = height/3+"px";
+
+    }
+    </script>
+    <!--- End of show confirm delete bid card --->
+
+    <!--- Hide confirm delete bid card --->
+    <script type="text/javascript">
+    function hide_confirm_delete_bid(){
+      //Hide black background
+      document.getElementById("deleteblackbackground").style.display = "none";
+      //Hide confirm delete card
+      document.getElementById("confirm_deletebid_container").style.display = "none";
+      //Unlock scrolling for body
+      document.getElementsByTagName("body")[0].style.position = "relative";
+      //Reset margin for confirm delete card
+      document.getElementById("confirm_deletebid_container").style.marginTop = "0px";
+    }
+    </script>
+
+    <!--- Show accept bid card --->
+    <script type="text/javascript">
+    function show_accept_bid(){
+      //Show black background
+      document.getElementById("acceptblackbackground").style.display = "block";
+      //Show accept bid offer card
+      document.getElementById("accept_bid_offer").style.display = "block";
+      //Lock body so user cannot scroll
+      document.getElementsByTagName("body")[0].style.position = "fixed";
+
+
+      //Name of bidder and uid
+      var accept_bidder_name = event.target.name;
+      var accept_bidder_uid = event.target.value;
+      var accept_bidder_price = $(event.target).siblings(".bid_price").attr("name")
+
+      //Change title name and uid
+      document.getElementById("acceptoffername").innerHTML = accept_bidder_name;
+      document.getElementById("winning_bidder_uid").value = accept_bidder_uid;
+      $("#winning_bidder_price").val(accept_bidder_price)
+
+      //Get height of window
+      var height = window.innerHeight;
+      var newheight = height + 1;
+
+      //Set margin of accept bid card to create animation
+      document.getElementById("accept_bid_offer").style.marginTop = height/3+"px";
+
+    }
+    </script>
+    <!--- End of show accept bid card --->
+
+    <!--- Hide accept bid card --->
+    <script type="text/javascript">
+    function hide_accept_bid(){
+      document.getElementById("acceptblackbackground").style.display = "none";
+      document.getElementById("accept_bid_offer").style.display = "none";
+      document.getElementsByTagName("body")[0].style.position = "relative";
+
+      document.getElementById("accept_bid_offer").style.marginTop = "0px";
+    }
+    </script>
+    <!--- End of accept bid card --->
+
+  </body>
+</html>

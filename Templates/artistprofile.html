@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          margin-top: 10px;
+          margin-bottom: 20px;
+          text-align: center;
+          border-color: #d2d2d2;
+          background-color: #FFFFFF;
+          border-radius: 5px;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        #profilecontainer {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        #profilepicture {
+          box-sizing: border-box;
+          width: 125px;
+          border-radius: 100%;
+          margin-right: 5px;
+          float: left;
+        }
+
+        #bio {
+          font-size: 14px;
+          padding: 10px;
+          float: left;
+        }
+
+        .socialbar {
+          padding-top: 5px;
+        }
+
+        .socialicon {
+          height: 25px;
+          width: 25px;
+          padding: 2px;
+        }
+
+        .contact {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            margin-top:5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            background-color: #328CC1;
+            color: #FFFFFF
+        }
+
+        #spotify_followers {
+            border: 1px solid;
+            float: left;
+            padding: 4px;
+            font-size: 12px;
+            border-radius: 5px;
+            background-color: #1DB954;
+            color: #FFFFFF;
+        }
+
+        #editprofile {
+            display: inline-block;
+            width: 100px;
+            padding: 7px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size:12px;
+            color:#FFFFFF;
+            background-color:#328CC1;
+            text-align: center
+        }
+
+        #musiccontainer {
+          border-bottom: 1px solid;
+          border-color: #d2d2d2;
+          color: #383838;
+        }
+
+        .youtubevideo {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+
+        .topsongcontainer {
+          margin-bottom: 3px;
+          box-shadow: 0 0px 4px 0 #383838;
+        }
+
+        .spotifyalbum {
+          margin-right: 3px;
+        }
+
+        .albumpicture {
+          border: 2px solid;
+          border-radius: 5px;
+          border-color: #FFFFFF;
+          box-shadow: 0 0px 4px 0 #383838;
+        }
+
+        textarea {
+          padding: 8px;
+          width: 70%;
+          font-family: inherit;
+          border-radius: 5px;
+          resize: none;
+        }
+
+        input[type="submit"] {
+          padding: 10px;
+          padding-left: 20px;
+          padding-right: 20px;
+          margin-right: 10px;
+          border-radius: 5px;
+          float: right;
+          border: 0;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        #contact_send_message_container {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            padding: 5px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 99;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #FFFFFF;
+            transition: 0.3s;
+            overflow: hidden;
+            box-shadow: 0 0px 15px 0 #111111;
+        }
+
+        #blackbackground {
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          z-index:10;
+          height:100%;
+          width:100%;
+          background-color:#000000;
+          opacity:.8
+        }
+
+        #closesendmessage {
+          position: absolute;
+          top:10px;
+          right:10px;
+          padding:5px;
+          color:#000000;
+        }
+
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+      <!--- Profile container --->
+      <div id="profilecontainer" class="container">
+
+        <!--- Profile picture --->
+        <img src="static/user_pictures/profile_pictures/{% print artist_details[0] %}_profile.jpg" id='profilepicture' />
+
+        <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
+            <!--- Artist name --->
+            <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print artist_details[4] %}</span>
+            </br>
+
+            <!--- Artist genre and member count --->
+            <div style='font-size:14px;'>
+              {% print artist_details[1] %} |
+
+              {% if artist_details[2] == 1%}
+                {% print "Soloist" %}
+              {% else %}
+                {% print artist_details[2] %} members
+              {% endif %}
+          </div>
+
+            <!--- Social bar --->
+            <div class="socialbar">
+              <!--- Soundcloud --->
+              {% if artist_links[2] != "" %}
+              <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
+              {% endif %}
+              <!--- Twitter --->
+              {% if artist_links[4] != "" %}
+              <a href="{% print artist_links[4] %}" target="_blank"><img src="static/twittericon.png" height=32 class='socialicon' /></a>
+              {% endif%}
+              <!--- Instagram --->
+              {% if artist_links[5] != "" %}
+              <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
+              {% endif %}
+
+              {% if artist_links[6] != ""%}
+              <a href="{% print artist_links[6] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
+              {% endif %}
+            </div>
+            <!--- End of Social bar --->
+
+            <!--- Spotify followers --->
+            <div id="spotify_followers">
+                <img src="static/Spotify_icon_green.png" style="height: 21px;vertical-align: middle"/>
+                Followers: <font id="spotify_follow_count"></font>
+            </div>
+
+            <br/>
+
+            <!--- Contact bar --->
+            <div id="contactbar">
+              {% if email != session['username'] %}
+                <a href="#" class="contact" id="messageartist" onclick="show_send_message()">Messsage</a>
+              {% endif %}
+            </div>
+            <!--- End of contact bar --->
+
+            <!--- Edit profile button --->
+            {% if email == session['username'] %}
+                <a href="/editprofile" id="editprofile">Edit profile</a>
+            {% endif %}
+
+          </div>
+          <!--- End of Profile container --->
+
+          <!--- Bio --->
+          <div id="bio">{% print artist_details[3] %}</div>
+
+      </div>
+
+
+      <!--- Music container --->
+      <div id="musiccontainer" class="container">
+
+        <!--- Youtube video --->
+        {% if artist_links[1] != ""%}
+          <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
+          <iframe class="youtubevideo" src="https://www.youtube-nocookie.com/embed/{% print artist_links[1] %}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% endif %}
+        <!--- End of Youtube video --->
+
+        {% if spotify_albums %}
+        <!--- Spotify albums --->
+        <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
+
+        {% for album in spotify_albums %}
+        <a href="{% print album[0]%}" class="spotifyalbum" target="_blank"><img src="{% print album[1]%}" class="albumpicture" height=95 /></a>
+        {% endfor %}
+        <!--- End of spotify albums --->
+        {% endif %}
+
+        {% if spotify_top_tracks %}
+        <!--- Top songs from Spotify --->
+        <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
+        <!--- Top songs iframes from Spotify --->
+        {% for song_link in spotify_top_tracks %}
+        <iframe src="https://open.spotify.com/embed/track/{%print song_link%}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        {% endfor %}
+        <!--- End of Top songs from Spotify --->
+        {% endif %}
+
+      </div>
+      <!--- End of Music container --->
+
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <!--- Contact send message screen --->
+    <div id="contact_send_message_container" style="display:none">
+        <div style="padding-bottom: 5px;border-bottom: 1px solid;font-size: 18px;border-color: #d2d2d2;">Send message to:</div>
+        <span id="closesendmessage" onclick="hide_send_message()">x</span>
+
+        </br>
+
+        <!--- Message rec profile --->
+        <div id="message_rec_profile" style="margin-bottom: 15px;">
+            <img src='static/user_pictures/profile_pictures/{% print artist_details[0] %}_profile.jpg' style="height:50px;width: 50px;border-radius: 100px" />
+            <span class="rec_name" style="display:inline;position:relative;top:-19px;">{% print artist_details[4] %}</span>
+        </div>
+        <!--- End Message rec profile --->
+
+        <!--- Send message form --->
+        <form action="/profile" method="POST">
+            <input type="hidden" name="rec_id" value="{% print artist_details[0] %}" />
+            <textarea name="send_message" placeholder="Type your message here" rows=2></textarea>
+            <input type="submit" value="Send" />
+        </form>
+        <!--- End of send message form --->
+
+    </div>
+    <!--- End of Contact send message screen --->
+
+    <!--- Black background for send messages screen --->
+    <div id="blackbackground" onclick="hide_send_message()" style="display:none"></div>
+    <!--- End of Black background --->
+
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 700) / 2
+            $(".mobilegridrow-2").width(700).css("margin-left",margin).css("margin-right", margin);
+
+            $("#contact_send_message_container").width(400).css('margin-left', margin)
+
+            //Enlarge youtube
+            $(".youtubevideo").width(480).height(268);
+            //Enlarge spotify top albums
+            $(".albumpicture").height(150);
+            //Resize top tracks
+            $(".topsongcontainer").width(480);
+
+        }
+
+
+        function show_send_message(){
+
+            document.getElementById("blackbackground").style.display = "block";
+            document.getElementById("contact_send_message_container").style.display = "block";
+            document.getElementsByTagName("body")[0].style.position = "fixed";
+
+            var height = window.innerHeight;
+            var newheight = height + 1;
+
+            document.getElementById("contact_send_message_container").style.marginTop = height/3+"px";
+        }
+
+        function hide_send_message(){
+            document.getElementById("contact_send_message_container").style.display = "none";
+            document.getElementById("contact_send_message_container").style.marginTop = "0px";
+            document.getElementsByTagName("body")[0].style.position = "relative";
+            document.getElementById("blackbackground").style.display = "none";
+        }
+
+        //Get Spotify followers count
+        $.ajax({
+            url: "/spotify_resources",
+            type: "POST",
+            data: {
+                get_followers: "check",
+            },
+            dataType: "json",
+        }).done(function(data) {
+
+            if (data['success']) {
+                let follower_count = data['success']
+
+                if (follower_count > 1000000) {
+                    first_two_numbers = String(follower_count).substr(0,2)
+                    follower_count = first_two_numbers.slice(0, 1) + "." + first_two_numbers.slice(1,2) + "m";
+                }
+                else {
+
+                    if (follower_count > 100000) {
+                        first_three_numbers = String(follower_count).substr(0,3)
+                        follower_count = first_three_numbers + "k"
+                    }
+                    else {
+
+                        if (follower_count > 1000) {
+                            first_two_numbers = String(follower_count).substr(0,2)
+                            follower_count = first_two_numbers.slice(0, 1) + "." + first_two_numbers.slice(1,2) + "k";
+                        }
+                    }
+                }
+                $("#spotify_follow_count").html(follower_count)
+            }
+            else {
+                $("#spotify_follow_count").hide()
+            }
+        })
+    </script>
+
+  </body>
+</html>

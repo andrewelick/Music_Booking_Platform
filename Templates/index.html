@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title>VenueApp</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          height:700px;
+          padding: 0;
+          padding:10px;
+          padding-top:20px;
+          margin-bottom: 20px;
+          background-repeat: no-repeat;
+          background-size:auto 100%;
+          background-image: url("static/background.png");
+          text-align: center;
+          color: #FFFFFF;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .mobilegridrow-3 {
+
+        }
+
+        #welcometext {
+          margin-top: 50px;
+          margin-bottom: 50px;
+          font-size: 30px;
+          font-weight: bold;
+        }
+
+        #mobile-splash-card {
+          margin-bottom:60px;
+        }
+
+        .choicebuttons {
+          border-radius: 5px;
+          padding: 15px;
+          margin-bottom: 10px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+          font-size: 16px;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+        }
+
+        .choicebuttons:hover {
+            background-color: #3494cb;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .dropdownmenu {
+          border-bottom: 1px solid;
+          border-color: #d2d2d2;
+        }
+
+        .dropdownbutton {
+          width:100%;
+          padding-top:20px;
+          padding-bottom:10px;
+          border: none;
+          background-color: #FFFFFF;
+          color: #383838;
+          font-size: 17px;
+          text-align: left;
+        }
+
+        .dropdownbutton:focus {
+          outline:0;
+        }
+
+        .dropdowncontent {
+          font-size: 15px;
+        }
+
+        li {
+          padding:10px;
+          padding-top: 0px;
+        }
+
+        a {
+          color: blue;
+        }
+
+        /* For Desktop users: */
+        @media only screen and (min-width: 750px) {
+            [class*="mobilegridrow-"] {
+                width: 750px;
+                margin: auto;
+                box-sizing: border-box;
+                padding: 10px;
+                border-color:#d2d2d2;
+            }
+
+            #mobile-splash-card {
+                width: 400px;
+                margin: auto;
+                margin-bottom: 60px;
+            }
+
+            .mobilegridrow-3 {
+                min-width: 750px;
+                margin: auto;
+            }
+        }
+
+    </style>
+  </head>
+  <body>
+    <!--- Header --->
+    {% include "header.html" %}
+
+    <!-- Mobile welcome picture with text -->
+    <div class='mobilegridrow-2'>
+      <div id="welcometext">Connecting artists to the city</div>
+
+      <!--- Splash card with buttons for Venue and Artists--->
+      <div id='mobile-splash-card' style='border-radius:5px;padding:15px;color:#383838;background-color:#FFFFFF;'>
+
+        <div style='padding-bottom:10px;margin-bottom:10px;font-size:17px;border-bottom:1px solid;border-color:#d2d2d2'>We help venues around the city find performers who love the stage.</div>
+
+        <a href='/newaccount' style='text-decoration:none'><div class="choicebuttons">Join today</div></a>
+
+        <p>or</p>
+
+        <a href='/login' style='text-decoration:none'><div class="choicebuttons">Login</div></a>
+
+      </div>
+      <!--- End of Splash card with buttons for Venues and Artists --->
+
+      <div style='font-size:25px;font-weight:bold;'>Never worry about filling or finding a show again.</div>
+
+    </div>
+    <!--- End of Mobile welcome picture with text --->
+
+    <!--- Description card --->
+    <div class="mobilegridrow-3">
+      <div style='margin-bottom:10px;text-align:center;font-size:16px;'>VenueApp eases the process of creating whats going down for the night.</div>
+
+      <!--- For Venues Dropdown--->
+      <div class='dropdownmenu'>
+        <button onclick="toggleDropdown_venue()" class='dropdownbutton'>Venue owners</button>
+        <div id='venuemenu' class='dropdowncontent' style='display:none'>
+          <ul>
+            <li>Fill every night you need with ease.</li>
+            <li>Set the price you're willing to pay and have performers bid it down</li>
+            <li>Layout clear requirements so there is never any confusion</li>
+          </ul>
+        </div>
+      </div>
+      <!--- End of Venues Dropdown --->
+
+      <!--- For Performer Dropdown--->
+      <div class='dropdownmenu'>
+        <button onclick="toggleDropdown_artist()" class='dropdownbutton'>Performers</button>
+        <div id='artistmenu' class='dropdowncontent' style='display:none'>
+          <ul>
+            <li>Easily find gigs within the city</li>
+            <li>No need for a manager</li>
+            <li>VenueApp holds the payment while you're performing, ensuring you get the full amount promised</li>
+            <li>Safely collect your earnings at the end of the night</li>
+          </ul>
+        </div>
+      </div>
+      <!--- End of Perfomrer Dropdown --->
+
+      <!--- For About us Dropdown--->
+      <div class='dropdownmenu'>
+        <button onclick="toggleDropdown_aboutus()" class='dropdownbutton'>About VenueApp</button>
+        <div id='aboutusmenu' class='dropdowncontent' style='display:none'>
+          <ul>
+            <li>We strive to connect artists to the city they love by making all parties happy.</li>
+            <li>No hassle, no stress, only shows and good times</li>
+            <li>Memphis based startup</li>
+            <li>If you have any questions please <a href='contact'>Contact us</a></li>
+          </ul>
+        </div>
+      </div>
+      <!--- End of About us Dropdown --->
+
+    </div>
+    <!--- End of Description card --->
+
+    {% include 'footer.html' %}
+
+    <!--- Check screen width and adjust page --->
+    <script type="text/javascript">
+        screenWidth = screen.width;
+
+        //Adjust for screen width
+        if (screenWidth > 768 && screenWidth < 1000){
+            $(".mobilegridrow-2").width(screenWidth)
+        }
+        else if (screenWidth > 1000){
+            marginWidth = (screenWidth - 1000) / 2
+            $(".mobilegridrow-2").width(1000).css("margin-left", marginWidth)
+            $(".mobilegridrow-3").width(1000).css("margin-left", marginWidth)
+        }
+    </script>
+
+    <!--- Javascript function to show/hide Venue menu --->
+    <script type="text/javascript">
+      function toggleDropdown_venue() {
+        var x = document.getElementById("venuemenu");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        }
+        else{
+          x.style.display = "none";
+        }
+      }
+    </script>
+    <!--- End of Javascript function to show/hide Venue menu --->
+    <!--- Javascript function to show/hide Artist menu --->
+    <script type="text/javascript">
+      function toggleDropdown_artist() {
+        var x = document.getElementById("artistmenu");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        }
+        else{
+          x.style.display = "none";
+        }
+      }
+    </script>
+    <!--- End of Javascript function to show/hide Artist menu --->
+    <!--- Javascript function to show/hide About us menu --->
+    <script type="text/javascript">
+      function toggleDropdown_aboutus() {
+        var x = document.getElementById("aboutusmenu");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        }
+        else{
+          x.style.display = "none";
+        }
+      }
+    </script>
+    <!--- End of Javascript function to show/hide About us menu --->
+
+  </body>
+</html>

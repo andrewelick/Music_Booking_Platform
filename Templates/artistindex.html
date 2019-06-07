@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title>VenueApp</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding-top:20px;
+          margin-bottom: 20px;
+          text-align: center;
+          float: left;
+        }
+
+        .card_header {
+          box-sizing: border-box;
+          margin-bottom: 10px;
+          padding: 10px;
+          text-align: center;
+          font-size: 16px;
+          color: #FFFFFF;
+          background-color: #232f42;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
+          box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        #recentlistingscontainer {
+          width: 100%;
+          border-radius: 5px;
+          background-color: #FFFFFF;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          float: right;
+        }
+
+        #venueshowcasecontainer {
+            margin: auto;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            float: right;
+        }
+
+        .showcase_container {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            font-size: 14px;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .venue_showcase_picture {
+            width: 50px;
+            margin-right: 5px;
+            border-radius: 100%;
+            float: left;
+        }
+
+        .venue_showcase_busi_type {
+            padding-left: 5px;
+            font-size: 12px;
+        }
+
+        .showcase_bio {
+            font-size: 12px;
+        }
+
+        .profilepicture_mini {
+          box-sizing: border-box;
+          width: 40px;
+          border-radius: 100px;
+          margin-right: 5px;
+          float: left;
+        }
+
+        .singlelisting {
+          padding: 10px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid;
+          border-color: #d2d2d2
+        }
+
+        .listing_stats_option {
+          margin-top:-5px;
+          padding:7px;
+          border-radius: 5px;
+          font-size:11px;
+          background-color:#596B83;
+          color:#FFFFFF;
+        }
+
+        #profile_container {
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #232f42;
+            color: #FFFFFF;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            float: left;
+            overflow: hidden;
+        }
+
+        .profile_picture_personal {
+            height: 35px;
+            margin: 5px;
+            border-radius: 100%;
+            border: 2px solid;
+            border-color: #FFFFFF;
+            float: left;
+        }
+
+        .quick_stats_container {
+            box-sizing: border-box;
+            margin-top: 3px;
+            text-align: left;
+            float: center;
+            font-size: 12px;
+        }
+
+        .profile_quick_link {
+            display: inline-block;
+            margin-bottom: 4px;
+            margin-right: 4px;
+            color: #FFFFFF;
+        }
+
+        .profile_quick_link:hover {
+            text-decoration: underline;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <!--- Header --->
+    {% include "header.html" %}
+
+    <!-- Mobile welcome picture with text -->
+    <div class='mobilegridrow-2'>
+
+        <!--- Venues showcase card --->
+        <div id="venueshowcasecontainer">
+
+            <!--- Profile container --->
+            <div id="profile_container">
+
+                <!--- Profile picture --->
+                <a href="/profile">
+                    <img class="profile_picture_personal" src="static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
+                </a>
+
+                <!--- Profile name --->
+                <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
+                    <a href="/profile" style="color: white">{% print profile_details[4] %}</a>
+                </div>
+
+                <!--- Bidding stats -->
+                <div class="quick_stats_container">
+                    <a href='/messages' class="profile_quick_link">Messages</a>
+                    <a href='/payments' class="profile_quick_link">Payments</a>
+                    <a href="/upcomingshows" class="profile_quick_link">Shows/Bids</a>
+                </div>
+
+            </div>
+
+            <div style="padding-bottom:10px;font-size:15px;">Venues around Memphis, TN</div>
+
+            <!--- Venue showcase pictures -->
+                {% for venue in venue_showcase %}
+                <div class="showcase_container" >
+                    <a href="/profile?uid={% print venue['busi_uid'] %}">
+                        <img src="static/user_pictures/profile_pictures/{% print venue['busi_uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                    </a>
+
+                    <div>
+                        <b>{% print venue['busi_name'] %}</b>
+                        <font class="venue_showcase_busi_type">- {% print venue['busi_type'] %}</font>
+                    </div>
+
+                    <!--- Business bio --->
+                    <div class="showcase_bio">{% print venue['busi_bio'] %}</div>
+
+                </div>
+                {% endfor %}
+
+        </div>
+
+      <!--- Listing container --->
+      <div id="recentlistingscontainer">
+        <div class="card_header">Latest listings in Memphis</div>
+
+        {% for x in all_listings %}
+
+            <!--- Single Active listing --->
+            <div class="singlelisting">
+
+              <!--- Link to single listing page --->
+              <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
+
+              <!--- Listing header --->
+              <div class="lisiting_header" style='text-align:left'>
+
+                <!-- Profile picture --->
+                <img src="static/user_pictures/profile_pictures/{% print x[1] %}_profile.jpg" class='profilepicture_mini' />
+
+                <!--- Profile name --->
+                <span class="lisiting_header_title" style='font-weight:bold;'>{% print x[9] %}</span>
+
+              </div>
+              <!--- End Listing header -->
+
+              <!--- Listing body --->
+              <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
+                <span class="lisiting_body_date">{% print x[5].strftime("%b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
+              </div>
+              <!--- End Listing body --->
+              <!--- Lisiting stats -->
+              <div class="listing_stats" style="padding-top:15px;text-align:center;font-size:12px;">
+                <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
+                <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
+                <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
+              </div>
+              <!--- End of Listing stats --->
+              </a>
+              <!--- End of link to single page --->
+            </div>
+        {% endfor %}
+
+      </div>
+      <!--- End of listing container --->
+
+    </div>
+
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 800) / 2
+            $(".mobilegridrow-2").width(800).css("margin-left",margin).css("margin-right", margin);
+            $("#venueshowcasecontainer").width(300).css("margin-left", "10px")
+            $("#recentlistingscontainer").width(450)
+        }
+
+    </script>
+
+  </body>
+</html>

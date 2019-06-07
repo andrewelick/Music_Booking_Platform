@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-1 {
+          padding: 20px;
+          border-bottom: 1px solid;
+          text-align:left;
+          font-size: 20px;
+          color: #d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #notis_container {
+          padding: 10px;
+          margin: auto;
+          margin-top: 10px;
+          border-radius: 5px;
+          max-width: 600px;
+        }
+
+        .single_noti {
+          margin-bottom: 10px;
+          min-height: 42px;
+          text-align: left;
+          border-radius: 5px;
+          border-bottom: 1px solid;
+          border-color: #e2e2e2;
+          box-shadow: 0 1px 8px 0 #d2d2d2;
+        }
+
+        .noti_picture {
+          float: left;
+          border-radius: 100px;
+        }
+
+        .noti_time {
+          margin-top:-5px;
+          float:right;
+          font-size: 11px;
+          color: #8c8c8c;
+        }
+
+        .noti_message {
+          padding-top: 11px;
+          font-size: 13px;
+          margin-left: 45px;
+        }
+
+        .error_message {
+          padding: 5px;
+          text-align: center;
+          font-size: 14px;
+          color: red;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+      <div style="font-size:18px;margin-top: 20px;">All Notifications</div>
+      <!--- notis container --->
+      <div id="notis_container">
+        {% for noti in all_notis %}
+
+            <!--- If notification hasn't already been read --->
+            {% if noti[5] == 0 %}
+            <!--- Single notifcation box --->
+            <div class="single_noti" style="padding:10px;padding-top:10px;">
+            {% else %}
+            <!--- Single notifcation box --->
+            <div class="single_noti" style="padding:10px;padding-top:10px;background-color:#f9f9f9">
+            {% endif %}
+
+              <!--- If notifcation is a message sent --->
+              {% if noti[3] == 1 %}
+              <!--- Notification message -->
+                <a href="/messages?tid={% print noti[9] %}&rec_id={% print noti[2] %}">
+              {% endif %}
+              <!--- End of message notification --->
+
+              <!--- If notification is a bid --->
+              {% if noti[3] == 2 %}
+                <a href="/shows?id={% print noti[6] %}&noti=1">
+              {% endif %}
+              <!--- End of notification bid --->
+
+              <!--- If notification is a winning bid --->
+              {% if noti[3] == 3 %}
+                <a href="/shows?id={% print noti[6] %}&noti=1">
+              {% endif %}
+              <!--- End if notification is a winning bid --->
+
+              <img src="static/user_pictures/profile_pictures/{% print noti[2] %}_profile.jpg" class="noti_picture" style="height:40px;width:40px" />
+
+              <!--- Time sent --->
+              <span class="noti_time">{% print noti[8]%}</span>
+              <!-- End of time sent --->
+
+              <!--- If notifcation is a message sent --->
+              {% if noti[3] == 1 %}
+              <!--- Notification message -->
+              <div class="noti_message"><b>{% print noti[7] %}</b> sent you a message</div>
+              {% endif %}
+              <!--- End of message notification --->
+
+              <!--- If notification is a bid --->
+              {% if noti[3] == 2 %}
+              <div class="noti_message"><b>{% print noti[7] %}</b> placed a bid on your show</div>
+              {% endif %}
+              <!--- End of notification bid --->
+
+              <!--- If notification is winning a show --->
+              {% if noti[3] == 3 %}
+              <div class="noti_message"><b>{% print noti[9] %}</b> has accepted your offer for the show</div>
+              {% endif %}
+              <!--- End of notification is winning a show --->
+
+        </div>
+        <!-- End of single notification box --->
+
+        </a>
+        {% endfor %}
+
+        {% if not all_notis %}
+        You don't have any notifications.
+        {% endif %}
+      </div>
+      <!--- End of notis container --->
+
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            $(".mobilegridrow-2").width(screenWidth);
+        }
+        else if (screenWidth > 1000) {
+            margin = (screenWidth - 1000) / 2
+            $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin);
+        }
+    </script>
+  </body>
+</html>

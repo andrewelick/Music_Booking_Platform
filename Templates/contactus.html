@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          padding-top:50px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #contact_container {
+          padding: 20px;
+          font-size: 20px;
+          border-radius: 5px;
+          box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .contact_header {
+          border-bottom:1px solid;
+          border-color:#d2d2d2
+        }
+
+        .contact_info {
+          text-align: left;
+          font-size: 14px;
+        }
+
+        .contact_icons {
+          height:15px;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include "header.html" %}
+    <!--- End of Mobile heading --->
+
+    <div class='mobilegridrow-2'>
+      <!--- Contact container --->
+      <div id='contact_container'>
+        <div class='contact_header'>Contact us</div>
+
+        <p style='font-size:15px;'>You can reach us at the following places:</p>
+
+        <div class='contact_info'><img src='/static/arroba.png' class='contact_icons'/> <a href='mailto:andrew@blufftour.com'>andrew@blufftour.com</a></div>
+        </br>
+        <div class='contact_info'><img src='static/telephone.png' class='contact_icons' /> 901-606-5506</div>
+        </br>
+        <div class='contact_info'><img src='static/placeholder.png' class="contact_icons" /> 123 Main street, Memphis TN 38017</div>
+      </div>
+      <!--- End of Contact container --->
+
+      <div style='margin-top: 5px;font-size:10px;'>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+    </div>
+    <!--- End of mobilesplash-2 --->
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+    </script>
+  </body>
+</html>

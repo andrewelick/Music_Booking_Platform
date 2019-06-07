@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        #setupcontainer {
+          padding: 15px;
+          border-radius: 5px;
+          box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .input_title {
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        input {
+          box-sizing: border-box;
+          border: 1px solid;
+          width:100%;
+          padding:10px;
+          margin-bottom: 10px;
+          font-size: 16px;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          outline: none;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          transition: 150ms ease;
+        }
+
+        input:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        input[type='submit'] {
+          border: 0;
+          margin-top: 10px;
+          border-radius: 5px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        input[type='submit']:hover {
+            background-color: #3494cb;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+      <div id="setupcontainer">
+          <div class='venue_setup_selection'>
+            <form action="setuplinks" method="POST">
+
+              <h3 style="margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
+
+              <div class="input_title">Website</div>
+              <input type='text' name='personal_website' placeholder='https://www.BluffTour.com'/>
+
+              <div class="input_title">Twitter</div>
+              <input type='text' name='twitter' placeholder='https://www.Twitter.com/BluffTour'/>
+
+              <div class="input_title">Instagram</div>
+              <input type='text' name='instagram' placeholder="https://www.Instagram.com/BluffTour" />
+
+              <div class="input_title">Facebook</div>
+              <input type='text' name='facebook' placeholder="https://www.Facebook.com/BluffTour" />
+
+              <br/>
+              
+              <input type="submit" id='finishbutton' value="Next" />
+              {% if error %}
+                {%print error%}
+              {% endif %}
+            </form>
+          </div>
+      </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 800) / 2
+            $(".mobilegridrow-2").width(800).css("margin-left",margin).css("margin-right", margin);
+            $("input").width(400);
+            $("#finishbutton").width(100)
+        }
+    </script>
+
+  </body>
+</html>

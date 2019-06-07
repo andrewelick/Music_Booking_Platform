@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style>
+        #headerbar {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 20px;
+          text-align:left;
+          font-size: 20px;
+          border-color:#d2d2d2;
+          background-color: #232f42;
+          color: #FFFFFF;
+        }
+
+      .mobileheader {
+        width: 100%;
+        box-sizing: border-box;
+        float: left;
+        padding: 20px;
+        text-align:left;
+        font-size: 20px;
+        border-color:#d2d2d2;
+        background-color: #232f42;
+        color: #FFFFFF;
+      }
+
+      #optionsbutton {
+        position: relative;
+        top: 2px;
+        float: right;
+      }
+
+      .bar {
+        width: 30px;
+        height: 4px;
+        background-color: #FFFFFF;
+        margin-bottom: 4px;
+      }
+
+      #header_options_container {
+        position: absolute;
+        box-sizing: border-box;
+        width: 100%;
+        z-index: 99;
+        text-align: center;
+        background-color: #FFFFFF;
+        transition: 0.3s;
+        overflow: hidden;
+      }
+
+      .headerlink {
+        padding: 15px;
+        border-bottom: 1px solid;
+        font-size: 14px;
+        border-color: #e0e0e0;
+      }
+
+      .headerlink:hover {
+          background-color: #f6f5f9;
+      }
+
+      #notifications_container {
+        min-height:19px;
+        min-width:19px;
+        padding: 3px;
+        margin-right: 20px;
+        border-radius: 100px;
+        float:right;
+        text-align: center;
+        font-size: 15px;
+        background-color: #FFFFFF;
+        color: #383838;
+      }
+
+      a {
+        text-decoration: none;
+        color: #383838;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Mobile heading -->
+    <div id="headerbar">
+        <a href='/' style='text-decoration:none;color:#FFFFFF;'>Bluff Tour</a>
+        <!--- If user is logged in --->
+        {% if session['username'] %}
+        <div id="optionsbutton" onclick="toggleDropdown_menu()">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+
+        <!--- Notifications container --->
+        {% if noti_number == 0 %}
+        <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
+        {% else %}
+        <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
+        {% endif %}
+        <!--- End of Notifications container --->
+
+        {% else %}
+          <a href='/login' style="float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
+        {% endif %}
+    </div>
+    <!-- End of mobile heading --->
+
+    <!--- User header options --->
+    <div id="header_options_container" style="display:none">
+        <div class="mobileheader">
+            <a href="{{ url_for('index') }}" style='color:#FFFFFF'>Bluff Tour</a>
+
+            <div id="optionsbutton" onclick="toggleDropdown_menu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <!--- Notifications container --->
+            {% if noti_number == 0 %}
+            <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
+            <!--- End of Notifications container --->
+            {% else %}
+            <a href="/notifications" id="notifications_container" style="background-color:red;color:#FFFFFF">{% print noti_number %}</a>
+            {% endif %}
+
+        </div>
+
+            <a href='/profile'><div class="headerlink">Profile</div></a>
+            <a href='/messages'><div class="headerlink">Messages</div></a>
+            {% if account_type == "artist" %}
+            <a href='/upcomingshows'><div class="headerlink">Upcoming Shows</div></a>
+            {% else %}
+            <a href="/yourlistings"><div class="headerlink">Your listings</div></a>
+            {% endif %}
+            <a href="/payments"><div class="headerlink">Payments</div>
+            <a href='/logout'><div class="headerlink">Logout</div></a>
+    </div>
+    <!--- End of user header options --->
+
+    <!--- Obtain window size for header menu --->
+    <script type="text/javascript">
+        var height = window.innerHeight;
+        var newheight = height + 1;
+        var width = screen.width;
+
+        //Center the page
+        sidePadding = (width - 1000) / 2
+
+        if (width > 750) {
+            $("#headerbar").css('padding-left', sidePadding+"px").css('padding-right', sidePadding+"px")
+            $("#header_options_container").width(200).css("margin", "0px").css("right", sidePadding+"px").css("margin-top", "65px").css("box-shadow", "0 4px 8px 0 rgba(0, 0, 0, 0.2)").css("border-bottom-right-radius", "5px").css("border-bottom-left-radius", "5px")
+
+            //Toggle mobile dropdown
+            function toggleDropdown_menu(){
+                $(".mobileheader").hide()
+                $("#header_options_container").toggle()
+            }
+        }
+        else {
+            $("#header_options_container").height(height)
+            $(".mobileheader").css("margin-bottom", "15px")
+
+            //Toggle mobile dropdown
+            function toggleDropdown_menu(){
+                $("#header_options_container").toggle()
+            }
+
+        }
+
+    </script>
+    <!--- End of window size for header menu --->
+
+  </body>
+</html>

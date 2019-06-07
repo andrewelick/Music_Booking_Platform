@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <title>VenueApp</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style type='text/css'>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+            width: 100%;
+            padding-top:20px;
+            margin-bottom: 20px;
+            text-align: center;
+            float: left;
+        }
+
+        #profile_container {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            background-color: #232f42;
+            color: #FFFFFF;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            float: left;
+            overflow: hidden;
+        }
+
+        .profile_picture_personal {
+            height: 35px;
+            margin: 5px;
+            border-radius: 100%;
+            border: 2px solid;
+            border-color: #FFFFFF;
+            float: left;
+        }
+
+        .quick_stats_container {
+            box-sizing: border-box;
+            margin-top: 3px;
+            text-align: left;
+            float: center;
+            font-size: 12px;
+        }
+
+        .profile_quick_link {
+            display: inline-block;
+            margin-bottom: 4px;
+            margin-right: 4px;
+            color: #FFFFFF;
+        }
+
+        .profile_quick_link:hover {
+            text-decoration: underline;
+        }
+
+        #user_container {
+            margin: auto;
+            margin-bottom: 15px;
+            width: 100%;
+            padding-bottom: 10px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            float: right;
+        }
+
+        #ending_shows_container {
+            margin-top: 20px;
+        }
+
+        .single_ending_show {
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 13px;
+            text-align: left;
+            border-top: 1px solid;
+            border-color: #efefef;
+        }
+
+        .single_ending_bids_container {
+            box-sizing: border-box;
+            width: 100%;
+            padding-top: 5px;
+            font-size: 11px;
+        }
+
+        .ending_show_description {
+            width: 100%;
+            padding-top: 6px;
+            font-size: 11px;
+        }
+
+        .ending_show_link {
+            float:right;
+            color: blue;
+            font-size: 11px;
+        }
+
+        .ending_show_link:hover{
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .showcase_container {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            font-size: 14px;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .venue_showcase_picture {
+            width: 50px;
+            margin-right: 5px;
+            border-radius: 100%;
+            float: left;
+        }
+
+        .venue_showcase_busi_type {
+            padding-left: 5px;
+            font-size: 12px;
+        }
+
+        .showcase_bio {
+            font-size: 12px;
+        }
+
+        .listingbutton {
+            box-sizing: border-box;
+            width: 100%;
+            padding:5px;
+            padding-top:10px;
+            padding-bottom:10px;
+            font-size: 14px;
+            display: inline-block;
+            background-color:#328CC1;
+            color:#FFFFFF;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .listingbutton:hover {
+            cursor: pointer;
+            background-color: #3494cb;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .show_label {
+          font-size: 14px;
+        }
+
+        #artist_showcase {
+            width: 100%;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            float: right;
+        }
+
+        select {
+          display: inline-block;
+          width: 75px;
+          padding: 5px;
+          margin-top: 5px;
+          margin-bottom: 5px;
+          font-size: 14px;
+          border: 1px solid;
+          border-color: #d2d2d2;
+          background-color: #FFFFFF;
+          font-family: inherit;
+        }
+
+        input[type="text"] {
+          width: 225px;
+          padding: 7px;
+          margin: 5px;
+          border: 1px solid;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          outline: none;
+          font-family: inherit;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          -webkit-transition: box-shadow 150ms ease;
+          transition: 150ms ease;
+        }
+
+        input[type='text']:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        select {
+            width: 55px;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: 150ms ease;
+        }
+
+        textarea {
+          margin: 5px;
+          padding: 5px;
+          width: 225px;
+          font-family: inherit;
+          border: 1px solid;
+          border-radius: 5px;
+          border-color: #d2d2d2;
+          resize: none;
+          outline: none;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          -webkit-transition: box-shadow 150ms ease;
+          transition: 150ms ease;
+        }
+
+        textarea:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        input[type="submit"] {
+          margin-top: 10px;
+          padding: 10px;
+          width: 150px;
+          border-radius: 5px;
+          border: 0;
+          font-size: 14px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+        }
+
+        input[type='submit']:hover {
+            background-color: #3494cb;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        #postshow {
+          box-sizing: border-box;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          padding-top: 15px;
+          padding-bottom: 20px;
+          margin: 0;
+          z-index: 99;
+          text-align: center;
+          box-shadow: 0 0px 15px 0 #111111;
+          background-color: #FFFFFF;
+          transition: .5s;
+        }
+
+        #new_show_container {
+            display: none;
+        }
+
+        .payments_link {
+            padding: 10px;
+            width: 150px;
+            border-radius: 5px;
+            border: 0;
+            font-size: 14px;
+            background-color: #328CC1;
+            color: #FFFFFF;
+            display: none;
+        }
+
+        .post_message {
+            font-size: 14px;
+            display: none;
+        }
+
+        #blackbackground {
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          z-index:10;
+          height:100%;
+          width:100%;
+          background-color:#000000;
+          opacity:.8
+        }
+
+        #error_message {
+            color: red;
+        }
+
+        .ui-datepicker-header {
+            background-color: #328CC1;
+            color: #ffffff;
+            font-family: inherit;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+    //Datepicker for new show date
+    $(function() {
+        $("#show_date").datepicker({
+            showButtonPanel: true,
+            minDate: +14,
+        });
+    });
+    </script>
+  </head>
+  <body>
+    <!--- Header --->
+    {% include "header.html" %}
+
+    <!-- Mobile welcome picture with text -->
+    <div class='mobilegridrow-2'>
+
+        <!--- Venues showcase card --->
+        <div id="user_container">
+
+            <!--- Profile container --->
+            <div id="profile_container">
+                <!--- Profile picture --->
+                <a href="/profile">
+                    <img class="profile_picture_personal" src="static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
+                </a>
+
+                <!--- Profile name --->
+                <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
+                    <a href="/profile" style="color: white">{% print venue_details[1] %}</a>
+                </div>
+
+                <!--- Bidding stats -->
+                <div class="quick_stats_container">
+                    <a href='/messages' class="profile_quick_link">Messages</a>
+                    <a href='/payments' class="profile_quick_link">Payments</a>
+                    <a href="/yourlistings" class="profile_quick_link">Listings</a>
+                </div>
+
+            </div>
+
+            <!--- Post a show button --->
+            <div class="listingbutton" id="listingbutton" onclick="show_post_show()">List a show</div>
+
+            <!--- Ending shows container --->
+            <div id="ending_shows_container">
+                <div style="padding-bottom: 15px;font-size: 15px;">Shows ending soon</div>
+
+                <div id="ending_shows"></div>
+
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
+
+        </div>
+
+        <div id="artist_showcase" style="box-sizing: border-box;float: left;padding: 10px;">
+            <div style="padding-bottom:10px;font-size:15px;">Artists around Memphis, TN</div>
+
+            <!--- Venue showcase pictures -->
+                {% for artist in featured_artists %}
+                <div class="showcase_container" >
+                    <a href="/profile?uid={% print artist['uid'] %}">
+                        <img src="static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                    </a>
+
+                    <div>
+                        <b>{% print artist['artist_name'] %}</b>
+                        <font class="venue_showcase_busi_type">- {% print artist['genre'] %}</font>
+                    </div>
+
+                    <!--- Business bio --->
+                    <div class="showcase_bio">{% print artist['bio'] %}</div>
+
+                </div>
+                {% endfor %}
+
+        </div>
+
+    </div>
+    <!--- End of Description card --->
+
+    {% include 'footer.html' %}
+
+    <!--- Show posting card -->
+    <div id="postshow" style="display:none">
+
+        <div>List a show</div>
+        </br>
+
+        <!--- Post show container --->
+        <div id="new_show_container">
+            <form action="/" method="POST">
+
+            <!--- New show price --->
+            <span class="show_label">Asking price</span>
+            </br>
+            <input type="text" name="show_price" placeholder="$500" required/>
+            </br>
+
+            <!--- New artist type --->
+            <span class="show_label">Type of artist?</span>
+            <br/>
+            <select name="show_artist" style="width:235px">
+              <option value="Any">Any</option>
+              <option value="Singer">Singer</option>
+              <option value="Band">Band</option>
+              <option value="Rapper">Rapper</option>
+              <option value="DJ">DJ</option>
+            </select>
+            </br>
+
+            <!--- Description for new show --->
+            <span class="show_label">Description</span>
+            </br>
+            <textarea name="show_description" placeholder="Whats going on?"></textarea>
+            </br>
+
+            <!--- Date for new show --->
+            <span class="show_label">When is it?</span>
+            </br>
+            <input type="text" id="show_date" name="show_date" placeholder="12/20/21" />
+            </br>
+
+            <!--- Time for new show --->
+            <span class="show_label">What time?</span>
+            </br>
+              <select name="show_hour">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+                <option value=10>10</option>
+                <option value=11>11</option>
+                <option value=12>12</option>
+              </select>
+              <select name="show_min">
+                <option value=00>00</option>
+                <option value=15>15</option>
+                <option value=30>30</option>
+                <option value=45>45</option>\
+              </select>
+              <select name="show_am_pm">
+                <option value="pm">pm</option>
+                <option value="am">am</option>
+              </select>
+              </br>
+
+            <!---Submit button --->
+              <input type="submit" value="List a show" />
+            </form>
+        </div>
+
+        <!--- If there is no account/payment method messages --->
+        <div id="add_account_post_message" class='post_message'>Before you can post a show you must create a payment account.</div>
+        <br/>
+        <a href="/addpayments" id="add_account_link" class="payments_link">Add a payment account</a>
+
+        <div id="add_payment_post_message" class="post_message">Before you can post a show you must attach a payment method.</div>
+        <br/>
+        <a href="/payments" id="add_payment_link" class="payments_link">Add a payment method</a>
+
+    </div>
+    <!--- End of Show posting card --->
+
+    <!--- Black background for send messages screen --->
+    <div id="blackbackground" onclick="hide_post_show()" style="display:none"></div>
+    <!--- End of Black background --->
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 800) / 2
+            $(".mobilegridrow-2").width(800).css("margin-left",margin).css("margin-right", margin);
+            $("#user_container").width(300)
+            $("#artist_showcase").width(450)
+
+            postShowMargin = (screenWidth - 700) / 2
+            $("#postshow").width(400).css("margin-left", postShowMargin+150).css("border-radius", 10)
+        }
+
+        //Check if venue has stripe account set up
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: {
+                "check_stripe_account": "check"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            //If account has no payment method
+            if (data['result'] == "No account") {
+                $("#add_account_post_message").show()
+                $("#add_account_link").show()
+            }
+            else if (data["result"] == "Has account") {
+
+                //Check if payment method attached
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {
+                        "check_stripe_payment_method": "check"
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    if (data['result'] == "has_payment") {
+                        $("#new_show_container").show()
+                    }
+                    else {
+                        $("#add_payment_post_message").show()
+                        $("#add_payment_link").show()
+                    }
+                });
+            }
+            else {
+                $("#post_message").show().html("There was an error loading your payment information").css("color", "red")
+            }
+        })
+
+        //Load show postings that are ending soon
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/",
+            data: {
+                "ending_shows": "check"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                let ending_shows = data['success']
+
+                for (i = 0; i < ending_shows.length; i++) {
+                    let show = `
+                        <div class="single_ending_show">
+                            <!--- Show date --->
+                            <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
+
+                            <!--- Bids --->
+                            <div class="single_ending_bids_container">
+                                <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
+                                Highest: $${ending_shows[i]['highest_bid']}
+                            </div>
+
+                            <!--- Description --->
+                            <div class="ending_show_description">${ending_shows[i]['description']}</div>
+
+                        </div>
+                    `
+
+                    $("#ending_shows").append(show)
+                }
+            }
+        });
+
+        //Show post show container
+        function show_post_show(){
+
+            document.getElementById("blackbackground").style.display = "block";
+            document.getElementById("postshow").style.display = "block";
+            document.getElementsByTagName("body")[0].style.position = "fixed";
+
+            var height = window.innerHeight;
+            var newheight = height + 1;
+
+            document.getElementById("postshow").style.marginTop = height/7+"px";
+        }
+
+        //Hide post show container
+        function hide_post_show(){
+            document.getElementById("postshow").style.display = "none";
+            document.getElementById("postshow").style.marginTop = "0px";
+            document.getElementsByTagName("body")[0].style.position = "relative";
+            document.getElementById("blackbackground").style.display = "none";
+        }
+    </script>
+    <!--- End of hide show positng container --->
+
+  </body>
+</html>

@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+      body {
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        background-color: #f6f9fc;
+      }
+
+      /* For mobile phones: */
+        [class*="mobilegridrow-"] {
+          width: 100%;
+          box-sizing: border-box;
+          float: left;
+          padding: 10px;
+          border-color:#d2d2d2;
+        }
+
+        .mobilegridrow-2 {
+          width: 100%;
+          padding: 0;
+          padding:10px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        .bubble_container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            -webkit-transition: box-shadow 1s ease;
+            transition: box-shadow 1s ease;
+        }
+
+        .single_show_bubble {
+            margin: 0 auto;
+            padding: 15px;
+            padding-bottom: 10px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #efefef;
+            text-align: left;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .single_show_bubble:hover {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .single_show_link {
+            display: block;
+            padding: 0;
+            border: 0px solid;
+            margin: 0;
+            margin-top: 10px;
+        }
+
+        .show_picture {
+            height: 40px;
+            border-radius: 100%;
+            margin-right: 15px;
+            float: left;
+            display: block;
+        }
+
+        .venue_name {
+            padding-right: 10px;
+            display: block;
+        }
+
+        .show_time {
+            font-size: 13px;
+        }
+
+        .show_price {
+            margin-top: -13px;
+            float: right;
+            font-size: 20px;
+            color: green;
+        }
+
+
+        .balance_number {
+            font-size: 40px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .cent_number {
+            font-size: 25px;
+        }
+
+        .explanation_text {
+            font-size: 13px;
+        }
+
+        input[type="text"] {
+            box-sizing: border-box;
+            border: 1px solid;
+            width: 100%;
+            padding:10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            border-radius: 5px;
+            border-color: #efefef;
+            outline: none;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: 150ms ease;
+
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        button {
+          border: 0;
+          width: 50%;
+          padding:10px;
+          font-size: 15px;
+          border-radius: 5px;
+          background-color: #328CC1;
+          color: #FFFFFF;
+          outline: none;
+          -webkit-transition: box-shadow 300ms ease;
+          transition: 300ms ease;
+        }
+
+        button:hover {
+            cursor: pointer;
+            background-color: #3494cb;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .payment_buttons {
+            width: 150px;
+            font-size: 13px;
+        }
+
+        .linked_container {
+            margin-bottom: 10px;
+        }
+
+        .card_container {
+            box-sizing: border-box;
+            padding: 5px;
+            margin-top: 5px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            font-size: 14px;
+        }
+
+        .card_details {
+            padding: 5px;
+            padding-left: 0px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .add_payment_method {
+            font-size: 13px;
+            color: blue;
+            font-weight: bold;
+        }
+
+        .add_payment_method:hover {
+            cursor: pointer;
+        }
+
+        .remove_card {
+            display: inline-flex;
+            font-size: 13px;
+            color: red;
+            float: right;
+        }
+
+        .remove_card:hover {
+            cursor: pointer;
+        }
+
+        .card_icon {
+            height: 20px;
+            padding-left: 5px;
+            display: inline-block;
+            float: right;
+        }
+
+        #new_payment_container {
+            max-width: 350px;
+            margin: 0 auto;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid;
+            border-color: #efefef;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 1px 3px 0 #cfd7df;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .new_account_button {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .new_account_button:hover {
+            cursor: pointer;
+        }
+
+        .new_payment_box {
+            border-color: #efefef;
+            text-align: right;
+            display: none;
+        }
+
+        .StripeElement {
+            padding: 10px 12px;
+            margin-top: 5px;
+            border: 1px solid;
+            border-radius: 5px;
+            font-family: inherit;
+            border-color: #efefef;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+
+        .StripeElement--valid {
+            color: green;
+        }
+
+        .error_message {
+            padding: 5px;
+            color: red;
+        }
+
+        .disable_button {
+            background-color: #d2d2d2;
+        }
+
+        .disable_button:hover {
+            background-color: #d2d2d2;
+            box-shadow: 0 0px 0px 0 #cfd7df;
+        }
+
+        #cash_out_container {
+            box-sizing: border-box;
+            position: fixed;
+            top: 50px;
+            left: 0px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #FFFFFF;
+            font-size: 13px;
+            z-index: 10000;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .cash_out_option {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .cash_out_option_single {
+            box-sizing: border-box;
+            width: 100%;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            padding: 10px;
+        }
+
+        #cash_out_balance {
+            font-weight: bold;
+            color: green;
+        }
+
+        #black_background {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index:10;
+            height:100%;
+            width:100%;
+            background-color:#000000;
+            opacity:.8;
+            display: none;
+        }
+
+        .payout_transaction_single {
+            box-sizing: border-box;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .payout_destination {
+            margin-right: 5px;
+            border-right: 1px solid;
+            border-color: #d2d2d2;
+            vertical-align: middle;
+        }
+
+        .payout_status {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .payout_balance {
+            color: green;
+            font-weight: bold;
+            float: right;
+        }
+
+        .load_more_button {
+            padding: 10px;
+            color: blue;
+        }
+
+        .load_more_button:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .payments_transaction_single {
+            box-sizing: border-box;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            text-align: left;
+            font-size: 11px;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+        .add_payment_link {
+            color: blue
+        }
+
+        .add_payment_link:hover {
+            text-decoration: underline;
+        }
+
+      /* For Desktop users: */
+      @media only screen and (min-width: 450px) {
+        .gridcol-1 {width:15%}
+        .gridcol-2 {width:35%}
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+    <!-- Mobile heading -->
+    {% include 'header.html' %}
+
+    <div class='mobilegridrow-2'>
+
+        <!--- Available balance --->
+        <div id="available_balance_container" class="bubble_container">
+
+            <!--- Header --->
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Available Balance</div>
+
+            <!--- Total amount --->
+            <div id="available_balance_number" class="balance_number">
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
+
+            <br/>
+
+            <!-- Cash out button --->
+            <button id="cash_out">Cash out</button>
+
+            <br/>
+            <br/>
+            <!--- Explanation text --->
+            <div class="explanation_text">These are the funds that you have earned through performing shows and are now ready to be sent to your bank</div>
+
+        </div>
+
+        <!--- Pending balance --->
+        <div id="pending_balance_container" class="bubble_container">
+
+            <!--- Header --->
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Pending Balance</div>
+
+            <!--- Total amount --->
+            <div id="pending_balance_number" class="balance_number" style="color: grey">
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
+
+            <br/>
+            <!--- Explanation text --->
+            <div class="explanation_text">This balance includes funds that are being proccessing or held until after performing your shows.</div>
+
+        </div>
+
+        <!--- Payout transactions --->
+        <div id="payments_transactions_container" class="bubble_container">
+            <!--- Header --->
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Payments</div>
+
+            <!--- List of cashout transactions -->
+            <div id="payments_transactions"></div>
+
+            <!--- Loading gif --->
+            <img class="loading_gif" src="static/loading-spinner.gif" />
+
+            <div id="load_more_payments_button" class="load_more_button">Load More</div>
+
+        </div>
+
+        <!--- Payout transactions --->
+        <div id="cashout_transactions_container" class="bubble_container">
+            <!--- Header --->
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Cashouts</div>
+
+            <!--- List of cashout transactions -->
+            <div id="cashout_transactions"></div>
+
+            <!--- Loading gif --->
+            <img class="loading_gif" src="static/loading-spinner.gif" />
+
+            <div id="load_more_payouts_button" class="load_more_button">Load More</div>
+
+        </div>
+
+        <!--- Accounts --->
+        <div id="accounts_container" class="bubble_container">
+
+            <!--- Header --->
+            <div style='font-weight: bold;font-size: 17px;padding-bottom: 10px;'>Payment Accounts</div>
+
+            <!--- Connected cards --->
+            <div id="conected_cards_container" style="text-align: left;font-size: 15px;">
+                Cards
+
+                <!--- Load connect cards --->
+                <div id="linked_cards" class="linked_container"></div>
+
+            </div>
+
+            <!--- Connected banks -->
+            <div id="connected_banks" style="text-align: left; font-size: 15px;">
+                Bank Accounts
+
+                <!--- Load connect cards --->
+                <div id="linked_banks" class="linked_container">
+                    <!--- Loading gif --->
+                    <img class="loading_gif" src="static/loading-spinner.gif" />
+                </div>
+            </div>
+
+            <!--- Choose payment type buttons --->
+            <div style="font-size: 13px;">
+                Add a new <font id="new_card_button" class="new_account_button">+Debit card</font> or <font id="new_bank_button" class="new_account_button">+Bank Account</font>
+            </div>
+
+            <!--- New payment method --->
+            <div id="new_payment_container" class="new_payment_box">
+
+                <!--- New card --->
+                <div id="new_payment_card">
+
+                    <h3 style="text-align: center">Add a Debit card</h3>
+
+                    <div style="text-align: left;">Debit Card</div>
+
+                    <!--- Load stripe.js card --->
+                    <div id="card-element"></div>
+
+                    <!--- Error message --->
+                    <div id="card_error_message" class="error_message"></div>
+
+                    <button name="add_new_card" id="add_new_card" class="disable_button" disabled>Add Card</button>
+
+                </div>
+
+                <!--- New bank account --->
+                <div id="new_payment_bank" class="new_payment_box">
+
+                    <h3 style='text-align: center'>Link a Bank Account</h3>
+                    <div style="padding-bottom: 15px;text-align: left;font-size: 12px;">To verify your bank account, you’ll see two deposits and two withdrawals on your bank statement over the next three days, each $1 or less. You will enter these amounts to verify your account.</div>
+
+                    <form id="new_bank_form">
+
+                        <!--- Account holder name --->
+                        <div style="text-align: left;">Account holder name <font style="font-size: 12px;">(optional)</font></div>
+                        <input type="text" id="account_name" name="account_name" placeholder="John Smith" />
+
+                        <!--- Routing Number --->
+                        <div style="text-align: left;">Routing Number</div>
+                        <input type="text" id="routing_number" name="routing_number" placeholder="110000000" />
+
+                        <!--- Account Number --->
+                        <div style="text-align: left;">Account Number</div>
+                        <input type="text" id="account_number" name="account_number" placeholder="000123456789" />
+
+                        <!--- Confirm Account Number --->
+                        <div style="text-align: left;">Confirm Account Number</div>
+                        <input type="text" id="confirm_account_number" name="confirm_account_number" placeholder="000123456789" />
+
+                        <!--- Error message --->
+                        <div id="bank_error_message" class="error_message"></div>
+
+                        <button name="add_new_bank" id="add_new_bank" class="disable_button" disabled>Add Bank</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--- Cash out container --->
+        <div id="cash_out_container">
+
+            <h3 style="margin-bottom: 5px;">Send your funds to bank</h3>
+
+            Where would you like to send your balance of <font id="cash_out_balance">$123</font> to?
+
+            <br/>
+            <br/>
+
+            <!--- Card cashout -->
+            <div class="cash_out_option">
+                Instant <font style="font-size: 14px;color: #383838">(1.5% fee, minimum $0.50)</font>
+                <div id="instant_cashout_option"></div>
+            </div>
+
+            <!--- Bank cash out --->
+            <div class="cash_out_option">
+                Standard 2-3 Days <font style="font-size: 14px;color: #383838">(No fee)</font>
+                <div id="standard_cashout_option"></div>
+            </div>
+
+            <div id="cash_out_error_message" class="error_message"></div>
+
+            <button id="confirm_cash_out_button" class="disable_button" disabled>Send funds</button>
+
+        </div>
+
+        <!--- Black background -->
+        <div id="black_background" onclick="hide_cash_out_container()"></div>
+
+    </div>
+    <!--- End of mobilesplash-2 --->
+
+    {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        //Adjust width if screen is bigger than phone
+        screenWidth = screen.width;
+
+        if (screenWidth > 450 && screenWidth < 1000) {
+            margin = (screenWidth - 450) / 2
+            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
+        }
+        else if (screenWidth > 1000){
+            margin = (screenWidth - 1000) / 2
+            $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin);
+            $("#start").width(100)
+            $("#cash_out_container").width(400).css('margin-left', margin * 2).css('margin-right', margin);
+        }
+
+        //Get account balances
+        function load_account_balance() {
+            //Get payment account balance info
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    balance_check: 'check'
+                },
+                dataType: "json",
+            }).done(function(data) {
+                //Update available balance
+                var available_balance = JSON.stringify(data['result']['available_balance'])
+
+                //Format balance
+                if (available_balance != "0") {
+                    available_balance_dollar = available_balance.slice(0,-2)
+                    available_balance_cent = available_balance.slice(-2)
+
+                    available_balance = available_balance_dollar+"."+available_balance_cent
+                }
+
+                $("#available_balance_number").html(available_balance)
+
+
+                //Update pending balance
+                var pending_balance = JSON.stringify(data['result']['pending_balance'])
+
+                //Format balance
+                if (pending_balance != "0") {
+                    pending_balance_dollar = pending_balance.slice(0,-2)
+                    pending_balance_cent = pending_balance.slice(-2)
+
+                    pending_balance = pending_balance_dollar+"."+pending_balance_cent
+                }
+
+                $("#pending_balance_number").html(pending_balance)
+
+
+                //Animate available balance
+                $("#available_balance_number").each(function () {
+                    $(this).prop('Counter', available_balance / 2).animate({
+                        Counter: $(this).text()
+                    }, {
+                        duration: 2000,
+                        easing: 'linear',
+                        step: function (now) {
+                            $(this).text("$"+now.toFixed(2));
+                        }
+                    });
+                });
+
+                //Animate pending balance
+                $("#pending_balance_number").each(function () {
+                    $(this).prop('Counter', pending_balance / 2).animate({
+                        Counter: $(this).text()
+                    }, {
+                        duration: 2000,
+                        easing: 'linear',
+                        step: function (now) {
+                            $(this).text("$"+now.toFixed(2));
+                        }
+                    });
+                });
+            });
+        }
+
+        //Get payment methods
+        function get_payment_methods() {
+
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    payment_methods: 'check'
+                },
+                dataType: "json",
+            }).done(function(data){
+
+                //Card and Bank info
+                let card_methods = data['card']
+                let bank_methods = data['bank_account']
+
+                //Load cards
+                if (card_methods.length != 0) {
+                    //Add each card profile
+                    for (i = 0; i < card_methods.length; i++) {
+
+                        //Card template
+                        const card_template = `
+                            <div class="card_container">
+
+                                <!--- Card details --->
+                                <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
+                                    <img src="static/credit-card.png" class="card_icon" />
+                                    ${card_methods[i].card_type}
+                                </div>
+
+                                <div class="card_details">
+                                    ${card_methods[i].card_brand} - ${card_methods[i].card_last4}
+                                    <font style="font-size: 11px;">Exp ${card_methods[i].expire_month}/${card_methods[i].expire_year}</font>
+                                </div>
+
+                                <div class="remove_card" id="${card_methods[i].card_id}">Delete</div>
+                            </div>
+                        `
+
+                        //Add card payments to page
+                        $("#linked_cards").append(card_template)
+                    }
+                }
+                else {
+                    //Add card template
+                    const add_card = `
+                        <div class="card_container">
+                            You have not connect a card
+                        </div>
+                    `
+                    $("#linked_cards").html(add_card)
+                }
+
+                //Laod bank details
+                if (bank_methods.length != 0) {
+
+                    //Add each card profile
+                    for (i = 0; i < bank_methods.length; i++) {
+                        //Card template
+                        const bank_template = `
+                            <div class="card_container">
+
+                                <!--- Card details --->
+                                <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
+                                    <img src="static/bank_icon.png" class="card_icon"/>
+                                    ACH
+                                </div>
+
+                                <div class="card_details">
+                                    <font style="font-size: 11px;">${bank_methods[i].bank_name}</font>
+                                    xxxx-${bank_methods[i].bank_last4}
+                                </div>
+
+                                <div class="remove_card" id="${bank_methods[i].bank_id}">Delete</div>
+                            </div>
+                        `
+
+                        //Add card payments to page
+                        $("#linked_banks").append(bank_template)
+                    }
+                }
+                else {
+                    //Add card template
+                    const add_bank = `
+                        <div class="card_container">
+                            You have not connected a bank account
+                        </div>
+                    `
+                    $("#linked_banks").html(add_bank)
+                }
+
+            });
+        };
+
+        //List of transactions made to artist
+        function get_stripe_payments(starting_after) {
+            //Load payout transactions
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    get_payments: 'check',
+                    starting_after: starting_after
+                },
+                dataType: "json",
+            }).done(function(data) {
+                console.log(data)
+                //If success
+                if (data['success']){
+
+                    payments_transactions = data['success']
+
+                    //Hide load more button if no more to laod
+                    if (payments_transactions.length < 5) {
+                        $("#load_more_payments_button").hide()
+                    }
+
+                    //Loop through transactions
+                    for (i = 0; i < payments_transactions.length; i++) {
+
+                        //Format dollar
+                        let charge_amount = JSON.stringify(payments_transactions[i]['net_amount'])
+                        let charge_amount_dollar = charge_amount.slice(0,-2)
+                        let charge_amount_cent = charge_amount.slice(-2)
+
+                        charge_amount = "$"+charge_amount_dollar+"."+charge_amount_cent
+
+                        var charge_container = `
+                            <div class="payments_transaction_single" id="${payments_transactions[i]['id']}" style="padding: 10px;">
+                                <div class="card_details">
+                                    <font style="color: green;font-weight: bold;font-size: 13px;">${charge_amount}</font> on <font>${payments_transactions[i]['date']}</font>
+                                </div>
+
+                                <div style="float: right;">
+                                    <font style="padding-bottom: 5px;display: inline-block">Status: ${payments_transactions[i]['status']}</font>
+                                    <br/>
+                                    Available: ${payments_transactions[i]['available']}
+                                </div>
+                            </div>
+                        `
+
+                        //Add payout to payout container
+                        $("#payments_transactions").append(charge_container)
+                    }
+                }
+            });
+        };
+
+        //Load more transactions
+        $('#load_more_payments_button').click(function() {
+            let last_transaction = $(".payments_transaction_single:last").attr("id")
+            get_stripe_payments(starting_after = last_transaction)
+        });
+
+        //Load payouts made by artist
+        function load_payout_transactions(starting_after) {
+            //Load payout transactions
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    get_cashout_transactions: 'check',
+                    starting_after: starting_after,
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                //If success
+                if (data['result']){
+
+                    payout_transactions = data['result']
+
+                    //Hide load more button if no more to laod
+                    if (payout_transactions.length < 5) {
+                        $("#load_more_payouts_button").hide()
+                    }
+
+                    //Loop through transactions
+                    for (i = 0; i < payout_transactions.length; i++) {
+
+                        //Format dollar
+                        payout_amount = JSON.stringify(payout_transactions[i]['amount'])
+                        payout_amount_dollar = payout_amount.slice(0,-2)
+                        payout_amount_cent = payout_amount.slice(-2)
+
+                        payout_balance = "$"+payout_amount_dollar+"."+payout_amount_cent
+
+
+                        if (payout_transactions[i]['object'] == "card") {
+                            var payout_container = `
+                                <div class="payout_transaction_single" id="${payout_transactions[i]['id']}">
+                                    <font class="payout_destination">
+                                        <img src="static/credit-card.png" class="card_icon" style="float: left; padding: 0px;padding-right: 5px;" />
+                                        ${payout_transactions[i]['external_account']['brand']} - ${payout_transactions[i]['external_account']['last4']}
+                                    </font>
+                                    <font class="payout_status">${payout_transactions[i]['method']} - ${payout_transactions[i]['status']}</font>
+                                    <font class="payout_balance">${payout_balance}</font>
+
+                                    <br>
+                                    <font style="padding-top: 5px;font-size: 12px;display: block">Transfered: ${payout_transactions[i]['date']}</font>
+                                </div>
+                            `
+                        }
+                        else {
+                            var payout_container = `
+                                <div class="payout_transaction_single" id="${payout_transactions[i]['id']}">
+                                    <font class="payout_destination">
+                                        <img src="static/bank_icon.png" class="card_icon" style="float: left; padding: 0px;padding-right: 5px;" />
+                                        ${payout_transactions[i]['external_account']['brand']} - ${payout_transactions[i]['external_account']['last4']}
+                                    </font>
+                                    <font class="payout_status">${payout_transactions[i]['method']} - ${payout_transactions[i]['status']}</font>
+                                    <font class="payout_balance">${payout_balance}</font>
+                                </div>
+                            `
+                        }
+
+                        //Add payout to payout container
+                        $("#cashout_transactions").append(payout_container)
+                    }
+                }
+
+            });
+        };
+
+        //Load more payouts
+        $('#load_more_payouts_button').click(function() {
+            let last_payout = $(".payout_transaction_single:last").attr("id")
+            load_payout_transactions(starting_after = last_payout)
+        });
+
+        //Delete card from stripe account
+        $(document).ajaxComplete(function() {
+            $('.remove_card').click(function() {
+
+                let payment_id = $(this).attr("id");
+
+                //Send token to stripe
+                $.ajax({
+                    url: "/payments",
+                    type: "POST",
+                    data: {
+                        delete_payment: "yes",
+                        payment_id: payment_id
+                    },
+                    dataType: "json",
+                }).done(function(data) {
+
+                    if (data['success']) {
+                        //Reload payment methods
+                        $(".linked_container").html("")
+                        get_payment_methods();
+                    }
+                })
+            })
+        })
+
+        //Show add new payment methods
+        $(".new_account_button").click(function() {
+
+            //Show new payments container
+            $("#new_payment_container").show()
+
+            let payment_type = $(this).attr("id")
+
+            //Which payment type to show
+            if (payment_type == "new_card_button") {
+                $("#new_payment_card").show()
+                $("#new_payment_bank").hide()
+            }
+            else {
+                $("#new_payment_bank").show()
+                $("#new_payment_card").hide()
+            }
+        })
+
+        //Check bank input methods
+        $("#new_bank_form input").on('input', function(event) {
+
+            let field_value = $(this).val()
+
+            //If field is account name
+            if ($(this).attr('id') != 'account_name') {
+                //If not a number
+                if (isNaN(field_value)) {
+                    //Remove last character
+                    this.value = this.value.slice(0,-1);
+                }
+            }
+
+            let routing_number = $("#routing_number").val()
+            let account_number = $("#account_number").val()
+            let confirm_account_number = $("#confirm_account_number").val()
+
+            //Check if any fields are empty
+            if (account_number && routing_number && confirm_account_number != "") {
+
+                //Check if account numbers match
+                if (account_number == confirm_account_number) {
+                    //Enable add bank button
+                    $("#add_new_bank").removeClass("disable_button").prop('disabled', false)
+
+                    //Hide error message
+                    $("#bank_error_message").html("")
+                }
+                else {
+                    $("#bank_error_message").html("Account numbers don't match")
+                }
+            }
+            else {
+                $("#add_new_bank").addClass("disable_button").prop('disabled', true)
+            }
+
+        });
+
+        //Submit new bank
+        $("#add_new_bank").click(function() {
+
+            //Disable button
+            $("#add_new_bank").prop('disabled', true).addClass("disable_button");
+
+            //Bank account details
+            let account_name = $("#account_name").val()
+            let account_number = $("#account_number").val()
+            let routing_number = $("#routing_number").val()
+
+            //Create payment token
+            stripe.createToken('bank_account', {
+                country: 'US',
+                currency: 'usd',
+                account_holder_name: account_name,
+                routing_number: routing_number,
+                account_number: account_number,
+                account_holder_type: 'individual'
+            }).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = $("#error_message")
+                    $("#bank_error_message").html(result.error.message)
+
+                    //Reactivate button to prevent multiple clicks
+                    $("#add_new_bank").prop('disabled', false).removeClass("disable_button");
+                }
+                else {
+                    let bank_token = result.token.id
+
+                    //Send token to stripe
+                    $.ajax({
+                        url: "/payments",
+                        type: "POST",
+                        data: {
+                            new_payment: "yes",
+                            payment_token: bank_token
+                        },
+                        dataType: "json",
+                    }).done(function(data) {
+
+                        console.log(data)
+
+                        //If error
+                        if (data['error']) {
+                            $("#bank_error_message").html(data['error'])
+                            $("#add_new_bank").removeClass("disable_button").prop('disabled', false)
+                        }
+                        else {
+                            if (data['success']) {
+                                $("#bank_error_message").html(data['success']).css("color", "green")
+
+                                //Reload payment methods
+                                $(".linked_container").html("")
+                                get_payment_methods();
+                            }
+                        }
+                    });
+                }
+            })
+        });
+
+        //---STRIPE CODE ------------------
+        //Create stripe client
+        var stripe = Stripe("pk_test_Oc0xFwecdMH6KaB7kYnUnKEL00Qsr0Hiln");
+
+        //Create instance of Elements
+        var elements = stripe.elements();
+
+        //Create an instance of the card Element
+        var card = elements.create('card');
+
+        //Insert card element into div
+        card.mount("#card-element");
+
+        //Real-time validation errors checker
+        card.addEventListener('change', function(event) {
+            var displayError = $("#card_error_message");
+            if (event.error) {
+                $(displayError).html(event.error.message);
+            }
+            else {
+                $(displayError).html("");
+
+                //Enable card if valid
+                if (event.complete) {
+                    $("#add_new_card").removeClass("disable_button").prop("disabled", false);
+                }
+                else {
+                    $("#add_new_card").addClass("disable_button").prop("disabled", true);
+                }
+            }
+        });
+
+        //Submit new card
+        $("#add_new_card").click(function() {
+
+            //Disable button
+            $("#add_new_card").prop('disabled', true).addClass("disable_button");
+
+            //Create payment token
+            stripe.createToken(card, {'currency': 'usd'}).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error.
+                    var errorElement = $("#error_message")
+                    $("#card_error_message").html(result.error.message)
+
+                    //Reactivate button to prevent multiple clicks
+                    $("#add_new_card").prop('disabled', false).removeClass("disable_button");
+                }
+                else {
+                    let card_token = result.token.id;
+
+                    //Send token to stripe
+                    $.ajax({
+                        url: "/payments",
+                        type: "POST",
+                        data: {
+                            new_payment: "yes",
+                            payment_token: card_token
+                        },
+                        dataType: "json",
+                    }).done(function(data) {
+
+                        //If error
+                        if (data['error']) {
+                            $("#card_error_message").html(data['error'])
+                            $("#add_new_card").removeClass("disable_button").prop('disabled', false)
+                        }
+                        else {
+                            if (data['success']) {
+                                $("#card_error_message").html(data['success']).css("color", "green")
+
+                                //Reload payment methods
+                                $(".linked_container").html("")
+                                get_payment_methods();
+                            }
+                        }
+                    })
+                }
+            });
+        });
+
+        //Show cashout container function
+        function show_cashout_container(){
+
+            $("#cash_out_container").show()
+            $("#black_background").show()
+
+            var height = window.innerHeight;
+
+            $("#cash_out_container").css('margin-top', height/6+"px");
+        };
+
+        function hide_cash_out_container(){
+            $("#cash_out_container").hide()
+            $("#black_background").hide()
+        }
+
+        //Cashout options
+        $("#cash_out").click(function() {
+
+            //Update cash out balance number
+            let cashout_balance = $("#available_balance_number").html()
+            $("#cash_out_balance").html(cashout_balance)
+
+            //Clear out any old payment methods
+            $("#instant_cashout_option").html(
+                '<img class="loading_gif" src="static/loading-spinner.gif" />'
+            )
+            $("#standard_cashout_option").html(
+                '<img class="loading_gif" src="static/loading-spinner.gif" />'
+            )
+
+            //Disable confirm cashout button
+            $("#confirm_cash_out_button").addClass("disable_button").prop("disabled", true)
+
+            //Clear error message
+            $("#cash_out_error_message").html("")
+
+            //Show cash out container
+            show_cashout_container();
+
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    payment_methods: "check",
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                let card_methods = data['card']
+                let bank_methods = data['bank_account']
+
+                //Loop through cards
+                for (i = 0; i < card_methods.length; i++) {
+
+                    const default_payment = card_methods[i].default
+                    const instant_payout = card_methods[i].instant_payout
+
+                    //Check if default payment
+                    if (default_payment == true) {
+                        card_methods[i].default = "Default"
+                    }
+                    else {
+                        card_methods[i].default = ""
+                    }
+
+                    //If card has instant option
+                    if (instant_payout) {
+                        let instant_layout = `
+                            <div class="cash_out_option_single">
+                                <input type='radio' name="cash_out_radio" id="instant_${card_methods[i].card_id}" style="width: 15px;"/>
+                                <img src="static/credit-card.png" class="card_icon" />
+                                <label for='instant_${card_methods[i].card_id}'>${card_methods[i].card_brand} ${card_methods[i].card_last4} ${card_methods[i].default}</label>
+                            </div>
+                        `
+
+                        //Add to list
+                        $("#instant_cashout_option").append(instant_layout)
+                    }
+
+                    const standard_layout = `
+                        <div class="cash_out_option_single">
+                            <input type='radio' name="cash_out_radio" id="standard_${card_methods[i].card_id}" style="width: 15px;" />
+                            <img src="static/credit-card.png" class="card_icon" />
+                            <label for='standard_${card_methods[i].card_id}'>${card_methods[i].card_brand} ${card_methods[i].card_last4}</label>
+                        </div>
+                    `
+
+                    //Add to list
+                    $("#standard_cashout_option").append(standard_layout)
+
+                }
+
+                //Loop through banks
+                for (i = 0; i < bank_methods.length; i++) {
+
+                    const standard_layout = `
+                        <div class="cash_out_option_single">
+                            <input type='radio' name="cash_out_radio" id="standard_${bank_methods[i].bank_id}" style="width: 15px;" />
+                            <img src="static/bank_icon.png" class="card_icon" />
+                            <label for='standard_${bank_methods[i].bank_id}'>Bank: ${bank_methods[i].bank_last4}</label>
+                        </div>
+                    `
+
+                    //Add to list
+                    $("#standard_cashout_option").append(standard_layout)
+                }
+
+                //Enable confirm cashout button on radio selection
+                $("input[name='cash_out_radio']").on('input', function() {
+                    $("#confirm_cash_out_button").removeClass("disable_button").prop('disabled', false)
+                });
+
+            });
+
+        });
+
+        //Cashout balance
+        $("#confirm_cash_out_button").click(function() {
+
+            //Disable confirm cashout button
+            $("#confirm_cash_out_button").addClass("disable_button").prop('disabled', true)
+
+            //Selected cashout option
+            cashout_method = $("input[name='cash_out_radio']:checked").attr('id')
+
+            //Send cashout request
+            $.ajax({
+                url: "/payments",
+                type: "POST",
+                data: {
+                    send_cashout: 'yes',
+                    cashout_method: cashout_method,
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data['result'] == "Payout completed"){
+                    $("#cash_out_error_message").html("Payout completed!").css("color", "green")
+
+                    //Update the account balances
+                    load_account_balance()
+                }
+                else {
+                    $("#cash_out_error_message").html(data['result'])
+                    $("#confirm_cash_out_button").removeClass("disable_button").prop('disabled', false)
+                }
+            })
+        })
+
+        //Check for stripe account and then run all payment functions
+        $.ajax({
+            url: "/payments",
+            type: "POST",
+            data: {
+                check_stripe_account: "check",
+            },
+            dataType: "json",
+        }).done(function(data) {
+
+            let account_result = data['result']
+
+            if (account_result == "Has account") {
+                console.log("yay")
+
+                //Load the account balances
+                load_account_balance()
+
+                //Get payment methods
+                get_payment_methods();
+
+                //Load payout transactions
+                load_payout_transactions()
+
+                //Load payments made to artist
+                get_stripe_payments()
+
+            }
+            else {
+                //Hide all boxes and show create account message
+                $('.bubble_container').hide()
+
+                let create_account_dialog = `
+                    <div class='bubble_container' style="padding: 30px;font-size: 14px;">
+                        <h3>You need to create a payment account before viewing this page</h3>
+
+                        This will allow you to receive the funds from shows that you have performed on. We have partnered with Stripe to securely store your information, we at no time will ever be able to view your banking/card details.
+
+                        <a href="https://stripe.com/customers" class="add_payment_link" target="_blank">Learn more about Stripe</a>
+                        <br/>
+                        <br/>
+                        <a href="/addpayments" class="add_payment_link"><button style="margin: 0;display: inline-block">Add payments</button></a>
+                    </div>
+                `
+                $(".mobilegridrow-2").html(create_account_dialog)
+            }
+        })
+
+    </script>
+
+
+  </body>
+</html>
