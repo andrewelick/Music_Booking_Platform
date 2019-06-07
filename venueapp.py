@@ -888,4 +888,4 @@ def spotify_resources():
 app.secret_key = "Jesus Di3d 4or Your Zins"
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run()
