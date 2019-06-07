@@ -4,12 +4,10 @@ import time
 import random
 import string
 from string import Template
-from bs4 import BeautifulSoup
 from requests import get
 import urllib.request
 import urllib.parse
 import pymysql
-import hashlib #Used for password hashing
 import datetime
 import smtplib #Used for sending emails
 import requests
