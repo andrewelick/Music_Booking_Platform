@@ -1,1 +1,1 @@
-web: gunicorn venueapp:app --log-file=-
+web: gunicorn app:app
