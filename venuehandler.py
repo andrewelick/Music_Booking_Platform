@@ -20,6 +20,7 @@ from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
 
+print (os.environ)
 #Connect to database
 def connect_to_database():
     try:
