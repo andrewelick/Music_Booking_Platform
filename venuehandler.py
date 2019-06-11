@@ -15,6 +15,7 @@ import json
 import base64
 import re
 import bcrypt
+import os
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
@@ -24,10 +25,10 @@ def connect_to_database():
     try:
         #mysql path C:\Program Files\MySQL\MySQL Server 8.0\bin
         conn = pymysql.connect(
-        host='localhost', #External IP 99.114.66.154 Local IP 192.168.1.111
-        db='venueapp',
-        user='root', #jeffbezos
-        password='JeffBezos$69', #alexa
+            host= os.environ['CLEARDB_DATABASE_LOCATION'], #External IP 99.114.66.154 Local IP 192.168.1.111
+            db= os.environ['CLEARDB_DATABASE_DB'],
+            user= os.environ['CLEARDB_DATABASE_USERNAME'], #jeffbezos
+            password= os.environ['CLEARDB_DATABASE_PASSWORD'], #alexa
         )
         return conn
     except Exception as e:
