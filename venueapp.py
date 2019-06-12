@@ -96,6 +96,11 @@ def index():
 
                 return render_template("venueindex.html", uid=uid, venue_details=venue_profile_details, featured_artists=featured_artists)
     else:
+
+        #Load random artist uids for artist showcase
+        if request.form.get("get_random_accounts"):
+            return venuehandler.get_random_accounts_uid()
+
         return render_template('index.html')
 
 #Login page
