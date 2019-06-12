@@ -701,7 +701,7 @@
 
                         //Ajax call to check email validation
                         $.ajax({
-                            url: "http://apilayer.net/api/check?access_key="+access_key+"&email="+email_form,
+                            url: "https://apilayer.net/api/check?access_key="+access_key+"&email="+email_form,
                             dataType: "json",
                         }).done(function(data) {
                             console.log(data)
