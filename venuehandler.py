@@ -19,8 +19,9 @@ import os
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
+import boto3
+from botocore.client import Config
 
-print (os.environ)
 #Connect to database
 def connect_to_database():
     try:
@@ -51,6 +52,52 @@ def check_email_used(email):
             return json.dumps({"result":"email used"})
         else:
             return json.dumps({"result": "email open"})
+
+#AWS credentials
+AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
+AWS_ACCESS_SECRET_KEY = "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"
+AWS_BUCKET_NAME = "bluffbucket"
+
+#Send picture to AWS bucket
+def send_picture_to_aws(uid):
+    picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
+    data = open(picture_url, 'rb')
+
+    #AWS client setup
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id = AWS_ACCESS_KEY_ID,
+        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        config = Config(signature_version = 's3v4')
+    )
+    #Write file to AWS S3 bucket
+    s3.Bucket(AWS_BUCKET_NAME).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
+
+    return True
+
+#Get picture from AWS bucket bluffbucket
+def get_picture_url(uid):
+    #AWS client setup
+    s3 = boto3.client(
+        's3',
+        region_name = 'us-east-2',
+        aws_access_key_id = AWS_ACCESS_KEY_ID,
+        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        config = Config(signature_version = 's3v4')
+    )
+
+    #Send request for picture
+    picture_url = s3.generate_presigned_url(
+                    'get_object',
+                    Params = {
+                        'Bucket': AWS_BUCKET_NAME,
+                        'Key': 'profile_pictures/test.png'
+                    },
+                    ExpiresIn = 3600,
+                    )
+
+    return picture_url
+
 
 #Create account
 def create_new_account(email,password,confirm_password,name,account_type):
@@ -97,6 +144,9 @@ def create_new_account(email,password,confirm_password,name,account_type):
                     new_profile_picture = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
                     shutil.copyfile('static/default_profile.jpg', new_profile_picture)
 
+                    #Send picture to AWS bucket bluffbucket
+                    send_picture_to_aws(uid)
+                    
                     #Create account row
                     c.execute("""INSERT INTO accounts (uid,email,password,name,account_type,date_joined) VALUES(%s,%s,%s,%s,%s,%s)""", new_account_details)
 
