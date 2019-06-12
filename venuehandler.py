@@ -140,13 +140,6 @@ def create_new_account(email,password,confirm_password,name,account_type):
                 print (used_email)
                 if used_email == 0:
 
-                    #Copy default to profile picture
-                    new_profile_picture = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
-                    shutil.copyfile('static/default_profile.jpg', new_profile_picture)
-
-                    #Send picture to AWS bucket bluffbucket
-                    send_picture_to_aws(uid)
-
                     #Create account row
                     c.execute("""INSERT INTO accounts (uid,email,password,name,account_type,date_joined) VALUES(%s,%s,%s,%s,%s,%s)""", new_account_details)
 
@@ -170,6 +163,14 @@ def create_new_account(email,password,confirm_password,name,account_type):
                         c.execute("""INSERT INTO spotify_access_tokens (uid) VALUES(%s)""", (uid,))
 
                     conn.commit()
+
+                    #Copy default to profile picture
+                    new_profile_picture = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
+                    shutil.copyfile('static/default_profile.jpg', new_profile_picture)
+
+                    #Send picture to AWS bucket bluffbucket
+                    send_picture_to_aws(uid)
+                    
                     return True
                 else:
                     return "Email is already being used"

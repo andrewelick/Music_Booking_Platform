@@ -38,6 +38,7 @@
         }
 
         #greeting_card {
+            box-sizing: border-box;
             width: 100%;
             display: inline-block;
             padding: 30px;
@@ -52,6 +53,7 @@
         }
 
         .explain_tiles {
+            box-sizing: border-box;
             display: inline-block;
             width: 100%;
             padding: 30px;
@@ -448,11 +450,7 @@
         $("#footer").addClass("footersettings").css("color", "#FFFFFF");
         $(".footerlink").css("color", "#FFFFFF")
 
-        //Adjust for screen width
-        if (screenWidth < 1000){
-            $("#greeting_card").css("display", "inline-block").css("margin-bottom", "10px")
-        }
-        else if (screenWidth > 700){
+        if (screenWidth > 700){
             marginWidth = (screenWidth - 800) / 2
             $(".mobilegridrow-2").width(800).css("margin-left", marginWidth)
             $("#greeting_card").css('margin', '0 auto')
@@ -701,7 +699,7 @@
 
                         //Ajax call to check email validation
                         $.ajax({
-                            url: "https://apilayer.net/api/check?access_key="+access_key+"&email="+email_form,
+                            url: "http://apilayer.net/api/check?access_key="+access_key+"&email="+email_form,
                             dataType: "json",
                         }).done(function(data) {
                             console.log(data)
