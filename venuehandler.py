@@ -146,7 +146,7 @@ def create_new_account(email,password,confirm_password,name,account_type):
 
                     #Send picture to AWS bucket bluffbucket
                     send_picture_to_aws(uid)
-                    
+
                     #Create account row
                     c.execute("""INSERT INTO accounts (uid,email,password,name,account_type,date_joined) VALUES(%s,%s,%s,%s,%s,%s)""", new_account_details)
 
@@ -179,6 +179,36 @@ def create_new_account(email,password,confirm_password,name,account_type):
         finally:
             if conn:
                 conn.close()
+
+#Load random artists pictures
+def get_random_accounts_uid():
+    try:
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            #Get random artist uids
+            c.execute("""SELECT uid FROM accounts WHERE account_type = 2 ORDER BY RAND() LIMIT 4""")
+            artist_random_uids = c.fetchall()
+
+            #Get random venue uids
+            c.execute("""SELECT uid FROM accounts WHERE account_type = 1 ORDER BY RAND() LIMIT 4""")
+            venue_random_uids = c.fetchall()
+
+            results = {
+                'artists': artist_random_uids,
+                'venues': venue_random_uids
+            }
+
+            return json.dumps({'result': results})
+
+    except Exception as e:
+        print (e)
+        return json.dumps({'error': "Could not load uids"})
+    finally:
+        if conn:
+            conn.close()
 
 #Login to account
 def login_account(email,password):

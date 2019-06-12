@@ -15,6 +15,7 @@
         margin:0;
         padding:0;
         box-sizing: border-box;
+        background-image: url("static/background.png");
       }
 
       /* For mobile phones: */
@@ -28,66 +29,208 @@
 
         .mobilegridrow-2 {
           width: 100%;
-          height:700px;
           padding: 0;
           padding:10px;
           padding-top:20px;
           margin-bottom: 20px;
-          background-repeat: no-repeat;
-          background-size:auto 100%;
-          background-image: url("static/background.png");
           text-align: center;
-          color: #FFFFFF;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          color: #383838;
         }
 
-        .mobilegridrow-3 {
-
+        #greeting_card {
+            width: 100%;
+            display: inline-block;
+            padding: 30px;
+            border-radius: 5px;
+            float: left;
+            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	        background-size: 400% 400%;
+            -webkit-animation: Gradient 15s ease infinite;
+	        -moz-animation: Gradient 15s ease infinite;
+	        animation: Gradient 15s ease infinite;
+            color: #FFFFFF;
         }
 
-        #welcometext {
-          margin-top: 50px;
-          margin-bottom: 50px;
-          font-size: 30px;
-          font-weight: bold;
+        .explain_tiles {
+            display: inline-block;
+            width: 100%;
+            padding: 30px;
+            margin: 0 auto;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	        background-size: 400% 400%;
+            -webkit-animation: Gradient 15s ease infinite;
+	        -moz-animation: Gradient 15s ease infinite;
+	        animation: Gradient 15s ease infinite;
         }
 
-        #mobile-splash-card {
-          margin-bottom:60px;
+        @-webkit-keyframes Gradient {
+        	0% {
+        		background-position: 0% 50%
+        	}
+        	50% {
+        		background-position: 100% 50%
+        	}
+        	100% {
+        		background-position: 0% 50%
+        	}
+        }
+
+        @-moz-keyframes Gradient {
+        	0% {
+        		background-position: 0% 50%
+        	}
+        	50% {
+        		background-position: 100% 50%
+        	}
+        	100% {
+        		background-position: 0% 50%
+        	}
+        }
+
+        @keyframes Gradient {
+        	0% {
+        		background-position: 0% 50%
+        	}
+        	50% {
+        		background-position: 100% 50%
+        	}
+        	100% {
+        		background-position: 0% 50%
+        	}
+        }
+
+        #what_do_container {
+            box-sizing: border-box;
+            width: 100%;
+            padding-bottom: 20px;
+            font-size: 14px;
+            float: left;
         }
 
         .choicebuttons {
-          border-radius: 5px;
-          padding: 15px;
-          margin-bottom: 10px;
-          background-color: #328CC1;
-          color: #FFFFFF;
-          font-size: 16px;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
+            border-bottom: 4px solid;
+            width: 90px;
+            padding: 10px;
+            display: inline-block;
+            border-color: #232f42;
         }
 
         .choicebuttons:hover {
+            cursor: pointer;
+        }
+
+        .choicebuttonsActive {
+            border-color: #FFFFFF;
+        }
+
+        #mobile-splash-card {
+            display: inline-block;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #232f42;
+            color: #FFFFFF;
+            float: right;
+        }
+
+        input,select,option {
+            box-sizing: border-box;
+            border: 0px solid;
+            border-bottom: 1px solid;
+            width:100%;
+            padding: 7px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            border-color: #656d7a;
+            background-color: #232f42;
+            color: #FFFFFF;
+            outline: none;
+            transition: 450ms ease;
+        }
+
+        ::placeholder {
+            color: #FFFFFF;
+        }
+
+        input:focus, select:focus {
+            border-color: #FFFFFF;
+        }
+
+        input[type='submit'] {
+            border: 0;
+            border-radius: 5px;
+            background-color: #328CC1;
+            color: #FFFFFF;
+        }
+
+        input[type='submit']:hover {
             background-color: #3494cb;
-            -webkit-transition: background-color 200ms linear;
-            -ms-transition: background-color 200ms linear;
-            transition: background-color 200ms linear;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        button {
+          width: 30%;
+          padding: 10px;
+          margin-right: 10px;
+          font-size: 16px;
+        }
+
+        .haveaccount {
+            color: #FFFFFF;
+            font-size: 13px;
+        }
+
+        .haveaccount:hover {
+            text-decoration: underline;
+        }
+
+
+        #welcometext {
+          margin-bottom: 40px;
+          font-size: 27px;
+          font-family: inherit;
+        }
+
+        .artist_picture {
+            width: 50px;
+            padding-right: 10px;
+            transform: translatey(0px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+        	0% {
+        		transform: translatey(0px);
+        	}
+        	50% {
+        		transform: translatey(-10px);
+        	}
+        	100% {
+        		transform: translatey(0px);
+        	}
         }
 
         .dropdownmenu {
-          border-bottom: 1px solid;
-          border-color: #d2d2d2;
+          background-color: #232f42;
         }
 
         .dropdownbutton {
           width:100%;
-          padding-top:20px;
-          padding-bottom:10px;
+          padding-top:15px;
+          padding-bottom:15px;
           border: none;
-          background-color: #FFFFFF;
-          color: #383838;
-          font-size: 17px;
+          color: #FFFFFF;
+          background-color: #232f42;
+          font-size: 16px;
           text-align: left;
+        }
+
+        .dropdownbutton:hover {
+            cursor: pointer;
+            background-color: #354764;
         }
 
         .dropdownbutton:focus {
@@ -95,39 +238,63 @@
         }
 
         .dropdowncontent {
-          font-size: 15px;
+            color: #FFFFFF;
+            border-top: 1px solid;
+            border-color: #354764;
+            background-color: #232f42;
+            font-size: 14px;
         }
 
         li {
           padding:10px;
           padding-top: 0px;
+          text-align: left;
         }
 
         a {
           color: blue;
         }
 
-        /* For Desktop users: */
-        @media only screen and (min-width: 750px) {
-            [class*="mobilegridrow-"] {
-                width: 750px;
-                margin: auto;
-                box-sizing: border-box;
-                padding: 10px;
-                border-color:#d2d2d2;
-            }
-
-            #mobile-splash-card {
-                width: 400px;
-                margin: auto;
-                margin-bottom: 60px;
-            }
-
-            .mobilegridrow-3 {
-                min-width: 750px;
-                margin: auto;
-            }
+        .slide-in-top {
+        	-webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        	        animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
         }
+
+        @-webkit-keyframes slide-in-top {
+          0% {
+            -webkit-transform: translateY(-100px);
+                    transform: translateY(-1000px);
+            opacity: 0;
+          }
+          100% {
+            -webkit-transform: translateY(0);
+                    transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        @keyframes slide-in-top {
+          0% {
+            -webkit-transform: translateY(-100px);
+                    transform: translateY(-100px);
+            opacity: 0;
+          }
+          100% {
+            -webkit-transform: translateY(0);
+                    transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        #error_message {
+            font-size: 11px;
+            padding-bottom: 6px;
+            color: #fa755a;
+        }
+
+        .invalidForm {
+            border-color: #fa755a;
+        }
+
 
     </style>
   </head>
@@ -137,131 +304,445 @@
 
     <!-- Mobile welcome picture with text -->
     <div class='mobilegridrow-2'>
-      <div id="welcometext">Connecting artists to the city</div>
 
-      <!--- Splash card with buttons for Venue and Artists--->
-      <div id='mobile-splash-card' style='border-radius:5px;padding:15px;color:#383838;background-color:#FFFFFF;'>
+        <div id="greeting_card">
+            <div id="welcometext">Book your next show with Bluff Tour</div>
 
-        <div style='padding-bottom:10px;margin-bottom:10px;font-size:17px;border-bottom:1px solid;border-color:#d2d2d2'>We help venues around the city find performers who love the stage.</div>
+            <div id="what_do_container">
+                <div style="width:100%">
+                    <div class="choicebuttons choicebuttonsActive" id="book_choice">
+                        Book
+                        <img src="/static/ticket.png" style="height: 18px; padding-left: 5px;vertical-align: middle">
+                    </div>
+                    <div class="choicebuttons" id="perform_choice">
+                        Perform
+                        <img src="/static/microphone.png" style="height: 18px; padding-left: 5px;vertical-align: middle">
+                    </div>
+                </div>
 
-        <a href='/newaccount' style='text-decoration:none'><div class="choicebuttons">Join today</div></a>
+                <div id="book_showcase" class="slide-in-top">
+                    <div style="padding-top: 10px;font-size: 17px;">Easily fill your events</div>
+                    <ol>
+                        <li>Place your open shows</li>
+                        <li>Artists bid on them</li>
+                        <li>Choose the one you want</li>
+                    </ol>
 
-        <p>or</p>
+                    <div id="artist_showcase"></div>
+                </div>
 
-        <a href='/login' style='text-decoration:none'><div class="choicebuttons">Login</div></a>
+                <div id="perform_showcase" class="slide-in-top" style="display: none">
+                    <div style="padding-top: 10px;font-size: 17px;">Find your next gig</div>
+                    <ol>
+                        <li>Search open shows around the city</li>
+                        <li>Place your bid</li>
+                        <li>Perform & get paid</li>
+                    </ol>
 
-      </div>
-      <!--- End of Splash card with buttons for Venues and Artists --->
+                    <div id="venue_showcase"></div>
 
-      <div style='font-size:25px;font-weight:bold;'>Never worry about filling or finding a show again.</div>
+                </div>
+
+            </div>
+
+            <div id='mobile-splash-card'>
+
+                  <div style="text-align: left">Sign up today</div>
+                  </br>
+                  <form action='/newaccount' method="POST">
+                    <input type='text' name='new_name' placeholder="Stage Name or Name" />
+                    <input type='text' name='new_email' id="new_email" placeholder='Email' />
+                    <input type='password' name='new_password' id='new_password' placeholder="Password" />
+                    <input type='password' name='new_confirm_password' id='new_confirm_password' placeholder="Confirm Password"  />
+                    <select name='new_account_type' id='account_type' >
+                      <option name='null' value="0">What type of account:</option>
+                      <option name='venue' value=1>Venue</option>
+                      <option name='artist' value=2>Performer</option>
+                    </select>
+                    <!--- Alert message --->
+                    <div id='error_message'>
+                        {% print account_result %}
+                    </div>
+                    <!--- End of Alert mesage --->
+
+                    <input type="Submit" value="Create Account" />
+                  </form>
+
+                  <a href='/login' class='haveaccount'>Already have an account?</a>
+
+            </div>
+
+        </div>
+
+        <!--- Description card --->
+        <div class="explain_tiles">
+
+          <div style='margin-bottom:10px;text-align:center;font-size:16px;'>Bluff Tour eases the process of creating whats going down for the night.</div>
+
+            <div style="border-radius: 5px;padding: 1px;background-color: #232f42">
+              <!--- For Venues Dropdown--->
+              <div class='dropdownmenu'>
+                <button class='dropdownbutton' name="venuemenu">
+                    Bookers
+                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
+                </button>
+
+                <div id='venuemenu' class='dropdowncontent' style='display:none'>
+                  <ul>
+                    <li>Fill every night you need with ease.</li>
+                    <li>Set the price you're willing to pay and have performers bid away.</li>
+                    <li>Layout clear requirements so there is never any confusion</li>
+                  </ul>
+                </div>
+              </div>
+              <!--- End of Venues Dropdown --->
+
+                <!--- For Performer Dropdown--->
+                <div class='dropdownmenu'>
+                <button class='dropdownbutton' name="artistmenu">
+                    Performers
+                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
+                </button>
+
+                <div id='artistmenu' class='dropdowncontent' style='display:none'>
+                  <ul>
+                    <li>Easily find gigs within the city</li>
+                    <li>No need for a manager</li>
+                    <li>Safely collect your earnings at the end of the night</li>
+                  </ul>
+                </div>
+                </div>
+                <!--- End of Perfomrer Dropdown --->
+
+                <!--- For About us Dropdown--->
+                <div class='dropdownmenu'>
+                <button class='dropdownbutton' name="aboutusmenu">
+                    About Bluff Tour
+                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
+                </button>
+
+                <div id='aboutusmenu' class='dropdowncontent' style='display:none'>
+                  <ul>
+                    <li>We strive to connect artists to the city they love by making all parties happy.</li>
+                    <li>No hassle, no stress, only good times</li>
+                    <li>Memphis based startup looking to change how booking is done</li>
+                  </ul>
+                </div>
+                </div>
+                <!--- End of About us Dropdown --->
+            </div>
+
+
+            {% include 'footer.html' %}
+
+        </div>
+        <!--- End of Description card --->
 
     </div>
-    <!--- End of Mobile welcome picture with text --->
-
-    <!--- Description card --->
-    <div class="mobilegridrow-3">
-      <div style='margin-bottom:10px;text-align:center;font-size:16px;'>VenueApp eases the process of creating whats going down for the night.</div>
-
-      <!--- For Venues Dropdown--->
-      <div class='dropdownmenu'>
-        <button onclick="toggleDropdown_venue()" class='dropdownbutton'>Venue owners</button>
-        <div id='venuemenu' class='dropdowncontent' style='display:none'>
-          <ul>
-            <li>Fill every night you need with ease.</li>
-            <li>Set the price you're willing to pay and have performers bid it down</li>
-            <li>Layout clear requirements so there is never any confusion</li>
-          </ul>
-        </div>
-      </div>
-      <!--- End of Venues Dropdown --->
-
-      <!--- For Performer Dropdown--->
-      <div class='dropdownmenu'>
-        <button onclick="toggleDropdown_artist()" class='dropdownbutton'>Performers</button>
-        <div id='artistmenu' class='dropdowncontent' style='display:none'>
-          <ul>
-            <li>Easily find gigs within the city</li>
-            <li>No need for a manager</li>
-            <li>VenueApp holds the payment while you're performing, ensuring you get the full amount promised</li>
-            <li>Safely collect your earnings at the end of the night</li>
-          </ul>
-        </div>
-      </div>
-      <!--- End of Perfomrer Dropdown --->
-
-      <!--- For About us Dropdown--->
-      <div class='dropdownmenu'>
-        <button onclick="toggleDropdown_aboutus()" class='dropdownbutton'>About VenueApp</button>
-        <div id='aboutusmenu' class='dropdowncontent' style='display:none'>
-          <ul>
-            <li>We strive to connect artists to the city they love by making all parties happy.</li>
-            <li>No hassle, no stress, only shows and good times</li>
-            <li>Memphis based startup</li>
-            <li>If you have any questions please <a href='contact'>Contact us</a></li>
-          </ul>
-        </div>
-      </div>
-      <!--- End of About us Dropdown --->
-
-    </div>
-    <!--- End of Description card --->
-
-    {% include 'footer.html' %}
 
     <!--- Check screen width and adjust page --->
     <script type="text/javascript">
         screenWidth = screen.width;
 
-        //Adjust for screen width
-        if (screenWidth > 768 && screenWidth < 1000){
-            $(".mobilegridrow-2").width(screenWidth)
-        }
-        else if (screenWidth > 1000){
-            marginWidth = (screenWidth - 1000) / 2
-            $(".mobilegridrow-2").width(1000).css("margin-left", marginWidth)
-            $(".mobilegridrow-3").width(1000).css("margin-left", marginWidth)
-        }
-    </script>
+        //Change footer links color
+        $("#footer").addClass("footersettings").css("color", "#FFFFFF");
+        $(".footerlink").css("color", "#FFFFFF")
 
-    <!--- Javascript function to show/hide Venue menu --->
-    <script type="text/javascript">
-      function toggleDropdown_venue() {
-        var x = document.getElementById("venuemenu");
-        if (x.style.display === "none") {
-          x.style.display = "block";
+        //Adjust for screen width
+        if (screenWidth < 1000){
+            $("#greeting_card").css("display", "inline-block").css("margin-bottom", "10px")
         }
-        else{
-          x.style.display = "none";
+        else if (screenWidth > 700){
+            marginWidth = (screenWidth - 800) / 2
+            $(".mobilegridrow-2").width(800).css("margin-left", marginWidth)
+            $("#greeting_card").css('margin', '0 auto')
+            $("#what_do_container").width(300).css("margin-left", "70px")
+            $("#mobile-splash-card").width(300)
         }
-      }
+
+        //Showcase display
+        $(".choicebuttons").click(function() {
+            let button_id = $(this).attr('id')
+
+            if (button_id == "book_choice") {
+                $("#book_choice").addClass("choicebuttonsActive")
+                $("#book_showcase").show()
+
+                $("#perform_choice").removeClass("choicebuttonsActive")
+                $("#perform_showcase").hide()
+            }
+            else {
+                $("#perform_choice").addClass("choicebuttonsActive")
+                $("#perform_showcase").show()
+
+                $("#book_choice").removeClass("choicebuttonsActive")
+                $("#book_showcase").hide()
+            }
+        })
+
+        //Drop down tile
+        $(".dropdownbutton").click(function() {
+            let menu = $(this).attr('name')
+
+            $(".dropdowncontent").each(function() {
+                $(this).slideUp()
+            })
+            $("#"+menu).slideToggle()
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: {
+                "get_random_accounts": "check"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['result']) {
+
+                let venue_list = data['result']['venues']
+                let artist_list = data['result']['artists']
+
+                //Append picture
+                for (i = 0; i < artist_list.length; i++) {
+                    let uid = artist_list[i][0]
+
+                    let random_number = Math.floor(Math.random() * 2000)
+                    random_number = random_number.toString()
+
+                    picture = $(`<img src="static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
+
+                    $("#artist_showcase").append(picture)
+                }
+
+                //Append picture
+                for (i = 0; i < venue_list.length; i++) {
+                    let uid = venue_list[i][0]
+
+                    let random_number = Math.floor(Math.random() * 2000)
+                    random_number = random_number.toString()
+
+                    picture = $(`<img src="static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
+
+                    $("#venue_showcase").append(picture)
+                }
+            }
+        })
+
+        //Check input fields after user leaves it
+        $("input").focusout(function() {
+            field_id = $(this).attr("id")
+
+            //If field is password
+            if (field_id == "new_password") {
+                password_length = $(this).val().length
+
+                //If password is less than 8 characters
+                if (password_length < 8) {
+                    $("#error_message").html("Password must be 8 or more characters")
+                    $(this).addClass("invalidForm")
+                }
+                else {
+                    $(this).removeClass("invalidForm")
+                    $("#error_message").html("")
+                }
+            }
+            //If field confirm password
+            else if (field_id == "new_confirm_password") {
+                //Check if password length
+                password_length = $("#new_password").val().length
+
+                if (password_length < 8) {
+                    $("#new_password").addClass("invalidForm")
+                    $("#error_message").html("Password must be 8 or more characters")
+                }
+                else {
+                    //Check if passwords match
+                    password = $("#new_password");
+                    confirm_password = $("#new_confirm_password");
+
+                    if (password.val() != confirm_password.val()) {
+                        $("#error_message").html("Passwords do not match")
+                        confirm_password.addClass("invalidForm")
+                    }
+                    else {
+                        confirm_password.removeClass("invalidForm")
+                        $("#error_message").html("")
+                    }
+                }
+            }
+            //If field is email
+            else if (field_id == "new_email") {
+                //Length of email field
+                var email_length = $("#new_email").val().length
+
+                //Check if email field is not empty
+                if (email_length > 0) {
+                    //Email field value
+                    var email_value = $("#new_email").val()
+
+                    //Check if already being used
+                    $.ajax({
+                        url: "/check_email_used",
+                        type: "POST",
+                        data: {
+                            check_email_used: email_value
+                        },
+                        dataType: "json"
+                    }).done(function(data){
+                        //If email is being used
+                        if (data['result'] == "email used") {
+                            $("#new_email").addClass("invalidForm")
+                            $("#error_message").html("Email address is already being used")
+                        }
+                        else {
+                            $("#new_email").removeClass("invalidForm")
+                            $("#error_message").html("")
+                        }
+                    })
+                }
+            }
+            //If text field just check if empty
+            else {
+                field_length = $(this).val().length
+
+                if (field_length != 0) {
+                    $(this).removeClass("invalidForm")
+                }
+            }
+        })
+
+        //Check select fields
+        $("#account_type").focusout(function() {
+            account_type = $("#account_type").val()
+
+            if (account_type != 0) {
+                $("#account_type").removeClass("invalidForm")
+            }
+        })
+
+
+        //Function to check all fields if they are empty
+        function checkEmpty() {
+            //Array to hold any error from empty field
+            var fields_empty = []
+
+            //Loop through each input field
+            $(":input[type='text'] :input[type='password']").each(function() {
+                //Length of field
+                field_length = $(this).val().length
+
+                //If length is 0, invalid
+                if (field_length == 0) {
+                    $(this).addClass("invalidForm")
+                    fields_empty.push("empty")
+                }
+            })
+
+            account_type = $("#account_type").val()
+
+            //If account type is empty
+            if (account_type == 0) {
+                $("#account_type").addClass("invalidForm")
+                fields_empty.push("empty")
+            }
+
+            //If any fields are empty
+            if (fields_empty.length > 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+
+        //Valid form fields
+        $("form").submit(function() {
+            event.preventDefault();
+
+            fields_empty = checkEmpty()
+
+            //If any fields are empty
+            if (fields_empty == true) {
+                console.log(fields_empty)
+                $("#error_message").html("Please fill out all fields")
+            }
+            else {
+                var password = $("#new_password").val();
+                var confirm_password = $("#new_confirm_password").val();
+
+                //Check if password length is 8 or more characters
+                if (password.length < 8) {
+                    $("#error_message").html("Password must be 8 or more characters")
+                    //Add invalid class
+                    $("#new_password").addClass("invalidForm");
+                }
+                else {
+                    //Remove invalid class from password
+                    $("#new_password").removeClass("invalidForm");
+
+                    //Check if 2 passwords match each other
+                    if (password != confirm_password) {
+                        $("#error_message").html("Passwords do not match")
+                        //Add invalid class
+                        $("#new_confirm_password").addClass("invalidForm");
+                    }
+                    else {
+                        //Remove invalid class from confirm password
+                        $("#new_confirm_password").removeClass("invalidForm");
+
+                        //Remove invalid class from account type
+                        $("#account_type").removeClass("invalidForm");
+
+                        //Validate email
+                        var email_form = $("#new_email").val()
+                        var access_key = "f0a840697b403e203ffc6195d4f5dd2f";
+
+                        //Ajax call to check email validation
+                        $.ajax({
+                            url: "http://apilayer.net/api/check?access_key="+access_key+"&email="+email_form,
+                            dataType: "json",
+                        }).done(function(data) {
+                            console.log(data)
+                            if (data.format_valid != true) {
+                                $("#error_message").html("Email address is not valid")
+                                //Add invalid class to email
+                                $("#new_email").addClass("invalidForm");
+                            }
+                            else {
+
+                                //Check if already being used
+                                $.ajax({
+                                    url: "/check_email_used",
+                                    type: "POST",
+                                    data: {
+                                        check_email_used: email_form
+                                    },
+                                    dataType: "json"
+                                }).done(function(data){
+                                    //If email is being used
+                                    if (data['result'] == "email used") {
+                                        $("#new_email").addClass("invalidForm")
+                                        $("#error_message").html("Email address is already being used")
+                                    }
+                                    else {
+                                        $("#new_email").removeClass("invalidForm")
+                                        $("#error_message").html("")
+
+                                        //Submit form
+                                        $("form").submit();
+                                    }
+                                })
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+
     </script>
-    <!--- End of Javascript function to show/hide Venue menu --->
-    <!--- Javascript function to show/hide Artist menu --->
-    <script type="text/javascript">
-      function toggleDropdown_artist() {
-        var x = document.getElementById("artistmenu");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        }
-        else{
-          x.style.display = "none";
-        }
-      }
-    </script>
-    <!--- End of Javascript function to show/hide Artist menu --->
-    <!--- Javascript function to show/hide About us menu --->
-    <script type="text/javascript">
-      function toggleDropdown_aboutus() {
-        var x = document.getElementById("aboutusmenu");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        }
-        else{
-          x.style.display = "none";
-        }
-      }
-    </script>
-    <!--- End of Javascript function to show/hide About us menu --->
 
   </body>
 </html>
