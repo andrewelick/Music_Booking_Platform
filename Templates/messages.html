@@ -186,7 +186,7 @@
       {% if all_thread_messages %}
       <div id="messages_header">
         <a href="/profile?uid={% print rec_id %}"><img src="{% print thread_other_user[1] %}" style="height:50px;width:50px;border-radius:100px;"/></a>
-        <div style="display:inline;position:relative;top:-19px;">{% print thread_other_user %}</div>
+        <div style="display:inline;position:relative;top:-19px;">{% print thread_other_user[0] %}</div>
 
         <a href="/messages" style="float:left;font-size:12px;color:blue;">Back</a>
       </div>
@@ -205,7 +205,7 @@
         {% endif %}
 
           {% if message[2] == uid %}
-          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="static/user_pictures/profile_pictures/{% print message[2] %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
+          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="{% print message[6] %}" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
           {% else %}
           <a href="profile?uid={% print message[2] %}"><img src="{% print thread_other_user[1] %}" class="thread_picture" style="height:40px;width:40px;" /></a>
           {% endif %}
