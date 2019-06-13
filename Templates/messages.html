@@ -205,7 +205,7 @@
         {% endif %}
 
           {% if message[2] == uid %}
-          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="{% print message[6] %}" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
+          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="{% print message[7] %}" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
           {% else %}
           <a href="profile?uid={% print message[2] %}"><img src="{% print thread_other_user[1] %}" class="thread_picture" style="height:40px;width:40px;" /></a>
           {% endif %}
