@@ -5,12 +5,17 @@
     <title></title>
 
     <style>
+        #headerbarcontainer {
+            width: 100%;
+            background-color: #232f42;
+        }
+
         #headerbar {
-          width: 100%;
+          max-width: 800px;
           box-sizing: border-box;
           display: inline-block;
-          float: left;
           padding: 20px;
+          margin: 0 auto;
           text-align:left;
           font-size: 20px;
           border: 1px solid;
@@ -95,27 +100,29 @@
   </head>
   <body>
     <!-- Mobile heading -->
-    <div id="headerbar">
-        <a href='/' style='text-decoration:none;color:#FFFFFF;'>Bluff Tour</a>
-        <!--- If user is logged in --->
-        {% if session['username'] %}
-        <div id="optionsbutton" onclick="toggleDropdown_menu()">
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
+    <div id="headerbarcontainer">
+        <div id="headerbar">
+            <a href='/' style='text-decoration:none;color:#FFFFFF;'>Bluff Tour</a>
+            <!--- If user is logged in --->
+            {% if session['username'] %}
+            <div id="optionsbutton" onclick="toggleDropdown_menu()">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+
+            <!--- Notifications container --->
+            {% if noti_number == 0 %}
+            <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
+            {% else %}
+            <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
+            {% endif %}
+            <!--- End of Notifications container --->
+
+            {% else %}
+              <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
+            {% endif %}
         </div>
-
-        <!--- Notifications container --->
-        {% if noti_number == 0 %}
-        <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
-        {% else %}
-        <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
-        {% endif %}
-        <!--- End of Notifications container --->
-
-        {% else %}
-          <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
-        {% endif %}
     </div>
     <!-- End of mobile heading --->
 
