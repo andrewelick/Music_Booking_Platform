@@ -1203,7 +1203,7 @@ def get_thread_other_user(rec_id):
             #Get AWS picture
             picture_url = get_profile_picture_url(rec_id)
 
-            send_details_list = [sender_details, picture_url]
+            sender_details_list = [sender_details, picture_url]
 
             return sender_details_list
         except Exception as e:
