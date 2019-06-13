@@ -208,7 +208,7 @@
       <div id="profilecontainer" class="container">
 
         <!--- Profile picture --->
-        <img src="static/user_pictures/profile_pictures/{% print artist_details[0] %}_profile.jpg" id='profilepicture' />
+        <img src="{% print artist_details[5] %}" id='profilepicture' />
 
         <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
             <!--- Artist name --->
@@ -249,7 +249,7 @@
 
             <!--- Spotify followers --->
             <div id="spotify_followers">
-                <img src="static/Spotify_icon_green.png" style="height: 21px;vertical-align: middle"/>
+                <img src="static/Spotify_Icon_Green.png" style="height: 21px;vertical-align: middle"/>
                 Followers: <font id="spotify_follow_count"></font>
             </div>
 
