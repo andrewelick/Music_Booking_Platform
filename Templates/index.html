@@ -297,6 +297,28 @@
             border-color: #fa755a;
         }
 
+        @media screen and (min-width: 800px) {
+
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+            #greeting_card {
+                margin: 0 auto;
+            }
+
+            #what_do_container {
+                width: 300px;
+                margin-left: 70px;
+            }
+
+            #mobile-splash-card {
+                width: 300px;
+            }
+
+        }
+
 
     </style>
   </head>
@@ -449,14 +471,6 @@
         //Change footer links color
         $("#footer").addClass("footersettings").css("color", "#FFFFFF");
         $(".footerlink").css("color", "#FFFFFF")
-
-        if (screenWidth > 700){
-            marginWidth = (screenWidth - 800) / 2
-            $(".mobilegridrow-2").width(800).css("margin-left", marginWidth)
-            $("#greeting_card").css('margin', '0 auto')
-            $("#what_do_container").width(300).css("margin-left", "70px")
-            $("#mobile-splash-card").width(300)
-        }
 
         //Showcase display
         $(".choicebuttons").click(function() {
