@@ -193,7 +193,7 @@ def create_account():
             return redirect(url_for("setup_account"))
         else:
             error = account_result
-            return render_template('createaccount.html', account_result=error)
+            return render_template('index.html', account_result=error)
 
 #Check if email is being used
 @app.route("/check_email_used", methods=['POST'])
