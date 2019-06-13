@@ -1088,13 +1088,8 @@ def get_messages_threads(email):
                 if thread_details[2] == uid:
                     c.execute("""SELECT name FROM accounts WHERE uid=%s""", (thread_details[3],))
 
-                    #Get AWS picture
-                    picture_url = get_profile_picture_url(thread_details[3])
                 else:
                     c.execute("""SELECT name FROM accounts WHERE uid=%s""", (thread_details[2],))
-
-                    #Get AWS picture
-                    picture_url = get_profile_picture_url(thread_details[2])
 
                 #Add name
                 name = c.fetchone()[0]
@@ -1107,9 +1102,6 @@ def get_messages_threads(email):
                 #Check if notifications from new messages
                 notification_number = c.execute("""SELECT * FROM notifications WHERE send_id=%s AND rec_id=%s AND type=1""", (thread_details[2],uid,))
                 thread_details.append(notification_number)
-
-                #Append AWS picture
-                thread_details.append(picture_url)
 
                 #Add thread details to list
                 all_threads_details.append(thread_details)
@@ -1171,10 +1163,6 @@ def get_messages_one_thread(thread_id, **kwargs):
                 #Calcuate time sent ago
                 message[4] = cal_time_sent(message[4])
 
-                #Get AWS picture
-                picture_url = get_profile_picture_url(message[2])
-                message.append(picture_url)
-
                 #Add message details
                 all_messages_details.append(message)
 
@@ -1196,12 +1184,7 @@ def get_thread_other_user(rec_id):
             c.execute("SELECT name FROM accounts WHERE uid=%s", (rec_id,))
             sender_details = c.fetchone()[0]
 
-            #Get AWS picture
-            picture_url = get_profile_picture_url(rec_id)
-
-            sender_details_list = [sender_details, picture_url]
-
-            return sender_details_list
+            return sender_details
         except Exception as e:
             print (e)
             return False
