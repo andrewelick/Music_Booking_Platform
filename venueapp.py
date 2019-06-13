@@ -407,6 +407,7 @@ def add_payment_page():
 @app.route("/profile", methods=["POST","GET"])
 def profile_page():
     if 'username' in session:
+        uid = venuehandler.get_uid(email)
 
         #Check if user account or someone else's
         if request.args.get("uid"):
@@ -446,12 +447,11 @@ def profile_page():
                 spotify_albums = venuehandler.get_spotify_albums(email)
                 spotify_follow_uri = venuehandler.get_spotify_account_uri(email)
 
-                return render_template("artistprofile.html", email=email, artist_details=artist_details, artist_links=artist_links,spotify_albums=spotify_albums,spotify_top_tracks=spotify_top_tracks, spotify_follow_uri=spotify_follow_uri)
+                return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details, artist_links=artist_links,spotify_albums=spotify_albums,spotify_top_tracks=spotify_top_tracks, spotify_follow_uri=spotify_follow_uri)
             else:
-                return render_template("artistprofile.html", email=email, artist_details=artist_details,artist_links=artist_links)
+                return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details,artist_links=artist_links)
 
         if account_type == 'venue':
-            uid = venuehandler.get_uid(email)
             venue_details = venuehandler.get_venue_profile_details(email)
             venue_links = venuehandler.get_venue_links(email)
 
