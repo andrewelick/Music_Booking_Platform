@@ -899,4 +899,4 @@ def spotify_resources():
 
 app.secret_key = "Jesus Di3d 4or Your Zins"
 
-app.run()
+app.run(os.environ['PORT'])
