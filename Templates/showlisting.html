@@ -275,7 +275,7 @@
 
         <!--- Profile container --->
         <div id="profilecontainer">
-          <a href="/profile?uid={% print show_details[1] %}"><img src="static/user_pictures/profile_pictures/{% print show_details[1] %}_profile.jpg" id="venuepicture"/></a>
+          <a href="/profile?uid={% print show_details[1] %}"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print show_details[1] %}_profile.jpg" id="venuepicture"/></a>
           <div style="margin-left:70px;font-size:14px;">
             <a href="/profile?uid={% print show_details[1] %}"><font style='font-size:15px;'><b>{% print venue_details[1] %}</b></font></a>
 
@@ -308,7 +308,7 @@
         {% endif %}
 
         <!--- Profile picture --->
-        <a href="/profile?uid={% print winning_bid[0] %}"><img src="static/user_pictures/profile_pictures/{% print winning_bid[0] %}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
+        <a href="/profile?uid={% print winning_bid[0] %}"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print winning_bid[0] %}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
 
         </br>
         <!--- Name --->
@@ -381,7 +381,7 @@
             <!-- Single bid --->
             <div class="singlebid" style="font-size:14px;">
               <!--- Profile picture --->
-              <a href="/profile?uid={% print x[2] %}"><img src="static/user_pictures/profile_pictures/{% print x[2] %}_profile.jpg" class="bid_picture" /></a>
+              <a href="/profile?uid={% print x[2] %}"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[2] %}_profile.jpg" class="bid_picture" /></a>
               <!--- Name --->
               <font style="padding-left: 10px;border: 0px solid;"><a href="/profile?uid={% print x[2] %}" style="text-decoration:none;">{% print bidder_details(x[2])[0] %}</a></font>
               <!--- Bid price --->
