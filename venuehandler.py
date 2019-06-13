@@ -896,15 +896,11 @@ def get_showcase_venues():
 
             for venue in venue_showcase:
 
-                #Get AWS picture url
-                picture_url = get_profile_picture_url(venue[0])
-
                 venue_details = {
                     'busi_uid': venue[0],
                     'busi_name': venue[1],
                     'busi_type': venue[2],
                     'busi_bio': venue[3],
-                    'busi_url': picture_url,
                 }
 
                 showcase_list.append(venue_details)
@@ -1451,10 +1447,6 @@ def get_all_show_listings():
 
                 #If winner has not been selected
                 if has_winner == 0:
-                    #Get AWS picture url
-                    picture_url = get_profile_picture_url(x[1])
-                    x.append(picture_url)
-
                     all_listings2.append(x)
 
 
