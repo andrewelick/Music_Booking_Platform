@@ -261,7 +261,7 @@
 
         let random_num = Math.random()
         basic.croppie('bind', {
-            url: 'static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?'+random_num,
+            url: 'https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?'+random_num,
         });
 
         $('#upload_picture_button input').on('change', function () {
