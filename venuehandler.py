@@ -1198,13 +1198,14 @@ def get_thread_other_user(rec_id):
         c = conn.cursor()
         try:
             c.execute("SELECT name FROM accounts WHERE uid=%s", (rec_id,))
-            sender_details = list(c.fetchone()[0])
+            sender_details = c.fetchone()[0]
 
             #Get AWS picture
             picture_url = get_profile_picture_url(rec_id)
-            sender_details.append(picture_url)
 
-            return sender_details
+            send_details_list = [sender_details, picture_url]
+
+            return sender_details_list
         except Exception as e:
             print (e)
             return False
