@@ -1174,6 +1174,11 @@ def get_messages_one_thread(thread_id, **kwargs):
 
                 #Calcuate time sent ago
                 message[4] = cal_time_sent(message[4])
+
+                #Get AWS picture
+                picture_url = get_profile_picture_url(message[2])
+                message.append(picture_url)
+
                 #Add message details
                 all_messages_details.append(message)
 
@@ -1194,6 +1199,10 @@ def get_thread_other_user(rec_id):
         try:
             c.execute("SELECT name FROM accounts WHERE uid=%s", (rec_id,))
             sender_details = c.fetchone()[0]
+
+            #Get AWS picture
+            picture_url = get_profile_picture_url(rec_id)
+            sender_details.append(picture_url)
 
             return sender_details
         except Exception as e:
