@@ -263,28 +263,9 @@
             },
         });
 
-        //Get profile picture from AWS
-        function get_profile_picture() {
-
-            //Send request for picture
-            $.ajax({
-                url: '/profilepicture',
-                type: "POST",
-                data: {
-                    'get_picture': 'get'
-                },
-                dataType: "json",
-            }).done(function(data) {
-
-                //If picture loaded
-                if (data['success']) {
-                    //Load picture into picture editor
-                    basic.croppie('bind', {
-                        url: data['success']
-                    });
-                }
-            })
-        }
+        basic.croppie('bind', {
+            url: "https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg"
+        });
 
         //Load profile picture
         get_profile_picture()
