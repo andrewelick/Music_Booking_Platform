@@ -407,7 +407,7 @@ def add_payment_page():
 @app.route("/profile", methods=["POST","GET"])
 def profile_page():
     if 'username' in session:
-        uid = venuehandler.get_uid(email)
+        uid = venuehandler.get_uid(session['username'])
 
         #Check if user account or someone else's
         if request.args.get("uid"):
