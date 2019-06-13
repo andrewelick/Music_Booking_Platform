@@ -17,63 +17,58 @@
         background-image: url("static/background.png");
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
         .mobilegridrow-2 {
-          width: 100%;
-          padding: 0;
-          padding:10px;
-          padding-top:50px;
-          margin-bottom: 20px;
-          text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0;
+            padding:10px;
+            padding-top:50px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         #login_container {
           padding: 10px;
           font-size: 20px;
           border-radius: 5px;
-          background-color: #FFFFFF;
+          background-color: #232f42;
+          color: #FFFFFF;
           box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
         input {
-          box-sizing: border-box;
-          border: 1px solid;
-          width:100%;
-          padding:10px;
-          margin-bottom: 10px;
-          font-size: 16px;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          outline: none;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          transition: 150ms ease;
+            box-sizing: border-box;
+            border: 0px solid;
+            border-bottom: 1px solid;
+            width:100%;
+            padding: 7px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            border-color: #656d7a;
+            background-color: #232f42;
+            color: #FFFFFF;
+            outline: none;
+            transition: 450ms ease;
         }
 
-        input:focus {
-            box-shadow: 0 1px 3px 0 #cfd7df;
+        ::placeholder {
+            color: #FFFFFF;
+        }
+
+        input:focus, select:focus {
+            border-color: #FFFFFF;
         }
 
         input[type='submit'] {
-          border: 0;
-          border-radius: 5px;
-          background-color: #328CC1;
-          color: #FFFFFF;
+            border: 0;
+            border-radius: 5px;
+            background-color: #328CC1;
+            color: #FFFFFF;
         }
 
         input[type='submit']:hover {
             background-color: #3494cb;
-            -webkit-transition: background-color 200ms linear;
-            -ms-transition: background-color 200ms linear;
-            transition: background-color 200ms linear;
-            box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
         .forgotpassword {
@@ -83,17 +78,22 @@
         #error_message {
           padding: 10px;
           font-size: 15px;
-          color: red;
+          color: #fa755a;
         }
 
         .invalidForm {
             border-color: #fa755a;
         }
 
-      /* For Desktop users: */
-      @media only screen and (min-width: 450px) {
+        /* If screen is bigger than 800px */
+        @media screen and (min-width: 800px) {
 
-      }
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+        }
 
     </style>
   </head>
@@ -126,13 +126,6 @@
     {% include 'footer.html' %}
 
     <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450) {
-            margin = (screenWidth - 450) / 2
-            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-        }
 
         //Check if field is still empty
         $("input").focusout(function() {
