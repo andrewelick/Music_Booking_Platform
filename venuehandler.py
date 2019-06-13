@@ -9,13 +9,14 @@ from venueimports import MIMEMultipart
 from venueimports import MIMEText
 from venueimports import Template
 from venueimports import stripe
+import os
 import shutil
 import urllib.parse
 import json
 import base64
 import re
 import bcrypt
-import os
+import boto3
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
@@ -53,15 +54,15 @@ def check_email_used(email):
         else:
             return json.dumps({"result": "email open"})
 
-#AWS credentials
-AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
-AWS_ACCESS_SECRET_KEY = "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"
-AWS_BUCKET_NAME = "bluffbucket"
-
 #Send picture to AWS bucket
-def send_picture_to_aws(uid):
+def send_profile_picture_to_aws(uid):
     picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
     data = open(picture_url, 'rb')
+
+    #AWS credentials
+    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
+    AWS_ACCESS_SECRET_KEY = "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"
+    AWS_BUCKET_NAME = "bluffbucket"
 
     #AWS client setup
     s3 = boto3.resource(
@@ -76,7 +77,13 @@ def send_picture_to_aws(uid):
     return True
 
 #Get picture from AWS bucket bluffbucket
-def get_picture_url(uid):
+def get_profile_picture_url(uid, ajax_request = None):
+
+    #AWS credentials
+    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
+    AWS_ACCESS_SECRET_KEY = "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"
+    AWS_BUCKET_NAME = "bluffbucket"
+
     #AWS client setup
     s3 = boto3.client(
         's3',
@@ -86,18 +93,22 @@ def get_picture_url(uid):
         config = Config(signature_version = 's3v4')
     )
 
+    picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
+
     #Send request for picture
-    picture_url = s3.generate_presigned_url(
+    result = s3.generate_presigned_url(
                     'get_object',
                     Params = {
                         'Bucket': AWS_BUCKET_NAME,
-                        'Key': 'profile_pictures/test.png'
+                        'Key': picture_url,
                     },
                     ExpiresIn = 3600,
                     )
 
-    return picture_url
-
+    if ajax_request == "yes":
+        return json.dumps({'success': result})
+    else:
+        return result
 
 #Create account
 def create_new_account(email,password,confirm_password,name,account_type):
@@ -137,7 +148,6 @@ def create_new_account(email,password,confirm_password,name,account_type):
                 #Check if email is already being used
                 used_email = c.execute("""SELECT email FROM accounts WHERE email=%s""", (email,))
 
-                print (used_email)
                 if used_email == 0:
 
                     #Create account row
@@ -169,14 +179,14 @@ def create_new_account(email,password,confirm_password,name,account_type):
                     shutil.copyfile('static/default_profile.jpg', new_profile_picture)
 
                     #Send picture to AWS bucket bluffbucket
-                    send_picture_to_aws(uid)
-                    
+                    send_profile_picture_to_aws(uid)
+
                     return True
                 else:
                     return "Email is already being used"
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'error when creating account'})
         finally:
             if conn:
                 conn.close()
@@ -498,10 +508,15 @@ def get_artist_profile_details(email):
         c = conn.cursor()
         try:
             c.execute("""SELECT artist_profile_details.*,accounts.name FROM artist_profile_details, accounts WHERE artist_profile_details.uid IN (SELECT uid FROM accounts WHERE email=%s) AND accounts.email=%s""", (email,email,))
-            artist_details = c.fetchone()
+            artist_details = list(c.fetchone())
+
+            #Get AWS picture url
+            picture_url = get_profile_picture_url(artist_details[0])
+            artist_details.append(picture_url)
 
             return artist_details
         except Exception as e:
+            print (e)
             return False
         finally:
             if conn:
@@ -514,7 +529,12 @@ def get_venue_profile_details(email):
         c = conn.cursor()
         try:
             c.execute("""SELECT * FROM venue_profile_details WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
-            venue_details = c.fetchone()
+            venue_details = list(c.fetchone())
+
+            #Get AWS picture url
+            picture_url = get_profile_picture_url(venue_details[0])
+            venue_details.append(picture_url)
+
             return venue_details
         except Exception as e:
             return False

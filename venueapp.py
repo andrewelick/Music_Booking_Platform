@@ -175,7 +175,7 @@ def change_password():
         return render_template("changepassword.html", uid=uid, reset_code=reset_code)
 
 #Create account page
-@app.route("/newaccount", methods=['GET','POST'])
+@app.route("/newaccount", methods=['POST'])
 def create_account():
     #If create new account
     if request.method == 'POST':
@@ -194,12 +194,6 @@ def create_account():
         else:
             error = account_result
             return render_template('createaccount.html', account_result=error)
-
-    else:
-        if 'username' in session:
-            return redirect(url_for('index'))
-        else:
-            return render_template('createaccount.html')
 
 #Check if email is being used
 @app.route("/check_email_used", methods=['POST'])
@@ -233,7 +227,11 @@ def setup_account():
                 dir = "static/user_pictures/profile_pictures/"
                 filename = uid+'_profile.jpg'
 
+                #Save picture locally
                 picture_data.save(os.path.join(dir, filename))
+
+                #Save picture to AWS
+                venuehandler.send_profile_picture_to_aws(uid)
 
                 return json.dumps({'result': 'success'})
 
@@ -833,6 +831,15 @@ def terms_conditions():
 def privacy():
     return render_template("privacy.html")
 
+#Get AWS profile picture
+@app.route('/profilepicture', methods=["POST"])
+def get_profile_picture():
+    if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+
+        return venuehandler.get_profile_picture_url(uid, ajax_request = "yes")
+
 #Header, loads all info needed
 @app.context_processor
 def load_header_vars():
@@ -891,3 +898,5 @@ def spotify_resources():
 #------#--------#--------#-------#--------#---------
 
 app.secret_key = "Jesus Di3d 4or Your Zins"
+
+app.run()
