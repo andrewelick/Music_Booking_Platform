@@ -1108,7 +1108,7 @@ def get_messages_threads(email):
 
                 #Get AWS picture
                 picture_url = get_profile_picture_url(uid)
-                threads_details.append(picture_url)
+                all_threads_details.append(picture_url)
 
                 #Add thread details to list
                 all_threads_details.append(thread_details)
