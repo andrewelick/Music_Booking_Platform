@@ -1435,7 +1435,7 @@ def get_all_show_listings():
                     all_listings2.append(x)
 
                 #Get AWS picture url
-                picture_url = get_profile_picture_url(venue_details[1])
+                picture_url = get_profile_picture_url(x[1])
                 all_listings2.append(picture_url)
 
             return all_listings2
