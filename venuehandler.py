@@ -1106,6 +1106,10 @@ def get_messages_threads(email):
                 notification_number = c.execute("""SELECT * FROM notifications WHERE send_id=%s AND rec_id=%s AND type=1""", (thread_details[2],uid,))
                 thread_details.append(notification_number)
 
+                #Get AWS picture
+                picture_url = get_profile_picture_url(uid)
+                threads_details.append(picture_url)
+
                 #Add thread details to list
                 all_threads_details.append(thread_details)
 

@@ -263,10 +263,10 @@
           {% if thread[2] != uid %}
           <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[2] %}">
             <!--- Print profile picture of other user --->
-            <img src="static/user_pictures/profile_pictures/{% print thread[2] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px;" />
+            <img src="{% print thread[8] %}" class="thread_picture" style="height:50px;width:50px;" />
           {% else %}
           <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[3] %}">
-            <img src="static/user_pictures/profile_pictures/{% print thread[3] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px" />
+            <img src="{% print thread[8] %}" class="thread_picture" style="height:50px;width:50px" />
           {% endif %}
             <!--- Thread name --->
             <span class="thread_name">{% print thread[6] %}</span>
