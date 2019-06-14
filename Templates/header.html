@@ -67,11 +67,11 @@
           border-bottom: 1px solid;
           font-size: 13px;
           color: #FFFFFF;
-          border-color: #FFFFFF;
+          border-color: #656d7a;
       }
 
       .headerlink:hover {
-          background-color: #f6f5f9;
+          border-color: #FFFFFF;
       }
 
       #notifications_container {
@@ -90,6 +90,10 @@
       a {
           text-decoration: none;
           color: #383838;
+      }
+
+      .noScroll {
+          overflow: hidden
       }
 
       @media screen and (min-width: 800px) {
@@ -162,14 +166,14 @@
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
                 $(".mobileheader").hide()
-                $("#header_options_container").toggle()
+                $("#header_options_container").toggleSlide()
             }
         }
         else {
-            $("#headerbarcontainer").height(height)
-
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
+                $("body").toggleClass("noScroll")
+                $("#headerbarcontainer").height(height)
                 $("#header_options_container").toggle()
             }
 
