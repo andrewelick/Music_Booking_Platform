@@ -95,6 +95,13 @@
               float: center;
               display: inline-block;
           }
+
+          #header_options_container {
+              width: 200px;
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+              border-bottom-right-radius: 5px;
+              border-bottom-left-radius: 5px;
+          }
       }
 
     </style>
@@ -145,14 +152,8 @@
     <script type="text/javascript">
         var height = window.innerHeight;
         var newheight = height + 1;
-        var width = screen.width;
-
-        //Center the page
-        sidePadding = (width - 800) / 2
 
         if (width > 800) {
-            $("#header_options_container").width(200).css("margin", "0px").css("right", sidePadding+"px").css("box-shadow", "0 4px 8px 0 rgba(0, 0, 0, 0.2)").css("border-bottom-right-radius", "5px").css("border-bottom-left-radius", "5px")
-
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
                 $(".mobileheader").hide()
