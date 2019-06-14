@@ -48,11 +48,10 @@
       }
 
       #header_options_container {
-          float: left;
           width: 100%;
+          margin-top: 15px;
           z-index: 99;
           text-align: center;
-          background-color: #FFFFFF;
           transition: 0.3s;
           overflow: hidden;
       }
@@ -61,7 +60,8 @@
           padding: 15px;
           border-bottom: 1px solid;
           font-size: 14px;
-          border-color: #e0e0e0;
+          color: #FFFFFF;
+          border-color: #FFFFFF;
       }
 
       .headerlink:hover {
@@ -163,8 +163,7 @@
             }
         }
         else {
-            $("#header_options_container").height(height)
-            $(".mobileheader").css("margin-bottom", "15px")
+            $("#headerbarcontainer").height(height)
 
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
