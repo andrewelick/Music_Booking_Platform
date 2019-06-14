@@ -17,26 +17,18 @@
         background-color: #f6f9fc;
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
         .mobilegridrow-2 {
-          width: 100%;
-          padding: 0;
-          padding:10px;
-          margin-top: 10px;
-          margin-bottom: 20px;
-          text-align: center;
-          border-color: #d2d2d2;
-          background-color: #FFFFFF;
-          border-radius: 5px;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0;
+            padding:10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-color: #d2d2d2;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
         #profilecontainer {
@@ -192,11 +184,32 @@
         }
 
 
-      /* For Desktop users: */
-      @media only screen and (min-width: 450px) {
-        .gridcol-1 {width:15%}
-        .gridcol-2 {width:35%}
-      }
+        @media screen and (min-width: 800px) {
+
+            .mobilegridrow-2 {
+                width: 700px;
+                margin: 0 auto;
+            }
+
+            #contact_send_message_container {
+                width: 400px;
+                margin: 0 auto;
+            }
+
+            .youtubevideo {
+                width: 480px;
+                height: 268px;
+            }
+
+            .albumpicture {
+                height: 150px;
+            }
+
+            .topsongcontainer {
+                width: 480px;
+            }
+
+        }
 
     </style>
   </head>
@@ -347,28 +360,6 @@
 
 
     <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450 && screenWidth < 1000) {
-            margin = (screenWidth - 450) / 2
-            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-        }
-        else if (screenWidth > 1000){
-            margin = (screenWidth - 700) / 2
-            $(".mobilegridrow-2").width(700).css("margin-left",margin).css("margin-right", margin);
-
-            $("#contact_send_message_container").width(400).css('margin-left', margin)
-
-            //Enlarge youtube
-            $(".youtubevideo").width(480).height(268);
-            //Enlarge spotify top albums
-            $(".albumpicture").height(150);
-            //Resize top tracks
-            $(".topsongcontainer").width(480);
-
-        }
-
 
         function show_send_message(){
 
