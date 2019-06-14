@@ -112,7 +112,7 @@
             <a href='/' style='text-decoration:none;color:#FFFFFF;'>Bluff Tour</a>
             <!--- If user is logged in --->
             {% if session['username'] %}
-            <div id="optionsbutton" onclick="toggleDropdown_menu()">
+            <div id="optionsbutton">
               <div class="bar"></div>
               <div class="bar"></div>
               <div class="bar"></div>
@@ -151,6 +151,7 @@
     <script type="text/javascript">
         var height = window.innerHeight;
         var newheight = height + 1;
+        var width = window.innerWidth
 
         if (width > 800) {
             //Toggle mobile dropdown
@@ -169,6 +170,10 @@
             }
 
         }
+
+        $("#optionsbutton").click(function () {
+            toggleDropdown_menu()
+        })
 
     </script>
     <!--- End of window size for header menu --->
