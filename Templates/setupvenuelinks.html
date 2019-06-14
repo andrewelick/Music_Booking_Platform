@@ -16,21 +16,13 @@
         box-sizing: border-box;
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
         .mobilegridrow-2 {
-          width: 100%;
-          padding: 0;
-          padding:10px;
-          margin-bottom: 20px;
-          text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         #setupcontainer {
@@ -78,11 +70,22 @@
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
-      /* For Desktop users: */
-      @media only screen and (min-width: 450px) {
-        .gridcol-1 {width:15%}
-        .gridcol-2 {width:35%}
-      }
+        /* If screen is bigger than 800px */
+        @media screen and (min-width: 800px) {
+
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+            input[type='text'] {
+                width: 400px;
+            }
+
+            #finishbutton {
+                width: 100px;
+            }
+        }
 
     </style>
   </head>
@@ -111,7 +114,7 @@
               <input type='text' name='facebook' placeholder="https://www.Facebook.com/BluffTour" />
 
               <br/>
-              
+
               <input type="submit" id='finishbutton' value="Next" />
               {% if error %}
                 {%print error%}
@@ -122,22 +125,6 @@
     </div>
 
     {% include 'footer.html' %}
-
-    <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450 && screenWidth < 1000) {
-            margin = (screenWidth - 450) / 2
-            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-        }
-        else if (screenWidth > 1000){
-            margin = (screenWidth - 800) / 2
-            $(".mobilegridrow-2").width(800).css("margin-left",margin).css("margin-right", margin);
-            $("input").width(400);
-            $("#finishbutton").width(100)
-        }
-    </script>
 
   </body>
 </html>
