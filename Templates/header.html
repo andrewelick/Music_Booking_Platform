@@ -166,7 +166,7 @@
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
                 $(".mobileheader").hide()
-                $("#header_options_container").toggleSlide()
+                $("#header_options_container").slideToggle()
             }
         }
         else {
@@ -174,7 +174,7 @@
             function toggleDropdown_menu(){
                 $("body").toggleClass("noScroll")
                 $("#headerbarcontainer").height(height)
-                $("#header_options_container").toggle()
+                $("#header_options_container").slideToggle()
             }
 
         }
