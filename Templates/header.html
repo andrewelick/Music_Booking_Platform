@@ -56,6 +56,10 @@
           overflow: hidden;
       }
 
+      .floatlink {
+          float: left;
+      }
+
       .headerlink {
           padding: 15px;
           border-bottom: 1px solid;
@@ -133,15 +137,15 @@
 
             <!--- User header options --->
             <div id="header_options_container" style="display:none">
-                    <a href='/profile'><div class="headerlink">Profile</div></a>
-                    <a href='/messages'><div class="headerlink">Messages</div></a>
+                    <a href='/profile' class="floatlink"><div class="headerlink">Profile</div></a>
+                    <a href='/messages' class="floatlink"><div class="headerlink">Messages</div></a>
                     {% if account_type == "artist" %}
-                    <a href='/upcomingshows'><div class="headerlink">Upcoming Shows</div></a>
+                    <a href='/upcomingshows' class="floatlink"><div class="headerlink">Upcoming Shows</div></a>
                     {% else %}
-                    <a href="/yourlistings"><div class="headerlink">Your listings</div></a>
+                    <a href="/yourlistings" class="floatlink"><div class="headerlink">Your listings</div></a>
                     {% endif %}
-                    <a href="/payments"><div class="headerlink">Payments</div>
-                    <a href='/logout'><div class="headerlink">Logout</div></a>
+                    <a href="/payments" class="floatlink"><div class="headerlink">Payments</div>
+                    <a href='/logout' class="floatlink"><div class="headerlink">Logout</div></a>
             </div>
             <!--- End of user header options --->
 
