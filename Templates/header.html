@@ -13,13 +13,13 @@
 
         #headerbar {
             width: 100%;
-          box-sizing: border-box;
-          display: inline-block;
-          padding: 20px;
-          text-align:left;
-          font-size: 20px;
-          background-color: #232f42;
-          color: #FFFFFF;
+            box-sizing: border-box;
+            display: inline-block;
+            padding: 20px;
+            text-align:left;
+            font-size: 20px;
+            background-color: #232f42;
+            color: #FFFFFF;
         }
 
       .mobileheader {
@@ -31,37 +31,38 @@
         font-size: 20px;
         border-color:#d2d2d2;
         background-color: #232f42;
-        color: #FFFFFF;
+            color: #FFFFFF;
       }
 
       #optionsbutton {
-        position: relative;
-        top: 2px;
-        float: right;
+          position: relative;
+          top: 2px;
+          float: right;
       }
 
       .bar {
-        width: 30px;
-        height: 4px;
-        background-color: #FFFFFF;
-        margin-bottom: 4px;
+          width: 30px;
+          height: 4px;
+          background-color: #FFFFFF;
+          margin-bottom: 4px;
       }
 
       #header_options_container {
-        box-sizing: border-box;
-        width: 100%;
-        z-index: 99;
-        text-align: center;
-        background-color: #FFFFFF;
-        transition: 0.3s;
-        overflow: hidden;
+          position: absolute;
+          box-sizing: border-box;
+          width: 100%;
+          z-index: 99;
+          text-align: center;
+          background-color: #FFFFFF;
+          transition: 0.3s;
+          overflow: hidden;
       }
 
       .headerlink {
-        padding: 15px;
-        border-bottom: 1px solid;
-        font-size: 14px;
-        border-color: #e0e0e0;
+          padding: 15px;
+          border-bottom: 1px solid;
+          font-size: 14px;
+          border-color: #e0e0e0;
       }
 
       .headerlink:hover {
@@ -82,8 +83,8 @@
       }
 
       a {
-        text-decoration: none;
-        color: #383838;
+          text-decoration: none;
+          color: #383838;
       }
 
       @media screen and (min-width: 800px) {
@@ -97,6 +98,7 @@
 
           #header_options_container {
               width: 200px;
+              right: 0px;
               box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
               border-bottom-right-radius: 5px;
               border-bottom-left-radius: 5px;
@@ -129,23 +131,24 @@
             {% else %}
               <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
             {% endif %}
+
+            <!--- User header options --->
+            <div id="header_options_container" style="display:none">
+                    <a href='/profile'><div class="headerlink">Profile</div></a>
+                    <a href='/messages'><div class="headerlink">Messages</div></a>
+                    {% if account_type == "artist" %}
+                    <a href='/upcomingshows'><div class="headerlink">Upcoming Shows</div></a>
+                    {% else %}
+                    <a href="/yourlistings"><div class="headerlink">Your listings</div></a>
+                    {% endif %}
+                    <a href="/payments"><div class="headerlink">Payments</div>
+                    <a href='/logout'><div class="headerlink">Logout</div></a>
+            </div>
+            <!--- End of user header options --->
+
         </div>
     </div>
     <!-- End of mobile heading --->
-
-    <!--- User header options --->
-    <div id="header_options_container" style="display:none">
-            <a href='/profile'><div class="headerlink">Profile</div></a>
-            <a href='/messages'><div class="headerlink">Messages</div></a>
-            {% if account_type == "artist" %}
-            <a href='/upcomingshows'><div class="headerlink">Upcoming Shows</div></a>
-            {% else %}
-            <a href="/yourlistings"><div class="headerlink">Your listings</div></a>
-            {% endif %}
-            <a href="/payments"><div class="headerlink">Payments</div>
-            <a href='/logout'><div class="headerlink">Logout</div></a>
-    </div>
-    <!--- End of user header options --->
 
     <!--- Obtain window size for header menu --->
     <script type="text/javascript">
