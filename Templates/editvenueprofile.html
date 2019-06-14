@@ -18,21 +18,14 @@
         box-sizing: border-box;
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
         .mobilegridrow-2 {
-          width: 100%;
-          padding: 0;
-          padding:10px;
-          margin-bottom: 20px;
-          text-align: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         #setupcontainer {
@@ -149,6 +142,23 @@
           color: #FFFFFF;
         }
 
+        /* If screen is bigger than 800px */
+        @media screen and (min-width: 800px) {
+
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+            select, textarea, input[type='text'] {
+                width: 400px;
+            }
+
+            #submit_button {
+                width: 100px;
+            }
+        }
+
     </style>
   </head>
   <body>
@@ -248,25 +258,6 @@
     {% include 'footer.html' %}
 
     <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450 && screenWidth < 1000) {
-            margin = (screenWidth - 450) / 2
-            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-        }
-        else if (screenWidth > 1000){
-            margin = (screenWidth - 1000) / 2
-            $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin).css("border", "1px solid").css("border-top", 0).css("border-color", "#d2d2d2");
-            //Resize profile picture
-            $(".profilepicture").css("width", "25%");
-            //Resize text inputs
-            $("select").width(400);
-            $("textarea").width(400);
-            $("input").width(400);
-            $("#submit_button").width(100);
-
-        }
 
         //Picture cropper upload
         var basic = $('#demo-basic').croppie({
