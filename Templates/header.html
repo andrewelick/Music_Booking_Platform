@@ -129,25 +129,6 @@
 
     <!--- User header options --->
     <div id="header_options_container" style="display:none">
-        <div class="mobileheader">
-            <a href="{{ url_for('index') }}" style='color:#FFFFFF'>Bluff Tour</a>
-
-            <div id="optionsbutton" onclick="toggleDropdown_menu()">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-
-            <!--- Notifications container --->
-            {% if noti_number == 0 %}
-            <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
-            <!--- End of Notifications container --->
-            {% else %}
-            <a href="/notifications" id="notifications_container" style="background-color:red;color:#FFFFFF">{% print noti_number %}</a>
-            {% endif %}
-
-        </div>
-
             <a href='/profile'><div class="headerlink">Profile</div></a>
             <a href='/messages'><div class="headerlink">Messages</div></a>
             {% if account_type == "artist" %}
