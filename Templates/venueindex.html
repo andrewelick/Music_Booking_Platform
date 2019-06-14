@@ -19,21 +19,14 @@
         background-color: #f6f9fc;
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
         .mobilegridrow-2 {
+            box-sizing: border-box;
             width: 100%;
-            padding-top:20px;
+            padding: 0;
+            padding:10px;
+            padding-top:50px;
             margin-bottom: 20px;
             text-align: center;
-            float: left;
         }
 
         #profile_container {
@@ -325,6 +318,28 @@
             height: 50px;
         }
 
+        /* If screen is bigger than 800px */
+        @media screen and (min-width: 800px) {
+
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+            #user_container {
+                width: 300px;
+            }
+
+            #artist_showcase {
+                width: 450px;
+            }
+
+            #postshow {
+                width: 400px;
+            }
+
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -520,13 +535,8 @@
             $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
         }
         else if (screenWidth > 1000){
-            margin = (screenWidth - 800) / 2
-            $(".mobilegridrow-2").width(800).css("margin-left",margin).css("margin-right", margin);
-            $("#user_container").width(300)
-            $("#artist_showcase").width(450)
-
             postShowMargin = (screenWidth - 700) / 2
-            $("#postshow").width(400).css("margin-left", postShowMargin+150).css("border-radius", 10)
+            $("#postshow").css("margin-left", postShowMargin+150).css("border-radius", 10)
         }
 
         //Check if venue has stripe account set up
