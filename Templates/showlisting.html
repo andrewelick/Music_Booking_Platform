@@ -203,6 +203,7 @@
         }
 
         .blackbackground {
+
           position: fixed;
           top: 0px;
           left: 0px;
@@ -418,6 +419,8 @@
     </div>
     <!--- End of Description card --->
 
+    {% include 'footer.html' %}
+
     <!--- Confirm delete bid card --->
     <div id="confirm_deletebid_container" class="popupcard">
       <span id="close_confirm_delete" onclick="hide_confirm_delete_bid()">x</span>
@@ -454,8 +457,6 @@
     <!--- Black background for acceot bid --->
     <div id="acceptblackbackground" class="blackbackground" onclick="hide_accept_bid()" style="display:none"></div>
     <!--- End of Black background --->
-
-    {% include 'footer.html' %}
 
     <!--- Show confirm delete bid card --->
     <script type="text/javascript">
