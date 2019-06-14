@@ -16,33 +16,20 @@
         box-sizing: border-box;
       }
 
-      /* For mobile phones: */
-        [class*="mobilegridrow-"] {
-          width: 100%;
-          box-sizing: border-box;
-          float: left;
-          padding: 10px;
-          border-color:#d2d2d2;
-        }
-
-        .mobilegridrow-1 {
-          padding: 20px;
-          border-bottom: 1px solid;
-          text-align:left;
-          font-size: 20px;
-          color: #d2d2d2;
-        }
-
         .mobilegridrow-2 {
-          width: 100%;
-          padding: 0;
-          margin-bottom: 20px;
-          text-align: center;
+            overflow: hidden;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         #notis_container {
           padding: 10px;
           margin: auto;
+          max-width: 500px;
           margin-top: 10px;
           border-radius: 5px;
           max-width: 600px;
@@ -83,10 +70,16 @@
           color: red;
         }
 
-      /* For Desktop users: */
-      @media only screen and (min-width: 450px) {
+        /* If screen is bigger than 800px */
+        @media screen and (min-width: 800px) {
 
-      }
+            .mobilegridrow-2 {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+
+        }
 
     </style>
   </head>
@@ -170,17 +163,5 @@
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}
 
-    <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450 && screenWidth < 1000) {
-            $(".mobilegridrow-2").width(screenWidth);
-        }
-        else if (screenWidth > 1000) {
-            margin = (screenWidth - 1000) / 2
-            $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin);
-        }
-    </script>
   </body>
 </html>
