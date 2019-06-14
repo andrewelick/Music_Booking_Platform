@@ -48,6 +48,7 @@
       }
 
       #header_options_container {
+          display: inline-block;
           width: 100%;
           margin-top: 15px;
           z-index: 99;
@@ -94,6 +95,10 @@
 
       .noScroll {
           overflow: hidden
+      }
+
+      .toggleheight {
+          height: 800px;
       }
 
       @media screen and (min-width: 800px) {
@@ -173,7 +178,7 @@
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
                 $("body").toggleClass("noScroll")
-                $("#headerbarcontainer").height(height)
+                $("#headerbarcontainer").toggleClass("toggleheight")
                 $("#header_options_container").slideToggle()
             }
 
