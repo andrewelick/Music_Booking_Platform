@@ -258,6 +258,7 @@
         }
 
         #postshow {
+            display: none;
           box-sizing: border-box;
           position: fixed;
           top: 0;
@@ -294,6 +295,7 @@
         }
 
         #blackbackground {
+            display: none;
           position: fixed;
           top: 0px;
           left: 0px;
@@ -427,7 +429,7 @@
     {% include 'footer.html' %}
 
     <!--- Show posting card -->
-    <div id="postshow" style="display:none">
+    <div id="postshow">
 
         <div>List a show</div>
         </br>
@@ -513,7 +515,7 @@
     <!--- End of Show posting card --->
 
     <!--- Black background for send messages screen --->
-    <div id="blackbackground" style="display:none"></div>
+    <div id="blackbackground"></div>
     <!--- End of Black background --->
 
     <script type="text/javascript">
