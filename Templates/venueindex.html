@@ -617,28 +617,10 @@
             }
         });
 
-        //Show post show container
-        function show_post_show(){
-
-            document.getElementById("blackbackground").style.display = "block";
-            document.getElementById("postshow").style.display = "block";
-            document.getElementsByTagName("body")[0].style.position = "fixed";
-
-            var height = window.innerHeight;
-            var newheight = height + 1;
-
-            document.getElementById("postshow").style.marginTop = height/7+"px";
-        }
-
-        //Hide post show container
-        function hide_post_show(){
-            document.getElementById("postshow").style.display = "none";
-            document.getElementById("postshow").style.marginTop = "0px";
-            document.getElementsByTagName("body")[0].style.position = "relative";
-            document.getElementById("blackbackground").style.display = "none";
-        }
-    </script>
-    <!--- End of hide show positng container --->
+        $("#listingbutton").click(function() {
+            $("#blackbackground").toggle()
+            $("#postshow").toggle()
+        })
 
   </body>
 </html>
