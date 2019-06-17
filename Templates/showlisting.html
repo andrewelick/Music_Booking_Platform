@@ -170,6 +170,10 @@
           background-color:#328CC1
         }
 
+        .acceptbid:hover {
+            cursor: pointer;
+        }
+
         .deletebid {
           padding:0px;
           float:right;
@@ -187,9 +191,10 @@
 
         .popupcard {
           box-sizing: border-box;
-          position:fixed;
-          top:0;
-          left:0;
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
           width:100%;
           padding:20px;
           padding-top:30px;
@@ -203,7 +208,6 @@
         }
 
         .blackbackground {
-
           position: fixed;
           top: 0px;
           left: 0px;
@@ -215,7 +219,10 @@
         }
 
         #confirm_deletebid_container {
-
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #close_confirm_delete {
@@ -224,6 +231,7 @@
           right:10px;
           padding:5px;
           color:#000000;
+          width: 100%;
         }
 
         .acceptbid {
@@ -252,7 +260,6 @@
 
             #confirm_deletebid_container {
                 width: 400px;
-                margin: 0 auto;
             }
         }
 
@@ -264,7 +271,7 @@
     {% include "header.html" %}
 
     <!-- Mobile welcome picture with text -->
-    <div class='mobilegridrow-2' style="border:1">
+    <div class='mobilegridrow-2'>
 
       <!--- Show snapchot --->
       <div id="showcontainer">
@@ -391,7 +398,7 @@
 
               <!--- Venue accept bid button --->
               {% if account_type == "venue" %}
-              <button id="acceptbid" class="acceptbid" onclick="show_accept_bid()" name="{% print bidder_details(x[2])[0] %}" value="{% print x[2] %}">Accept offer</button>
+              <button id="acceptbid" class="acceptbid" name="{% print bidder_details(x[2])[0] %}" value="{% print x[2] %}">Accept offer</button>
               {% endif %}
               <!--- End Venue accept bid button --->
 
@@ -440,7 +447,7 @@
     <!--- Aceept offfer by venue --->
     <div id="accept_bid_offer" class="popupcard">
       <!--- Hide card button --->
-      <span id="close_confirm_delete" onclick="hide_accept_bid()">x</span>
+      <span id="close_confirm_delete">x</span>
       <!--- Accept offer title --->
       <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
       <!--- Accept offer button --->
@@ -455,7 +462,7 @@
     <!--- End of accept offer by venue --->
 
     <!--- Black background for acceot bid --->
-    <div id="acceptblackbackground" class="blackbackground" onclick="hide_accept_bid()" style="display:none"></div>
+    <div id="acceptblackbackground" class="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
     <!--- Show confirm delete bid card --->
@@ -476,11 +483,7 @@
       document.getElementById("confirm_deletebid_container").style.marginTop = height/3+"px";
 
     }
-    </script>
-    <!--- End of show confirm delete bid card --->
 
-    <!--- Hide confirm delete bid card --->
-    <script type="text/javascript">
     function hide_confirm_delete_bid(){
       //Hide black background
       document.getElementById("deleteblackbackground").style.display = "none";
@@ -491,51 +494,29 @@
       //Reset margin for confirm delete card
       document.getElementById("confirm_deletebid_container").style.marginTop = "0px";
     }
+
+    //Show the bidding pop up
+    $("#acceptbid").click(function() {
+        //Name of bidder and uid
+        var accept_bidder_name =$(this).attr('name');
+        var accept_bidder_uid = $(this).val()
+        var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
+
+        $("#acceptblackbackground").show()
+        $("#accept_bid_offer").show()
+
+        //Change title name and uid
+        $("#acceptoffername").html(accept_bidder_name)
+        $("#winning_bidder_uid").val(accept_bidder_uid)
+        $("#winning_bidder_price").val(accept_bidder_price)
+    })
+
+    $("#acceptblackbackground").click(function() {
+        $("#acceptblackbackground").hide()
+        $("#accept_bid_offer").hide()
+    })
+
     </script>
-
-    <!--- Show accept bid card --->
-    <script type="text/javascript">
-    function show_accept_bid(){
-      //Show black background
-      document.getElementById("acceptblackbackground").style.display = "block";
-      //Show accept bid offer card
-      document.getElementById("accept_bid_offer").style.display = "block";
-      //Lock body so user cannot scroll
-      document.getElementsByTagName("body")[0].style.position = "fixed";
-
-
-      //Name of bidder and uid
-      var accept_bidder_name = event.target.name;
-      var accept_bidder_uid = event.target.value;
-      var accept_bidder_price = $(event.target).siblings(".bid_price").attr("name")
-
-      //Change title name and uid
-      document.getElementById("acceptoffername").innerHTML = accept_bidder_name;
-      document.getElementById("winning_bidder_uid").value = accept_bidder_uid;
-      $("#winning_bidder_price").val(accept_bidder_price)
-
-      //Get height of window
-      var height = window.innerHeight;
-      var newheight = height + 1;
-
-      //Set margin of accept bid card to create animation
-      document.getElementById("accept_bid_offer").style.marginTop = height/3+"px";
-
-    }
-    </script>
-    <!--- End of show accept bid card --->
-
-    <!--- Hide accept bid card --->
-    <script type="text/javascript">
-    function hide_accept_bid(){
-      document.getElementById("acceptblackbackground").style.display = "none";
-      document.getElementById("accept_bid_offer").style.display = "none";
-      document.getElementsByTagName("body")[0].style.position = "relative";
-
-      document.getElementById("accept_bid_offer").style.marginTop = "0px";
-    }
-    </script>
-    <!--- End of accept bid card --->
 
   </body>
 </html>
