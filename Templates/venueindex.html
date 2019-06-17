@@ -582,11 +582,13 @@
             }
         })
 
-        $("#listingbutton").click(function(){
-            console.log("hey")
-            $("#postshow").show()
-            $("#blackbackground").show()
-        })
+        $(document).ready(function() {
+            $("#listingbutton").click(function(){
+                console.log("hey")
+                $("#postshow").show()
+                $("#blackbackground").show()
+            })
+        });
 
         //Load show postings that are ending soon
         $.ajax({
