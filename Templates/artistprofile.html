@@ -148,8 +148,9 @@
 
         #contact_send_message_container {
             position: fixed;
-            top: 0px;
-            left: 0px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             padding: 5px;
             padding-top: 20px;
             padding-bottom: 20px;
@@ -273,7 +274,7 @@
             <!--- Contact bar --->
             <div id="contactbar">
               {% if email != session['username'] %}
-                <a href="#" class="contact" id="messageartist" onclick="show_send_message()">Messsage</a>
+                <a href="#" class="contact" id="messageartist">Messsage</a>
               {% endif %}
             </div>
             <!--- End of contact bar --->
@@ -332,7 +333,7 @@
     <!--- Contact send message screen --->
     <div id="contact_send_message_container" style="display:none">
         <div style="padding-bottom: 5px;border-bottom: 1px solid;font-size: 18px;border-color: #d2d2d2;">Send message to:</div>
-        <span id="closesendmessage" onclick="hide_send_message()">x</span>
+        <span id="closesendmessage">x</span>
 
         </br>
 
@@ -355,30 +356,21 @@
     <!--- End of Contact send message screen --->
 
     <!--- Black background for send messages screen --->
-    <div id="blackbackground" onclick="hide_send_message()" style="display:none"></div>
+    <div id="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
 
     <script type="text/javascript">
 
-        function show_send_message(){
+        $("#messageartist").click(function() {
+            $("#contact_send_message_container").show()
+            $("#blackbackground").show()
+        })
 
-            document.getElementById("blackbackground").style.display = "block";
-            document.getElementById("contact_send_message_container").style.display = "block";
-            document.getElementsByTagName("body")[0].style.position = "fixed";
-
-            var height = window.innerHeight;
-            var newheight = height + 1;
-
-            document.getElementById("contact_send_message_container").style.marginTop = height/3+"px";
-        }
-
-        function hide_send_message(){
-            document.getElementById("contact_send_message_container").style.display = "none";
-            document.getElementById("contact_send_message_container").style.marginTop = "0px";
-            document.getElementsByTagName("body")[0].style.position = "relative";
-            document.getElementById("blackbackground").style.display = "none";
-        }
+        $("#blackbackground #closesendmessage").click(function() {
+            $("#contact_send_message_container").hide()
+            $("#blackbackground").hide()
+        })
 
         //Get Spotify followers count
         $.ajax({
