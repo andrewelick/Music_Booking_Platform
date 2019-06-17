@@ -147,38 +147,39 @@
         }
 
         #contact_send_message_container {
-          position: fixed;
-          top: 0px;
-          left: 0px;
-          padding-top: 20px;
-          padding-bottom: 20px;
-          width: 100%;
-          box-sizing: border-box;
-          z-index: 99;
-          text-align: center;
-          background-color: #FFFFFF;
-          transition: 0.3s;
-          overflow: hidden;
-          box-shadow: 0 0px 15px 0 #111111;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 99;
+            text-align: center;
+            background-color: #FFFFFF;
+            transition: 0.3s;
+            overflow: hidden;
+            box-shadow: 0 0px 15px 0 #111111;
         }
 
         #blackbackground {
-          position: fixed;
-          top: 0px;
-          left: 0px;
-          z-index:10;
-          height:100%;
-          width:100%;
-          background-color:#000000;
-          opacity:.8
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index:10;
+            height:100%;
+            width:100%;
+            background-color:#000000;
+            opacity:.8
         }
 
         #closesendmessage {
-          position: absolute;
-          top:10px;
-          right:10px;
-          padding:5px;
-          color:#000000;
+            position: absolute;
+            top:10px;
+            right:10px;
+            padding:5px;
+            color:#000000;
         }
 
         /* If screen is bigger than 800px */
@@ -195,6 +196,10 @@
 
             #pastListings {
                 width: 500px;
+            }
+
+            #contact_send_message_container {
+                width: 400px;
             }
 
         }
@@ -240,7 +245,7 @@
                 <!--- Contact bar --->
                 <div id="contactbar">
                     {% if email != session['username'] %}
-                        <a href="#" class="contact" id="messageartist" onclick="show_send_message()">Messsage</a>
+                        <a href="#" class="contact" id="messageartist">Messsage</a>
                     {% endif %}
                 </div>
                 <!--- End of contact bar --->
@@ -381,42 +386,20 @@
     {% include 'footer.html' %}
 
     <script type="text/javascript">
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
 
-        if (screenWidth > 800){
-            var message_continer_margin = (screenWidth - 400) / 2
-            $("#contact_send_message_container").css("width", 400).css("margin-left", message_continer_margin).css("border-radius", "5px")
+        //Show send message container
+        $("#messageartist").click(function() {
+            $("#blackbackground").show()
+            $("#contact_send_message_container").show()
+        })
 
-        }
+        //Hide send message container
+        $("#blackbackground").click({
+            $("#blackbackground").hide()
+            $("#contact_send_message_container").show()
+        })
+
     </script>
-
-    <!--- Show send message container --->
-    <script type="text/javascript">
-      function show_send_message(){
-
-        document.getElementById("blackbackground").style.display = "block";
-        document.getElementById("contact_send_message_container").style.display = "block";
-        document.getElementsByTagName("body")[0].style.position = "fixed";
-
-        var height = window.innerHeight;
-        var newheight = height + 1;
-
-        document.getElementById("contact_send_message_container").style.marginTop = height/3+"px";
-      }
-    </script>
-    <!--- End of show send message container --->
-
-    <!--- Hide send message container --->
-    <script type="text/javascript">
-      function hide_send_message(){
-        document.getElementById("contact_send_message_container").style.display = "none";
-        document.getElementById("contact_send_message_container").style.marginTop = "0px";
-        document.getElementsByTagName("body")[0].style.position = "relative";
-        document.getElementById("blackbackground").style.display = "none";
-      }
-    </script>
-    <!--- End of window size for send message menu --->
 
   </body>
 </html>
