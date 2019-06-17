@@ -529,6 +529,12 @@
             $(".loading_gif").hide();
         });
 
+        console.log("hellp")
+
+        $("#listingbutton").click(function() {
+            console.log("test")
+        })
+
         //Adjust width if screen is bigger than phone
         screenWidth = screen.width;
 
@@ -580,12 +586,6 @@
             else {
                 $("#post_message").show().html("There was an error loading your payment information").css("color", "red")
             }
-        })
-
-        console.log("hellp")
-
-        $("#listingbutton").click(function() {
-            console.log("test")
         })
 
         //Load show postings that are ending soon
