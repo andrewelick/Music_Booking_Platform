@@ -443,11 +443,7 @@
     </div>
     <!--- End of confirm delete bid card --->
 
-    <!--- Black background for delete bid screen --->
-    <div id="deleteblackbackground" class="blackbackground" onclick="hide_confirm_delete_bid()" style="display:none"></div>
-    <!--- End of Black background --->
-
-    <!--- Aceept offfer by venue --->
+    <!--- Aceept offer by venue --->
     <div id="accept_bid_offer" class="popupcard">
       <!--- Accept offer title --->
       <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
@@ -466,13 +462,12 @@
     <div id="blackbackground" class="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
-    <!--- Show confirm delete bid card --->
     <script type="text/javascript">
 
     //Show delete bid container
     $("#deletebidbutton").click(function() {
         $("#blackbackground").show()
-        #("#confirm_deletebid_container").show()
+        $("#confirm_deletebid_container").show()
     })
 
     //Hide delete bid or accept bid container
