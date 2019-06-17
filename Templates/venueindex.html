@@ -258,6 +258,7 @@
         }
 
         #postshow {
+            display: none;
           box-sizing: border-box;
           position: fixed;
           top: 0;
@@ -294,6 +295,7 @@
         }
 
         #blackbackground {
+            display: none;
           position: fixed;
           top: 0px;
           left: 0px;
@@ -580,6 +582,12 @@
             }
         })
 
+        $("#listingbutton").click(function(){
+            console.log("hey")
+            $("#postshow").show()
+            $("#blackbackground").show()
+        })
+
         //Load show postings that are ending soon
         $.ajax({
             async: true,
@@ -617,11 +625,6 @@
             }
         });
 
-
-    $("#listingbutton").click(function(){
-        $("#postshow").show()
-        $("#blackbackground").show()
-    })
 
   </body>
 </html>
