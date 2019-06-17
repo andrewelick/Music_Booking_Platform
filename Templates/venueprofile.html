@@ -200,6 +200,7 @@
 
             #contact_send_message_container {
                 width: 400px;
+                border-radius: 5px;
             }
 
         }
@@ -396,7 +397,12 @@
         //Hide send message container
         $("#blackbackground").click(function() {
             $("#blackbackground").hide()
-            $("#contact_send_message_container").show()
+            $("#contact_send_message_container").hide()
+        })
+
+        $("#closesendmessage").click(function() {
+            $("#blackbackground").hide()
+            $("contact_send_message_container").hide()
         })
 
     </script>
