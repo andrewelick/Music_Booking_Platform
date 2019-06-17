@@ -533,19 +533,7 @@
 
         $("#listingbutton").click(function() {
             console.log("test")
-        })
-
-        //Adjust width if screen is bigger than phone
-        screenWidth = screen.width;
-
-        if (screenWidth > 450 && screenWidth < 1000) {
-            margin = (screenWidth - 450) / 2
-            $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-        }
-        else if (screenWidth > 1000){
-            postShowMargin = (screenWidth - 700) / 2
-            $("#postshow").css("margin-left", postShowMargin+150).css("border-radius", 10)
-        }
+        });
 
         //Check if venue has stripe account set up
         $.ajax({
@@ -625,6 +613,7 @@
             }
         });
 
-
+    </script>
+    
   </body>
 </html>
