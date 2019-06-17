@@ -260,6 +260,7 @@
 
             #accept_bid_offer {
                 width: 400px;
+                border-radius: 5px;
             }
 
             #confirm_deletebid_container {
@@ -434,7 +435,7 @@
 
     <!--- Confirm delete bid card --->
     <div id="confirm_deletebid_container" class="popupcard">
-      <span id="close_confirm_delete" onclick="hide_confirm_delete_bid()">x</span>
+      <div id="close_confirm_delete">x</div>
 
       <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
 
@@ -451,7 +452,7 @@
     <!--- Aceept offfer by venue --->
     <div id="accept_bid_offer" class="popupcard">
       <!--- Hide card button --->
-      <span id="close_confirm_delete">x</span>
+      <div id="close_confirm_delete">x</div>
       <!--- Accept offer title --->
       <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
       <!--- Accept offer button --->
