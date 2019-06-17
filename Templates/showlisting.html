@@ -446,7 +446,7 @@
     <!--- Aceept offer by venue --->
     <div id="accept_bid_offer" class="popupcard">
       <!--- Accept offer title --->
-      <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
+      <div style="margin-bottom: 10px;font-size: 14px;;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
       <!--- Accept offer button --->
       <form action="" method="POST" name="accept_bid_offer">
         <input type="hidden" id="winning_bidder_uid" name="winning_bidder_uid" value="winneruid" />
