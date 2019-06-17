@@ -367,7 +367,12 @@
             $("#blackbackground").show()
         })
 
-        $("#blackbackground #closesendmessage").click(function() {
+        $("#blackbackground").click(function() {
+            $("#contact_send_message_container").hide()
+            $("#blackbackground").hide()
+        })
+
+        $("#closesendmessage").click(function() {
             $("#contact_send_message_container").hide()
             $("#blackbackground").hide()
         })
