@@ -435,8 +435,6 @@
 
     <!--- Confirm delete bid card --->
     <div id="confirm_deletebid_container" class="popupcard">
-      <div id="close_confirm_delete">x</div>
-
       <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
 
       <form action="" method="POST">
@@ -451,8 +449,6 @@
 
     <!--- Aceept offfer by venue --->
     <div id="accept_bid_offer" class="popupcard">
-      <!--- Hide card button --->
-      <div id="close_confirm_delete">x</div>
       <!--- Accept offer title --->
       <div style="margin-bottom: 10px;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
       <!--- Accept offer button --->
@@ -467,38 +463,24 @@
     <!--- End of accept offer by venue --->
 
     <!--- Black background for acceot bid --->
-    <div id="acceptblackbackground" class="blackbackground" style="display:none"></div>
+    <div id="blackbackground" class="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
     <!--- Show confirm delete bid card --->
     <script type="text/javascript">
-    function show_confirm_delete_bid(){
-      //Show black background
-      document.getElementById("deleteblackbackground").style.display = "block";
-      //Show delete bid card
-      document.getElementById("confirm_deletebid_container").style.display = "block";
-      //Lock body so user cannot scroll
-      document.getElementsByTagName("body")[0].style.position = "fixed";
 
-      //Get height of window
-      var height = window.innerHeight;
-      var newheight = height + 1;
+    //Show delete bid container
+    $("#deletebidbutton").click(function() {
+        $("#blackbackground").show()
+        #("#confirm_deletebid_container").show()
+    })
 
-      //Set margin of delete bid card to create sliding animation
-      document.getElementById("confirm_deletebid_container").style.marginTop = height/3+"px";
-
-    }
-
-    function hide_confirm_delete_bid(){
-      //Hide black background
-      document.getElementById("deleteblackbackground").style.display = "none";
-      //Hide confirm delete card
-      document.getElementById("confirm_deletebid_container").style.display = "none";
-      //Unlock scrolling for body
-      document.getElementsByTagName("body")[0].style.position = "relative";
-      //Reset margin for confirm delete card
-      document.getElementById("confirm_deletebid_container").style.marginTop = "0px";
-    }
+    //Hide delete bid or accept bid container
+    $("#blackbackground").click(function() {
+        $("#blackbackground").hide()
+        $("#confirm_deletebid_container").hide()
+        $("#accept_bid_offer").hide()
+    })
 
     //Show the bidding pop up
     $("#acceptbid").click(function() {
@@ -507,18 +489,13 @@
         var accept_bidder_uid = $(this).val()
         var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
 
-        $("#acceptblackbackground").show()
+        $("#blackbackground").show()
         $("#accept_bid_offer").show()
 
         //Change title name and uid
         $("#acceptoffername").html(accept_bidder_name)
         $("#winning_bidder_uid").val(accept_bidder_uid)
         $("#winning_bidder_price").val(accept_bidder_price)
-    })
-
-    $("#acceptblackbackground").click(function() {
-        $("#acceptblackbackground").hide()
-        $("#accept_bid_offer").hide()
     })
 
     </script>
