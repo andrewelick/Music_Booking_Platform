@@ -1527,14 +1527,13 @@ def set_spotify_access_token(email,spotify_auth_code):
             #Find user id
             find_user = c.execute("""SELECT uid FROM accounts WHERE email=%s""", (email,))
 
-
             if find_user == 1:
                 uid = c.fetchone()[0]
 
                 #Body info
                 client_id = "c74d1fc0c128497b8e42890d5fc900bf"
                 client_secret = "42d3e37e256a4f728b7df6da001249f6"
-                uri = "http://localhost/setuplinks"
+                uri = "https://www.blufftour.com/setuplinks"
                 payload = {'grant_type':'authorization_code','code':spotify_auth_code,'redirect_uri':uri, 'client_id':client_id,'client_secret':client_secret}
 
                 response = requests.post("https://accounts.spotify.com/api/token", data=payload)
