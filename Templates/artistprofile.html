@@ -428,9 +428,14 @@
 
                 let top_tracks = data['success']
 
+                //Loop through each song
                 for (i = 0; i < top_tracks.length; i++)
                 {
-                    let top_track_container = `<iframe src="https://open.spotify.com/embed/track/{%print song_link%}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+                    //Iframe for top song
+                    let top_track_container = `<iframe src="https://open.spotify.com/embed/track/${top_tracks[i]}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+
+                    //Add songs to container
+                    $("#spotify_top_tracks").append(top_track_container)
                 }
             }
             else {
