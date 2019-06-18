@@ -1672,7 +1672,7 @@ def get_spotify_follower_count(email):
 
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri, headers= headers)
 
-    print (response.body)
+    print (json.loads(response.content))
 
     if response.status_code == 200:
         response = json.loads(response.content)
