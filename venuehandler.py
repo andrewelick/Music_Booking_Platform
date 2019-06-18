@@ -1672,6 +1672,8 @@ def get_spotify_follower_count(email):
 
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri, headers= headers)
 
+    print (response)
+    
     if response.status_code == 200:
         response = json.loads(response.content)
 
@@ -1691,8 +1693,6 @@ def get_spotify_top_tracks(email):
 
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/top-tracks?market=US", headers=headers)
     response_data = json.loads(response.text)
-
-    print (response_data)
 
     if response.status_code == 200:
         #Top songs list with links in it
