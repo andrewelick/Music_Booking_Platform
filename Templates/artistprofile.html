@@ -417,6 +417,23 @@
             else {
                 $("#spotify_followers").hide()
             }
+        });
+
+        $.ajax({
+            url: "/spotify_resources",
+            type: "POST",
+            data: {
+                get_top_tracks: "check"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                console.log(data)
+            }
+            else {
+                console.log(data)
+            }
         })
     </script>
 

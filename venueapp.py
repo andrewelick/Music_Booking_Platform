@@ -886,18 +886,26 @@ def spotify_resources():
         email = session['username']
         uid = venuehandler.get_uid(email)
 
-        #Get Spotify followers count
-        if request.form.get("get_followers"):
-            #If user has linked spotify account
-            check_spotify_token = venuehandler.check_spotify_access_token(email)
+        #If user has linked spotify account
+        check_spotify_token = venuehandler.check_spotify_access_token(email)
 
-            if check_spotify_token:
+        if check_spotify_token:
+
+            #Get Spotify top tracks
+            if request.form.get("get_top_tracks"):
+                return venuehandler.get_spotify_top_tracks(email)
+
+            #Get Spotify albums
+            if request.form.get("get_albums"):
+                return venuehandler.get_spotify_albums(email)
+
+            #Get Spotify followers count
+            if request.form.get("get_followers"):
                 return venuehandler.get_spotify_follower_count(email)
-            else:
-                return json.dumps({"error": "no spotify account"})
-
+        else:
+            return json.dumps({"error": "no spotify account"})
     else:
-        return json.dumps()
+        return json.dumps("error": "not logged in")
 
 
 
