@@ -1611,10 +1611,10 @@ def refresh_spotify_token(email):
             client_id = "c74d1fc0c128497b8e42890d5fc900bf"
             client_secret = "42d3e37e256a4f728b7df6da001249f6"
             payload = {
-            "grant_type":"refresh_token",
-            "refresh_token":refresh_token,
-            "client_id":client_id,
-            "client_secret":client_secret
+                "grant_type":"refresh_token",
+                "refresh_token":refresh_token,
+                "client_id":client_id,
+                "client_secret":client_secret
             }
 
             #POST request for new one
@@ -1666,7 +1666,7 @@ def get_spotify_account_uri(email):
 #Get user Spotify follower count
 def get_spotify_follower_count(email):
     spotify_user_uri = get_spotify_account_uri(email)
-    access_token = get_spotify_access_token('andy.elick@gmail.com')
+    access_token = get_spotify_access_token(email)
     spotify_user_uri = "3tJoFztHeIJkJWMrx0td2f"
     headers = {"Authorization":"Bearer "+access_token}
 
@@ -1683,7 +1683,7 @@ def get_spotify_follower_count(email):
 #Get user Spotify top tracks
 def get_spotify_top_tracks(email):
     spotify_user_uri = get_spotify_account_uri(email)
-    access_token = get_spotify_access_token('andy.elick@gmail.com')
+    access_token = get_spotify_access_token(email)
     spotify_user_uri = "3tJoFztHeIJkJWMrx0td2f"
     headers = {"Authorization":"Bearer "+access_token}
 
@@ -1701,7 +1701,7 @@ def get_spotify_top_tracks(email):
 #Get user Spotify albums
 def get_spotify_albums(email):
     spotify_user_uri = get_spotify_account_uri(email)
-    access_token = get_spotify_access_token("andy.elick@gmail.com")
+    access_token = get_spotify_access_token(email)
     spotify_user_uri = "3tJoFztHeIJkJWMrx0td2f"
     headers = {"Authorization":"Bearer "+access_token}
 
