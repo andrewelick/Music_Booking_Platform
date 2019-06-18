@@ -430,7 +430,7 @@
                 for (i = 0; i < albums.length; i++)
                 {
                     //Iframe for top song
-                    let ablum_single = `<a href="${album[i][0]}" class="spotifyalbum" target="_blank"><img src="${album[i][1]}" class="albumpicture" height=95 /></a>`
+                    let ablum_single = `<a href="${albums[i][0]}" class="spotifyalbum" target="_blank"><img src="${albums[i][1]}" class="albumpicture" height=95 /></a>`
 
                     //Add songs to container
                     $("#spotify_albums").append(ablum_single)
