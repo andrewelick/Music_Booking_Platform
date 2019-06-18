@@ -877,7 +877,7 @@ def utility_processor():
 def connect_spotify():
     scopes = ""
     client_id = "c74d1fc0c128497b8e42890d5fc900bf"
-    uri = urllib.parse.quote_plus("http://www.blufftour.com/setuplinks")
+    uri = urllib.parse.quote_plus("https://www.blufftour.com/setuplinks")
     return redirect("https://accounts.spotify.com/authorize?client_id="+client_id+"&response_type=code&redirect_uri="+uri)
 
 @app.route('/spotify_resources', methods=['POST'])
