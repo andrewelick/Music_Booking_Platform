@@ -307,19 +307,17 @@
         {% endif %}
         <!--- End of Youtube video --->
 
-        {% if spotify_albums %}
         <!--- Spotify albums --->
-        <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
-
-        {% for album in spotify_albums %}
-        <a href="{% print album[0]%}" class="spotifyalbum" target="_blank"><img src="{% print album[1]%}" class="albumpicture" height=95 /></a>
-        {% endfor %}
-        <!--- End of spotify albums --->
-        {% endif %}
+        <div id="albums_container">
+            <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
+            <div id="spotify_albums"></div>
+        </div>
 
         <!--- Top songs from Spotify --->
-        <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
-        <div id="spotify_top_tracks"></div>
+        <div id="top_tracks_container">
+            <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
+            <div id="spotify_top_tracks"></div>
+        </div>
 
       </div>
       <!--- End of Music container --->
@@ -418,7 +416,7 @@
             url: "/spotify_resources",
             type: "POST",
             data: {
-                get_top_tracks: "check"
+                get_albums: "check"
             },
             dataType: "json"
         }).done(function(data) {
@@ -426,20 +424,49 @@
             if (data['success']) {
                 console.log(data)
 
+                let albums = data['success']
+
+                //Loop through each song
+                for (i = 0; i < albums.length; i++)
+                {
+                    //Iframe for top song
+                    let ablum_single = `<a href="${album[i][0]}" class="spotifyalbum" target="_blank"><img src="${album[i][1]}" class="albumpicture" height=95 /></a>`
+
+                    //Add songs to container
+                    $("#spotify_albums").append(ablum_single)
+                }
+            }
+            else {
+                console.log(data)
+            }
+        })
+
+        //Load spotify top tracks
+        $.ajax({
+            url: "/spotify_resources",
+            type: "POST",
+            data: {
+                get_top_tracks: "check"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+
                 let top_tracks = data['success']
 
                 //Loop through each song
                 for (i = 0; i < top_tracks.length; i++)
                 {
                     //Iframe for top song
-                    let top_track_container = `<iframe src="https://open.spotify.com/embed/track/${top_tracks[i]}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+                    let top_track_single = `<iframe src="https://open.spotify.com/embed/track/${top_tracks[i]}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
 
                     //Add songs to container
-                    $("#spotify_top_tracks").append(top_track_container)
+                    $("#spotify_top_tracks").append(top_track_single)
                 }
             }
             else {
-                console.log(data)
+                $("#top_tracks_container").hide()
             }
         })
     </script>

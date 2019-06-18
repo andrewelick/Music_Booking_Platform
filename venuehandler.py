@@ -1726,9 +1726,9 @@ def get_spotify_albums(email):
             album_picture = x['images'][1]['url']
             spotify_albums.append([album_link,album_picture])
 
-        return spotify_albums
+        return json.dumps({"success": spotify_albums})
     else:
-        return "no albums"
+        return json.dumps({"error": "no albums"})
 
 
 #-#-#-#- STRIPE PAYMENTS -#-#-#-#-#-#------------------------
