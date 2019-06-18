@@ -1700,7 +1700,7 @@ def get_spotify_top_tracks(email):
             link = x['uri'].split(':',)[2]
             spotify_top_tracks.append(link)
 
-        return json.dumps("success": spotify_top_tracks)
+        return json.dumps({"success": spotify_top_tracks})
     else:
         return json.dumps({"error": "no tracks"})
 

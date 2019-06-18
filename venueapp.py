@@ -904,8 +904,6 @@ def spotify_resources():
                 return venuehandler.get_spotify_follower_count(email)
         else:
             return json.dumps({"error": "no spotify account"})
-    else:
-        return json.dumps("error": "not logged in")
 
 
 
