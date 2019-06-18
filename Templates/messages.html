@@ -267,14 +267,11 @@
         <div class="single_thread" style="padding:10px;background-color:#f9f9f9">
         {% endif %}
 
-          {% if thread[2] != uid %}
-          <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[2] %}">
+
+            <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[2] %}">
             <!--- Print profile picture of other user --->
             <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread[2] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px;" />
-          {% else %}
-          <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[3] %}">
-            <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class="thread_picture" style="height:50px;width:50px" />
-          {% endif %}
+
             <!--- Thread name --->
             <span class="thread_name">{% print thread[6] %}</span>
             <!--- Time of last message sent in thread --->
