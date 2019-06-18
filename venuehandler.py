@@ -1690,6 +1690,8 @@ def get_spotify_top_tracks(email):
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/top-tracks?market=US", headers=headers)
     response_data = json.loads(response.text)
 
+    print (response_data)
+
     if response.status_code == 200:
         #Top songs list with links in it
         spotify_top_tracks = []
@@ -1712,7 +1714,7 @@ def get_spotify_albums(email):
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/albums?market=US&limit=3", headers=headers)
     response_data = json.loads(response.text)
 
-    if response_data['items']:
+    if response.status_code == 200:
         spotify_albums = []
 
         for x in response_data['items']:
