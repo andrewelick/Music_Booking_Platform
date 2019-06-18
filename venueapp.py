@@ -877,7 +877,7 @@ def utility_processor():
 def connect_spotify():
     scopes = ""
     client_id = "c74d1fc0c128497b8e42890d5fc900bf"
-    uri = urllib.parse.quote_plus("http://localhost/setuplinks")
+    uri = urllib.parse.quote_plus("http://www.blufftour.com/setuplinks")
     return redirect("https://accounts.spotify.com/authorize?client_id="+client_id+"&response_type=code&redirect_uri="+uri)
 
 @app.route('/spotify_resources', methods=['POST'])
@@ -888,7 +888,13 @@ def spotify_resources():
 
         #Get Spotify followers count
         if request.form.get("get_followers"):
-            return venuehandler.get_spotify_follower_count(email)
+            #If user has linked spotify account
+            check_spotify_token = venuehandler.check_spotify_access_token(email)
+
+            if check_spotify_token:
+                return venuehandler.get_spotify_follower_count(email)
+            else:
+                return json.dumps({"error": "no spotify account"})
 
     else:
         return json.dumps()
