@@ -1687,6 +1687,8 @@ def get_spotify_top_tracks(email):
     spotify_user_uri = get_spotify_account_uri(email)
     headers = {"Authorization":"Bearer "+access_token}
 
+    spotify_user_uri = "3TVXtAsR1Inumwj472S9r4"
+
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/top-tracks?market=US", headers=headers)
     response_data = json.loads(response.text)
 
@@ -1710,6 +1712,8 @@ def get_spotify_albums(email):
     access_token = get_spotify_access_token(email)
     spotify_user_uri = get_spotify_account_uri(email)
     headers = {"Authorization":"Bearer "+access_token}
+
+    spotify_user_uri = "3TVXtAsR1Inumwj472S9r4"
 
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/albums?market=US&limit=3", headers=headers)
     response_data = json.loads(response.text)
