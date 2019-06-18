@@ -1690,13 +1690,17 @@ def get_spotify_top_tracks(email):
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/top-tracks?market=US", headers=headers)
     response_data = json.loads(response.text)
 
-    #Top songs list with links in it
-    spotify_top_tracks = []
-    for x in response_data['tracks'][:3]:
-        link = x['uri'].split(':',)[2]
-        spotify_top_tracks.append(link)
+    if response_data['tracks']:
+        #Top songs list with links in it
+        spotify_top_tracks = []
 
-    return spotify_top_tracks
+        for x in response_data['tracks'][:3]:
+            link = x['uri'].split(':',)[2]
+            spotify_top_tracks.append(link)
+
+        return spotify_top_tracks
+    else:
+        return "no tracks"
 
 #Get user Spotify albums
 def get_spotify_albums(email):
@@ -1708,14 +1712,17 @@ def get_spotify_albums(email):
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri+"/albums?market=US&limit=3", headers=headers)
     response_data = json.loads(response.text)
 
-    spotify_albums = []
+    if response_data['items']:
+        spotify_albums = []
 
-    for x in response_data['items']:
-        album_link = x['external_urls']['spotify']
-        album_picture = x['images'][1]['url']
-        spotify_albums.append([album_link,album_picture])
+        for x in response_data['items']:
+            album_link = x['external_urls']['spotify']
+            album_picture = x['images'][1]['url']
+            spotify_albums.append([album_link,album_picture])
 
-    return spotify_albums
+        return spotify_albums
+    else:
+        return "no albums"
 
 
 #-#-#-#- STRIPE PAYMENTS -#-#-#-#-#-#------------------------
