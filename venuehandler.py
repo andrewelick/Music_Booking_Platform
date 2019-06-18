@@ -1667,7 +1667,7 @@ def get_spotify_account_uri(email):
 def get_spotify_follower_count(email):
     spotify_user_uri = get_spotify_account_uri(email)
     access_token = get_spotify_access_token(email)
-    spotify_user_uri = "3tJoFztHeIJkJWMrx0td2f"
+    spotify_user_uri = get_spotify_account_uri(email)
     headers = {"Authorization":"Bearer "+access_token}
 
     response = requests.get("https://api.spotify.com/v1/artists/"+spotify_user_uri, headers= headers)
