@@ -310,13 +310,21 @@
         <!--- Spotify albums --->
         <div id="albums_container">
             <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
-            <div id="spotify_albums"></div>
+
+            <div id="spotify_albums">
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
         </div>
 
         <!--- Top songs from Spotify --->
         <div id="top_tracks_container">
             <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
-            <div id="spotify_top_tracks"></div>
+
+            <div id="spotify_top_tracks">
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
         </div>
 
       </div>
@@ -358,6 +366,15 @@
 
     <script type="text/javascript">
 
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
         $("#messageartist").click(function() {
             $("#contact_send_message_container").show()
             $("#blackbackground").show()
@@ -385,6 +402,8 @@
 
             if (data['success']) {
                 let follower_count = data['success']
+
+                console.log(follower_count)
 
                 if (follower_count > 1000000) {
                     first_two_numbers = String(follower_count).substr(0,2)

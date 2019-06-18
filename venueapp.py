@@ -439,17 +439,7 @@ def profile_page():
             artist_details = venuehandler.get_artist_profile_details(email)
             artist_links = venuehandler.get_artist_links(email)
 
-            #If user has linked spotify account
-            check_spotify_token = venuehandler.check_spotify_access_token(email)
-
-            if check_spotify_token:
-                spotify_top_tracks = venuehandler.get_spotify_top_tracks(email)
-                spotify_albums = venuehandler.get_spotify_albums(email)
-                spotify_follow_uri = venuehandler.get_spotify_account_uri(email)
-
-                return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details, artist_links=artist_links,spotify_albums=spotify_albums,spotify_top_tracks=spotify_top_tracks, spotify_follow_uri=spotify_follow_uri)
-            else:
-                return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details,artist_links=artist_links)
+            return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details,artist_links=artist_links)
 
         if account_type == 'venue':
             venue_details = venuehandler.get_venue_profile_details(email)
