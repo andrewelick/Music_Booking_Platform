@@ -317,15 +317,9 @@
         <!--- End of spotify albums --->
         {% endif %}
 
-        {% if spotify_top_tracks %}
         <!--- Top songs from Spotify --->
         <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
-        <!--- Top songs iframes from Spotify --->
-        {% for song_link in spotify_top_tracks %}
-        <iframe src="https://open.spotify.com/embed/track/{%print song_link%}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-        {% endfor %}
-        <!--- End of Top songs from Spotify --->
-        {% endif %}
+        <div id="spotify_top_tracks"></div>
 
       </div>
       <!--- End of Music container --->
@@ -419,6 +413,7 @@
             }
         });
 
+        //Load spotify top tracks
         $.ajax({
             url: "/spotify_resources",
             type: "POST",
@@ -430,6 +425,8 @@
 
             if (data['success']) {
                 console.log(data)
+
+                let top_track_container = `<iframe src="https://open.spotify.com/embed/track/{%print song_link%}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
             }
             else {
                 console.log(data)
