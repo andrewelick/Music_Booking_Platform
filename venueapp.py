@@ -565,6 +565,7 @@ def message_page():
         if request.args.get("tid"):
             thread_id = request.args.get("tid")
             rec_id = request.args.get("rec_id")
+            send_id = request.args.get("send_id")
 
             if request.args.get("count"):
                 count= int(request.args.get("count")) + 15
@@ -573,7 +574,11 @@ def message_page():
                 all_thread_messages = venuehandler.get_messages_one_thread(thread_id)
                 count= 10
 
-            thread_other_user = venuehandler.get_thread_other_user(rec_id)
+            #Get other account details
+            if rec_id != uid:
+                thread_other_user = venuehandler.get_thread_other_user(rec_id)
+            else:
+                thread_other_user = venuehandler.get_thread_other_user(send_id)
 
             #Delete message notifications
             venuehandler.delete_message_notification(email,rec_id)
