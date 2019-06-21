@@ -4,6 +4,23 @@ from venueimports import random
 from venueimports import time
 from venueimports import pymysql
 
+#Connect to database
+def connect_to_database():
+    try:
+        #mysql path C:\Program Files\MySQL\MySQL Server 8.0\bin
+        conn = pymysql.connect(
+            host= os.environ['CLEARDB_DATABASE_LOCATION'], #External IP 99.114.66.154 Local IP 192.168.1.111
+            db= os.environ['CLEARDB_DATABASE_DB'],
+            user= os.environ['CLEARDB_DATABASE_USERNAME'], #jeffbezos
+            password= os.environ['CLEARDB_DATABASE_PASSWORD'], #alexa
+        )
+        return conn
+    except Exception as e:
+        print (e)
+        print ("Could not connect database")
+        conn = False
+        return conn
+
 #Check if show is within 7 days of happening, close show
 def check_show_7_close():
     try:
