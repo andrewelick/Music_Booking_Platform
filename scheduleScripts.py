@@ -1,3 +1,9 @@
+from venueimports import datetime
+from venueimports import string
+from venueimports import random
+from venueimports import time
+from venueimports import pymysql
+
 #Check if show is within 7 days of happening, close show
 def check_show_7_close():
     try:
