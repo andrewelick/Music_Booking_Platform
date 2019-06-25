@@ -339,10 +339,6 @@
             </div>
         </div>
 
-        <!--- Soundcloud iFrame --->
-        <div id="soundcloud_iframe_container">
-            {% print artist_details[4] %}
-        <div>
 
       </div>
       <!--- End of Music container --->
@@ -407,8 +403,6 @@
             $("#blackbackground").hide()
         })
 
-        //Load soundcloud iframe
-        $("#soundcloud_iframe_container").html("{% print artist_details[4] %}")
 
         //Get Spotify followers count
         $.ajax({
