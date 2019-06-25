@@ -218,6 +218,10 @@
                 width: 480px;
             }
 
+            #soundcloud_iframe_container {
+                max-width: 480px;
+            }
+
         }
 
     </style>
@@ -332,7 +336,9 @@
         </div>
 
         <!--- Soundcloud iFrame --->
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/524947182%3Fsecret_token%3Ds-eMVuC&color=%230e0a08&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        <div id="soundcloud_iframe_container">
+            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/524947182%3Fsecret_token%3Ds-eMVuC&color=%230e0a08&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+        <div>
 
       </div>
       <!--- End of Music container --->
