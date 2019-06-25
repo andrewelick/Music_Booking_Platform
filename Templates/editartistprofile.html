@@ -266,6 +266,9 @@
         //Select chosen genre type
         $(".artist_setup_selection option:contains('{%print profile_details[1] %}')").prop("selected", true)
 
+        //Select chosen member amount
+        $("#member_number option[value='{% print profile_details[2] %}']").prop("selected", true)
+
         //Picture cropper upload
         var basic = $('#demo-basic').croppie({
             enableExif: true,
