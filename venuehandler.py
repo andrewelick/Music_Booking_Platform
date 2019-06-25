@@ -362,7 +362,7 @@ def get_email(uid):
                 conn.close()
 
 #Profile artist setup
-def artist_profile_setup(email,genre,member,bio):
+def artist_profile_setup(email,genre,member,bio,soundcloud_iframe):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
@@ -374,9 +374,9 @@ def artist_profile_setup(email,genre,member,bio):
                 find_account = c.execute("""SELECT * FROM artist_profile_details WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
                 #Check if row is made
                 if find_account == 1:
-                    c.execute("""UPDATE artist_profile_details SET genre=%s, member=%s, bio=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (genre,member,bio,email,))
+                    c.execute("""UPDATE artist_profile_details SET genre=%s, member=%s, bio=%s, soundcloud_iframe= %s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (genre,member,bio,email,soundcloud_iframe,))
                 else:
-                    c.execute("""INSERT INTO artist_profile_details (uid,genre,member,bio) VALUES(%s,%s,%s,%s)""", (uid,genre,member,bio,))
+                    c.execute("""INSERT INTO artist_profile_details (uid,genre,member,bio,soundcloud_iframe) VALUES(%s,%s,%s,%s,%s)""", (uid,genre,member,bio,soundcloud_iframe,))
                 conn.commit()
                 return uid
             else:
