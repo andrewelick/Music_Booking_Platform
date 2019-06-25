@@ -159,7 +159,7 @@
       <div id="setupcontainer">
         <form action="" method="POST">
 
-          {{ get_flashed_messages()[0] }}
+          <font style="color: green;font-weight: bold">{{ get_flashed_messages()[0] }}</font>
 
           <h2 style="color:#383838;">Edit profile</h2>
 
@@ -262,6 +262,9 @@
     {% include 'footer.html' %}
 
     <script type="text/javascript">
+
+        //Select chosen genre type
+        $("#{% print profile_details[1] %}").prop("selected", true)
 
         //Picture cropper upload
         var basic = $('#demo-basic').croppie({
