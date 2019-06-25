@@ -264,7 +264,7 @@
     <script type="text/javascript">
 
         //Select chosen genre type
-        $("#{% print profile_details[1] %}").prop("selected", true)
+        $(".artist_setup_selection option[value='{% print profile_details[1] %}']").prop("selected", true)
 
         //Picture cropper upload
         var basic = $('#demo-basic').croppie({
