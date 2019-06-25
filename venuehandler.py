@@ -22,7 +22,6 @@ from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
 import boto3
 from botocore.client import Config
-import re
 
 #Connect to database
 def connect_to_database():
@@ -370,9 +369,6 @@ def artist_profile_setup(email,genre,member,bio,soundcloud_iframe):
         c = conn.cursor()
         try:
             uid = c.execute("""SELECT uid FROM accounts WHERE email=%s""", (email,))
-
-            #Parse soundcloud_iframe
-            soundcloud_iframe = re.search('url="(.+?)">', soundcloud_iframe).group(1)
 
             if uid != 0:
                 uid = c.fetchone()[0]

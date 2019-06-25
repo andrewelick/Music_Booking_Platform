@@ -407,6 +407,9 @@
             $("#blackbackground").hide()
         })
 
+        //Load soundcloud iframe
+        $("#soundcloud_iframe_container").html({% print artist_details[4] %})
+
         //Get Spotify followers count
         $.ajax({
             url: "/spotify_resources",
