@@ -313,7 +313,7 @@
       <div id="musiccontainer" class="container">
 
         <!--- Youtube video --->
-        {% if artist_links[1] != ""%}
+        {% if artist_links[1] != "" && artist_links[1] != "NULL" %}
           <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
           <iframe class="youtubevideo" src="https://www.youtube-nocookie.com/embed/{% print artist_links[1] %}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         {% endif %}
