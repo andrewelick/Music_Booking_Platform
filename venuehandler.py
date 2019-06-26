@@ -379,7 +379,7 @@ def get_email(uid):
                 conn.close()
 
 #Profile artist setup
-def artist_profile_setup(email,genre,member,bio,soundcloud_iframe):
+def artist_profile_setup(email,genre,member,bio,soundcloud_iframe = None):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
