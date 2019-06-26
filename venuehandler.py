@@ -54,6 +54,27 @@ def check_email_used(email):
         else:
             return json.dumps({"result": "email open"})
 
+def create_default_aws_picture(uid):
+    picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
+    data = open('static/default_profile.jpg', 'rb')
+
+    #AWS credentials
+    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
+    AWS_ACCESS_SECRET_KEY = "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"
+    AWS_BUCKET_NAME = "bluffbucket"
+
+    #AWS client setup
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id = AWS_ACCESS_KEY_ID,
+        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        config = Config(signature_version = 's3v4')
+    )
+    #Write file to AWS S3 bucket
+    s3.Bucket(AWS_BUCKET_NAME).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
+
+    return True
+
 #Send picture to AWS bucket
 def send_profile_picture_to_aws(uid):
     picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
@@ -174,12 +195,8 @@ def create_new_account(email,password,confirm_password,name,account_type):
 
                     conn.commit()
 
-                    #Copy default to profile picture
-                    new_profile_picture = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
-                    shutil.copyfile('static/default_profile.jpg', new_profile_picture)
-
                     #Send picture to AWS bucket bluffbucket
-                    send_profile_picture_to_aws(uid)
+                    create_default_aws_picture(uid)
 
                     return True
                 else:
