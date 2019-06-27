@@ -127,7 +127,8 @@
             <div class='artist_setup_selection'>
                 <h3>Add some music</h3>
 
-                <!--- Spotify connect account --->
+
+                <!--- Spotify connect account
                 <div style='margin-top:20px;margin-bottom:10px;'>Connect your Spotify account</div>
                 {% if spotify_connected == False %}
                 <a href='/connectspotify' name='spotify' class='connectbutton' id='spotifybutton' />Log in to Spotify</a>
@@ -135,6 +136,7 @@
                 {% else: %}
                 <div style='color:#1DB954;'>Spotify account connected!</div>
                 {% endif %}
+                --->
 
                 <form action="setuplinks" method="POST">
 
@@ -147,19 +149,19 @@
 
                     <!--- Soundcloud profile --->
                     <div style='margin-top:10px;margin-bottom:10px;'>Soundcloud profile</div>
-                    <input type='text' name='soundcloud' placeholder="https://soundcloud.com/BluffTour" />
+                    <input type='text' name='soundcloud' placeholder="https://www.soundcloud.com/BluffTour" />
 
                     <!--- Bandcamp profile --->
                     <div style='margin-top:10px;margin-bottom:10px;'>Bandcamp profile</div>
-                    <input type='text' name='bandcamp' placeholder="https://BluffTour.bandcamp.com/" />
+                    <input type='text' name='bandcamp' placeholder="https://www.BluffTour.bandcamp.com/" />
 
                     <!-- Twitter profile --->
                     <div style='margin-top:10px;margin-bottom:10px;'>Twitter profile</div>
-                    <input type='text' name='twitter' placeholder='https://twitter.com/BluffTour'/>
+                    <input type='text' name='twitter' placeholder='https://www.twitter.com/BluffTour'/>
 
                     <!--- Instagram profile --->
                     <div style='margin-top:10px;margin-bottom:10px;'>Instagram profile</div>
-                    <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour/" />
+                    <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour" />
 
                     <!--- Facebook profile --->
                     <div style='margin-top:10px;margin-bottom:10px;'>Facebook profile</div>

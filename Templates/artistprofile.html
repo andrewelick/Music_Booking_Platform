@@ -319,6 +319,13 @@
         {% endif %}
         <!--- End of Youtube video --->
 
+        <!--- Youtube video --->
+        {% if artist_details[4] != "" and artist_details[4] != "NULL" and artist_details[1] != None %}
+          <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
+          <iframe class="youtubevideo" src="{% print artist_details[4] %}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% endif %}
+        <!--- End of Youtube video --->
+
         <!--- Spotify albums --->
         <div id="albums_container">
             <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
