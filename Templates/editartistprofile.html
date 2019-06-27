@@ -336,17 +336,18 @@
         });
 
         //Get src from soundcloud iframe
-        $("#submit_button").click(function() {
-            event.preventDefault();
+        $("#soundcloud_iframe").focusout(function() {
 
-            let soundcloud_iframe_src = $("#soundcloud_iframe").val()
-            $("#soundcloud_iframe_holder").html(soundcloud_iframe_src)
+            let soundcloud_iframe = $("#soundcloud_iframe").val()
+            $("#soundcloud_iframe_holder").html(soundcloud_iframe)
 
             let iframe_val = $("iframe").attr('src')
-            $("#soundcloud_iframe").val(iframe_val)
+            console.log(iframe_val)
+            
+            if (iframe_val) {
+                $("#soundcloud_iframe").val(iframe_val)
+            }
 
-            //Submit form
-            $("form").submit();
         })
 
     </script>
