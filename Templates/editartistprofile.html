@@ -335,8 +335,11 @@
 
         //Get src from soundcloud iframe
         $("#soundcloud_iframe").focusout(function() {
-            let soundcloud_iframe_src = $("#soundcloud_iframe").attr('src')
-            console.log(soundcloud_iframe_src)
+            let soundcloud_iframe_src = $("#soundcloud_iframe").val()
+            $("#success_message").html(soundcloud_iframe_src)
+
+            let iframe_val = $("iframe").attr('src')
+            console.log(iframe_val)
         })
 
     </script>
