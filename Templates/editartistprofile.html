@@ -336,12 +336,17 @@
         });
 
         //Get src from soundcloud iframe
-        $("#soundcloud_iframe").focusout(function() {
+        $("#submit_button").click(function() {
+            event.preventDefault();
+
             let soundcloud_iframe_src = $("#soundcloud_iframe").val()
             $("#soundcloud_iframe_holder").html(soundcloud_iframe_src)
 
             let iframe_val = $("iframe").attr('src')
             $("#soundcloud_iframe").val(iframe_val)
+
+            //Submit form
+            $("form").submit();
         })
 
     </script>
