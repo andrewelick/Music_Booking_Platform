@@ -433,8 +433,6 @@ def save_artist_profile_links(email,youtube_link,soundcloud_link,bandcamp_link,t
     if conn is not False:
         c = conn.cursor()
         try:
-            if soundcloud_link is None:
-                soundcloud_link = ""
 
             #Get youtube video url
             if youtube_link != "":
@@ -499,7 +497,18 @@ def get_artist_links(email):
         try:
             c.execute("""SELECT * FROM artist_account_links WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
             artist_links = c.fetchone()
-            return artist_links
+
+            #Used to move edited data into
+            artist_links2 = []
+
+            #Loop through each link and replace None with empty
+            for x in artist_links:
+                if x is None:
+                    x = ""
+                artist_links2.append(x)
+
+            return artist_links2
+            
         except Exception as e:
             return False
         finally:
