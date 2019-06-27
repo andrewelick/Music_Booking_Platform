@@ -240,8 +240,9 @@ def setup_account():
                 genre = request.form['genre']
                 member = request.form['member_total']
                 bio = request.form['bio']
+                soundcloud_iframe_src = request.form['soundcloud_iframe']
 
-                create_artist_profile = venuehandler.artist_profile_setup(email,genre,member,bio)
+                create_artist_profile = venuehandler.artist_profile_setup(email, genre, member, bio, soundcloud_iframe= soundcloud_iframe_src)
 
                 if create_artist_profile:
                     return redirect(url_for('setup_connect_links'))
