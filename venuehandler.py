@@ -433,6 +433,9 @@ def save_artist_profile_links(email,youtube_link,soundcloud_link,bandcamp_link,t
     if conn is not False:
         c = conn.cursor()
         try:
+            if soundcloud_link is None:
+                soundcloud_link = ""
+
             #Get youtube video url
             if youtube_link != "":
                 youtube_link = youtube_link.split("=")[1]
