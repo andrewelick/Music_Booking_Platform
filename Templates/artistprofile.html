@@ -248,6 +248,18 @@
             <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
                 <!--- Artist name --->
                 <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print artist_details[5] %}</span>
+                </br>
+
+                <!--- Artist genre and member count --->
+                <div style='font-size:14px;'>
+                  {% print artist_details[1] %} |
+
+                  {% if artist_details[2] == 1%}
+                    {% print "Soloist" %}
+                  {% else %}
+                    {% print artist_details[2] %} members
+                  {% endif %}
+                </div>
 
                 <!--- Contact bar --->
                 <div id="contactbar">
@@ -261,19 +273,6 @@
                 {% if email == session['username'] %}
                     <a href="/editprofile" id="editprofile">Edit profile</a>
                 {% endif %}
-                
-                </br>
-
-                <!--- Artist genre and member count --->
-                <div style='font-size:14px;'>
-                  {% print artist_details[1] %} |
-
-                  {% if artist_details[2] == 1%}
-                    {% print "Soloist" %}
-                  {% else %}
-                    {% print artist_details[2] %} members
-                  {% endif %}
-                </div>
 
                 <!--- Social bar --->
                 <div class="socialbar">
