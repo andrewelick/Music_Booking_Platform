@@ -260,6 +260,8 @@
           </br>
 
           <input type='Submit' value="Save" id="submit_button" />
+
+          <div id="soundcloud_iframe_holder" style="display: none"></div>
         </form>
       </div>
     </div>
@@ -336,10 +338,10 @@
         //Get src from soundcloud iframe
         $("#soundcloud_iframe").focusout(function() {
             let soundcloud_iframe_src = $("#soundcloud_iframe").val()
-            $("#success_message").html(soundcloud_iframe_src)
+            $("#soundcloud_iframe_holder").html(soundcloud_iframe_src)
 
             let iframe_val = $("iframe").attr('src')
-            console.log(iframe_val)
+            $("#soundcloud_iframe").val(iframe_val)
         })
 
     </script>
