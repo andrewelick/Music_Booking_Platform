@@ -349,7 +349,7 @@
             $("#soundcloud_iframe_holder").html(soundcloud_iframe)
 
             //Try to get url of iframe
-            let iframe_val = $("iframe").attr('src')
+            let iframe_val = $("#soundcloud_iframe_holder iframe").attr('src')
 
             //Check if there is a valid iFrame inputted
             if (iframe_val) {
