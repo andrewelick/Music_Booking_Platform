@@ -242,22 +242,31 @@
 
           <div style='margin-top:20px;margin-bottom:10px;'>Youtube music video</div>
           {% if profile_links[1] != "" %}
-          <input type='text' name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
+          <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
           {% else %}
-          <input type='text' name='youtube' placeholder="Youtube video link" />
+          <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" />
           {% endif %}
+
+          <!--- Display youtube iframe to user --->
+          <div id="youtube_iframe_holder" style="display: none"></div>
+
+          <!--- Soundcloud profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Soundcloud</div>
           <input type='text' name='soundcloud' placeholder="Soundcloud profile" value="{% print profile_links[2] %}" />
 
+          <!--- Bandcamp profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
           <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
 
+          <!--- Twitter profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Twitter</div>
           <input type='text' name='twitter' placeholder='Twitter profile' value="{% print profile_links[4] %}"/>
 
+          <!--- Instagram profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
           <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
 
+          <!--- Facebook profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Facebook</div>
           <input type='text' name='facebook' placeholder="Facebook profile" value="{% print profile_links[6] %}" />
 
@@ -338,7 +347,7 @@
             });
         });
 
-        //Get src from soundcloud iframe
+        //Get src from soundcloud iframe and display preview
         $("#soundcloud_iframe").focusout(function() {
 
             //Hide soundcloud iframe holder
@@ -361,6 +370,30 @@
             else if (soundcloud_iframe.startsWith("https://w.soundcloud.com/player/")) {
                 $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+soundcloud_iframe+'"></iframe>')
                 $("#soundcloud_iframe_holder").show()
+            }
+        })
+
+        //Get youtube link and display preview
+        $("#youtube_input").focusout(function() {
+
+            //Hide soundcloud iframe holder
+            $("#youtube_iframe_holder").hide()
+
+            //Get soundcloud iframe input value and insert it into holder
+            let youtube_url = $("#youtube_input").val()
+
+            //Check if there is a valid url inputted
+            if (youtube_url.startsWith("https://www.youtube.com/")) {
+                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+youtube_url+'"></iframe>')
+                $("#youtube_iframe_holder").show()
+            }
+            else if (youtube_url.startsWith("https://youtube.com/")) {
+                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+youtube_url+'"></iframe>')
+                $("#youtube_iframe_holder").show()
+            }
+            else if (youtube_url.startsWith("https://youtu.be/")) {
+                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+youtube_url+'"></iframe>')
+                $("#youtube_iframe_holder").show()
             }
         })
 
