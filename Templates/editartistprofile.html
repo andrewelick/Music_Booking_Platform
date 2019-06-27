@@ -382,22 +382,17 @@
             //Get soundcloud iframe input value and insert it into holder
             let youtube_url = $("#youtube_input").val()
 
-            let youtube_embed_url = "https://www.youtube-nocookie.com/embed/"
-
             //Check if there is a valid url inputted
-            if (youtube_url.startsWith("https://www.youtube.com/watch")) {
-
+            if (youtube_url.startsWith("https://www.youtube.com/watch") || youtube_url.startsWith("https://m.youtube.com/watch")) {
                 //Parse url
                 let parsed_url = youtube_url.split("watch?v=")[1]
                 $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
                 $("#youtube_iframe_holder").show()
             }
-            else if (youtube_url.startsWith("https://youtube.com/")) {
-                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+youtube_url+'"></iframe>')
-                $("#youtube_iframe_holder").show()
-            }
             else if (youtube_url.startsWith("https://youtu.be/")) {
-                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+youtube_url+'"></iframe>')
+                //Parse url
+                let parsed_url = youtube_url.split(".be/")[1]
+                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+parsed_url+'"></iframe>')
                 $("#youtube_iframe_holder").show()
             }
         })
