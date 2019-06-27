@@ -392,7 +392,7 @@
             else if (youtube_url.startsWith("https://youtu.be/")) {
                 //Parse url
                 let parsed_url = youtube_url.split(".be/")[1]
-                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+parsed_url+'"></iframe>')
+                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
                 $("#youtube_iframe_holder").show()
             }
         })
