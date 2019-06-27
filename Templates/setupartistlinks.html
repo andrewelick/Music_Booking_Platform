@@ -113,51 +113,57 @@
     {% include 'header.html' %}
 
     <div class='mobilegridrow-2'>
-      <h2 style="color:#383838;">Connect your profile</h2>
+        <h2 style="color:#383838;">Connect your profile</h2>
 
-      <div id="setupcontainer">
-          <div class='artist_setup_selection'>
-            <h3>Add some music</h3>
-            <div style='margin-top:20px;margin-bottom:10px;'>Connect your Spotify account</div>
-            {% if spotify_connected == False %}
-            <a href='/connectspotify' name='spotify' class='connectbutton' id='spotifybutton' />Log in to Spotify</a>
-            <span style="display:block;margin-top:5px;font-size:13px;color:#383838;border-color:#d2d2d2;">Connecting your spotify allows you to showcase your music in one click</span>
-            {% else: %}
-            <div style='color:#1DB954;'>Spotify account connected!</div>
-            {% endif %}
+        <div id="setupcontainer">
+            <div class='artist_setup_selection'>
+                <h3>Add some music</h3>
 
-            <form action="setuplinks" method="POST">
+                <!--- Spotify connect account --->
+                <div style='margin-top:20px;margin-bottom:10px;'>Connect your Spotify account</div>
+                {% if spotify_connected == False %}
+                <a href='/connectspotify' name='spotify' class='connectbutton' id='spotifybutton' />Log in to Spotify</a>
+                <span style="display:block;margin-top:5px;font-size:13px;color:#383838;border-color:#d2d2d2;">Connecting your spotify allows you to showcase your music in one click</span>
+                {% else: %}
+                <div style='color:#1DB954;'>Spotify account connected!</div>
+                {% endif %}
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Youtube music video</div>
-              <input type='text' name='youtube' placeholder="https://www.youtube.com/watch?v=musicvideo" />
+                <form action="setuplinks" method="POST">
 
-              <!--- Display youtube iframe to user --->
-              <div id="youtube_iframe_holder" style="display: none"></div>
+                    <!--- Youtube video --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Youtube music video</div>
+                    <input type='text' id= "youtube_input" name='youtube' placeholder="https://www.youtube.com/watch?v=musicvideo" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Soundcloud profile</div>
-              <input type='text' name='soundcloud' placeholder="https://soundcloud.com/BluffTour" />
+                    <!--- Display youtube iframe to user --->
+                    <div id="youtube_iframe_holder" style="display: none"></div>
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Bandcamp profile</div>
-              <input type='text' name='bandcamp' placeholder="https://BluffTour.bandcamp.com/" />
+                    <!--- Soundcloud profile --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Soundcloud profile</div>
+                    <input type='text' name='soundcloud' placeholder="https://soundcloud.com/BluffTour" />
 
-              <h3 style="border-top:1px solid;padding-top:20px;margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
+                    <!--- Bandcamp profile --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Bandcamp profile</div>
+                    <input type='text' name='bandcamp' placeholder="https://BluffTour.bandcamp.com/" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Twitter profile</div>
-              <input type='text' name='twitter' placeholder='https://twitter.com/BluffTour'/>
+                    <!-- Twitter profile --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Twitter profile</div>
+                    <input type='text' name='twitter' placeholder='https://twitter.com/BluffTour'/>
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Instagram profile</div>
-              <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour/" />
+                    <!--- Instagram profile --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Instagram profile</div>
+                    <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour/" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Facebook profile</div>
-              <input type='text' name='facebook' placeholder="https://www.facebook.com/BluffTour" />
+                    <!--- Facebook profile --->
+                    <div style='margin-top:10px;margin-bottom:10px;'>Facebook profile</div>
+                    <input type='text' name='facebook' placeholder="https://www.facebook.com/BluffTour" />
 
-              <input type="submit" id='finishbutton' value="Next" />
-              {% if error %}
-              {%print error%}
-              {% endif %}
-            </form>
-          </div>
-      </div>
+                    <input type="submit" id='finishbutton' value="Next" />
+                    {% if error %}
+                        {%print error%}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
     </div>
 
     {% include 'footer.html' %}
