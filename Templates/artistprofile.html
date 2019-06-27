@@ -264,6 +264,10 @@
                         <a href="https://twitter.com/{% print artist_links[4] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-screen-name="false" data-show-count="true"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                     {% endif %}
                     <br/>
+                    {% if artist_links[6] != "" and artist_links[6] != None %}
+                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links[6] %}%2F&width=80&layout=button_count&action=like&size=small&show_faces=false&share=true&height=21&appId" width="80" height="21" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    {% endif %}
+                    <br/>
                     <!--- Soundcloud --->
                     {% if artist_links[2] != "" and artist_links[4] != None %}
                         <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
@@ -273,10 +277,6 @@
                         <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
                     {% endif %}
 
-                    {% if artist_links[6] != "" and artist_links[6] != None %}
-                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links[6] %}%2F&width=80&layout=button_count&action=like&size=small&show_faces=false&share=false&height=21&appId" width="80" height="21" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-                        <a href="{% print artist_links[6] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
-                    {% endif %}
                 </div>
                 <!--- End of Social bar --->
 
