@@ -267,6 +267,8 @@
                     {% if artist_links[6] != "" and artist_links[6] != None %}
                         <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links[6] %}%2F&width=125&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId" width="125" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                     {% endif %}
+                    <!--- Spotify button --->
+                    <iframe src="https://open.spotify.com/follow/1/?uri=spotify:artist:6sFIWsNpZYqfjUpaCgueju&size=basic&theme=light" width="200" height="25" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowtransparency="true"></iframe>
                     <!--- Soundcloud --->
                     {% if artist_links[2] != "" and artist_links[4] != None %}
                         <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
@@ -278,13 +280,6 @@
 
                 </div>
                 <!--- End of Social bar --->
-
-                <!--- Spotify followers --->
-                <div id="spotify_followers">
-                    <img src="static/Spotify_Icon_Green.png" style="height: 21px;vertical-align: middle"/>
-                    Followers: <font id="spotify_follow_count"></font>
-                </div>
-
                 <br/>
 
                 <!--- Contact bar --->
