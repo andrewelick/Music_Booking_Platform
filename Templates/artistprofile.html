@@ -444,7 +444,7 @@
             }
         });
 
-        //Load spotify top tracks
+        //Load spotify top albums
         $.ajax({
             url: "/spotify_resources",
             type: "POST",
@@ -470,7 +470,7 @@
                 }
             }
             else {
-                console.log(data)
+                $("#albums_container").hide();
             }
         })
 
