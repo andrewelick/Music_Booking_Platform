@@ -236,6 +236,10 @@
           <div style="margin-bottom: 10px;font-size: 12px;">Click the Share button on your soundclond profile, then embed, copy that code and insert it here.</div>
           <input type='text' id="soundcloud_iframe" name='soundcloud_iframe' placeholder="Soundcloud songs iframe" value="{% print profile_details[4] %}" />
 
+          <!--- Display soundcloud iframe to user --->
+          <div id="soundcloud_iframe_holder" style="display: none"></div>
+
+
           <div style='margin-top:20px;margin-bottom:10px;'>Youtube music video</div>
           {% if profile_links[1] != "" %}
           <input type='text' name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
@@ -261,7 +265,6 @@
 
           <input type='Submit' value="Save" id="submit_button" />
 
-          <div id="soundcloud_iframe_holder" style="display: none"></div>
         </form>
       </div>
     </div>
@@ -336,6 +339,24 @@
         });
 
         //Get src from soundcloud iframe
+        $("#soundcloud_iframe").focusout(function() {
+
+            let soundcloud_iframe = $("#soundcloud_iframe").val()
+            $("#soundcloud_iframe_holder").html(soundcloud_iframe)
+
+            let iframe_val = $("iframe").attr('src')
+
+            //Check if there is a valid iFrame inputted
+            if (iframe_val) {
+                $("#soundcloud_iframe").val(iframe_val)
+                $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+iframe_val+'"></iframe>')
+            }
+
+            //Submit form
+            $("form").submit();
+        })
+
+        //Get src from soundcloud iframe on form submit
         $("#submit_button").click(function() {
             event.preventDefault();
 
