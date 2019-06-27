@@ -336,7 +336,7 @@
         });
 
         //Get src from soundcloud iframe
-        $("#submit_button").focusout(function() {
+        $("#submit_button").click(function() {
             event.preventDefault();
 
             let soundcloud_iframe = $("#soundcloud_iframe").val()
