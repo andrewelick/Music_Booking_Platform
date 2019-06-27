@@ -261,20 +261,18 @@
                 <div class="socialbar">
                     <!--- Soundcloud --->
                     {% if artist_links[2] != "" and artist_links[4] != None %}
-                    <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
+                        <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
                     {% endif %}
                     <!--- Twitter --->
                     {% if artist_links[4] != "" and artist_links[4] != None %}
-                    <a href="https://twitter.com/{% print artist_links[4] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @DamnDelick</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                    <a href="{% print artist_links[4] %}" target="_blank"><img src="static/twittericon.png" height=32 class='socialicon' /></a>
-                    {% endif%}
+                        <a href="https://twitter.com/{% print artist_links[4] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-count="true">Follow @TwitterDev</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>                    {% endif%}
                     <!--- Instagram --->
                     {% if artist_links[5] != "" and artist_links[5] != None %}
-                    <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
+                        <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
                     {% endif %}
 
                     {% if artist_links[6] != "" and artist_links[6] != None %}
-                    <a href="{% print artist_links[6] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
+                        <a href="{% print artist_links[6] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
                     {% endif %}
                 </div>
                 <!--- End of Social bar --->
