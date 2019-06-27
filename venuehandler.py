@@ -508,7 +508,7 @@ def get_artist_links(email):
                 artist_links2.append(x)
 
             return artist_links2
-            
+
         except Exception as e:
             return False
         finally:

@@ -231,12 +231,11 @@
           </div>
           <!--- End of Bio section --->
 
-          <!-- Soundcloud iframe
+          <!-- Soundcloud iframe -->
           <div style="margin-top: 20px;margin-bottom: 5px;">Soundcloud songs</div>
           <div style="margin-bottom: 10px;font-size: 12px;">Click the Share button on your soundclond profile, then embed, copy that code and insert it here.</div>
-          <input type='text' name='soundcloud_iframe' placeholder="Soundcloud songs iframe" value="{% print profile_details[4] %}" />
-          --->
-          
+          <input type='text' id="soundcloud_iframe" name='soundcloud_iframe' placeholder="Soundcloud songs iframe" value="{% print profile_details[4] %}" />
+
           <div style='margin-top:20px;margin-bottom:10px;'>Youtube music video</div>
           {% if profile_links[1] != "" %}
           <input type='text' name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
@@ -332,6 +331,12 @@
                 })
 
             });
+        });
+
+        //Get src from soundcloud iframe
+        $("#soundcloud_iframe").focusout(function() {
+            let soundcloud_iframe_src = $("#soundcloud_iframe").attr('src')
+            $("#success_message").html(soundcloud_iframe_src)
         })
 
     </script>
