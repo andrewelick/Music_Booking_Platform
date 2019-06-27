@@ -131,21 +131,24 @@
               <div style='margin-top:10px;margin-bottom:10px;'>Youtube music video</div>
               <input type='text' name='youtube' placeholder="https://www.youtube.com/watch?v=musicvideo" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Soundcloud</div>
+              <!--- Display youtube iframe to user --->
+              <div id="youtube_iframe_holder" style="display: none"></div>
+
+              <div style='margin-top:10px;margin-bottom:10px;'>Soundcloud profile</div>
               <input type='text' name='soundcloud' placeholder="https://soundcloud.com/BluffTour" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Bandcamp</div>
+              <div style='margin-top:10px;margin-bottom:10px;'>Bandcamp profile</div>
               <input type='text' name='bandcamp' placeholder="https://BluffTour.bandcamp.com/" />
 
               <h3 style="border-top:1px solid;padding-top:20px;margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Twitter</div>
+              <div style='margin-top:10px;margin-bottom:10px;'>Twitter profile</div>
               <input type='text' name='twitter' placeholder='https://twitter.com/BluffTour'/>
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Instagram</div>
+              <div style='margin-top:10px;margin-bottom:10px;'>Instagram profile</div>
               <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour/" />
 
-              <div style='margin-top:10px;margin-bottom:10px;'>Facebook</div>
+              <div style='margin-top:10px;margin-bottom:10px;'>Facebook profile</div>
               <input type='text' name='facebook' placeholder="https://www.facebook.com/BluffTour" />
 
               <input type="submit" id='finishbutton' value="Next" />
@@ -158,6 +161,32 @@
     </div>
 
     {% include 'footer.html' %}
+
+    <script type="text/javascript">
+        //Get youtube link and display preview
+        $("#youtube_input").focusout(function() {
+
+            //Hide soundcloud iframe holder
+            $("#youtube_iframe_holder").hide()
+
+            //Get soundcloud iframe input value and insert it into holder
+            let youtube_url = $("#youtube_input").val()
+
+            //Check if there is a valid url inputted
+            if (youtube_url.startsWith("https://www.youtube.com/watch") || youtube_url.startsWith("https://m.youtube.com/watch")) {
+                //Parse url
+                let parsed_url = youtube_url.split("watch?v=")[1]
+                $("#youtube_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
+                $("#youtube_iframe_holder").show()
+            }
+            else if (youtube_url.startsWith("https://youtu.be/")) {
+                //Parse url
+                let parsed_url = youtube_url.split(".be/")[1]
+                $("#youtube_iframe_holder").html('<iframe class="media_preview" width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
+                $("#youtube_iframe_holder").show()
+            }
+        });
+    </script>
 
   </body>
 </html>
