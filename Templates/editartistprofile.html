@@ -129,6 +129,10 @@
           -webkit-appearance:none;
         }
 
+        .media_preview {
+            width: 100%;
+        }
+
       /* If screen is bigger than 800px */
       @media screen and (min-width: 800px) {
 
@@ -145,6 +149,9 @@
               width: 100px;
           }
 
+          .media_preview {
+              width: 400px;
+          }
 
       }
 
@@ -363,12 +370,12 @@
             //Check if there is a valid iFrame inputted
             if (iframe_val) {
                 $("#soundcloud_iframe").val(iframe_val)
-                $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+iframe_val+'"></iframe>')
+                $("#soundcloud_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+iframe_val+'"></iframe>')
                 $("#soundcloud_iframe_holder").show()
             }
             //Check if there is a valid parsed url
             else if (soundcloud_iframe.startsWith("https://w.soundcloud.com/player/")) {
-                $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+soundcloud_iframe+'"></iframe>')
+                $("#soundcloud_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+soundcloud_iframe+'"></iframe>')
                 $("#soundcloud_iframe_holder").show()
             }
         })
@@ -386,13 +393,13 @@
             if (youtube_url.startsWith("https://www.youtube.com/watch") || youtube_url.startsWith("https://m.youtube.com/watch")) {
                 //Parse url
                 let parsed_url = youtube_url.split("watch?v=")[1]
-                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
+                $("#youtube_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
                 $("#youtube_iframe_holder").show()
             }
             else if (youtube_url.startsWith("https://youtu.be/")) {
                 //Parse url
                 let parsed_url = youtube_url.split(".be/")[1]
-                $("#youtube_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
+                $("#youtube_iframe_holder").html('<iframe class="media_preview" width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://www.youtube-nocookie.com/embed/'+parsed_url+'"></iframe>')
                 $("#youtube_iframe_holder").show()
             }
         })
