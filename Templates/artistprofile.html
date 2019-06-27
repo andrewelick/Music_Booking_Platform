@@ -261,19 +261,19 @@
             <!--- Social bar --->
             <div class="socialbar">
               <!--- Soundcloud --->
-              {% if artist_links[2] != "" %}
+              {% if artist_links[2] != "" and artist_links[4] != None %}
               <a href="{% print artist_links[2] %}" target="_blank"><img src="static/soundcloudicon.png" height=32 /></a>
               {% endif %}
               <!--- Twitter --->
-              {% if artist_links[4] != "" %}
+              {% if artist_links[4] != "" and artist_links[4] != None %}
               <a href="{% print artist_links[4] %}" target="_blank"><img src="static/twittericon.png" height=32 class='socialicon' /></a>
               {% endif%}
               <!--- Instagram --->
-              {% if artist_links[5] != "" %}
+              {% if artist_links[5] != "" and artist_links[5] != None %}
               <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
               {% endif %}
 
-              {% if artist_links[6] != ""%}
+              {% if artist_links[6] != "" and artist_links[6] != None %}
               <a href="{% print artist_links[6] %}" target="_blank"><img src="static/facebookicon.png" class="socialicon" /></a>
               {% endif %}
             </div>
