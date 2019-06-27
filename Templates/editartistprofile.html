@@ -336,18 +336,21 @@
         });
 
         //Get src from soundcloud iframe
-        $("#soundcloud_iframe").focusout(function() {
+        $("#submit_button").focusout(function() {
+            event.preventDefault();
 
             let soundcloud_iframe = $("#soundcloud_iframe").val()
             $("#soundcloud_iframe_holder").html(soundcloud_iframe)
 
             let iframe_val = $("iframe").attr('src')
-            console.log(iframe_val)
-            
+
+            //Check if there is a valid iFrame inputted
             if (iframe_val) {
                 $("#soundcloud_iframe").val(iframe_val)
             }
 
+            //Submit form
+            $("form").submit();
         })
 
     </script>
