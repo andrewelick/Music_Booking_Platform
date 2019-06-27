@@ -341,9 +341,14 @@
         //Get src from soundcloud iframe
         $("#soundcloud_iframe").focusout(function() {
 
+            //Hide soundcloud iframe holder
+            $("#soundcloud_iframe_holder").hide()
+
+            //Get soundcloud iframe input value and insert it into holder
             let soundcloud_iframe = $("#soundcloud_iframe").val()
             $("#soundcloud_iframe_holder").html(soundcloud_iframe)
 
+            //Try to get url of iframe
             let iframe_val = $("iframe").attr('src')
 
             //Check if there is a valid iFrame inputted
@@ -352,6 +357,7 @@
                 $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+iframe_val+'"></iframe>')
                 $("#soundcloud_iframe_holder").show()
             }
+            //Check if there is a valid parsed url
             else if (soundcloud_iframe.startsWith("https://w.soundcloud.com/player/")) {
                 $("#soundcloud_iframe_holder").html('<iframe width="90%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+soundcloud_iframe+'"></iframe>')
                 $("#soundcloud_iframe_holder").show()
