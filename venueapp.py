@@ -737,7 +737,7 @@ def edit_profile_page():
                 bio = request.form['bio']
                 soundcloud_iframe = request.form['soundcloud_iframe']
                 #Change profile information
-                changed_artist_profile = venuehandler.artist_profile_setup(email,genre,member,bio,soundcloud_iframe)
+                changed_artist_profile = venuehandler.artist_profile_setup(email,genre,member)
 
                 youtube_link = request.form['youtube']
                 soundcloud_link = request.form['soundcloud']
