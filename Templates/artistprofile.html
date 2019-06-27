@@ -66,7 +66,6 @@
 
         .contact {
             display: inline-block;
-            float: right;
             width: 100px;
             padding: 10px;
             margin-top:5px;
@@ -249,6 +248,20 @@
             <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
                 <!--- Artist name --->
                 <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print artist_details[5] %}</span>
+
+                <!--- Contact bar --->
+                <div id="contactbar">
+                    {% if email != session['username'] %}
+                        <a href="#" class="contact" id="messageartist">Messsage</a>
+                    {% endif %}
+                </div>
+                <!--- End of contact bar --->
+
+                <!--- Edit profile button --->
+                {% if email == session['username'] %}
+                    <a href="/editprofile" id="editprofile">Edit profile</a>
+                {% endif %}
+                
                 </br>
 
                 <!--- Artist genre and member count --->
@@ -286,20 +299,6 @@
 
                 </div>
                 <!--- End of Social bar --->
-                <br/>
-
-                <!--- Contact bar --->
-                <div id="contactbar">
-                    {% if email != session['username'] %}
-                        <a href="#" class="contact" id="messageartist">Messsage</a>
-                    {% endif %}
-                </div>
-                <!--- End of contact bar --->
-
-                <!--- Edit profile button --->
-                {% if email == session['username'] %}
-                    <a href="/editprofile" id="editprofile">Edit profile</a>
-                {% endif %}
 
             </div>
 
