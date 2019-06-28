@@ -190,32 +190,33 @@
 
           <!--- Genre selection --->
           <div class='artist_setup_selection'>
-            <div style='margin-top:30px;margin-bottom:10px;'>Genre</div>
+              <div style='margin-top:30px;margin-bottom:10px;'>Genre</div>
 
               <select name="genre" class='selectform'>
-                <option id='0'>Rock</option>
-                <option id='1'>Jazz</option>
-                <option id='2'>Blues</option>
-                <option id='3'>Electronic</option>
-                <option id='4'>Dance</option>
-                <option id='5'>Folk</option>
-                <option id='6'>Soul</option>
-                <option id='7'>Country</option>
-                <option id='8'>Punk</option>
-                <option id='9'>R&B</option>
-                <option id='10'>HipHop/Rap</option>
-                <option id='11'>Heavy Metal</option>
-                <option id='12'>Alernative</option>
-                <option id='13'>Christian</option>
-                <option id='14'>Gospel</option>
-                <option id='15'>Other</option>
+                  <option id='0'>Rock</option>
+                  <option id='1'>Jazz</option>
+                  <option id='2'>Blues</option>
+                  <option id='3'>Electronic</option>
+                  <option id='4'>Dance</option>
+                  <option id='5'>Folk</option>
+                  <option id='6'>Soul</option>
+                  <option id='7'>Country</option>
+                  <option id='8'>Punk</option>
+                  <option id='9'>R&B</option>
+                  <option id='10'>HipHop/Rap</option>
+                  <option id='11'>Heavy Metal</option>
+                  <option id='12'>Alernative</option>
+                  <option id='13'>Christian</option>
+                  <option id='14'>Gospel</option>
+                  <option id='15'>Other</option>
               </select>
           </div>
           <!--- End of genre selection --->
 
           <!--- Member total section --->
           <div class='artist_setup_selection'>
-            <div style='margin-top:20px;margin-bottom:20px;'>How big is your group?</div>
+              <div style='margin-top:20px;margin-bottom:20px;'>How big is your group?</div>
+
               <select name='member_total' id='member_number'>
                   <option value='1'>Soloist</option>
                   <option value='2'>2 members</option>
@@ -227,14 +228,16 @@
                   <option value='8'>8 members</option>
                   <option value='9'>9 members</option>
                   <option value='10'>10+ members</option>
-                </select>
+              </select>
           </div>
           <!--- End member total selection --->
+
           </br>
+
           <!--- Bio section --->
           <div class='artist_setup_selection'>
-            <div>Bio</div>
-            <textarea name='bio' placeholder="Who you are, what you play, what you need." rows='4'/>{% print profile_details[3] %}</textarea>
+              <div>Bio</div>
+              <textarea name='bio' placeholder="Who you are, what you play, what you need." rows='4'/>{% print profile_details[3] %}</textarea>
           </div>
           <!--- End of Bio section --->
 
@@ -249,37 +252,38 @@
 
           <div style='margin-top:20px;margin-bottom:10px;'>Youtube music video</div>
           {% if profile_links[1] != "" %}
-          <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
+              <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" value="https://www.youtube.com/watch?v={% print profile_links[1] %}"/>
           {% else %}
-          <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" />
+              <input type='text' id= "youtube_input" name='youtube' placeholder="Youtube video link" />
           {% endif %}
 
           <!--- Display youtube iframe to user --->
           <div id="youtube_iframe_holder" style="display: none"></div>
 
-          <!--- Soundcloud profile link
-          <div style='margin-top:20px;margin-bottom:10px;'>Soundcloud</div>
-          <input type='text' name='soundcloud' placeholder="Soundcloud profile" value="{% print profile_links[2] %}" />
-          --->
-          
-          <!--- Bandcamp profile link --->
-          <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
-          <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
+          <!--- Spotify profile link --->
+          <div style='margin-top:20px;margin-bottom:10px;'>Spotify</div>
+          <div style="margin-bottom: 10px;font-size: 12px;">Go to your Spotify profile, click the ... and click "Copy Artist Link".</div>
+          <input type='text' name='spotify_link' placeholder="Spotify followers" value="{% print profile_links[2] %}" />
 
           <!--- Twitter profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Twitter</div>
           <input type='text' name='twitter' placeholder='@TwitterHandle' value="{% print profile_links[4] %}"/>
-
-          <!--- Instagram profile link
-          <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
-          <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
-          --->
 
           <!--- Facebook profile link --->
           <div style='margin-top:20px;margin-bottom:10px;'>Facebook page</div>
           <input type='text' name='facebook' placeholder="ex. Blufftour or https://www.facebook.com/Blufftour/" value="{% print profile_links[6] %}" />
 
           </br>
+
+          <!--- Bandcamp profile link
+          <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
+          <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
+          --->
+
+          <!--- Instagram profile link
+          <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
+          <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
+          --->
 
           <input type='Submit' value="Save" id="submit_button" />
 

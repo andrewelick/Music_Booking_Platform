@@ -306,13 +306,15 @@ def setup_connect_links():
             #Save profile links
             if request.method == "POST":
                 youtube_link = request.form['youtube']
-                soundcloud_link = request.form['soundcloud']
-                bandcamp_link = request.form['bandcamp']
+                spotify_link = request.form['spotify_link']
+                #bandcamp_link = request.form['bandcamp']
+                bandcamp_link = None
                 twitter_link = request.form['twitter']
-                instagram_link = request.form['instagram']
+                #instagram_link = request.form['instagram']
+                instagram_link = None
                 facebook_link = request.form['facebook']
 
-                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,soundcloud_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
+                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
 
                 if links_submitted:
                     return redirect(url_for("add_payment_page"))
@@ -742,16 +744,16 @@ def edit_profile_page():
                 changed_artist_profile = venuehandler.artist_profile_setup(email,genre,member,bio, soundcloud_iframe = soundcloud_iframe_src)
 
                 youtube_link = request.form['youtube']
-                #soundcloud_link = request.form['soundcloud']
-                soundcloud_link = None
-                bandcamp_link = request.form['bandcamp']
+                spotify_link = request.form['spotify_link']
+                #bandcamp_link = request.form['bandcamp']
+                bandcamp_link = None
                 twitter_link = request.form['twitter']
                 #instagram_link = request.form['instagram']
                 instagram_link = None
                 facebook_link = request.form['facebook']
-                
+
                 #Change profile links
-                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,soundcloud_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
+                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
 
                 if changed_artist_profile and links_submitted:
                     flash("Your changes were saved!")
