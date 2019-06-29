@@ -503,6 +503,20 @@
                 $("#top_tracks_container").hide()
             }
         })
+
+        //Load artist media
+        $.ajax({
+            url: "/artist_media",
+            type: "POST",
+            data: {
+                type: "nipple",
+                src: "nipple"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            console.log(data)
+        })
     </script>
 
   </body>

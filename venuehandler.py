@@ -572,6 +572,27 @@ def get_venue_profile_details(email):
             if conn:
                 conn.close()
 
+#Save artist media
+def create_artist_media(uid, type, src):
+    #Connect to database
+    conn = connect_to_database()
+
+    if conn is not False:
+        c = conn.cursor()
+
+        try:
+            #Insert into artist_media table
+            c.execute("""INSERT INTO artist_media (uid, type, src) VALUES (%s, %s, %s)""", (uid, type, src,))
+            conn.commit()
+
+            return json.dumps({'success': 'saved'})
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': "Could not save media"})
+        finally:
+            if conn:
+                conn.close()
+
 #Upload show posting
 def create_show_posting(email,price,description,artist_type,show_date,am_pm):
     #Connect to database
