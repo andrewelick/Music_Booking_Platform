@@ -871,7 +871,7 @@ def utility_processor():
     return dict(show_bids_stats=get_bids_for_show)
 
 ###--Artist media---------------
-@app.route('/artistmedia', methods=['POST', 'GET'])
+@app.route('/artist_media', methods=['POST', 'GET'])
 def artist_media():
     if 'username' in session:
         email = session['username']
@@ -880,7 +880,7 @@ def artist_media():
         if request.method == "POST":
             type = request.form['type']
             src = request.form['src']
-            
+
             return venuehandler.create_artist_media(uid, type, src)
 
 
