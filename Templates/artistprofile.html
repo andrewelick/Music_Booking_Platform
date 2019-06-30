@@ -134,7 +134,7 @@
           resize: none;
         }
 
-        input[type="submit"] {
+        input[type="submit"], #save_media_button {
           padding: 10px;
           padding-left: 20px;
           padding-right: 20px;
@@ -193,8 +193,16 @@
         }
 
         .media_preview {
+            box-sizing: border-box;
             width: 100%;
+            height: 300px;
             border-radius: 5px;
+        }
+        #add_media {
+            width: 150px;
+            padding: 10px;
+            float: right;
+            display: inline-block;
         }
 
         #add_media_container {
@@ -205,6 +213,12 @@
         #media_preview_display {
             box-sizing: border-box;
             padding: 15px;
+        }
+
+        #media_input {
+            max-width: 500px;
+            padding: 5px;
+            font-family: inherit;
         }
 
 
