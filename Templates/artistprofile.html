@@ -566,12 +566,16 @@
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/album/")) {
+                iframe_src = iframe.src.split('https://open.spotify.com/album/')[1]
+
                 return {
                     "valid_input": true,
                     "src": iframe_src
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
+                iframe_src = iframe.src.split('https://open.spotify.com/track/')[1]
+
                 return {
                     "valid_input": true,
                     "src": iframe_src
