@@ -577,7 +577,8 @@
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
                 iframe_src = iframe_src.substring(iframe_src.lastIndexOf("/") + 1);
-                console.log(iframe_src)
+                iframe_src = "https://open.spotify.com/embed/track/"+iframe_src
+                
                 return {
                     "valid_input": true,
                     "src": iframe_src
