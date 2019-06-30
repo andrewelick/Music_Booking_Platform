@@ -593,12 +593,6 @@
                     "src": iframe_src
                 }
             }
-            else if (iframe_src.startsWith("https://embed.music.apple.com/us/album/")) {
-                return {
-                    "valid_input": true,
-                    "src": iframe_src
-                }
-            }
             else if (iframe_src.includes("bandcamp.com/")) {
                 return {
                     "valid_input": true,
@@ -623,7 +617,7 @@
             if (valid_input_data.valid_input == true) {
 
                 //iframe string
-                let iframe_code = '<iframe src="'+valid_input_data.src+'" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+                let iframe_code = '<iframe class="media_preview" src="'+valid_input_data.src+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
                 //Put media in preview
                 $("#media_preview_display").html(iframe_code)
             }
