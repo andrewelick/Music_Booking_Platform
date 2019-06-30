@@ -565,6 +565,30 @@
                     "src": iframe_src
                 }
             }
+            else if (iframe_src.startsWith("https://open.spotify.com/album/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src
+                }
+            }
+            else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src
+                }
+            }
+            else if (iframe_src.startsWith("https://embed.music.apple.com/us/album/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src
+                }
+            }
+            else if (iframe_src.includes("bandcamp.com/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src
+                }
+            }
             else {
                 //Return invalid
                 return {
@@ -583,11 +607,14 @@
             console.log(valid_input_data)
 
             if (valid_input_data.valid_input == true) {
+
+                //iframe string
+                let iframe_code = "<iframe style='border: 0; width: 350px; height: 470px;' src='"+valid_input_data.src+"'></iframe>"
                 //Put media in preview
-                $("#media_preview_display").html(valid_input_data.src)
+                $("#media_preview_display").html(iframe_code)
             }
             else {
-                $("media_preview_display").html("Invaild input")
+                $("#media_preview_display").html("Invaild input")
             }
         })
 
