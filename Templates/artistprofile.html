@@ -564,7 +564,6 @@
 
             //Check if there is a valid parsed url
             if (iframe_src.startsWith("https://w.soundcloud.com/player/")) {
-
                 return {
                     "valid_input": true,
                     "src": iframe_src
@@ -577,6 +576,8 @@
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf("/") + 1);
+                console.log(iframe_src)
                 return {
                     "valid_input": true,
                     "src": iframe_src
