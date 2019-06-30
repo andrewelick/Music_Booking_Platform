@@ -574,9 +574,6 @@
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
-                var iframe_src = iframe_src.split("/");
-                var result = iframe_src[iframe_src.length - 1]; // Or parts.pop();
-                
                 console.log(iframe_src)
                 return {
                     "valid_input": true,
