@@ -593,7 +593,7 @@
             }
         })
 
-        function load_artist_media() {
+        function save_artist_media(type, src) {
             //Load artist media
             $.ajax({
                 url: "/artist_media",
@@ -631,7 +631,8 @@
             if (iframe_src.startsWith("https://w.soundcloud.com/player/")) {
                 return {
                     "valid_input": true,
-                    "src": iframe_src
+                    "src": iframe_src,
+                    "type": "soundcloud"
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/album/")) {
@@ -640,7 +641,8 @@
 
                 return {
                     "valid_input": true,
-                    "src": iframe_src
+                    "src": iframe_src,
+                    "type": "spotify",
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
@@ -649,19 +651,22 @@
 
                 return {
                     "valid_input": true,
-                    "src": iframe_src
+                    "src": iframe_src,
+                    "type": "spotify",
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/embed/")) {
                 return {
                     "valid_input": true,
-                    "src": iframe_src
+                    "src": iframe_src,
+                    "type": "spotify",
                 }
             }
             else if (iframe_src.includes("bandcamp.com/")) {
                 return {
                     "valid_input": true,
-                    "src": iframe_src
+                    "src": iframe_src,
+                    "type": "bandcamp",
                 }
             }
             else {
@@ -675,7 +680,7 @@
         //Show new media box
         $("#add_media").click(function() {
             //Show container
-            $("#add_media_container").show()
+            $("#add_media_container").show().css("display", "inline-block")
 
             //Disable save button
             $("#save_media_button").addClass("invalidClass").prop("disabled", true)
@@ -697,6 +702,12 @@
 
                 //Enable button
                 $("#save_media_button").removeClass("invalidClass").prop("disabled", false)
+
+                //Save new media
+                $("#save_media_button").click(function() {
+                    save_artist_media(valid_input_data.type, valid_input_data.src)
+                    location.reload();
+                })
             }
             else {
                 //Show invalid type message
@@ -705,7 +716,7 @@
                 //Disable save button
                 $("#save_media_button").addClass("invalidClass").prop("disabled", true)
             }
-        })
+        });
 
     </script>
 
