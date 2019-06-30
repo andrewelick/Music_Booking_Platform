@@ -548,9 +548,10 @@
         function validate_new_media(iframe) {
 
             console.log(iframe)
-            
+
             //Try to get url of iframe
             let iframe_val = $(iframe).attr('src')
+            console.log(iframe_val)
 
             //Check if there is a iframe
             if (iframe_val) {
@@ -575,7 +576,6 @@
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
-                console.log(iframe_src)
                 return {
                     "valid_input": true,
                     "src": iframe_src
@@ -613,8 +613,6 @@
 
             //Validate input
             let valid_input_data = validate_new_media(media_val)
-
-            console.log(valid_input_data)
 
             if (valid_input_data.valid_input == true) {
 
