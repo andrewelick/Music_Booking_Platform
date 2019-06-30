@@ -575,7 +575,7 @@
             }
             else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
                 iframe_src = iframe.src.split('https://open.spotify.com/track/')[1]
-
+                console.log(iframe_src)
                 return {
                     "valid_input": true,
                     "src": iframe_src
