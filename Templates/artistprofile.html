@@ -548,8 +548,7 @@
         function validate_new_media(iframe) {
             //Try to get url of iframe
             let iframe_val = $(iframe).attr('src')
-            let iframe_src = NULL
-            
+
             //Check if there is a iframe
             if (iframe_val) {
                 var iframe_src = iframe_val
@@ -562,7 +561,7 @@
             if (iframe_src.startsWith("https://w.soundcloud.com/player/")) {
 
                 return {
-                    "valid_input": true
+                    "valid_input": true,
                     "src": iframe_src
                 }
             }
