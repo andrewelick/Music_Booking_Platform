@@ -134,7 +134,7 @@
           resize: none;
         }
 
-        input[type="submit"], #save_media_button {
+        input[type="submit"] {
           padding: 10px;
           padding-left: 20px;
           padding-right: 20px;
@@ -216,9 +216,21 @@
         }
 
         #media_input {
-            max-width: 500px;
+            box-sizing: border-box;
+            width: 90%;
             padding: 5px;
             font-family: inherit;
+        }
+
+        #save_media_button {
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 0;
+            background-color: #328CC1;
+            color: #FFFFFF;
         }
 
 
