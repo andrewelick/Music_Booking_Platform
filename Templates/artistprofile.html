@@ -260,6 +260,11 @@
             color: #FFFFFF;
         }
 
+        .invalidType {
+            background-color: #d2d2d2;
+            color: #383838;
+        }
+
 
         @media screen and (min-width: 800px) {
 
@@ -665,7 +670,11 @@
 
         //Show new media box
         $("#add_media").click(function() {
+            //Show container
             $("#add_media_container").show()
+
+            //Disable save button
+            $("#save_media_button").addClass("invalidType").prop("disabled", true)
         })
 
         //Validate and load iFrame preview
@@ -681,9 +690,16 @@
                 let iframe_code = '<iframe class="media_preview" src="'+valid_input_data.src+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
                 //Put media in preview
                 $("#media_preview_display").html(iframe_code)
+
+                //Enable button
+                $("#save_media_button").removeClass("invalidType").prop("disabled", false)
             }
             else {
+                //Show invalid type message
                 $("#media_preview_display").html("Invaild input").css("color", "red")
+
+                //Disable save button
+                $("#save_media_button").addClass("invalidType").prop("disabled", true)
             }
         })
 
