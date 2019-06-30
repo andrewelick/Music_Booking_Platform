@@ -678,7 +678,7 @@
             $("#add_media_container").show()
 
             //Disable save button
-            $("#save_media_button").addClass("invalidClass")
+            $("#save_media_button").addClass("invalidClass").prop("disabled", true)
         })
 
         //Validate and load iFrame preview
@@ -696,14 +696,14 @@
                 $("#media_preview_display").html(iframe_code)
 
                 //Enable button
-                $("#save_media_button").removeClass("invalidClass")
+                $("#save_media_button").removeClass("invalidClass").prop("disabled", false)
             }
             else {
                 //Show invalid type message
                 $("#media_preview_display").html("Invaild input").css("color", "red")
 
                 //Disable save button
-                $("#save_media_button").addClass("invalidClass")
+                $("#save_media_button").addClass("invalidClass").prop("disabled", true)
             }
         })
 
