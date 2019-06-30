@@ -214,6 +214,7 @@
         }
 
         #add_media_container {
+            display: none;
             box-sizing: border-box;
             width: 100%;
             display: inline-block;
@@ -376,7 +377,7 @@
 
                 <!--- Container holding media add --->
                 <div id='add_media_container'>
-                    Add your iFrame or link to your media. Accepted websites: Spotify, Soundcloud, and Bandcamp.
+                    Add your songs or albums to showcase on your profile, use an IFrame or link. Accepted websites: Spotify, Soundcloud, and Bandcamp.
 
                     <br/>
 
@@ -662,6 +663,11 @@
                 }
             }
         }
+
+        //Show new media box
+        $("#add_media").click(function() {
+            $("#add_media_container").show()
+        })
 
         //Validate and load iFrame preview
         $("#media_input").focusout(function() {
