@@ -198,11 +198,18 @@
             height: 300px;
             border-radius: 5px;
         }
+
         #add_media {
             width: 150px;
             padding: 10px;
             float: right;
             display: inline-block;
+            font-size: 14px;
+            color: blue;
+        }
+
+        #add_media:hover {
+            text-decoration: underline;
         }
 
         #add_media_container {
@@ -220,17 +227,18 @@
         #media_input {
             box-sizing: border-box;
             width: 70%;
-            padding: 5px;
-            border: 0px solid;
+            padding: 10px;
+            border: 1px solid;
             border-radius: 5px;
             outline: none;
+            border-color: #d2d2d2;
             box-shadow: 0 1px 3px 0 #e6ebf1;
             transition: 150ms ease;
             -webkit-appearance:none;
             font-family: inherit;
         }
 
-        #media_input:hover {
+        #media_input:hover, #media_input:focus {
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
@@ -362,6 +370,9 @@
                 <!--- Container holding media add --->
                 <div id='add_media_container'>
                     Add your iFrame or link to your media. Accepted websites: Spotify, Soundcloud, Itunes, Bandcamp
+
+                    <br/>
+
                     <input type='text' id="media_input" placeholder="Iframe or link" />
                     <button id="save_media_button" disabled>Save</button>
 
@@ -660,7 +671,7 @@
                 $("#media_preview_display").html(iframe_code)
             }
             else {
-                $("#media_preview_display").html("Invaild input")
+                $("#media_preview_display").html("Invaild input").css("color", "red")
             }
         })
 
