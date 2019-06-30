@@ -546,8 +546,13 @@
 
         //Validate new media
         function validate_new_media(iframe) {
+
+            //Get soundcloud iframe input value and insert it into holder
+            let soundcloud_iframe = $("#media_input").val()
+            $("#media_preview_display").html(soundcloud_iframe)
+
             //Try to get url of iframe
-            let iframe_val = iframe.attr('src')
+            let iframe_val = $("#media_preview_display iframe").attr('src')
 
             //Check if there is a iframe
             if (iframe_val) {
