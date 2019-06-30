@@ -549,16 +549,25 @@
             //Try to get url of iframe
             let iframe_val = $(iframe).attr('src')
 
-            //Check if there is a valid iFrame inputted
+            //Check if there is a iframe
             if (iframe_val) {
-                let valid_input = true
-            }
-            //Check if there is a valid parsed url
-            else if (iframe_val.startsWith("https://w.soundcloud.com/player/")) {
-                let valid_input = true
+                let iframe_src = iframe_val
             }
 
-            return iframe_val
+            //Check if there is a valid parsed url
+            if (iframe_val.startsWith("https://w.soundcloud.com/player/")) {
+
+                return {
+                    "valid_input": true
+                    "src": iframe_val
+                }
+            }
+            else {
+                //Return invalid
+                return {
+                    "valid_input": false
+                }
+            }
         }
 
         //Validate and load iFrame preview
@@ -566,10 +575,17 @@
             let media_val = $("#media_input").val()
 
             //Validate input
-            let valid_input = validate_new_media(media_val)
+            let valid_input_data = validate_new_media(media_val)
 
-            //Put media in preview
-            $("#media_preview_display").html(valid_input)
+            console.log(valid_input_data)
+            
+            if (valid_input_data.valid_input) {
+                //Put media in preview
+                $("#media_preview_display").html(valid_input.src)
+            }
+            else {
+                $("media_preview_display").html("Invaild input")
+            }
         })
 
     </script>
