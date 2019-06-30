@@ -609,7 +609,7 @@
             if (valid_input_data.valid_input == true) {
 
                 //iframe string
-                let iframe_code = "<iframe style='border: 0; width: 350px; height: 470px;' src='"+valid_input_data.src+"' allow='encrypted-media' allowtransparency='true'></iframe>"
+                let iframe_code = '<iframe src="'+iframe_src+'" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
                 //Put media in preview
                 $("#media_preview_display").html(iframe_code)
             }
