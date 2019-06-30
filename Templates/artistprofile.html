@@ -577,6 +577,12 @@
                     "src": iframe_src
                 }
             }
+            else if (iframe_src.startsWith("https://open.spotify.com/embed/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src
+                }
+            }
             else if (iframe_src.startsWith("https://embed.music.apple.com/us/album/")) {
                 return {
                     "valid_input": true,
