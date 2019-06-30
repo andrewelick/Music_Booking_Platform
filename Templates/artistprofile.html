@@ -546,14 +546,8 @@
 
         //Validate new media
         function validate_new_media(iframe) {
-            console.log(iframe)
-            //Load input into preview
-            $("#media_preview_display").html(iframe)
-
-            console.log($("#media_preview_display").val())
-
             //Try to get url of iframe
-            let iframe_val = $("#media_preview_display").attr('src')
+            let iframe_val = iframe.attr('src')
 
             //Check if there is a iframe
             if (iframe_val) {
