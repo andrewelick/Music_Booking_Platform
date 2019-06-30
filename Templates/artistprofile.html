@@ -608,7 +608,7 @@
 
         //Validate and load iFrame preview
         $("#media_input").focusout(function() {
-            let media_val = $("#media_input").val()
+            let media_val = toString($("#media_input").val())
 
             //Validate input
             let valid_input_data = validate_new_media(media_val)
