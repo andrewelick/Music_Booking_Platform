@@ -307,6 +307,20 @@
         <!--- Music container --->
         <div id="musiccontainer" class="container">
 
+            <!---Add media button --->
+            {% if email == session['username'] %}
+                <div id="add_media">+Add media</div>
+
+                <!--- Container holding media add --->
+                <div id='add_media_container'>
+                    Add your iFrame or link to your media. Accepted websites: Spotify, Soundcloud, Itunes, Bandcamp
+                    <input type='text' id="media_input" placeholder="Iframe or link" />
+                    <button id="save_media_button" disabled>Save</button>
+
+                    <div id="media_preview"></div>
+                </div>
+            {% endif %}
+
             <!--- Youtube video --->
             {% if artist_links[1] != "" and artist_links[1] != "NULL" and artist_links[1] != None %}
                 <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
@@ -504,19 +518,30 @@
             }
         })
 
-        //Load artist media
-        $.ajax({
-            url: "/artist_media",
-            type: "POST",
-            data: {
-                type: "nipple",
-                src: "nipple"
-            },
-            dataType: "json"
-        }).done(function(data) {
+        function load_artist_media() {
+            //Load artist media
+            $.ajax({
+                url: "/artist_media",
+                type: "POST",
+                data: {
+                    type: "nipple",
+                    src: "nipple"
+                },
+                dataType: "json"
+            }).done(function(data) {
 
-            console.log(data)
+                console.log(data)
+            })
+        }
+
+        //Validate and load iFrame preview
+        $("#media_input").focusout(function() {
+            let media_val = $("#media_input").val()
+
+            //Put media in preview
+            $("#media_preview").html(media_val)
         })
+
     </script>
 
   </body>
