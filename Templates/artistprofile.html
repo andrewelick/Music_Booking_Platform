@@ -553,9 +553,12 @@
             if (iframe_val) {
                 let iframe_src = iframe_val
             }
+            else {
+                let iframe_src = iframe
+            }
 
             //Check if there is a valid parsed url
-            if (iframe_val.startsWith("https://w.soundcloud.com/player/")) {
+            if (iframe_src.startsWith("https://w.soundcloud.com/player/")) {
 
                 return {
                     "valid_input": true
@@ -578,7 +581,7 @@
             let valid_input_data = validate_new_media(media_val)
 
             console.log(valid_input_data)
-            
+
             if (valid_input_data.valid_input) {
                 //Put media in preview
                 $("#media_preview_display").html(valid_input.src)
