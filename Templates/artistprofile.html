@@ -650,7 +650,6 @@
                 if (data.success) {
                     //Loop through each item
                     for (x in data.success) {
-                        console.log(data.success[x])
                         let iframe = `
                             <div id="${data.success[x].media_id}">
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
