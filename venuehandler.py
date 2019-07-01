@@ -618,7 +618,10 @@ def get_artist_media(uid):
 
                 all_media2.append(dict)
 
-            return json.dumps({'success': all_media2.reverse()})
+            #Reverse list
+            all_media2 = all_media2[::-1]
+            
+            return json.dumps({'success': all_media2})
         except Exception as e:
             print (e)
             return json.dumps({'error': "Could not load media"})
