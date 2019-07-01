@@ -890,7 +890,11 @@ def artist_media():
             #Load artist media
             if request.form.get("load_media"):
                 artist_id = request.form['artist_id']
-                
+
+                #If profile is the current user
+                if artist_id == "load_current_user":
+                    artist_id = uid
+                    
                 return venuehandler.get_artist_media(artist_id)
 
 

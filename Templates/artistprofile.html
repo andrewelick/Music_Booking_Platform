@@ -609,29 +609,34 @@
             })
         }
 
-        //Get url
-        let url_path = window.location.href;
-        console.log(url_path)
-
-        if (url_path.includes("=")) {
-            let artist_id = url_path.split("=")[1]
-            console.log(artist_id)
-        }
-
         //Load artist media
         function load_artist_media() {
+
+            //Get url
+            let url_path = window.location.href;
+
+            //Check if it is not current user
+            if (url_path.includes("=")) {
+                var artist_id = url_path.split("=")[1]
+            }
+            else {
+                var artist_media = "load_current_user"
+            }
+
             $.ajax({
                 url: "/artist_media",
                 type: "POST",
                 data: {
                     load_media: "yes",
-                    artist_id: "nip",
+                    artist_id: artist_id,
                 },
                 dataType: "json"
             }).done(function(data) {
                 console.log(data)
             })
         }
+
+        load_artist_media()
 
         //Validate new media
         function validate_new_media(iframe) {
