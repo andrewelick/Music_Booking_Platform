@@ -489,6 +489,11 @@
             $(".dropdown").click(function(event) {
 
                 event.stopPropagation();
+                //id of dropdown
+                let dropdown_id = $(this).attr('id')
+
+                //Hide all other menus open
+                $(".dropdown-content").hide()
 
                 //Hide it
                 $(this).find('.dropdown-content').toggle()
@@ -554,9 +559,9 @@
                     //Loop through each item
                     for (x in data.success) {
                         let iframe = `
-                            <div id="${data.success[x].media_id}">
+                            <div>
                                 <!--- Dropdown menu --->
-                                <div class="dropdown">
+                                <div class="dropdown" id="${data.success[x].media_id}">
                                     <span style="font-weight: bold;font-size: 14px;">...</span>
                                     <div class="dropdown-content">
                                         <p class="delete_media_link">Delete</p>
