@@ -568,6 +568,18 @@
                 //Change font color of dropdown button
                 $(this).find('.dropdown-title').addClass("dropdown-active")
             });
+
+            //Show delete media box
+            $(".delete_media_link").click(function() {
+                let media_id = $(this).attr('id')
+
+                //Assign media id to delete forever button
+                $("#delete_media_forever_button").attr('id', media_id)
+
+                //Show delete media container and blackbackground
+                $("#delete_artist_media_container").show()
+                $("#blackbackground").show()
+            })
         });
 
         //Show message artist box
@@ -587,18 +599,6 @@
             $("#contact_send_message_container").hide()
             $("#blackbackground").hide()
         });
-
-        //Show delete media box
-        $(".delete_media_link").click(function() {
-            let media_id = $(this).attr('id')
-
-            //Assign media id to delete forever button
-            $("#delete_media_forever_button").attr('id', media_id)
-
-            //Show delete media container and blackbackground
-            $("#delete_artist_media_container").show()
-            $("#blackbackground").show()
-        })
 
         //Hide delete media box
         $(".delete_media_cancel").click(function() {
