@@ -894,7 +894,7 @@ def artist_media():
                 #If profile is the current user
                 if artist_id == "load_current_user":
                     artist_id = uid
-                    
+
                 return venuehandler.get_artist_media(artist_id)
 
 
