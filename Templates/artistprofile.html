@@ -628,8 +628,7 @@
                 }
             }
             else if (iframe_src.startsWith("https://youtu.be/")) {
-                iframe_src = iframe_src.substring(iframe_src.lastIndexOf(".be/") + 1);
-                console.log(iframe_src)
+                iframe_src = iframe_src.split(".be/")[1]
                 iframe_src = "https://www.youtube.com/embed/"+iframe_src
 
                 return {
