@@ -624,7 +624,7 @@
                 return {
                     "valid_input": true,
                     "src": iframe_src,
-                    "type": "spotify",
+                    "type": "youtube",
                 }
             }
             else if (iframe_src.startsWith("https://youtu.be/")) {
@@ -634,7 +634,14 @@
                 return {
                     "valid_input": true,
                     "src": iframe_src,
-                    "type": "spotify",
+                    "type": "youtube",
+                }
+            }
+            else if (iframe_src.startsWith("https://www.youtube.com/embed/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "youtube",
                 }
             }
             else if (iframe_src.includes("bandcamp.com/")) {
