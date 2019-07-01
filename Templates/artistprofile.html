@@ -272,6 +272,15 @@
             border-color: #efefef;
         }
 
+        .dropdown-title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .dropdown-active {
+            color: #328CC1;
+        }
+
         .dropdown:hover, .dropdown:focus {
             cursor: pointer;
             box-shadow: 0 1px 3px 0 #cfd7df;
@@ -483,6 +492,7 @@
             //Hide media dropdown settings
             $(document).click(function() {
                 $(".dropdown-content").hide()
+                $(".dropdown-active").removeClass("dropdown-active")
             })
 
             //Show media dropdown settings
@@ -496,7 +506,7 @@
                 $(".dropdown-content").hide()
 
                 //Hide it
-                $(this).find('.dropdown-content').toggle()
+                $(this).find('.dropdown-content').toggle().addClass("dropdown-active")
             });
         });
 
@@ -562,7 +572,7 @@
                             <div>
                                 <!--- Dropdown menu --->
                                 <div class="dropdown" id="${data.success[x].media_id}">
-                                    <span style="font-weight: bold;font-size: 14px;">...</span>
+                                    <span class="dropdown_title">...</span>
                                     <div class="dropdown-content">
                                         <p class="delete_media_link">Delete</p>
                                     </div>
