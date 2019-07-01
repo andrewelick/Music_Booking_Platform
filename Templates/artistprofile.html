@@ -480,10 +480,15 @@
             //Hide loading gif
             $(".loading_gif").hide();
 
+            //Hide media dropdown settings
+            $(document).click(function() {
+                $(".dropdown-content").hide()
+            })
+
             //Show media dropdown settings
-            $(".dropdown").click(function() {
+            $(".dropdown").click(function(event) {
+                event.stopPropagation()
                 $(this).find(".dropdown-content").show()
-                console.log("I was clicked")
             });
         });
 
