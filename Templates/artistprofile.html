@@ -330,6 +330,15 @@
             overflow: hidden;
             box-shadow: 0 0px 15px 0 #111111;
             font-size: 13px;
+            display: none;
+        }
+
+        .delete_media_cancel {
+            display: inline-block;
+        }
+
+        .delete_media_cancel:hover {
+            cursor: pointer;
         }
 
         .delete_media_forever_button {
@@ -518,7 +527,7 @@
     <div id="delete_artist_media_container" class="popup-box">
         <div style="width: 100%;padding-bottom: 20px;">Are you sure you want to delete this?</div>
 
-        <a class="delete_media_cancel" style="display: inline-block">Cancel</a>
+        <a class="delete_media_cancel">Cancel</a>
         <div class="delete_media_forever_button">Delete media</div>
     </div>
 
@@ -561,20 +570,50 @@
             });
         });
 
+        //Show message artist box
         $("#messageartist").click(function() {
             $("#contact_send_message_container").show()
             $("#blackbackground").show()
         })
 
+        //Hide message artist box
         $("#blackbackground").click(function() {
             $("#contact_send_message_container").hide()
             $("#blackbackground").hide()
         })
 
+        //Hide message artist box
         $("#closesendmessage").click(function() {
             $("#contact_send_message_container").hide()
             $("#blackbackground").hide()
+        });
+
+        //Show delete media box
+        $(".delete_media_link").click(function() {
+            let media_id = $(this).attr('id')
+
+            //Assign media id to delete forever button
+            $("#delete_media_forever_button").attr('id', media_id)
+
+            //Show delete media container and blackbackground
+            $("#delete_artist_media_container").show()
+            $("#blackbackground").show()
         })
+
+        //Hide delete media box
+        $(".delete_media_cancel").click(function() {
+            //Show delete media container and blackbackground
+            $("#delete_artist_media_container").hide()
+            $("#blackbackground").hide()
+        });
+
+        //Hide delete media box
+        $("#blackbackground").click(function() {
+            //Show delete media container and blackbackground
+            $("#delete_artist_media_container").hide()
+            $("#blackbackground").hide()
+        });
+
 
         //Save new artist media
         function save_artist_media(type, src) {
@@ -622,10 +661,10 @@
                         let iframe = `
                             <div>
                                 <!--- Dropdown menu --->
-                                <div class="dropdown" id="${data.success[x].media_id}">
+                                <div class="dropdown">
                                     <font class="dropdown-title">&middot;&middot;&middot;</font>
                                     <div class="dropdown-content">
-                                        <p class="delete_media_link">Delete</p>
+                                        <p class="delete_media_link" id="${data.success[x].media_id}">Delete</p>
                                     </div>
                                 </div>
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
