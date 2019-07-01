@@ -312,18 +312,6 @@
             cursor: pointer;
         }
 
-        .delete_media_forever_button {
-            border: 1px solid;
-            border-radius: 5px;
-            padding: 5px;
-            width: 100px;
-            border-color: #d2d2d2;
-        }
-
-        .delete_media_forever_button:hover {
-            border-color: #383838;
-        }
-
         .popup-box {
             position: fixed;
             left: 50%;
@@ -343,6 +331,18 @@
             box-shadow: 0 0px 15px 0 #111111;
         }
 
+        .delete_media_forever_button {
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100px;
+            border-color: #d2d2d2;
+        }
+
+        .delete_media_forever_button:hover {
+            border-color: #383838;
+        }
+
 
         @media screen and (min-width: 800px) {
 
@@ -352,6 +352,11 @@
             }
 
             #contact_send_message_container {
+                width: 400px;
+                margin: 0 auto;
+            }
+
+            .popup-box {
                 width: 400px;
                 margin: 0 auto;
             }
@@ -508,8 +513,11 @@
     <!--- Delete artist media --->
     <div id="delete_artist_media_container" class="popup-box">
         Are you sure you want to delete this?
-        <a>Cancel</a>
-        <div class="delete_media_button">Delete media</div>
+
+        <b/>
+
+        <a class="delete_media_cancel">Cancel</a>
+        <div class="delete_media_forever_button">Delete media</div>
     </div>
 
     <!--- Black background--->
