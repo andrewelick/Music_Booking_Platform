@@ -293,10 +293,6 @@
             z-index: 1;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
         .delete_media_link {
             color: red;
         }
@@ -668,6 +664,11 @@
 
             //Disable save button
             $("#save_media_button").addClass("invalidClass").prop("disabled", true)
+        })
+
+        //Show media dropdown settings
+        $(".dropdown-content").click(function() {
+            $(this).find('.dropdown').show()
         })
 
         //Validate and load iFrame preview
