@@ -249,12 +249,33 @@
         }
 
         .artist_media_container {
+            display: inline-block;
+            width: 100%;
         }
 
         .artist_media {
             width: 100%;
             height: 300px;
             margin-bottom: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
 
 
@@ -450,65 +471,6 @@
             $("#blackbackground").hide()
         })
 
-        //Load spotify top albums
-        $.ajax({
-            url: "/spotify_resources",
-            type: "POST",
-            data: {
-                get_albums: "check"
-            },
-            dataType: "json"
-        }).done(function(data) {
-
-            if (data['success']) {
-                console.log(data)
-
-                let albums = data['success']
-
-                //Loop through each song
-                for (i = 0; i < albums.length; i++)
-                {
-                    //Iframe for top song
-                    let ablum_single = `<a href="${albums[i][0]}" class="spotifyalbum" target="_blank"><img src="${albums[i][1]}" class="albumpicture" height=95 /></a>`
-
-                    //Add songs to container
-                    $("#spotify_albums").append(ablum_single)
-                }
-            }
-            else {
-                $("#albums_container").hide();
-            }
-        })
-
-        //Load spotify top tracks
-        $.ajax({
-            url: "/spotify_resources",
-            type: "POST",
-            data: {
-                get_top_tracks: "check"
-            },
-            dataType: "json"
-        }).done(function(data) {
-
-            if (data['success']) {
-
-                let top_tracks = data['success']
-
-                //Loop through each song
-                for (i = 0; i < top_tracks.length; i++)
-                {
-                    //Iframe for top song
-                    let top_track_single = `<iframe src="https://open.spotify.com/embed/track/${top_tracks[i]}" class="topsongcontainer" width="90%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
-
-                    //Add songs to container
-                    $("#spotify_top_tracks").append(top_track_single)
-                }
-            }
-            else {
-                $("#top_tracks_container").hide()
-            }
-        })
-
         //Save new artist media
         function save_artist_media(type, src) {
             $.ajax({
@@ -554,6 +516,12 @@
                     for (x in data.success) {
                         let iframe = `
                             <div id="${data.success[x].media_id}">
+                                <!--- Dropdown menu --->
+                                <div class="dropdown">
+                                    <div class="dropdown-content">
+                                        <p>Hello</p>
+                                    </div>
+                                </div>
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                             </div>
                         `
@@ -693,7 +661,11 @@
                 //Save new media
                 $("#save_media_button").click(function() {
                     save_artist_media(valid_input_data.type, valid_input_data.src)
-                    location.reload();
+
+                    //Clear artist media container
+                    $("#artist_media_container").html("")
+                    //Refresh artist media content
+                    load_artist_media()
                 })
             }
             else {
