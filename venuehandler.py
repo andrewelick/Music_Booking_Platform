@@ -606,7 +606,19 @@ def get_artist_media(uid):
             c.execute("""SELECT media_id, src FROM artist_media WHERE uid = %s""", (uid,))
             all_media = c.fetchall()
 
-            return json.dumps({'success': all_media})
+            #Second list for results
+            all_media2 = []
+
+            #Loop through all items
+            for x in all_media:
+                dict = {
+                    media_id: x[0],
+                    src: x[1],
+                }
+
+                all_media2.append(dict)
+
+            return json.dumps({'success': all_media2})
         except Exception as e:
             print (e)
             return json.dumps({'error': "Could not load media"})
