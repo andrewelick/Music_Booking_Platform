@@ -396,6 +396,12 @@
                 </div>
             {% endif %}
 
+            <!--- Load artist media --->
+            <div id="artist_media_container">
+                <!--- Loading gif --->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
+
             <!--- Youtube video --->
             {% if artist_links[1] != "" and artist_links[1] != "NULL" and artist_links[1] != None %}
                 <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
@@ -631,7 +637,17 @@
                 },
                 dataType: "json"
             }).done(function(data) {
-                console.log(data)
+
+                if (data.success) {
+                    //Loop through each item
+                    for (x in data.sucess) {
+                        let iframe = '<iframe class="artist_media" src="'+data[x].src+'" id="'+data[x].media_id+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+                        $("#artist_media_container").append(iframe)
+                    }
+                }
+                else {
+                    $("#artist_media_container").html("There was an error loading artist content")
+                }
             })
         }
 
