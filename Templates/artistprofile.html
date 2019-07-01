@@ -337,11 +337,12 @@
             border-radius: 5px;
             padding: 5px;
             width: 100px;
-            border-color: #d2d2d2;
+            border-color: #efefef;
         }
 
         .delete_media_forever_button:hover {
-            border-color: #383838;
+            border-color: #d2d2d2;
+            cursor: pointer;
         }
 
 
@@ -513,9 +514,7 @@
 
     <!--- Delete artist media --->
     <div id="delete_artist_media_container" class="popup-box">
-        Are you sure you want to delete this?
-
-        <b/>
+        <div style="width: 100%;padding-bottom: 20px;">Are you sure you want to delete this?</div>
 
         <a class="delete_media_cancel" style="display: inline-block">Cancel</a>
         <div class="delete_media_forever_button">Delete media</div>
