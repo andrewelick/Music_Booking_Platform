@@ -492,7 +492,7 @@
             //Hide media dropdown settings
             $(document).click(function() {
                 $(".dropdown-content").hide()
-                $(".dropdown_title").removeClass("dropdown-active")
+                $(".dropdown-title").removeClass("dropdown-active")
             })
 
             //Show media dropdown settings
@@ -508,7 +508,7 @@
                 //Show dropdown content
                 $(this).find('.dropdown-content').toggle()
                 //Change font color of dropdown button
-                $(this).find('.dropdown_title').addClass("dropdown-active")
+                $(this).find('.dropdown-title').addClass("dropdown-active")
             });
         });
 
@@ -574,7 +574,7 @@
                             <div>
                                 <!--- Dropdown menu --->
                                 <div class="dropdown" id="${data.success[x].media_id}">
-                                    <font class="dropdown_title">...</font>
+                                    <font class="dropdown-title">...</font>
                                     <div class="dropdown-content">
                                         <p class="delete_media_link">Delete</p>
                                     </div>
