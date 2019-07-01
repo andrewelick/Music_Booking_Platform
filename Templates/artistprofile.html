@@ -270,8 +270,12 @@
         }
 
         .artist_media_container {
+        }
+
+        .artist_media {
             width: 100%;
             height: 300px;
+            margin-bottom: 10px;
         }
 
 
@@ -648,7 +652,9 @@
                     for (x in data.success) {
                         console.log(data.success[x])
                         let iframe = `
-                            <iframe class="artist_media" src="${data.success[x].src}" id="${data.success[x].media_id}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                            <div id="${data.success[x].media_id}">
+                                <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                            </div>
                         `
                         $("#artist_media_container").append(iframe)
                     }
