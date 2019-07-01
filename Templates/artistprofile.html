@@ -593,18 +593,35 @@
             }
         })
 
+        //Save new artist media
         function save_artist_media(type, src) {
-            //Load artist media
             $.ajax({
                 url: "/artist_media",
                 type: "POST",
                 data: {
+                    save_media: "yes",
                     type: type,
                     src: src,
                 },
                 dataType: "json"
             }).done(function(data) {
+                console.log(data)
+            })
+        }
 
+        let url_path = window.location.pathname;
+        console.log(url_path)
+        //Load artist media
+        function load_artist_media() {
+            $.ajax({
+                url: "/artist_media",
+                type: "POST",
+                data: {
+                    load_media: "yes",
+                    artist_id: "nip",
+                },
+                dataType: "json"
+            }).done(function(data) {
                 console.log(data)
             })
         }

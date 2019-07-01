@@ -878,10 +878,20 @@ def artist_media():
         uid = venuehandler.get_uid(email)
 
         if request.method == "POST":
-            type = request.form['type']
-            src = request.form['src']
 
-            return venuehandler.create_artist_media(uid, type, src)
+            #Save new media
+            if request.form.get("save_media"):
+                #Save artist media
+                type = request.form['type']
+                src = request.form['src']
+
+                return venuehandler.create_artist_media(uid, type, src)
+
+            #Load artist media
+            if request.form.get("load_media"):
+                artist_id = request.form['artist_id']
+                
+                return venuehandler.get_artist_media(artist_id)
 
 
 #--- Spotify API section ---------------------------------

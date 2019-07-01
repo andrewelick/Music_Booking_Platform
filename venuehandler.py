@@ -593,6 +593,27 @@ def create_artist_media(uid, type, src):
             if conn:
                 conn.close()
 
+#Get artist media for artistprofile
+def get_artist_media(uid):
+    #Connect to database
+    conn = connect_to_database()
+
+    if conn is not False:
+        c = conn.cursor()
+
+        try:
+            #Insert into artist_media table
+            c.execute("""SELECT media_id, src FROM artist_media WHERE uid = %s""", (uid,))
+            all_media = c.fetchall()
+
+            return json.dumps({'success': all_media})
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': "Could not load media"})
+        finally:
+            if conn:
+                conn.close()
+
 #Upload show posting
 def create_show_posting(email,price,description,artist_type,show_date,am_pm):
     #Connect to database
