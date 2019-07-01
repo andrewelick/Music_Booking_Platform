@@ -618,7 +618,7 @@ def get_artist_media(uid):
 
                 all_media2.append(dict)
 
-            return json.dumps({'success': all_media2})
+            return json.dumps({'success': all_media2.reverse})
         except Exception as e:
             print (e)
             return json.dumps({'error': "Could not load media"})
