@@ -576,6 +576,7 @@
 
             //Check if there is a iframe
             if (iframe_val) {
+                console.log(iframe_val)
                 var iframe_src = iframe_val
             }
             else {
@@ -617,7 +618,7 @@
                     "type": "spotify",
                 }
             }
-            else if (iframe_src.startsWith("https://www.youtube.com/")) {
+            else if (iframe_src.startsWith("https://www.youtube.com/watch")) {
                 iframe_src = iframe_src.substring(iframe_src.lastIndexOf("=") + 1);
                 iframe_src = "https://www.youtube.com/embed/"+iframe_src
 
