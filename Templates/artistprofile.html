@@ -312,6 +312,37 @@
             cursor: pointer;
         }
 
+        .delete_media_forever_button {
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100px;
+            border-color: #d2d2d2;
+        }
+
+        .delete_media_forever_button:hover {
+            border-color: #383838;
+        }
+
+        .popup-box {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 5px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 99;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #FFFFFF;
+            transition: 0.3s;
+            overflow: hidden;
+            box-shadow: 0 0px 15px 0 #111111;
+        }
+
 
         @media screen and (min-width: 800px) {
 
@@ -474,7 +505,14 @@
     </div>
     <!--- End of Contact send message screen --->
 
-    <!--- Black background for send messages screen --->
+    <!--- Delete artist media --->
+    <div id="delete_artist_media_container" class="popup-box">
+        Are you sure you want to delete this?
+        <a>Cancel</a>
+        <div class="delete_media_button">Delete media</div>
+    </div>
+
+    <!--- Black background--->
     <div id="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
