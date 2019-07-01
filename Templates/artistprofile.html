@@ -181,7 +181,6 @@
             width: 150px;
             padding: 10px;
             float: left;
-            display: block;
             font-size: 14px;
             color: blue;
         }
@@ -263,6 +262,10 @@
             position: relative;
             display: block;
             float: right;
+            padding: 5px;
+            border: 1px solid;
+            border-bottom: 0px;
+            border-color: #d2d2d2
         }
 
         .dropdown-content {
@@ -270,9 +273,9 @@
             position: absolute;
             right: 0px;
             background-color: #f9f9f9;
-            min-width: 160px;
+            min-width: 100;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 12px 16px;
+            padding: 10px;
             z-index: 1;
         }
 
@@ -520,7 +523,7 @@
                             <div id="${data.success[x].media_id}">
                                 <!--- Dropdown menu --->
                                 <div class="dropdown">
-                                    <span>Hover me</span>
+                                    <span>...</span>
                                     <div class="dropdown-content">
                                         <p>Hello</p>
                                     </div>
