@@ -606,8 +606,6 @@ def get_artist_media(uid):
             c.execute("""SELECT media_id, src FROM artist_media WHERE uid = %s""", (uid,))
             all_media = c.fetchall()
 
-            print (all_media)
-
             return json.dumps({'success': all_media})
         except Exception as e:
             print (e)
