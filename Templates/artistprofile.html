@@ -487,6 +487,12 @@
 
             //Show media dropdown settings
             $(".dropdown").click(function(event) {
+                event.stopPropagation();
+
+                //Hide all other menus open
+                $(".dropdown-content").hide()
+
+                //Show the new one
                 $(this).find(".dropdown-content").show()
             });
         });
