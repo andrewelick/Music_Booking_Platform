@@ -610,7 +610,7 @@
         }
 
         //Get url
-        let url_path = URLSearchParams(window.location.pathname);
+        let url_path = new URLSearchParams(window.location.pathname);
         console.log(url_path)
 
         if (url_path.includes("?")) {
