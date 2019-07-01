@@ -269,7 +269,6 @@
             border-bottom: 0px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
-            background-color: #ffffff;
             border-color: #efefef;
         }
 
@@ -281,6 +280,7 @@
             border: 1px solid;
             border-radius: 5px;
             border-top-right-radius: 0px;
+            background-color: #ffffff;
             border-color: #efefef;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 5px;
@@ -290,6 +290,14 @@
 
         .dropdown:hover .dropdown-content {
             display: block;
+        }
+
+        .delete_media_link {
+            color: red;
+        }
+
+        .delete_media_link:hover {
+            text-decoration: underline;
         }
 
 
@@ -534,7 +542,7 @@
                                 <div class="dropdown">
                                     <span style="font-weight: bold;font-size: 14px;">...</span>
                                     <div class="dropdown-content">
-                                        <p style="color: red">Delete</p>
+                                        <p class="delete_media_link">Delete</p>
                                     </div>
                                 </div>
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
