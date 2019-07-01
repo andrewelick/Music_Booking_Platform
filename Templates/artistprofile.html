@@ -639,10 +639,10 @@
             }).done(function(data) {
 
                 if (data.success) {
-                    console.log(data.success)
                     //Loop through each item
                     for (x in data.sucess) {
-                        let iframe = '<iframe class="artist_media" src="'+data[x].src+'" id="'+data[x].media_id+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+                        console.log(data.success[x])
+                        let iframe = '<iframe class="artist_media" src="'+data.success[x].src+'" id="'+data.success[x].media_id+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
                         $("#artist_media_container").append(iframe)
                     }
                 }
