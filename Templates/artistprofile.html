@@ -492,7 +492,7 @@
             //Hide media dropdown settings
             $(document).click(function() {
                 $(".dropdown-content").hide()
-                $(".dropdown-active").removeClass("dropdown-active")
+                $(".dropdown_title").removeClass("dropdown-active")
             })
 
             //Show media dropdown settings
@@ -505,8 +505,10 @@
                 //Hide all other menus open
                 $(".dropdown-content").hide()
 
-                //Hide it
-                $(this).find('.dropdown-content').toggle().addClass("dropdown-active")
+                //Show dropdown content
+                $(this).find('.dropdown-content').toggle()
+                //Change font color of dropdown button
+                $(this).find('.dropdown_title').addClass("dropdown-active")
             });
         });
 
