@@ -640,7 +640,7 @@
 
                 if (data.success) {
                     //Loop through each item
-                    for (x in data.sucess) {
+                    for (x in data.success) {
                         console.log(data.success[x])
                         let iframe = '<iframe class="artist_media" src="'+data.success[x].src+'" id="'+data.success[x].media_id+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
                         $("#artist_media_container").append(iframe)
