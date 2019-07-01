@@ -557,8 +557,6 @@
             $(".dropdown").click(function(event) {
 
                 event.stopPropagation();
-                //id of dropdown
-                let dropdown_id = $(this).attr('id')
 
                 //Hide all other menus open
                 $(".dropdown-content").hide()
@@ -574,7 +572,7 @@
                 let media_id = $(this).attr('id')
 
                 //Assign media id to delete forever button
-                $("#delete_media_forever_button").attr('id', media_id)
+                $(".delete_media_forever_button").attr('id', media_id)
 
                 //Show delete media container and blackbackground
                 $("#delete_artist_media_container").show()
