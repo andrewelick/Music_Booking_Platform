@@ -104,28 +104,6 @@
           color: #383838;
         }
 
-        .youtubevideo {
-          width: 100%;
-          height: 250px;
-          margin-bottom: 15px;
-        }
-
-        .topsongcontainer {
-          margin-bottom: 3px;
-          box-shadow: 0 0px 4px 0 #383838;
-        }
-
-        .spotifyalbum {
-          margin-right: 3px;
-        }
-
-        .albumpicture {
-          border: 2px solid;
-          border-radius: 5px;
-          border-color: #FFFFFF;
-          box-shadow: 0 0px 4px 0 #383838;
-        }
-
         textarea {
           padding: 8px;
           width: 70%;
@@ -242,6 +220,7 @@
             box-shadow: 0 1px 3px 0 #e6ebf1;
             transition: 150ms ease;
             -webkit-appearance:none;
+            font-size: 13px;
             font-family: inherit;
         }
 
@@ -274,7 +253,7 @@
 
         .artist_media {
             width: 100%;
-            height: 300px;
+            height: 250px;
             margin-bottom: 10px;
         }
 
@@ -291,16 +270,8 @@
                 margin: 0 auto;
             }
 
-            .youtubevideo {
+            .artist_media {
                 height: 350px;
-            }
-
-            .albumpicture {
-                height: 150px;
-            }
-
-            .topsongcontainer {
-                width: 480px;
             }
 
             .socialbar {
@@ -411,39 +382,6 @@
                 <img class="loading_gif" src="static/loading-spinner.gif" />
             </div>
 
-            <!--- Youtube video --->
-            {% if artist_links[1] != "" and artist_links[1] != "NULL" and artist_links[1] != None %}
-                <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Music video</div>
-                <iframe class="youtubevideo" src="https://www.youtube-nocookie.com/embed/{% print artist_links[1] %}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            {% endif %}
-
-            <!--- Soundcloud iframe --->
-            {% if artist_details[4] != "" and artist_details[4] != "NULL" and artist_details[1] != None %}
-                <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Soundcloud songs</div>
-                <iframe class="media_preview" height="400" scrolling="no" frameborder="no" allow="autoplay" src="{% print artist_details[4] %}"></iframe>
-            {% endif %}
-
-            <!--- Spotify albums --->
-            <div id="albums_container">
-                <div style='margin-bottom:10px;font-size:16px;font-weight:bold;'>Recent Albums</div>
-
-                <div id="spotify_albums">
-                    <!--- Loading gif --->
-                    <img class="loading_gif" src="static/loading-spinner.gif" />
-                </div>
-            </div>
-
-            <!--- Top songs from Spotify --->
-            <div id="top_tracks_container">
-                <div style='margin-top:10px;margin-bottom:10px;font-size:16px;font-weight:bold;'>Top songs on Spotify</div>
-
-                <div id="spotify_top_tracks">
-                    <!--- Loading gif --->
-                    <img class="loading_gif" src="static/loading-spinner.gif" />
-                </div>
-            </div>
-
-
         </div>
         <!--- End of Music container --->
 
@@ -507,47 +445,6 @@
             $("#contact_send_message_container").hide()
             $("#blackbackground").hide()
         })
-
-
-        //Get Spotify followers count
-        $.ajax({
-            url: "/spotify_resources",
-            type: "POST",
-            data: {
-                get_followers: "check",
-            },
-            dataType: "json",
-        }).done(function(data) {
-
-            if (data['success']) {
-                let follower_count = data['success']
-
-                console.log(follower_count)
-
-                if (follower_count > 1000000) {
-                    first_two_numbers = String(follower_count).substr(0,2)
-                    follower_count = first_two_numbers.slice(0, 1) + "." + first_two_numbers.slice(1,2) + "m";
-                }
-                else {
-
-                    if (follower_count > 100000) {
-                        first_three_numbers = String(follower_count).substr(0,3)
-                        follower_count = first_three_numbers + "k"
-                    }
-                    else {
-
-                        if (follower_count > 1000) {
-                            first_two_numbers = String(follower_count).substr(0,2)
-                            follower_count = first_two_numbers.slice(0, 1) + "." + first_two_numbers.slice(1,2) + "k";
-                        }
-                    }
-                }
-                $("#spotify_follow_count").html(follower_count)
-            }
-            else {
-                $("#spotify_followers").hide()
-            }
-        });
 
         //Load spotify top albums
         $.ajax({
@@ -620,7 +517,8 @@
                 },
                 dataType: "json"
             }).done(function(data) {
-                console.log(data)
+                //Show error message
+                $("#save_media_button").html("There was an error saving artist content, please try again.").css("color", "red")
             })
         }
 
@@ -713,6 +611,26 @@
                 }
             }
             else if (iframe_src.startsWith("https://open.spotify.com/embed/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
+            else if (iframe_src.startsWith("https://www.youtube.com/")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf("=") + 1);
+                iframe_src = "https://www.youtube.com/embed/"+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
+            else if (iframe_src.startsWith("https://youtu.be/")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf(".be/") + 1);
+                iframe_src = "https://www.youtube.com/embed/"+iframe_src
+
                 return {
                     "valid_input": true,
                     "src": iframe_src,
