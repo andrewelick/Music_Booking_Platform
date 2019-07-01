@@ -493,15 +493,8 @@
                 //Hide all other menus open
                 $(".dropdown-content").hide()
 
-                //Check if dropdown-content is already open
-                if ($(this).find('.dropdown-content').is(':visible')) {
-                    //Hide it
-                    $(this).find('.dropdown-content').hide()
-                }
-                else {
-                    //Show it
-                    $(this).find(".dropdown-content").show()
-                }
+                //Hide it
+                $(this).find('.dropdown-content').toggle()
             });
         });
 
