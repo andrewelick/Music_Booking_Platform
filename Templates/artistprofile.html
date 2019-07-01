@@ -612,9 +612,9 @@
         //Get url
         let url_path = new URLSearchParams(window.location.pathname);
         console.log(url_path)
-        let artist_id = urlParams.get("uid")
+        let artist_id = url_path.get("uid")
         console.log(artist_id)
-        
+
         //Load artist media
         function load_artist_media() {
             $.ajax({
