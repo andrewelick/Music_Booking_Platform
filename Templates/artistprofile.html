@@ -610,10 +610,13 @@
         }
 
         //Get url
-        let url_path = new URLSearchParams(window.location.pathname);
+        let url_path = window.location.pathname;
         console.log(url_path)
-        let artist_id = url_path.get("uid")
-        console.log(artist_id)
+
+        if (url_path.includes("=")) {
+            let artist_id = url_path.split("=")[1]
+            console.log(artist_id)
+        }
 
         //Load artist media
         function load_artist_media() {
