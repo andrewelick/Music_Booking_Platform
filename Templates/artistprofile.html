@@ -269,6 +269,11 @@
             color: #383838;
         }
 
+        .artist_media_container {
+            width: 100%;
+            height: 300px;
+        }
+
 
         @media screen and (min-width: 800px) {
 
@@ -642,7 +647,9 @@
                     //Loop through each item
                     for (x in data.success) {
                         console.log(data.success[x])
-                        let iframe = '<iframe class="artist_media" src="'+data.success[x].src+'" id="'+data.success[x].media_id+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+                        let iframe = `
+                            <iframe class="artist_media" src="${data.success[x].src}" id="${data.success[x].media_id}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        `
                         $("#artist_media_container").append(iframe)
                     }
                 }
