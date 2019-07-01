@@ -612,8 +612,8 @@ def get_artist_media(uid):
             #Loop through all items
             for x in all_media:
                 dict = {
-                    media_id: x[0],
-                    src: x[1],
+                    'media_id': x[0],
+                    'src': x[1],
                 }
 
                 all_media2.append(dict)
