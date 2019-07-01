@@ -477,7 +477,14 @@
         });
 
         $(document).ajaxStop(function() {
+            //Hide loading gif
             $(".loading_gif").hide();
+
+            //Show media dropdown settings
+            $(".dropdown").click(function() {
+                $(this).find(".dropdown-content").show()
+                console.log("I was clicked")
+            });
         });
 
         $("#messageartist").click(function() {
@@ -664,12 +671,6 @@
 
             //Disable save button
             $("#save_media_button").addClass("invalidClass").prop("disabled", true)
-        })
-
-        //Show media dropdown settings
-        $(".dropdown").click(function() {
-            $(this).find(".dropdown-content").show()
-            console.log("I was clicked")
         })
 
         //Validate and load iFrame preview
