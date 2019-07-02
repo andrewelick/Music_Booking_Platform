@@ -897,6 +897,11 @@ def artist_media():
 
                 return venuehandler.get_artist_media(artist_id)
 
+            #Delete artist media
+            if request.form.get("delete_media"):
+                media_id = request.form["media_id"]
+
+                return venuehandler.delete_artist_media(uid, media_id)
 
 #--- Spotify API section ---------------------------------
 

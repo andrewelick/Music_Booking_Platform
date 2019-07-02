@@ -529,6 +529,9 @@
 
         <a class="delete_media_cancel">Cancel</a>
         <div class="delete_media_forever_button">Delete media</div>
+
+        <!--- Delete media message --->
+        <div id="delete_media_message"></div>
     </div>
 
     <!--- Black background--->
@@ -818,6 +821,33 @@
                 //Disable save button
                 $("#save_media_button").addClass("invalidClass").prop("disabled", true)
             }
+        });
+
+        //Delete artist media
+        $(".delete_media_forever_button").click(function() {
+            let media_id = $(this).attr('id')
+
+            //Send ajax call to delete media
+            $.ajax({
+                url: "/artist_media",
+                type: "POST",
+                data: {
+                    delete_media: "yes",
+                    media_id: media_id,
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                //If deletion was successful
+                if (data.success) {
+                    //Refresh media
+                    load_artist_media()
+                    $("#delete_media_message").html("Deleted").css("css", "green")
+                }
+                else {
+                    $("#delete_media_message").html("Could not delete media").css("css", "red")
+                }
+            })
         });
 
     </script>

@@ -620,11 +620,32 @@ def get_artist_media(uid):
 
             #Reverse list
             all_media2 = all_media2[::-1]
-            
+
             return json.dumps({'success': all_media2})
         except Exception as e:
             print (e)
             return json.dumps({'error': "Could not load media"})
+        finally:
+            if conn:
+                conn.close()
+
+#Delete artist media for artistprofile
+def delete_artist_media(uid, media_id):
+    #Connect to database
+    conn = connect_to_database()
+
+    if conn is not False:
+        c = conn.cursor()
+
+        try:
+            #Insert into artist_media table
+            c.execute("""DELETE FROM artist_media WHERE uid = %s AND media_id = %s""", (uid, media_id,))
+            conn.commit()
+
+            return json.dumps({'success': "Deleted media"})
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': "Could not delete media"})
         finally:
             if conn:
                 conn.close()
