@@ -637,6 +637,9 @@
                     $("#add_media_container").hide()
                     $("#media_input").val("")
                     $("#media_preview_display").html("")
+
+                    //Refresh artist media content
+                    load_artist_media()
                 }
                 else {
                     //Show error message
@@ -823,12 +826,8 @@
 
                 //Save new media
                 $("#save_media_button").click(function() {
+                    //Save artist media data
                     save_artist_media(valid_input_data.type, valid_input_data.src)
-
-                    //Clear artist media container
-                    $("#artist_media_container").html("")
-                    //Refresh artist media content
-                    load_artist_media()
                 })
             }
             else {
