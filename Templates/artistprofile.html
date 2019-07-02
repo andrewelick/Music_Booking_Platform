@@ -681,13 +681,17 @@
                     for (x in data.success) {
                         let iframe = `
                             <div>
-                                <!--- Dropdown menu --->
-                                <div class="dropdown">
-                                    <font class="dropdown-title">&middot;&middot;&middot;</font>
-                                    <div class="dropdown-content">
-                                        <p class="delete_media_link" id="${data.success[x].media_id}">Delete</p>
+                                <!--- If current user is the artist --->
+                                {% if email == session['username'] %}
+                                    <!--- Dropdown menu --->
+                                    <div class="dropdown">
+                                        <font class="dropdown-title">&middot;&middot;&middot;</font>
+                                        <div class="dropdown-content">
+                                            <p class="delete_media_link" id="${data.success[x].media_id}">Delete</p>
+                                            </div>
                                     </div>
-                                </div>
+                                {% endif %}
+                                
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                             </div>
                         `
