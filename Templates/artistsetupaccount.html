@@ -243,14 +243,6 @@
           </div>
           <!--- End of Bio section --->
 
-          <!-- Soundcloud iframe -->
-          <div style="margin-top: 20px;margin-bottom: 5px;">Soundcloud songs</div>
-          <div style="margin-bottom: 10px;font-size: 12px;">Click the Share button on your soundcloud profile, then embed, copy that code and insert it here.</div>
-          <input type='text' id="soundcloud_iframe" name='soundcloud_iframe' placeholder="Soundcloud songs iframe" />
-
-          <!--- Display soundcloud iframe to user --->
-          <div id="soundcloud_iframe_holder" style="display: none"></div>
-
           <input type='Submit' value="Next" id="submit_button" />
 
         </form>
@@ -324,32 +316,6 @@
                 })
 
             });
-        });
-
-        //Get src from soundcloud iframe and display preview
-        $("#soundcloud_iframe").focusout(function() {
-
-            //Hide soundcloud iframe holder
-            $("#soundcloud_iframe_holder").hide()
-
-            //Get soundcloud iframe input value and insert it into holder
-            let soundcloud_iframe = $("#soundcloud_iframe").val()
-            $("#soundcloud_iframe_holder").html(soundcloud_iframe)
-
-            //Try to get url of iframe
-            let iframe_val = $("#soundcloud_iframe_holder iframe").attr('src')
-
-            //Check if there is a valid iFrame inputted
-            if (iframe_val) {
-                $("#soundcloud_iframe").val(iframe_val)
-                $("#soundcloud_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+iframe_val+'"></iframe>')
-                $("#soundcloud_iframe_holder").show()
-            }
-            //Check if there is a valid parsed url
-            else if (soundcloud_iframe.startsWith("https://w.soundcloud.com/player/")) {
-                $("#soundcloud_iframe_holder").html('<iframe class="media_preview" height="300" scrolling="no" frameborder="no" allow="autoplay" src="'+soundcloud_iframe+'"></iframe>')
-                $("#soundcloud_iframe_holder").show()
-            }
         });
 
     </script>

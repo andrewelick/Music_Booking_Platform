@@ -240,9 +240,8 @@ def setup_account():
                 genre = request.form['genre']
                 member = request.form['member_total']
                 bio = request.form['bio']
-                soundcloud_iframe_src = request.form['soundcloud_iframe']
 
-                create_artist_profile = venuehandler.artist_profile_setup(email, genre, member, bio, soundcloud_iframe= soundcloud_iframe_src)
+                create_artist_profile = venuehandler.artist_profile_setup(email, genre, member, bio)
 
                 if create_artist_profile:
                     return redirect(url_for('setup_connect_links'))
@@ -305,7 +304,6 @@ def setup_connect_links():
 
             #Save profile links
             if request.method == "POST":
-                youtube_link = request.form['youtube']
                 spotify_link = request.form['spotify_link']
                 #bandcamp_link = request.form['bandcamp']
                 bandcamp_link = None
@@ -314,7 +312,7 @@ def setup_connect_links():
                 instagram_link = None
                 facebook_link = request.form['facebook']
 
-                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
+                links_submitted = venuehandler.save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
 
                 if links_submitted:
                     return redirect(url_for("add_payment_page"))
