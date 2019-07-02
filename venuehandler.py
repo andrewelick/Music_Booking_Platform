@@ -427,7 +427,7 @@ def venue_profile_setup(email,business_name,business_type,location,bio):
                 conn.close()
 
 #Save artist profile links
-def save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link):
+def save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
@@ -438,7 +438,7 @@ def save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twit
             if youtube_link != "":
                 youtube_link = youtube_link.split("=")[1]
 
-            c.execute("""UPDATE artist_account_links SET youtube_link=%s, spotify_link=%s, bandcamp_link=%s, twitter_link=%s, instagram_link=%s, facebook_link=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link,email,))
+            c.execute("""UPDATE artist_account_links SET spotify_link=%s, bandcamp_link=%s, twitter_link=%s, instagram_link=%s, facebook_link=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link,email,))
             conn.commit()
             return True
         except Exception as e:

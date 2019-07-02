@@ -742,7 +742,6 @@ def edit_profile_page():
                 #Change profile information
                 changed_artist_profile = venuehandler.artist_profile_setup(email,genre,member,bio)
 
-                youtube_link = request.form['youtube']
                 spotify_link = request.form['spotify_link']
                 #bandcamp_link = request.form['bandcamp']
                 bandcamp_link = None
@@ -752,7 +751,7 @@ def edit_profile_page():
                 facebook_link = request.form['facebook']
 
                 #Change profile links
-                links_submitted = venuehandler.save_artist_profile_links(email,youtube_link,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
+                links_submitted = venuehandler.save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
 
                 if changed_artist_profile and links_submitted:
                     flash("Your changes were saved!")
