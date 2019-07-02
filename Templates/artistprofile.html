@@ -645,6 +645,10 @@
 
         //Load artist media
         function load_artist_media() {
+
+            //Clear previous content
+            $("#artist_media_container").html("")
+            
             //Get url
             let url_path = window.location.href;
 
@@ -853,7 +857,7 @@
                 //If deletion was successful
                 if (data.success) {
                     $("#new_delete_container").hide()
-                    $("#delete_media_message").html("Deleted").css("color", "green")
+                    $("#delete_media_message").html("Media has been deleted").css("color", "green")
 
                     //Refresh media
                     load_artist_media()
