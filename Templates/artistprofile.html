@@ -629,8 +629,15 @@
                 },
                 dataType: "json"
             }).done(function(data) {
-                //Show error message
-                $("#save_media_button").html("There was an error saving artist content, please try again.").css("color", "red")
+
+                if (data.success) {
+                    $("#add_media_container").hide()
+                    $("#media_input").val()
+                }
+                else {
+                    //Show error message
+                    $("#media_preview_display").html("There was an error saving artist content, please try again.").css("color", "red")
+                }
             })
         }
 
