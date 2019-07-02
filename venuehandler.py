@@ -433,11 +433,6 @@ def save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,inst
     if conn is not False:
         c = conn.cursor()
         try:
-
-            #Get youtube video url
-            if youtube_link != "":
-                youtube_link = youtube_link.split("=")[1]
-
             c.execute("""UPDATE artist_account_links SET spotify_link=%s, bandcamp_link=%s, twitter_link=%s, instagram_link=%s, facebook_link=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link,email,))
             conn.commit()
             return True
