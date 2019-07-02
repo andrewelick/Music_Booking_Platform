@@ -404,7 +404,7 @@
 
             <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
                 <!--- Artist name --->
-                <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print artist_details[5] %}</span>
+                <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print artist_details[4] %}</span>
                 </br>
 
                 <!--- Artist genre and member count --->
@@ -434,22 +434,22 @@
                 <!--- Social bar --->
                 <div class="socialbar">
                     <!--- Spotify button --->
-                    {% if artist_links[2] != "" and artist_links[2] != None %}
+                    {% if artist_links[2] != "" and artist_links[1] != None %}
                         <iframe src="https://open.spotify.com/follow/1/?uri=spotify:artist:0iEtIxbK0KxaSlF7G42ZOp&size=basic&theme=light" width="150" height="28" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowtransparency="true"></iframe>                    <!--- Soundcloud --->
                         <br/>
                     {% endif %}
                     <!--- Twitter --->
-                    {% if artist_links[4] != "" and artist_links[4] != None %}
+                    {% if artist_links[4] != "" and artist_links[3] != None %}
                         <a href="https://twitter.com/{% print artist_links[4] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-screen-name="false" data-show-count="true"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         <br/>
                     {% endif %}
                     <!--- Facebook --->
-                    {% if artist_links[6] != "" and artist_links[6] != None %}
+                    {% if artist_links[6] != "" and artist_links[5] != None %}
                         <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links[6] %}%2F&width=125&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId" width="125" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                         <br/>
                     {% endif %}
                     <!--- Instagram --->
-                    {% if artist_links[5] != "" and artist_links[5] != None %}
+                    {% if artist_links[5] != "" and artist_links[4] != None %}
                         <a href="{% print artist_links[5] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
                     {% endif %}
 
@@ -691,7 +691,7 @@
                                             </div>
                                     </div>
                                 {% endif %}
-                                
+
                                 <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                             </div>
                         `
