@@ -394,7 +394,7 @@ def artist_profile_setup(email,genre,member,bio):
                 if find_account == 1:
                     c.execute("""UPDATE artist_profile_details SET genre=%s, member=%s, bio=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (genre,member,bio,email,))
                 else:
-                    c.execute("""INSERT INTO artist_profile_details (uid,genre,member,bio) VALUES(%s,%s,%s,%s,%s)""", (uid,genre,member,bio,))
+                    c.execute("""INSERT INTO artist_profile_details (uid,genre,member,bio) VALUES(%s,%s,%s,%s)""", (uid,genre,member,bio,))
                 conn.commit()
                 return uid
             else:
