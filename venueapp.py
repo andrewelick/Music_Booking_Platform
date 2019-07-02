@@ -866,7 +866,7 @@ def utility_processor():
         return bids
     return dict(show_bids_stats=get_bids_for_show)
 
-###--Artist media---------------
+###--Artist media API CALLS---------------
 @app.route('/artist_media', methods=['POST', 'GET'])
 def artist_media():
     if 'username' in session:
