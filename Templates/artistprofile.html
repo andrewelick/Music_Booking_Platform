@@ -580,6 +580,8 @@
 
                 //Show delete media container and blackbackground
                 $("#delete_artist_media_container").show()
+                $("#new_delete_container").show()
+                $("#delete_media_message").html("")
                 $("#blackbackground").show()
             })
         });
@@ -648,7 +650,7 @@
 
             //Clear previous content
             $("#artist_media_container").html("")
-            
+
             //Get url
             let url_path = window.location.href;
 
