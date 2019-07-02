@@ -421,7 +421,7 @@
                 <!--- Contact bar --->
                 <div id="contactbar">
                     {% if email != session['username'] %}
-                        <a href="#" class="contact" id="messageartist">Messsage</a>
+                        <a class="contact" id="messageartist">Messsage</a>
                     {% endif %}
                 </div>
                 <!--- End of contact bar --->
@@ -508,7 +508,7 @@
         <!--- Message rec profile --->
         <div id="message_rec_profile" style="margin-bottom: 15px;">
             <img src='https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist_details[0] %}_profile.jpg' style="height:50px;width: 50px;border-radius: 100px" />
-            <span class="rec_name" style="display:inline;position:relative;top:-19px;">{% print artist_details[3] %}</span>
+            <span class="rec_name" style="display:inline;position:relative;top:-19px;">{% print artist_details[4] %}</span>
         </div>
         <!--- End Message rec profile --->
 
