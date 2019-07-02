@@ -627,12 +627,14 @@
                     type: type,
                     src: src,
                 },
-                dataType: "json"
+                cache: false,
+                dataType: "json",
             }).done(function(data) {
 
                 if (data.success) {
                     $("#add_media_container").hide()
-                    $("#media_input").val()
+                    $("#media_input").val("")
+                    $("#media_preview_display").html("")
                 }
                 else {
                     //Show error message
@@ -844,6 +846,7 @@
                     delete_media: "yes",
                     media_id: media_id,
                 },
+                cache: false,
                 dataType: "json",
             }).done(function(data) {
 
