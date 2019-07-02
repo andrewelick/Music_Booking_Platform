@@ -528,7 +528,7 @@
         <div style="width: 100%;padding-bottom: 20px;">Are you sure you want to delete this?</div>
 
         <a class="delete_media_cancel">Cancel</a>
-        <div class="delete_media_forever_button">Delete media</div>
+        <div class="delete_media_forever_button" style="padding: 10px;">Delete media</div>
 
         <!--- Delete media message --->
         <div id="delete_media_message"></div>
@@ -840,12 +840,13 @@
 
                 //If deletion was successful
                 if (data.success) {
+                    $("#delete_media_message").html("Deleted").css("color", "green")
+
                     //Refresh media
                     load_artist_media()
-                    $("#delete_media_message").html("Deleted").css("css", "green")
                 }
                 else {
-                    $("#delete_media_message").html("Could not delete media").css("css", "red")
+                    $("#delete_media_message").html("Could not delete media").css("color", "red")
                 }
             })
         });
