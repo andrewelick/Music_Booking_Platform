@@ -525,11 +525,12 @@
 
     <!--- Delete artist media --->
     <div id="delete_artist_media_container" class="popup-box">
-        <div style="width: 100%;padding-bottom: 20px;">Are you sure you want to delete this?</div>
+        <div id="new_delete_container">
+            <div style="width: 100%;padding-bottom: 20px;">Are you sure you want to delete this?</div>
 
-        <a class="delete_media_cancel">Cancel</a>
-        <div class="delete_media_forever_button" style="padding: 10px;">Delete media</div>
-
+            <a class="delete_media_cancel">Cancel</a>
+            <div class="delete_media_forever_button" style="padding: 10px;font-size: 15px;">Delete media</div>
+        </div>
         <!--- Delete media message --->
         <div id="delete_media_message"></div>
     </div>
@@ -653,7 +654,8 @@
                     load_media: "yes",
                     artist_id: artist_id,
                 },
-                dataType: "json"
+                cache: false,
+                dataType: "json",
             }).done(function(data) {
 
                 if (data.success) {
@@ -840,6 +842,7 @@
 
                 //If deletion was successful
                 if (data.success) {
+                    $("#new_delete_container").hide()
                     $("#delete_media_message").html("Deleted").css("color", "green")
 
                     //Refresh media
