@@ -30,7 +30,7 @@ pydbus==0.6.0
 pyflakes==1.6.0
 PyMySQL==0.9.3
 python-dateutil==2.7.5
-python-dotenv==0.9.1
+python-dotenv==0.10.3
 pytz==2018.5
 requests==2.21.0
 requests-oauthlib==1.2.0

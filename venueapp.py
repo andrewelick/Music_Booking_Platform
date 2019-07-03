@@ -14,7 +14,10 @@ import venuehandler
 import urllib.parse
 import json
 import base64
+from dotenv import load_dotenv
 
+#Load env variables
+load_dotenv()
 app = Flask(__name__, template_folder='Templates', static_folder='static')
 
 #Cookies config
@@ -941,4 +944,4 @@ def spotify_resources():
 app.secret_key = "Jesus Di3d 4or Your Zins"
 
 if __name__ == '__main__':
-    app.run(port = os.environ['PORT'], debug=True)
+    app.run(port = os.getenv('PORT'), debug= os.getenv('DEBUG'))

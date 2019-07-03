@@ -26,12 +26,11 @@ from botocore.client import Config
 #Connect to database
 def connect_to_database():
     try:
-        #mysql path C:\Program Files\MySQL\MySQL Server 8.0\bin
         conn = pymysql.connect(
-            host= os.environ['CLEARDB_DATABASE_LOCATION'], #External IP 99.114.66.154 Local IP 192.168.1.111
-            db= os.environ['CLEARDB_DATABASE_DB'],
-            user= os.environ['CLEARDB_DATABASE_USERNAME'], #jeffbezos
-            password= os.environ['CLEARDB_DATABASE_PASSWORD'], #alexa
+            host= os.getenv('DATABASE_LOCATION'),
+            db= os.getenv('DATABASE_NAME'),
+            user= os.getenv('DATABASE_USERNAME'),
+            password= os.getenv('DATABASE_PASSWORD'),
         )
         return conn
     except Exception as e:
@@ -1845,7 +1844,7 @@ def get_spotify_albums(email):
 #-#-#-#- STRIPE PAYMENTS -#-#-#-#-#-#------------------------
 
 #Stripe API PRIVATE KEY (DO NOT SHARE)
-stripe.api_key = "sk_test_AUARH0bgBi4owFKcgjD9tAnV00rDKAf2ij"
+stripe.api_key = os.getenv('STRIPE_API_SECRET_KEY')
 
 #Create Stripe account for customer
 def create_stripe_account(email, account_type, account_details):
