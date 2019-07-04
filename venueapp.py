@@ -17,7 +17,7 @@ import base64
 from dotenv import load_dotenv
 
 #Load env variables
-load_dotenv()
+load_dotenv('test.env')
 app = Flask(__name__, template_folder='Templates', static_folder='static')
 
 #Cookies config

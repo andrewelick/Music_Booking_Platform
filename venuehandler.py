@@ -57,20 +57,15 @@ def create_default_aws_picture(uid):
     picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
     data = open('static/default_profile.jpg', 'rb')
 
-    #AWS credentials
-    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
-    AWS_ACCESS_SECRET_KEY = "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"
-    AWS_BUCKET_NAME = "bluffbucket"
-
     #AWS client setup
     s3 = boto3.resource(
         's3',
-        aws_access_key_id = AWS_ACCESS_KEY_ID,
-        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key = os.getenv('AWS_ACCESS_SECRET_KEY'),
         config = Config(signature_version = 's3v4')
     )
     #Write file to AWS S3 bucket
-    s3.Bucket(AWS_BUCKET_NAME).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
+    s3.Bucket(os.getenv('AWS_BUCKET_NAME')).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
 
     return True
 
@@ -79,37 +74,27 @@ def send_profile_picture_to_aws(uid):
     picture_url = "static/user_pictures/profile_pictures/"+uid+"_profile.jpg"
     data = open(picture_url, 'rb')
 
-    #AWS credentials
-    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
-    AWS_ACCESS_SECRET_KEY = "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"
-    AWS_BUCKET_NAME = "bluffbucket"
-
     #AWS client setup
     s3 = boto3.resource(
         's3',
-        aws_access_key_id = AWS_ACCESS_KEY_ID,
-        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key = os.getenv('AWS_ACCESS_SECRET_KEY'),
         config = Config(signature_version = 's3v4')
     )
     #Write file to AWS S3 bucket
-    s3.Bucket(AWS_BUCKET_NAME).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
+    s3.Bucket(os.getenv('AWS_BUCKET_NAME')).put_object(Key = picture_url, Body = data, ContentType = 'image/jpeg')
 
     return True
 
 #Get picture from AWS bucket bluffbucket
 def get_profile_picture_url(uid, ajax_request = None):
 
-    #AWS credentials
-    AWS_ACCESS_KEY_ID = "AKIA2RRCVFWRRXETAW55"
-    AWS_ACCESS_SECRET_KEY = "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"
-    AWS_BUCKET_NAME = "bluffbucket"
-
     #AWS client setup
     s3 = boto3.client(
         's3',
         region_name = 'us-east-2',
-        aws_access_key_id = AWS_ACCESS_KEY_ID,
-        aws_secret_access_key = AWS_ACCESS_SECRET_KEY,
+        aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key = os.getenv('AWS_ACCESS_SECRET_KEY'),
         config = Config(signature_version = 's3v4')
     )
 
@@ -119,7 +104,7 @@ def get_profile_picture_url(uid, ajax_request = None):
     result = s3.generate_presigned_url(
                     'get_object',
                     Params = {
-                        'Bucket': AWS_BUCKET_NAME,
+                        'Bucket': os.getenv('AWS_BUCKET_NAME'),
                         'Key': picture_url,
                     },
                     ExpiresIn = 3600,
