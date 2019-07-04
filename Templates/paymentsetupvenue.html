@@ -242,7 +242,7 @@
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
-        #TOS_link:hover {
+        a:hover {
             text-decoration: underline;
         }
 
@@ -376,7 +376,7 @@
 
         //---STRIPE CODE ------------------
         //Create stripe client
-        var stripe = Stripe("pk_test_Oc0xFwecdMH6KaB7kYnUnKEL00Qsr0Hiln");
+        var stripe = Stripe('{{STRIPE_API_PUBLIC_KEY}}');
 
         //Create instance of Elements
         var elements = stripe.elements();

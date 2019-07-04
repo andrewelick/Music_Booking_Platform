@@ -207,7 +207,7 @@
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
-        #TOS_link:hover {
+        a:hover {
             text-decoration: underline;
         }
 
@@ -297,7 +297,11 @@
                 </div>
 
                 <!-- Terms of service agreement --->
-                <div style="margin-top: 10px;font-size: 12px;"><input type="checkbox" name="TOS_checkbox" id="TOS_checkbox" style="width: auto;" /> I agree to the <a href="/terms" target="_blank" style="color: blue" id="TOS_link">terms of service</a> and the <a href="https://stripe.com/connect-account/legal" target="_blank" style="color: blue;">Stripe Connected Account Agreement</a> </div>
+                <div style="margin-top: 10px;font-size: 12px;"><input type="checkbox" name="TOS_checkbox" id="TOS_checkbox" style="width: auto;" />
+                    I agree to the
+                    <a href="/terms" target="_blank" style="color: blue" id="TOS_link">terms of service</a>
+                    and the <a href="https://stripe.com/connect-account/legal" target="_blank" style="color: blue;">Stripe Connected Account Agreement</a>
+                </div>
 
                 <!--- Error message --->
                 <div id="error_message"></div>
@@ -459,7 +463,7 @@
 
         //---STRIPE CODE ------------------
         //Create stripe client
-        var stripe = Stripe("pk_test_Oc0xFwecdMH6KaB7kYnUnKEL00Qsr0Hiln");
+        var stripe = Stripe('{{STRIPE_API_PUBLIC_KEY}}');
 
         //Create instance of Elements
         var elements = stripe.elements();

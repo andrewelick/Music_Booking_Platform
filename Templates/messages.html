@@ -193,7 +193,7 @@
       {% if all_thread_messages %}
       <div id="messages_header">
 
-            <a href="/profile?uid={% print thread_other_user[0] %}"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread_other_user[0] %}_profile.jpg" style="height:50px;width:50px;border-radius:100px;"/></a>
+            <a href="/profile?uid={% print thread_other_user[0] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread_other_user[0] %}_profile.jpg" style="height:50px;width:50px;border-radius:100px;"/></a>
 
             <!--- Message profile header --->
             <div style="display:inline;position:relative;top:-19px;">{% print thread_other_user[1] %}</div>
@@ -216,9 +216,9 @@
         {% endif %}
 
           {% if message[2] == uid %}
-          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
+          <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
           {% else %}
-          <a href="profile?uid={% print message[2] %}"><img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print message[2] %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;" /></a>
+          <a href="profile?uid={% print message[2] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print message[2] %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;" /></a>
           {% endif %}
 
           {% if message[2] == uid %}
@@ -274,10 +274,10 @@
           {% if thread[2] != uid %}
           <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[2] %}&send_id={% print thread[3] %}">
             <!--- Print profile picture of other user --->
-            <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread[2] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px;" />
+            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread[2] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px;" />
           {% else %}
           <a href="/messages?tid={% print thread[0] %}&rec_id={% print thread[3] %}&send_id={% print thread[2] %}">
-            <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread[3] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px" />
+            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread[3] %}_profile.jpg" class="thread_picture" style="height:50px;width:50px" />
           {% endif %}
             <!--- Thread name --->
             <span class="thread_name">{% print thread[6] %}</span>

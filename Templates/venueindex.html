@@ -371,7 +371,7 @@
             <div id="profile_container">
                 <!--- Profile picture --->
                 <a href="/profile">
-                    <img class="profile_picture_personal" src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
+                    <img class="profile_picture_personal" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
                 </a>
 
                 <!--- Profile name --->
@@ -410,7 +410,7 @@
                 {% for artist in featured_artists %}
                 <div class="showcase_container" >
                     <a href="/profile?uid={% print artist['uid'] %}">
-                        <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
                     </a>
 
                     <div>

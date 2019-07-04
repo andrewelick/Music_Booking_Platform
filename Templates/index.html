@@ -426,7 +426,7 @@
 
                 <div id='artistmenu' class='dropdowncontent' style='display:none'>
                   <ul>
-                    <li>Easily find gigs within the city</li>
+                    <li>Easily find gigs within the city hello</li>
                     <li>No need for a manager</li>
                     <li>Safely collect your earnings at the end of the night</li>
                   </ul>
@@ -498,6 +498,7 @@
             $("#"+menu).slideToggle()
         })
 
+        //Get random account pictures
         $.ajax({
             type: "POST",
             url: "/",
@@ -519,7 +520,7 @@
                     let random_number = Math.floor(Math.random() * 2000)
                     random_number = random_number.toString()
 
-                    picture = $(`<img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
+                    picture = $(`<img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
 
                     $("#artist_showcase").append(picture)
                 }
@@ -531,7 +532,7 @@
                     let random_number = Math.floor(Math.random() * 2000)
                     random_number = random_number.toString()
 
-                    picture = $(`<img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
+                    picture = $(`<img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
 
                     $("#venue_showcase").append(picture)
                 }

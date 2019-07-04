@@ -69,7 +69,13 @@ def index():
             if result:
                 return redirect(url_for("index"))
             else:
-                return render_template("venueindex.html", uid=uid, venue_show_postings=venue_show_postings, result=result)
+                return render_template(
+                    "venueindex.html",
+                    uid=uid,
+                    venue_show_postings=venue_show_postings,
+                    result=result,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
         else:
             #Artist account
             if account_type == "artist":
@@ -86,7 +92,16 @@ def index():
                 #Get upcoming shows for artist
                 upcoming_shows = len(venuehandler.get_upcoming_artist_shows(email))
 
-                return render_template("artistindex.html", uid = uid, profile_details = profile_details, upcoming_shows = upcoming_shows, all_listings=all_listings, venue_showcase=venue_showcase, open_bids = open_bids)
+                return render_template(
+                    "artistindex.html",
+                    uid = uid,
+                    profile_details = profile_details,
+                    upcoming_shows = upcoming_shows,
+                    all_listings=all_listings,
+                    venue_showcase=venue_showcase,
+                    open_bids = open_bids,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
 
             #Venue account
             if account_type == "venue":
@@ -97,14 +112,22 @@ def index():
                 #Load featured artists
                 featured_artists = venuehandler.get_featured_artists()
 
-                return render_template("venueindex.html", uid=uid, venue_details=venue_profile_details, featured_artists=featured_artists)
+                return render_template("venueindex.html",
+                    uid=uid,
+                    venue_details=venue_profile_details,
+                    featured_artists=featured_artists,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
     else:
 
         #Load random artist uids for artist showcase
         if request.form.get("get_random_accounts"):
             return venuehandler.get_random_accounts_uid()
 
-        return render_template('index.html')
+        return render_template(
+            'index.html',
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+        )
 
 #Login page
 @app.route("/login", methods=['GET','POST'])
@@ -131,9 +154,8 @@ def login_account():
 def account_logout():
     if 'username' in session:
         session.clear()
-        return render_template('index.html')
-    else:
-        return render_template('index.html')
+
+    return redirect(url_for('index'))
 
 #Forgot password page
 @app.route("/forgot", methods=['POST','GET'])
@@ -249,7 +271,11 @@ def setup_account():
                 if create_artist_profile:
                     return redirect(url_for('setup_connect_links'))
                 else:
-                    return render_template('setupaccount.html', uid = uid)
+                    return render_template(
+                        'setupaccount.html',
+                        uid = uid,
+                        AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                    )
 
         #Save venue profile
         elif request.method == 'POST' and account_type == "venue":
@@ -280,9 +306,17 @@ def setup_account():
 
             #Get method show page
             if account_type == "artist":
-                return render_template("artistsetupaccount.html", uid = uid)
+                return render_template(
+                    "artistsetupaccount.html",
+                    uid = uid,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
             else:
-                return render_template("venuesetupaccount.html", uid = uid)
+                return render_template(
+                    "venuesetupaccount.html",
+                    uid = uid,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
     else:
         return redirect(url_for('index'))
 
@@ -401,9 +435,17 @@ def add_payment_page():
         else:
             #If account is an artist account
             if account_type == "artist":
-                return render_template("paymentsetupartist.html", account_type=account_type)
+                return render_template(
+                    "paymentsetupartist.html",
+                    account_type=account_type,
+                    STRIPE_API_PUBLIC_KEY = os.getenv('STRIPE_API_PUBLIC_KEY'),
+                )
             else:
-                return render_template("paymentsetupvenue.html", account_type=account_type)
+                return render_template(
+                    "paymentsetupvenue.html",
+                    account_type=account_type,
+                    STRIPE_API_PUBLIC_KEY = os.getenv('STRIPE_API_PUBLIC_KEY'),
+                )
     else:
         return redirect(url_for("index"))
 
@@ -443,7 +485,14 @@ def profile_page():
             artist_details = venuehandler.get_artist_profile_details(email)
             artist_links = venuehandler.get_artist_links(email)
 
-            return render_template("artistprofile.html", email=email, uid = uid, artist_details=artist_details,artist_links=artist_links)
+            return render_template(
+                "artistprofile.html",
+                email= email,
+                uid = uid,
+                artist_details= artist_details,
+                artist_links= artist_links,
+                AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+            )
 
         if account_type == 'venue':
             venue_details = venuehandler.get_venue_profile_details(email)
@@ -463,7 +512,16 @@ def profile_page():
                 else:
                     active_show.append(x)
 
-            return render_template("venueprofile.html", email=email, uid=uid, venue_details=venue_details,venue_links=venue_links, winning_show=winning_show, active_show= active_show)
+            return render_template(
+                "venueprofile.html",
+                email= email,
+                uid= uid,
+                venue_details= venue_details,
+                venue_links= venue_links,
+                winning_show= winning_show,
+                active_show= active_show,
+                AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+            )
     else:
         return "Please login to see this page"
 
@@ -546,7 +604,17 @@ def one_show_page():
                 else:
                     return "Could not place bid"
 
-        return render_template("showlisting.html", account_type=account_type, uid=uid, show_details=show_details,venue_details=venue_details,bids_info=bids_info,bids_stats=bids_stats, winning_bid=winning_bid)
+        return render_template(
+            "showlisting.html",
+            account_type=account_type,
+            uid=uid,
+            show_details=show_details,
+            venue_details=venue_details,
+            bids_info=bids_info,
+            bids_stats=bids_stats,
+            winning_bid=winning_bid,
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+        )
     else:
         return redirect(url_for("index"))
 
@@ -587,7 +655,16 @@ def message_page():
             #Delete message notifications
             venuehandler.delete_message_notification(email,rec_id)
 
-            return render_template("messages.html", uid=uid, all_thread_messages=all_thread_messages, thread_id=thread_id, rec_id=rec_id, thread_other_user=thread_other_user,count=count)
+            return render_template(
+                "messages.html",
+                uid=uid,
+                all_thread_messages=all_thread_messages,
+                thread_id=thread_id,
+                rec_id=rec_id,
+                thread_other_user=thread_other_user,
+                count=count,
+                AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+            )
 
         #If user sends message in thread
         if request.method == "POST":
@@ -604,14 +681,28 @@ def message_page():
                 #Create notification
                 venuehandler.create_new_notification(email,rec_id,noti_type)
 
-                return redirect(url_for("message_page", tid=thread_id,rec_id=rec_id))
+                return redirect(url_for(
+                        "message_page",
+                        tid=thread_id,
+                        rec_id=rec_id
+                    )
+                )
             else:
                 flash("Could not send message, please try again")
-                return redirect(url_for("message_page", tid=thread_id, rec_id=rec_id))
+                return redirect(url_for(
+                        "message_page",
+                        tid=thread_id,
+                        rec_id=rec_id
+                    )
+                )
 
         #Load all threads for user
         all_threads = venuehandler.get_messages_threads(email)
-        return render_template("messages.html", uid=uid, all_threads=all_threads)
+        return render_template("messages.html",
+            uid=uid,
+            all_threads=all_threads,
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+        )
 
 #Notifications page
 @app.route("/notifications")
@@ -620,7 +711,11 @@ def notifications_page():
         email = session['username']
         all_notis = venuehandler.get_all_notifications(email)
 
-        return render_template("notifications.html", all_notis=all_notis)
+        return render_template(
+            "notifications.html",
+            all_notis=all_notis,
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+        )
     else:
         return redirect(url_for("index"))
 
@@ -636,7 +731,12 @@ def your_bids():
         #Get upcoming shows for artist
         upcoming_shows = venuehandler.get_upcoming_artist_shows(email)
 
-        return render_template("upcomingshows.html", all_user_bids=all_user_bids, upcoming_shows=upcoming_shows)
+        return render_template(
+            "upcomingshows.html",
+            all_user_bids=all_user_bids,
+            upcoming_shows=upcoming_shows,
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+        )
     else:
         return redirect(url_for("index"))
 
@@ -661,7 +761,13 @@ def your_listings():
             else:
                 active_show.append(x)
 
-        return render_template("yourlistings.html", uid=uid, venue_details=venue_profile_details, winning_show=winning_show, active_show= active_show)
+        return render_template(
+            "yourlistings.html",
+            uid=uid,
+            venue_details=venue_profile_details,
+            winning_show=winning_show,
+            active_show= active_show,
+        )
     else:
         return redirect(url_for("/"))
 
@@ -718,10 +824,16 @@ def payments_dashboard():
 
         #Artist account
         if account_type == "artist":
-            return render_template("artistpaymentdashboard.html")
+            return render_template(
+                "artistpaymentdashboard.html",
+                STRIPE_API_PUBLIC_KEY = os.getenv('STRIPE_API_PUBLIC_KEY'),
+            )
         else:
             #If account is venue
-            return render_template("venuepaymentdashboard.html")
+            return render_template(
+                "venuepaymentdashboard.html",
+                STRIPE_API_PUBLIC_KEY = os.getenv('STRIPE_API_PUBLIC_KEY'),
+            )
     else:
         return redirect(url_for("index"))
 #Edit profile page
@@ -805,13 +917,25 @@ def edit_profile_page():
                 profile_details = venuehandler.get_artist_profile_details(email)
                 profile_links = venuehandler.get_artist_links(email)
 
-                return render_template("editartistprofile.html", uid=uid, profile_details=profile_details, profile_links=profile_links)
+                return render_template(
+                    "editartistprofile.html",
+                    uid=uid,
+                    profile_details=profile_details,
+                    profile_links=profile_links,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
 
             else:
                 venue_details = venuehandler.get_venue_profile_details(email)
                 venue_links = venuehandler.get_venue_links(email)
 
-                return render_template("editvenueprofile.html", uid = uid, venue_details=venue_details,venue_links=venue_links)
+                return render_template(
+                    "editvenueprofile.html",
+                    uid = uid,
+                    venue_details=venue_details,
+                    venue_links=venue_links,
+                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+                )
     else:
         return redirect(url_for("index"))
 

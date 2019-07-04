@@ -265,7 +265,7 @@
         });
 
         basic.croppie('bind', {
-            url: "https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg"
+            url: "https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg"
         });
 
 

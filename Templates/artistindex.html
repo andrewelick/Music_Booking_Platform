@@ -191,7 +191,7 @@
 
                 <!--- Profile picture --->
                 <a href="/profile">
-                    <img class="profile_picture_personal" src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
+                    <img class="profile_picture_personal" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" />
                 </a>
 
                 <!--- Profile name --->
@@ -214,7 +214,7 @@
                 {% for venue in venue_showcase %}
                 <div class="showcase_container" >
                     <a href="/profile?uid={% print venue['busi_uid'] %}">
-                        <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print venue['busi_uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print venue['busi_uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
                     </a>
 
                     <div>
@@ -246,7 +246,7 @@
               <div class="lisiting_header" style='text-align:left'>
 
                 <!-- Profile picture --->
-                <img src="https://bluffbucket.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[1] %}_profile.jpg" class='profilepicture_mini' />
+                <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[1] %}_profile.jpg" class='profilepicture_mini' />
 
                 <!--- Profile name --->
                 <span class="lisiting_header_title" style='font-weight:bold;'>{% print x[9] %}</span>
