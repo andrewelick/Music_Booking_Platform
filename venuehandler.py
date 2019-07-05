@@ -16,7 +16,6 @@ import json
 import base64
 import re
 import bcrypt
-import boto3
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
