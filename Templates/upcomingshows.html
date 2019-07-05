@@ -170,6 +170,10 @@
                     </a>
 
                 {% endfor %}
+
+                {% if upcoming_shows|length == 0 %}
+                    <div style="padding: 30px">You are not scheduled to perform any shows. Get bidding!</div>
+                {% endif %}
             </div>
 
         </div>
@@ -200,7 +204,7 @@
             {% endfor %}
 
             {% if not all_user_bids %}
-            <div style="padding: 10px;">You don't have any active bids</div>
+            <div style="padding: 30px;">You don't have any active bids</div>
             {% endif %}
 
         </div>

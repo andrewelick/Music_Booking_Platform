@@ -681,25 +681,32 @@
             }).done(function(data) {
 
                 if (data.success) {
-                    //Loop through each item
-                    for (x in data.success) {
-                        let iframe = `
-                            <div>
-                                <!--- If current user is the artist --->
-                                {% if email == session['username'] %}
-                                    <!--- Dropdown menu --->
-                                    <div class="dropdown">
-                                        <font class="dropdown-title">&middot;&middot;&middot;</font>
-                                        <div class="dropdown-content">
-                                            <p class="delete_media_link" id="${data.success[x].media_id}">Delete</p>
-                                            </div>
-                                    </div>
-                                {% endif %}
 
-                                <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-                            </div>
-                        `
-                        $("#artist_media_container").append(iframe)
+                    if (data.success.length == 0) {
+                        $("#artist_media_container").html("There is no media from the artist yet. Give them time to shine, it's coming!").css("display", "inline-block").css("padding", "30px")
+                    }
+                    else {
+
+                        //Loop through each item
+                        for (x in data.success) {
+                            let iframe = `
+                                <div>
+                                    <!--- If current user is the artist --->
+                                    {% if email == session['username'] %}
+                                        <!--- Dropdown menu --->
+                                        <div class="dropdown">
+                                            <font class="dropdown-title">&middot;&middot;&middot;</font>
+                                            <div class="dropdown-content">
+                                                <p class="delete_media_link" id="${data.success[x].media_id}">Delete</p>
+                                                </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <iframe class="artist_media" src="${data.success[x].src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                                </div>
+                            `
+                            $("#artist_media_container").append(iframe)
+                        }
                     }
                 }
                 else {

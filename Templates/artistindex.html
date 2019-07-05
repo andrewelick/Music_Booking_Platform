@@ -228,6 +228,11 @@
                 </div>
                 {% endfor %}
 
+                <!--- If there are no venues in your area --->
+                {% if venue_showcase|length == 0 %}
+                    <div style="padding: 50px;">There are no venues in your area yet! Invite them!</div>
+                {% endif %}
+
         </div>
 
       <!--- Listing container --->
@@ -270,6 +275,10 @@
               <!--- End of link to single page --->
             </div>
         {% endfor %}
+
+        {% if all_listings|length == 0 %}
+            <div style="padding: 50px;">No recent shows have been posted</div>
+        {% endif %}
 
       </div>
       <!--- End of listing container --->
