@@ -137,6 +137,10 @@
               <!--- End of Single listing --->
           {% endfor %}
 
+          {% if active_show|length == 0 %}
+            <div style="padding: 30px;">You do not have any open shows, post an upcoming show!</div>
+          {% endif %}
+
         </div>
         <!--- End current user venue listings --->
 
@@ -177,6 +181,10 @@
               </div>
               <!--- End of Single Past listing --->
           {% endfor %}
+
+          {% if winning_show|length == 0 %}
+            <div style="padding: 30px;">You do not have any past shows</div>
+          {% endif %}
       </div>
       <!--- End of Past listings container --->
 

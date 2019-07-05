@@ -424,6 +424,10 @@
                 </div>
                 {% endfor %}
 
+                {% if featured_artists|length == 0 %}
+                    <div style="padding: 30px;">There are no artists in your area! Give them a reason to join, post a show!</div>
+                {% endif %}
+
         </div>
 
     </div>
@@ -597,25 +601,31 @@
             if (data['success']) {
                 let ending_shows = data['success']
 
-                for (i = 0; i < ending_shows.length; i++) {
-                    let show = `
-                        <div class="single_ending_show">
-                            <!--- Show date --->
-                            <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
+                //If there are no shows ending soon
+                if (ending_shows.length == 0) {
+                    $("#ending_shows").html("You have no open shows that are ending within 7 days.").css('padding', "20px")
+                }
+                else {
+                    for (i = 0; i < ending_shows.length; i++) {
+                        let show = `
+                            <div class="single_ending_show">
+                                <!--- Show date --->
+                                <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
 
-                            <!--- Bids --->
-                            <div class="single_ending_bids_container">
-                                <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
-                                Highest: $${ending_shows[i]['highest_bid']}
+                                <!--- Bids --->
+                                <div class="single_ending_bids_container">
+                                    <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
+                                    Highest: $${ending_shows[i]['highest_bid']}
+                                </div>
+
+                                <!--- Description --->
+                                <div class="ending_show_description">${ending_shows[i]['description']}</div>
+
                             </div>
+                        `
 
-                            <!--- Description --->
-                            <div class="ending_show_description">${ending_shows[i]['description']}</div>
-
-                        </div>
-                    `
-
-                    $("#ending_shows").append(show)
+                        $("#ending_shows").append(show)
+                    }
                 }
             }
         });
