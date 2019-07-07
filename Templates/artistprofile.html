@@ -402,7 +402,7 @@
 
         <!--- Profile container --->
         <div id="profilecontainer" class="container">
-
+            {% print artist_details %}
             <!--- Profile picture --->
             <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" id='profilepicture' />
 
