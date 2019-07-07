@@ -518,6 +518,8 @@ def get_artist_profile_details(email):
             c.execute("""SELECT artist_profile_details.*,accounts.name FROM artist_profile_details, accounts WHERE artist_profile_details.uid IN (SELECT uid FROM accounts WHERE email=%s) AND accounts.email=%s""", (email,email,))
             artist_details = list(c.fetchone())
 
+            print (artist_details)
+
             #Get AWS picture url
             picture_url = get_profile_picture_url(artist_details[0])
             artist_details.append(picture_url)
