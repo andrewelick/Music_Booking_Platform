@@ -29,7 +29,7 @@ def connect_to_database():
 
         #Log shows closed
         logging.basicConfig(
-            filename='logs/Automated logs/mysql_error_'+str(datetime.date.today())+'.txt',
+            filename='logs/Automated_logs/mysql_error_'+str(datetime.date.today())+'.txt',
             filemode='a+',
             format='%(message)s',
         )
@@ -44,9 +44,9 @@ def connect_to_database():
 
 #Write log to AWS bucket
 def write_log_AWS(log_type):
-    log_data = open("logs/Automated logs/"+log_type, "rb")
+    log_data = open("logs/Automated_logs/"+log_type, "rb")
 
-    log_path = "logs/Automated logs/"+log_type
+    log_path = "logs/Automated_logs/"+log_type
 
     #AWS client setup
     s3 = boto3.resource(
@@ -70,7 +70,7 @@ def check_show_7_close():
             c = conn.cursor()
 
             #Log filename
-            log_filename= 'logs/Automated logs/7DaysTill/'+str(datetime.date.today())+'.txt'
+            log_filename= 'logs/Automated_logs/7DaysTill/'+str(datetime.date.today())+'.txt'
 
             one_week_away = datetime.datetime.today() + datetime.timedelta(days=7)
 
@@ -107,7 +107,7 @@ def check_show_7_close():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated logs/7DaysTill/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/7DaysTill/error_'+str(datetime.date.today())+'.txt',
 
         #Log the error
         with open(log_filename, 'a') as log_file:
@@ -148,7 +148,7 @@ def check_playing_shows():
                     if result['result'] == "success":
 
                         #Log filename
-                        log_filename='logs/Automated logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt',
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
@@ -159,7 +159,7 @@ def check_playing_shows():
                         write_log_AWS(log_type)
                     else:
                         #Log filename
-                        log_filename='logs/Automated logs/24HoursBefore/shows_error_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursBefore/shows_error_'+str(datetime.date.today())+'.txt',
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
@@ -170,7 +170,7 @@ def check_playing_shows():
                         write_log_AWS(log_type)
             else:
                 #Log filename
-                log_filename= 'logs/Automated logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt'
+                log_filename= 'logs/Automated_logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt'
 
                 #Log result
                 with open(log_filename, 'a') as log_file:
@@ -182,7 +182,7 @@ def check_playing_shows():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated logs/24HoursBefore/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/24HoursBefore/error_'+str(datetime.date.today())+'.txt',
 
         #Log error
         with open(log_filename, 'a') as log_file:
@@ -222,7 +222,7 @@ def check_pay_artist_ready():
                         conn.commit()
 
                         #Log filename
-                        log_filename='logs/Automated logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt',
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
@@ -233,7 +233,7 @@ def check_pay_artist_ready():
                         write_log_AWS(log_type)
             else:
                 #Log filename
-                log_filename='logs/Automated logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt'
+                log_filename='logs/Automated_logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt'
 
                 #Log result
                 with open(log_filename, 'a') as log_file:
@@ -245,7 +245,7 @@ def check_pay_artist_ready():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated logs/24HoursAfter/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/24HoursAfter/error_'+str(datetime.date.today())+'.txt',
 
         #Log error
         with open(log_filename, 'a') as log_file:
