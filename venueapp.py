@@ -812,6 +812,13 @@ def payments_dashboard():
                 payment_token = request.form.get("payment_token")
                 return venuehandler.create_stripe_payment_method(email, account_type, payment_token)
 
+            #Verify bank account
+            if request.form.get("verify_bank_account"):
+                bank_id = request.form.get("bank_id")
+                micro_amount1 = request.form.get("micro_amount1")
+                micro_amount2 = request.form.get("micro_amount2")
+                return venuehandler.verify_bank_payment_method(email, bank_id, micro_amount1, micro_amount2)
+
             #Delete card
             if request.form.get("delete_payment"):
                 payment_id = request.form.get('payment_id')

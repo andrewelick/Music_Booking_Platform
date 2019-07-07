@@ -1997,6 +1997,67 @@ def create_stripe_payment_method(email, account_type, payment_token):
         if conn:
             conn.close()
 
+#Verify bank account payment method
+def verify_bank_payment_method(email, payment_id, micro_amount1, micro_amount2):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            #Get uid
+            uid = get_uid(email)
+
+            #Get stripe account id
+            c.execute("""SELECT stripe_account_id FROM payment_accounts WHERE uid = %s""", (uid,))
+            stripe_account_id = c.fetchone()[0]
+
+            #Get stripe account
+            customer = stripe.Customer.retrieve(stripe_account_id)
+
+            #Parse payment id
+            payment_id = payment_id.split("-")[1]
+
+            #Get bank payment method
+            bank_account = customer.sources.retrieve(payment_id)
+
+            #Verify bank account
+            verify_result = bank_account.verify(amounts = [micro_amount1, micro_amount2])
+
+            #Check if verification was good
+            if verify_result.status == 'verified':
+                result = {"success": "Bank account has been verified"}
+            else:
+                result = {"error": "There was an issue verifying this bank account"}
+
+            return json.dumps(result)
+
+    #Stripe failure
+    except stripe.error.StripeError as error:
+        error = str(error).split(":")[1].lstrip(" ")
+
+        #If verification has already happended
+        if "This bank account has already been verified." in error:
+            result = {"prev_completed": error}
+        #If verification amounts were incorrect
+        elif "The amounts provided do not match the amounts that were sent to the bank account." in error:
+            result = {"failed": error}
+        #If unknown stripe error
+        else:
+            result = {"error": error}
+
+        #Return result
+        return json.dumps(result)
+
+    #Unexpected failure
+    except Exception as e:
+        print (e)
+        return json.dumps({"error": "Error while verifying account"})
+    finally:
+        if conn:
+            conn.close()
+
 #Delete Stripe card payment method
 def delete_stripe_payment_method(email, account_type, payment_id):
     try:
@@ -2029,6 +2090,24 @@ def delete_stripe_payment_method(email, account_type, payment_id):
             result = "Payment deleted"
 
             return json.dumps({'success': result})
+
+    #Stripe failure
+    except stripe.error.StripeError as error:
+        error = str(error).split(":")[1].lstrip(" ")
+
+        #If default payment method
+        if "cannot delete the default external account" in error:
+            result = {"error": "You cannot delete the default payment method for your account."}
+        #If card is deleted and redeleted?
+        elif "has been deleted and can no longer be used" in error:
+            print (error)
+            result = {"error": "Error: This payment method has already been removed from your account!"}
+        else:
+            print (error)
+            result = {"error": error}
+
+        return json.dumps(result)
+
     except Exception as e:
         print (e)
         return json.dumps({'error': 'could not delete payment'})
@@ -2392,7 +2471,7 @@ def get_stripe_payment_methods(uid, account_type):
                         card_details["card_type"] = str(x['funding']).capitalize()
                         card_details["card_last4"] = x['last4']
                         card_details["expire_month"] = x['exp_month']
-                        card_details["expire_year"] = str(x['exp_year'])[:2]
+                        card_details["expire_year"] = str(x['exp_year'])[2:4]
 
                         #If artist, check payout status
                         if account_type == "artist":
@@ -2414,7 +2493,8 @@ def get_stripe_payment_methods(uid, account_type):
                         bank_details = {}
                         bank_details['bank_id'] = x['id']
                         bank_details['bank_name'] = x['bank_name']
-                        bank_details["bank_last4"] = x['last4']
+                        bank_details['bank_last4'] = x['last4']
+                        bank_details['bank_status'] = x['status']
 
                         if account_type == "artist":
                             #If default payment method
@@ -2595,8 +2675,6 @@ def get_stripe_payment_transactions(uid, starting_after = None):
                     starting_after = starting_after
                 )
 
-                print (stripe_payments)
-
                 #Transactions list
                 all_payments = []
 
@@ -2620,111 +2698,6 @@ def get_stripe_payment_transactions(uid, starting_after = None):
     except Exception as e:
         print (e)
         return json.dumps({'error': 'Error retrieving payment transactions'})
-    finally:
-        if conn:
-            conn.close()
-
-#Crontab jobs to be done every night at 12 -!-!-!-!-!
-
-#Check if show is within 7 days of happening, close show
-def check_show_7_close():
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            one_week_away = datetime.datetime.today() + datetime.timedelta(days=7)
-
-            #Get all shows that are happening in 24 hours
-            c.execute("""SELECT * FROM show_postings WHERE show_date <= %s AND won = 0""", one_week_away)
-            upcoming_shows = c.fetchall()
-
-            #loop through all shows and handle
-            for show in upcoming_shows:
-                #Close show, notify venue
-                c.execute("""UPDATE show_postings SET won = 2 WHERE show_id  = %s""", (show[0]))
-
-            #Save deletions
-            conn.commit()
-
-    except Exception as e:
-        print (e)
-        return {'error': e}
-    finally:
-        if conn:
-            conn.close()
-
-#Used to check if show is about to happen
-def check_playing_shows():
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            #24 hours away
-            next_24 = datetime.datetime.today() + datetime.timedelta(days=1)
-
-            #Get all shows that are happening in 24 hours
-            c.execute("""SELECT * FROM show_postings WHERE show_date <= %s""", (next_24))
-            upcoming_shows = c.fetchall()
-
-            #loop through all shows and handle
-            for show in upcoming_shows:
-                #Charge the venue for the show
-                result = charge_stripe_venue_payment(show[0])
-
-                result = json.loads(result)
-
-                if result['result'] == "success":
-                    #Log for checking if script ran properly
-                    log = open("Automated Logs/daily_charge_script.txt", "a")
-                    log.write(result['show_id']+", Success, "+str(datetime.datetime.now())+"\n")
-                    log.close()
-                else:
-                    log = open("Automated logs/daily_charge_script_error.txt", "a")
-                    log.write(result['show_id']+", Error: "+result['reason']+", "+str(datetime.datetime.now())+"\n")
-                    log.close()
-
-    except Exception as e:
-
-        log = open("Automated logs/daily_charge_script_disater.txt", "a")
-        log.write("Error: "+ e +", "+str(datetime.datetime.now())+"\n")
-        log.close()
-    finally:
-        if conn:
-            conn.close()
-
-def check_pay_artist_ready():
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            #24 hours ago
-            last_24 = datetime.datetime.today() - datetime.timedelta(days=1)
-
-            #Get all shows that happened in 24 hours
-            c.execute("""SELECT * FROM payment_transactions WHERE show_date <= %s""", (last_24))
-            finished_shows = c.fetchall()
-
-            #Loop through all show transactions
-            for show in finished_shows:
-                show_id = show[0]
-                transation_status = show[10]
-
-                if (transation_status == "Holding payment"):
-                    #Update transaction status to finished
-                    c.execute("""UPDATE payment_transactions SET status = "finished" WHERE show_id  = %s""", (show_id))
-                    conn.commit()
-
-    except Exception as e:
-
-        log = open("Automated logs/finish_transaction_script_disater.txt", "a")
-        log.write("Error: "+ e +", "+str(datetime.datetime.now())+"\n")
-        log.close()
     finally:
         if conn:
             conn.close()
