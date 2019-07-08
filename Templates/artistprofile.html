@@ -360,6 +360,14 @@
             cursor: pointer;
         }
 
+        .banner-header {
+            padding-bottom: 10px;
+        }
+
+        .bannerIcon {
+            height: 45px;
+            vertical-align: middle;
+        }
 
         @media screen and (min-width: 800px) {
 
@@ -542,6 +550,9 @@
     <div id="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
+    <!--- Success message --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;"></div>
+
 
     <script type="text/javascript">
 
@@ -641,12 +652,33 @@
                     $("#media_input").val("")
                     $("#media_preview_display").html("")
 
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/success_checkmark.png' class='bannerIcon'>
+                            <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                        </div>
+                        Added new media
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+
                     //Refresh artist media content
                     load_artist_media()
+
                 }
                 else {
-                    //Show error message
-                    $("#media_preview_display").html("There was an error saving artist content, please try again.").css("color", "red")
+
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/error_x.png' class='bannerIcon'>
+                            <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                        </div>
+                        There was an error saving artist content, please try again.
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(3000).slideUp()
                 }
             })
         }
@@ -871,8 +903,24 @@
 
                 //If deletion was successful
                 if (data.success) {
+
+                    //Hide delete media container & blackbackground
+                    $("#delete_artist_media_container").hide()
+                    $("#blackbackground").hide()
+
                     $("#new_delete_container").hide()
-                    $("#delete_media_message").html("Media has been deleted").css("color", "green")
+                    $("#delete_media_message").html("")
+
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/success_checkmark.png' class='bannerIcon'>
+                            <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                        </div>
+                        Deleted media
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
 
                     //Refresh media
                     load_artist_media()

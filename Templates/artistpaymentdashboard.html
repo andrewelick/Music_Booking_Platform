@@ -306,6 +306,7 @@
             border-bottom: 1px solid;
             border-color: #d2d2d2;
             padding: 10px;
+            text-align: left;
         }
 
         #cash_out_balance {
@@ -552,13 +553,13 @@
             <!--- Card cashout -->
             <div class="cash_out_option">
                 Instant <font style="font-size: 14px;color: #383838">(1.5% fee, minimum $0.50)</font>
-                <div id="instant_cashout_option"></div>
+                <div style="text-align: center" id="instant_cashout_option"></div>
             </div>
 
             <!--- Bank cash out --->
             <div class="cash_out_option">
                 Standard 2-3 Days <font style="font-size: 14px;color: #383838">(No fee)</font>
-                <div id="standard_cashout_option"></div>
+                <div style="text-align: center" id="standard_cashout_option"></div>
             </div>
 
             <div id="cash_out_error_message" class="error_message"></div>
@@ -1042,7 +1043,7 @@
                         `
 
                         //Flash message
-                        $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(5000).slideUp()
+                        $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
                     }
                     else {
 
@@ -1054,7 +1055,7 @@
                             ${data.error}
                         `
                         //Flash message
-                        $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(5000).slideUp()
+                        $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(2000).slideUp()
                     }
                 })
             })
@@ -1172,7 +1173,7 @@
                                 `
 
                                 //Flash success message
-                                $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(5000).slideUp()
+                                $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
 
                                 //Reload payment methods
                                 $(".linked_container").html("")
@@ -1272,7 +1273,7 @@
                                 `
 
                                 //Flash success message
-                                $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(5000).slideUp()
+                                $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
 
                                 //Reload payment methods
                                 $(".linked_container").html("")
@@ -1308,6 +1309,7 @@
             //Show cash out container
             show_popup_container("cashout_box");
 
+            //Check payment methods
             $.ajax({
                 url: "/payments",
                 type: "POST",
