@@ -321,6 +321,10 @@
             height: 50px;
         }
 
+        .empty_box_text {
+            padding: 20px;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -422,6 +426,10 @@
 
                 </div>
                 {% endfor %}
+
+                {% if featured_artists|length == 0 %}
+                    <div class="empty_box_text">There are no artists in your area. Give them a reason to be!</div>
+                {% endif %}
 
         </div>
 
@@ -596,25 +604,32 @@
             if (data['success']) {
                 let ending_shows = data['success']
 
-                for (i = 0; i < ending_shows.length; i++) {
-                    let show = `
-                        <div class="single_ending_show">
-                            <!--- Show date --->
-                            <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
+                if (ending_shows.length == 0) {
+                    $("#ending_shows").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>You do not have any shows ending soon</div>")
+                }
+                else {
 
-                            <!--- Bids --->
-                            <div class="single_ending_bids_container">
-                                <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
-                                Highest: $${ending_shows[i]['highest_bid']}
+                    //Loop through each result and format
+                    for (i = 0; i < ending_shows.length; i++) {
+                        let show = `
+                            <div class="single_ending_show">
+                                <!--- Show date --->
+                                <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
+
+                                <!--- Bids --->
+                                <div class="single_ending_bids_container">
+                                    <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
+                                    Highest: $${ending_shows[i]['highest_bid']}
+                                </div>
+
+                                <!--- Description --->
+                                <div class="ending_show_description">${ending_shows[i]['description']}</div>
+
                             </div>
+                        `
 
-                            <!--- Description --->
-                            <div class="ending_show_description">${ending_shows[i]['description']}</div>
-
-                        </div>
-                    `
-
-                    $("#ending_shows").append(show)
+                        $("#ending_shows").append(show)
+                    }
                 }
             }
         });

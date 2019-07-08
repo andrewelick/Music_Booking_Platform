@@ -242,7 +242,7 @@ def setup_account():
         account_type = venuehandler.check_account_type(email)
 
         #If account save from artist
-        if request.method == 'POST' and account_type == "artist":
+        if request.method == 'POST':
 
             #Picture upload
             if request.files.get('picture'):
@@ -260,7 +260,7 @@ def setup_account():
 
                 return json.dumps({'result': 'success'})
 
-            else:
+            if account_type == "artist":
 
                 genre = request.form['genre']
                 member = request.form['member_total']
@@ -277,22 +277,8 @@ def setup_account():
                         AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
                     )
 
-        #Save venue profile
-        elif request.method == 'POST' and account_type == "venue":
-
-            #Picture upload
-            if request.files.get('picture'):
-                picture_data = request.files['picture']
-
-                #Sanatize picture and save
-                dir = "static/user_pictures/profile_pictures/"
-                filename = uid+'_profile.jpg'
-
-                picture_data.save(os.path.join(dir, filename))
-
-                return json.dumps({'result': 'success'})
+            #If account type is venue
             else:
-
                 business_name = request.form['business_name']
                 business_type = request.form['business_type']
                 location = request.form['location']
@@ -306,17 +292,15 @@ def setup_account():
 
             #Get method show page
             if account_type == "artist":
-                return render_template(
-                    "artistsetupaccount.html",
-                    uid = uid,
-                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
-                )
+                page_url = "artistsetupaccount.html"
             else:
-                return render_template(
-                    "venuesetupaccount.html",
-                    uid = uid,
-                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
-                )
+                page_url = "venuesetupaccount.html"
+
+            return render_template(
+                page_url,
+                uid = uid,
+                AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
+            )
     else:
         return redirect(url_for('index'))
 
@@ -767,6 +751,7 @@ def your_listings():
             venue_details=venue_profile_details,
             winning_show=winning_show,
             active_show= active_show,
+            AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
         )
     else:
         return redirect(url_for("/"))
@@ -949,10 +934,7 @@ def edit_profile_page():
 #Contact page
 @app.route('/contact')
 def contact_us():
-    if 'username' in session:
-        return render_template('contactus.html')
-    else:
-        return render_template('contactus.html')
+    return render_template('contactus.html')
 
 #Terms and Conditions
 @app.route('/terms')

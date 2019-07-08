@@ -81,6 +81,10 @@
           color:#FFFFFF;
         }
 
+        .empty_box_text {
+            padding: 30px;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -137,6 +141,10 @@
               <!--- End of Single listing --->
           {% endfor %}
 
+          {% if active_show|length == 0 %}
+              <div class="empty_box_text">You do not have any shows currently open</div>
+          {% endif %}
+
         </div>
         <!--- End current user venue listings --->
 
@@ -177,6 +185,11 @@
               </div>
               <!--- End of Single Past listing --->
           {% endfor %}
+
+          {% if winning_show|length == 0 %}
+              <div class="empty_box_text">You do not have any past shows</div>
+          {% endif %}
+
       </div>
       <!--- End of Past listings container --->
 

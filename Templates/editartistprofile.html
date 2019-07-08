@@ -75,7 +75,7 @@
             display: none;
         }
 
-        #demo-basic {
+        #edit-profile-holder {
             margin: 0 auto;
             margin-bottom: 20px;
             width: 225px;
@@ -133,6 +133,16 @@
             width: 100%;
         }
 
+        .banner-header {
+            padding-bottom: 10px;
+        }
+
+        .bannerIcon {
+            height: 45px;
+            vertical-align: middle;
+        }
+
+
       /* If screen is bigger than 800px */
       @media screen and (min-width: 800px) {
 
@@ -171,22 +181,32 @@
           <h2 style="color:#383838;">Edit profile</h2>
 
           <!--- Profile picture --->
-          <div id="demo-basic" class="profilepicture"></div>
-          </br>
+          <div>
+              <div id="edit-profile-holder" class="profilepicture">
+                  <img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
+              </div>
 
-          <!-- Upload button -->
-          <a class="button_upload" id="upload_picture_button">
-              <span>Upload</span>
-              <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
-          </a>
+              <!--- Save picture button --->
+              <a class="button_upload" id="change_picture" style="top: -20px;margin-top: 0px;">
+                  Edit
+              </a>
 
-          <!--- Save picture button --->
-          <a class="button_upload" id="save_picture">
-              <span>Save</span>
-          </a>
+              <!--- Edit profile picture buttons --->
+              <div id="edit_buttons_container" style='display: none'>
+                  </br>
 
-          <div id="success_message"></div>
+                  <!-- Upload button -->
+                  <a class="button_upload" id="upload_picture_button">
+                      <span>Upload</span>
+                      <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
+                  </a>
 
+                  <!--- Save picture button --->
+                  <a class="button_upload" id="save_picture">
+                      <span>Save</span>
+                  </a>
+              </div>
+          </div>
 
           <!--- Genre selection --->
           <div class='artist_setup_selection'>
@@ -273,7 +293,12 @@
       </div>
     </div>
     <!--- End of mobilesplash-2 --->
+
     {% include 'footer.html' %}
+
+    <!--- Banner for messages --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;z-index:99999">You have verified your bank account!</div>
+
 
     <script type="text/javascript">
 
@@ -283,31 +308,54 @@
         //Select chosen member amount
         $("#member_number option[value='{% print profile_details[2] %}']").prop("selected", true)
 
-        //Picture cropper upload
-        var basic = $('#demo-basic').croppie({
-            enableExif: true,
-            viewport: {
-                width: 200,
-                height: 200,
-                type: 'circle'
-            },
+        //Show picture editor when clicked
+        $("#change_picture").click(function () {
+
+            //Hide edit picture button
+            $(this).hide()
+
+            //Clear current picture out
+            $('#edit-profile-holder').html("")
+
+            //Intial croppie picture editor
+            var basic = $('#edit-profile-holder').croppie({
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'circle'
+                },
+            });
+
+
+            //added to end of picture, prevents CORS getting angry
+            let random_number = Math.floor(Math.random() * 10000)
+
+            //Add AWS picture
+            basic.croppie('bind', {
+                url: 'https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?'+random_number,
+            });
+
+            //Show profile picture edit buttons
+            $("#edit_buttons_container").show()
+
+            //Show upload button
+            $("#upload_picture_button").show()
         });
 
-        basic.croppie('bind', {
-            url: 'https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg',
-        });
-
+        //When new picture is uploaded
         $('#upload_picture_button input').on('change', function () {
             readFile(this);
             $('#save_picture').show()
         });
 
+        //Get new profile picture data
         function readFile(input) {
           if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#demo-basic').croppie('bind', {
+                $('#edit-profile-holder').croppie('bind', {
                     url: e.target.result
                 });
             }
@@ -316,8 +364,9 @@
             }
         }
 
+        //Save new profile picture
         $("#save_picture").click(function() {
-            $("#demo-basic").croppie('result', 'blob').then(function(resp) {
+            $("#edit-profile-holder").croppie('result', 'blob').then(function(resp) {
 
                 var formData = new FormData();
                 formData.append('picture', resp);
@@ -334,8 +383,41 @@
                     result = JSON.parse(data)
 
                     if (result['result'] == 'success') {
-                        $("#success_message").html("Picture saved!").css("color", "green")
                         $(".button_upload").hide()
+
+                        //Tear down croppie instance
+                        $("#edit-profile-holder").croppie('destroy');
+
+                        //added to end of picture, prevents CORS getting angry
+                        let random_number = Math.floor(Math.random() * 10000)
+
+                        //Hide croppie load new picture
+                        $("#edit-profile-holder").html("<img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?"+random_number+"' />")
+
+                        //Show edit picture button again
+                        $("#change_picture").show()
+
+                        let banner_message = `
+                            <div class="banner-header">
+                                <img src='static/success_checkmark.png' class='bannerIcon'>
+                                <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                            </div>
+                            Profile picture was saved!
+                        `
+
+                        //Flash message
+                        $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+                    }
+                    else {
+                        let banner_message = `
+                            <div class="banner-header">
+                                <img src='static/error_x.png' class='bannerIcon'>
+                                <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Error!</font>
+                            </div>
+                            Something didn't work, try again
+                        `
+                        //Flash message
+                        $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(2000).slideUp()
                     }
                 })
 
