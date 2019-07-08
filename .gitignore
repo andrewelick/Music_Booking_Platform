@@ -5,7 +5,7 @@ test.env
 
 #Hide these folders
 user_pictures/
-logs/
+logs/*
 
 #Show all files with this extension
 !.keep
