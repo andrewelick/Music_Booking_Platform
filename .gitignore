@@ -5,7 +5,9 @@ test.env
 
 #Hide these folders
 user_pictures/
-logs/*
+logs/Automated_logs/7DaysTill/*
+logs/Automated_logs/24HoursBefore/*
+logs/Automated_logs/24HoursAfter/*
 
 #Show all files with this extension
 !.keep
