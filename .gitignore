@@ -1,3 +1,11 @@
+#This is used to hide contents from test to PROD.
+
+#Hide these files
 test.env
+
+#Hide these folders
 user_pictures/
 logs/
+
+#Show all files with this extension
+!.keep
