@@ -9,6 +9,7 @@ import venuehandler
 import boto3
 from botocore.client import Config
 from dotenv import load_dotenv
+import json
 
 #Load env variables
 load_dotenv('test.env')
