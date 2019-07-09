@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/places.js@1.16.4"></script>
+
+    <!--- Google location search --->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjZgoGLs9Zj7KEs3NeLTBPq13QkTThx5U&amp;libraries=places"></script>
 
 
     <style type='text/css'>
@@ -204,6 +208,8 @@
             border-bottom: 2px solid;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
             border-color: #d2d2d2;
             color: #FFFFFF;
             background-color: #465f86;
@@ -211,7 +217,8 @@
             font-size: 15px;
             font-family: inherit;
             -webkit-transition: box-shadow 150ms ease;
-            transition: 150ms ease;
+            transition: 350ms ease;
+            -webkit-appearance:none;
         }
 
         textarea {
@@ -241,14 +248,11 @@
 
         button:hover, input[type='submit']:hover {
             background-color: #3494cb;
+            cursor: pointer;
         }
 
         .invalidButton {
             background-color: #a6a6a6;
-        }
-
-        .invalidForm {
-            border-color: #d22d2d;
         }
 
         .invalidButton:hover {
@@ -338,6 +342,10 @@
 
         .empty_box_text {
             padding: 20px;
+        }
+
+        .invalidForm {
+            border-color: #d22d2d;
         }
 
         /* If screen is bigger than 800px */
@@ -456,7 +464,7 @@
     <!--- Show posting card -->
     <div id="postshow">
 
-        <div style="border-bottom: 1px solid; border-color: #FFFFFF;padding-bottom: 15px;font-size: 25px;">List a show</div>
+        <div style="border-bottom: 1px solid; border-color: #465f86;padding-bottom: 10px;font-size: 25px;">List a show</div>
         </br>
 
         <!--- Post show container --->
@@ -470,6 +478,8 @@
                     <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
                         <img class="form-icon" src="static/placeholder-white.png" />
                         <input type="text" id="show_location" name="show_location" placeholder="123 Main Street, Memphis TN" autocomplete="off" />
+                        <input type="hidden" name="lat" />
+                        <input type="hidden" name="long" />
                     </div>
 
                     <br/>
@@ -551,9 +561,8 @@
                     <!--- Next button --->
                     <button type="button" id="next-button-1" class="invalidButton" disabled>Next</button>
                 </div>
-                </br>
 
-                <div class="form-holder" style="display: none">
+                <div class="form-holder" id="form-holder-2" style="display: none">
                     <!--- New artist type --->
                     <span class="show_label">Type of artist?</span>
                     <br/>
@@ -638,6 +647,21 @@
             $("#postshow").hide()
             $("#blackbackground").hide()
         })
+
+        //Google autocomplete location search
+        function load_google_location() {
+            var input = document.getElementById('show_location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            //Get place details
+            autocomplete.addListener('place_changed', function () {
+                // place variable will have all the information you are looking for.
+                var place = autocomplete.getPlace();
+            });
+        }
+
+        //Intialize google location search
+        google.maps.event.addDomListener(window, 'load', load_google_location);
 
         //Check if venue has stripe account set up
         $.ajax({
@@ -813,6 +837,16 @@
                 //Check all fields
                 validate_form_group1()
             })
+        })
+
+        //When next button 1 is pressed show next form window
+        $("#next-button-1").click(function() {
+
+            //Hide form holder 1
+            $("#form-holder-1").hide();
+
+            //Show form holder 2
+            $("#form-holder-2").show();
         })
 
     </script>
