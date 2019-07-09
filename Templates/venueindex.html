@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
     <style type='text/css'>
       html, body {
         margin:0;
@@ -173,7 +174,9 @@
         }
 
         .show_label {
-          font-size: 14px;
+            font-size: 14px;
+            position: relative;
+            left: 25px;
         }
 
         #artist_showcase {
@@ -184,95 +187,108 @@
             float: right;
         }
 
-        select {
-          display: inline-block;
-          width: 75px;
-          padding: 5px;
-          margin-top: 5px;
-          margin-bottom: 5px;
-          font-size: 14px;
-          border: 1px solid;
-          border-color: #d2d2d2;
-          background-color: #FFFFFF;
-          font-family: inherit;
+        .form-icon {
+            height: 19px;
+            padding-right: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
-        input[type="text"] {
-          width: 225px;
-          padding: 7px;
-          margin: 5px;
-          border: 1px solid;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          outline: none;
-          font-family: inherit;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          -webkit-transition: box-shadow 150ms ease;
-          transition: 150ms ease;
-        }
-
-        input[type='text']:focus {
-            box-shadow: 0 1px 3px 0 #cfd7df;
-        }
-
-        select {
-            width: 55px;
+        input, select, textarea {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border: 0;
+            border-bottom: 2px solid;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            border-color: #d2d2d2;
+            color: #FFFFFF;
+            background-color: #465f86;
             outline: none;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px 0 #e6ebf1;
+            font-size: 15px;
+            font-family: inherit;
             -webkit-transition: box-shadow 150ms ease;
             transition: 150ms ease;
         }
 
         textarea {
-          margin: 5px;
-          padding: 5px;
-          width: 225px;
-          font-family: inherit;
-          border: 1px solid;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          resize: none;
-          outline: none;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          -webkit-transition: box-shadow 150ms ease;
-          transition: 150ms ease;
+            padding-left: 8px;
+            border-top-left-radius: 5px;
+            resize: none;
         }
 
-        textarea:focus {
-            box-shadow: 0 1px 3px 0 #cfd7df;
+        input[type='text']:focus, select:focus, textarea:focus {
+            border-color: #FFFFFF;
         }
 
-        input[type="submit"] {
+        button, input[type="submit"] {
           margin-top: 10px;
           padding: 10px;
-          width: 150px;
+          padding-left: 30px;
+          padding-right: 30px;
           border-radius: 5px;
           border: 0;
           font-size: 14px;
           background-color: #328CC1;
           color: #FFFFFF;
+          float: right;
+          display: inline-block;
+          outline: none;
         }
 
-        input[type='submit']:hover {
+        button:hover, input[type='submit']:hover {
             background-color: #3494cb;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .invalidButton {
+            background-color: #a6a6a6;
+        }
+
+        .invalidForm {
+            border-color: #d22d2d;
+        }
+
+        .invalidButton:hover {
+            background-color: #a6a6a6;
+        }
+
+        .form-message {
+            font-size: 12px;
+            padding-left: 25px;
+            color: #d2d2d2;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #d2d2d2;
+            opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #d2d2d2;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #d2d2d2;
         }
 
         #postshow {
-            display: none;
-          box-sizing: border-box;
-          position: fixed;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 100%;
-          padding: 30px;
-          z-index: 99;
-          text-align: center;
-          box-shadow: 0 0px 15px 0 #111111;
-          background-color: #FFFFFF;
-          transition: .5s;
+            box-sizing: border-box;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 15px;
+            padding-left: 10px;
+            z-index: 99;
+            text-align: left;
+            box-shadow: 0 0px 15px 0 #111111;
+            color: #FFFFFF;
+            background: #232f42;
+            transition: .5s;
         }
 
         #new_show_container {
@@ -296,15 +312,14 @@
         }
 
         #blackbackground {
-            display: none;
-          position: fixed;
-          top: 0px;
-          left: 0px;
-          z-index:10;
-          height:100%;
-          width: 100%;
-          background-color:#000000;
-          opacity:.8
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index:10;
+            height:100%;
+            width: 100%;
+            background-color:#000000;
+            opacity:.8
         }
 
         #error_message {
@@ -441,74 +456,149 @@
     <!--- Show posting card -->
     <div id="postshow">
 
-        <div>List a show</div>
+        <div style="border-bottom: 1px solid; border-color: #FFFFFF;padding-bottom: 15px;font-size: 25px;">List a show</div>
         </br>
 
         <!--- Post show container --->
         <div id="new_show_container">
             <form action="/" method="POST">
 
-            <!--- New show price --->
-            <span class="show_label">Asking price</span>
-            </br>
-            <input type="text" name="show_price" placeholder="$500" required/>
-            </br>
+                <div class="form-holder" id="form-holder-1">
+                    <!--- Date for show --->
+                    <span class="show_label">Location</span>
+                    <br/>
+                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                        <img class="form-icon" src="static/placeholder-white.png" />
+                        <input type="text" id="show_location" name="show_location" placeholder="123 Main Street, Memphis TN" autocomplete="off" />
+                    </div>
 
-            <!--- New artist type --->
-            <span class="show_label">Type of artist?</span>
-            <br/>
-            <select name="show_artist" style="width:235px">
-              <option value="Any">Any</option>
-              <option value="Singer">Singer</option>
-              <option value="Band">Band</option>
-              <option value="Rapper">Rapper</option>
-              <option value="DJ">DJ</option>
-            </select>
-            </br>
+                    <br/>
 
-            <!--- Description for new show --->
-            <span class="show_label">Description</span>
-            </br>
-            <textarea name="show_description" placeholder="Whats going on?"></textarea>
-            </br>
+                    <!--- Date for show --->
+                    <div class="form-wrapper" style="float: left;display: inline;width: 45%; margin-right: 5%;">
+                        <span class="show_label">Date</span>
+                        <br/>
+                        <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                            <img class="form-icon" src="static/calendar.png" />
+                            <input type="text" id="show_date" name="show_date" placeholder="12/20/21" autocomplete="off" />
+                        </div>
+                    </div>
 
-            <!--- Date for new show --->
-            <span class="show_label">When is it?</span>
-            </br>
-            <input type="text" id="show_date" name="show_date" placeholder="12/20/21" />
-            </br>
+                    <!--- Time for new show --->
+                    <div style="float: left;display: inline;width: 50%;margin-bottom: 15px;margin-top: -1px;">
+                        <span class="show_label">Time</span>
+                        <br/>
+                        <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                            <img style="height: 20px" class="form-icon" src="static/time.png" />
+                            <select id="show_time" name="show_time">
+                                <option val="">Select time</option>
+                                <option value="12:00am">12:00am</option>
+                                <option value="12:30am">12:30am</option>
+                                <option value="1:00am">1:00am</option>
+                                <option value="1:30am">1:30am</option>
+                                <option value="2:00am">2:00am</option>
+                                <option value="2:30am">2:30am</option>
+                                <option value="3:00am">3:00am</option>
+                                <option value="3:30am">3:30am</option>
+                                <option value="4:00am">4:00am</option>
+                                <option value="4:30am">4:30am</option>
+                                <option value="5:00am">5:00am</option>
+                                <option value="5:30am">5:30am</option>
+                                <option value="6:00am">6:00am</option>
+                                <option value="6:30am">6:30am</option>
+                                <option value="7:00am">7:00am</option>
+                                <option value="7:30am">7:30am</option>
+                                <option value="8:00am">8:00am</option>
+                                <option value="8:30am">8:30am</option>
+                                <option value="9:00am">9:00am</option>
+                                <option value="9:30am">9:30am</option>
+                                <option value="10:00am">10:00am</option>
+                                <option value="10:30am">10:30am</option>
+                                <option value="11:00am">11:00am</option>
+                                <option value="11:30am">11:30am</option>
+                                <option value="12:00pm">12:00pm</option>
+                                <option value="12:30pm">12:30pm</option>
+                                <option value="1:00pm">1:00pm</option>
+                                <option value="1:30pm">1:30pm</option>
+                                <option value="2:00pm">2:00pm</option>
+                                <option value="2:30pm">2:30pm</option>
+                                <option value="3:00pm">3:00pm</option>
+                                <option value="3:30pm">3:30pm</option>
+                                <option value="4:00pm">4:00pm</option>
+                                <option value="4:30pm">4:30pm</option>
+                                <option value="5:00pm">5:00pm</option>
+                                <option value="5:30pm">5:30pm</option>
+                                <option value="6:00pm">6:00pm</option>
+                                <option value="6:30pm">6:30pm</option>
+                                <option value="7:00pm">7:00pm</option>
+                                <option value="7:30pm">7:30pm</option>
+                                <option value="8:00pm">8:00pm</option>
+                                <option value="8:30pm">8:30pm</option>
+                                <option value="9:00pm">9:00pm</option>
+                                <option value="9:30pm">9:30pm</option>
+                                <option value="10:00pm">10:00pm</option>
+                                <option value="10:30pm">10:30pm</option>
+                                <option value="11:00pm">11:00pm</option>
+                                <option value="11:30pm">11:30pm</option>
+                                <option value="12:00pm">12:00pm</option>
+                            </select>
+                        </div>
+                    </div>
 
-            <!--- Time for new show --->
-            <span class="show_label">What time?</span>
-            </br>
-              <select name="show_hour">
-                <option value=1>1</option>
-                <option value=2>2</option>
-                <option value=3>3</option>
-                <option value=4>4</option>
-                <option value=5>5</option>
-                <option value=6>6</option>
-                <option value=7>7</option>
-                <option value=8>8</option>
-                <option value=9>9</option>
-                <option value=10>10</option>
-                <option value=11>11</option>
-                <option value=12>12</option>
-              </select>
-              <select name="show_min">
-                <option value=00>00</option>
-                <option value=15>15</option>
-                <option value=30>30</option>
-                <option value=45>45</option>\
-              </select>
-              <select name="show_am_pm">
-                <option value="pm">pm</option>
-                <option value="am">am</option>
-              </select>
-              </br>
+                    <!--- Form error message --->
+                    <font class="form-message" id="form-1" style="color: #e06c6c"></font>
 
-            <!---Submit button --->
-              <input type="submit" value="List a show" />
+                    <!--- Next button --->
+                    <button type="button" id="next-button-1" class="invalidButton" disabled>Next</button>
+                </div>
+                </br>
+
+                <div class="form-holder" style="display: none">
+                    <!--- New artist type --->
+                    <span class="show_label">Type of artist?</span>
+                    <br/>
+                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                        <img style="height: 21px" class="form-icon" src="static/user-icon.png" />
+                        <select name="show_artist">
+                            <option value="Any">Any</option>
+                            <option value="Singer">Singer</option>
+                            <option value="Band">Band</option>
+                            <option value="Rapper">Rapper</option>
+                            <option value="DJ">DJ</option>
+                        </select>
+                    </div>
+
+                    <!--- New show price --->
+                    <span class="show_label">Budget</span>
+                    </br>
+                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                        <img class="form-icon" src="static/dollar-sign.png" />
+                        <input type="text" name="show_price" placeholder="500" autocomplete="off" required/>
+                    </div>
+                    <br/>
+
+                    <!--- Requirements for new show --->
+                    <span class="show_label">Requirements</span>
+                    </br>
+                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                        <img style="height: 21px" class="form-icon" src="static/padlock.png" />
+                        <textarea name="show_requirements" placeholder="Do they bring equipment, set length, etc."></textarea>
+                    </div>
+                    <div class="form-message">Enter comma-separated values</div>
+                    </br>
+
+                    <!--- Description for new show --->
+                    <span class="show_label">Description</span>
+                    </br>
+                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                        <img style="height: 21px" class="form-icon" src="static/comment-icon.png" />
+                        <textarea name="show_description" placeholder="Whats going on?"></textarea>
+                    </div>
+                    </br>
+
+                    <!---Submit button --->
+                    <input type="submit" value="List a show" />
+                </div>
             </form>
         </div>
 
@@ -633,6 +723,97 @@
                 }
             }
         });
+
+        //Validate form group 1
+        function validate_form_group1() {
+            //Fields
+            let show_location = $("#show_location")
+            let show_date = $("#show_date")
+            let show_time = $("#show_time")
+
+            let form_list = [show_location,show_date,show_time]
+
+            let result = true
+
+            //Check if any empty
+            for (x in form_list) {
+                if (form_list[x].attr('id') == "show_time") {
+                    let time_val = form_list[x].find(":selected").text()
+
+                    if (time_val == "Select time") {
+                        result = false
+                    }
+                }
+                else {
+                    if (form_list[x].val() == "") {
+                        result = false
+                    }
+                }
+            }
+
+            if (result === true) {
+                $("#next-button-1").prop('disabled', false).removeClass('invalidButton')
+                $("#form-1").html("")
+            }
+            else {
+                $("#next-button-1").prop('disabled', true).addClass('invalidButton')
+            }
+        }
+
+        //Validate form group 1
+        function validate_one_input(this_input) {
+            let result = true
+            let input_val = ""
+
+            if (this_input.attr('id') == 'show_time') {
+                input_val = this_input.find(":selected").text()
+            }
+            else {
+                input_val = this_input.val()
+            }
+
+            if (input_val == "" || input_val == "Select time") {
+                this_input.addClass("invalidForm")
+                $("#form-1").html("Please fill out all fields")
+                result = false
+            }
+            else {
+                this_input.removeClass("invalidForm")
+            }
+        }
+
+        //On focus out of any input in first group validate field
+        $("#form-holder-1 input").focusout(function() {
+            let current_input = $(this)
+            let input_id = $(this).attr('id')
+
+            if (input_id == "show_date") {
+                //Wait to give time for input to load in
+                $.when(setTimeout(function() {
+                    validate_one_input(current_input)
+                }, 250)).then(function() {
+                    //Check all fields
+                    validate_form_group1()
+                })
+            }
+            else {
+                //Check current input then all
+                $.when(validate_one_input(current_input)).then(function() {
+                    //Check all fields
+                    validate_form_group1()
+                })
+            }
+        })
+
+        $("#form-holder-1 select").on('change', function() {
+            let current_input = $(this)
+
+            //Wait to give time for input to load in
+            $.when(validate_one_input(current_input)).then(function() {
+                //Check all fields
+                validate_form_group1()
+            })
+        })
 
     </script>
 
