@@ -164,7 +164,7 @@ def check_playing_shows():
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
-                            log_file.write("Show id:"+show[0]+"- error: "+result['reason']+"\n")
+                            log_file.write("Show id:"+str(show[0])+"- error: "+str(result['reason'])+"\n")
 
                         #Send to AWS
                         log_type = "24HoursBefore/shows_error_"+str(datetime.date.today())+".txt"
@@ -187,7 +187,7 @@ def check_playing_shows():
 
         #Log error
         with open(log_filename, 'a') as log_file:
-            log_file.write(e)
+            log_file.write(str(e))
 
         #Send to AWS
         log_type = "24HoursBefore/error_"+str(datetime.date.today())+".txt"
