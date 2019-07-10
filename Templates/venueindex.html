@@ -301,7 +301,8 @@
             display: none;
         }
 
-        .payments_link {
+        .add_payments_link {
+            display: inline-block;
             padding: 10px;
             width: 150px;
             border-radius: 5px;
@@ -350,6 +351,21 @@
             border-color: #d22d2d;
         }
 
+        /* Ripple effect */
+        .ripple {
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
+
         .prev-button {
             padding-left: 15px;
             padding-right: 15px;
@@ -380,8 +396,12 @@
         }
 
         .show_genre_option_active {
-            border-color: #FFFFFF;
-            background-color: #465f86;
+            border-color: #6eb9f7;
+            background-color: #6eb9f7;
+        }
+
+        .show_genre_option_active:hover {
+            background-color: #6eb9f7
         }
 
         /* Google classes */
@@ -456,7 +476,7 @@
             </div>
 
             <!--- Post a show button --->
-            <div class="listingbutton" id="listingbutton">List a show</div>
+            <div class="listingbutton ripple" id="listingbutton">List a show</div>
 
             <!--- Ending shows container --->
             <div id="ending_shows_container">
@@ -507,6 +527,11 @@
 
         <div style="border-bottom: 1px solid; border-color: #465f86;padding-bottom: 10px;font-size: 25px;">List a show</div>
         </br>
+
+        <div style="text-align: center">
+            <!--- Loading gif --->
+            <img class="loading_gif" src="static/loading-spinner.gif" />
+        </div>
 
         <!--- Post show container --->
         <div id="new_show_container">
@@ -635,37 +660,37 @@
                 <br/>
 
                 <!--- New genres --->
-                <span class="show_label">Genre?</span>
+                <span class="show_label">Genre</span>
                 <br/>
                 <div style="display: flex;flex-wrap: wrap; width: 100%;vertical-align: middle;align-items : center;">
                     <img style="height: 21px" class="form-icon" src="static/tag.png" />
-                    <div class="show_genre_option" value="Blues">Blues</div>
-                    <div class="show_genre_option" value="Rock">Rock</div>
-                    <div class="show_genre_option" value="Classical">Classical</div>
-                    <div class="show_genre_option" value="Hiphop">Hiphop</div>
-                    <div class="show_genre_option" value="Pop">Pop</div>
-                    <div class="show_genre_option" value="Jazz">Jazz</div>
-                    <div class="show_genre_option" value="Country">Country</div>
-                    <div class="show_genre_option" value="Funk">Funk</div>
-                    <div class="show_genre_option" value="Punk">Punk</div>
-                    <div class="show_genre_option" value="Reggae">Reggae</div>
-                    <div class="show_genre_option" value="Soul">Soul</div>
-                    <div class="show_genre_option" value="EDM">EDM</div>
-                    <div class="show_genre_option" value="Alternative">Alternative</div>
-                    <div class="show_genre_option" value="Instrumental">Instrumental</div>
-                    <div class="show_genre_option" value="Folk">Folk</div>
-                    <div class="show_genre_option" value="Dance">Dance</div>
-                    <div class="show_genre_option" value="Acoustic">Acoustic</div>
-                    <div class="show_genre_option" value="Bluegrass">Bluegrass</div>
-                    <div class="show_genre_option" value="Indie">Indie</div>
-                    <div class="show_genre_option" value="Metal">Metal</div>
+                    <div class="show_genre_option ripple" value="Blues">Blues</div>
+                    <div class="show_genre_option ripple" value="Rock">Rock</div>
+                    <div class="show_genre_option ripple" value="Classical">Classical</div>
+                    <div class="show_genre_option ripple" value="Hiphop">Hiphop</div>
+                    <div class="show_genre_option ripple" value="Pop">Pop</div>
+                    <div class="show_genre_option ripple" value="Jazz">Jazz</div>
+                    <div class="show_genre_option ripple" value="Country">Country</div>
+                    <div class="show_genre_option ripple" value="Funk">Funk</div>
+                    <div class="show_genre_option ripple" value="Punk">Punk</div>
+                    <div class="show_genre_option ripple" value="Reggae">Reggae</div>
+                    <div class="show_genre_option ripple" value="Soul">Soul</div>
+                    <div class="show_genre_option ripple" value="EDM">EDM</div>
+                    <div class="show_genre_option ripple" value="Alternative">Alternative</div>
+                    <div class="show_genre_option ripple" value="Instrumental">Instrumental</div>
+                    <div class="show_genre_option ripple" value="Folk">Folk</div>
+                    <div class="show_genre_option ripple" value="Dance">Dance</div>
+                    <div class="show_genre_option ripple" value="Acoustic">Acoustic</div>
+                    <div class="show_genre_option ripple" value="Bluegrass">Bluegrass</div>
+                    <div class="show_genre_option ripple" value="Indie">Indie</div>
+                    <div class="show_genre_option ripple" value="Metal">Metal</div>
                 </div>
 
                 <!--- Form error message --->
                 <font class="form-message" id="form-message-2" style="color: #e06c6c"></font>
 
                 <!--- Next button --->
-                <button type="button" id="next-button-2" >NEXT</button>
+                <button type="button" id="next-button-2" class="ripple" >NEXT</button>
 
                 <!--- Prev button --->
                 <button type="button" id="prev-button-1" class="prev-button" style="margin-right: 15px;">BACK</button>
@@ -680,11 +705,11 @@
                     <img class="form-icon" src="static/dollar-sign.png" />
                     <input type="text" id="show_price" name="show_price" placeholder="500" autocomplete="off" required/>
                 </div>
-                <div class="form-message">Required</div>
+                <div class="form-message" id="form-message-price">Required</div>
                 <br/>
 
                 <!--- New show deposit --->
-                <span class="show_label">Set length?</span>
+                <span class="show_label">Set length</span>
                 <br/>
                 <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
                     <img class="form-icon" src="static/time.png" />
@@ -704,7 +729,7 @@
                         <option>6 hours</option>
                     </select>
                 </div>
-                <div class="form-message">Required</div>
+                <div class="form-message" id="form-message-set-time">Required</div>
                 <br/>
 
                 <!--- Requirements for new show --->
@@ -727,9 +752,6 @@
                 <div class="form-message">Enter comma-separated values</div>
                 <br/>
 
-                <!--- Form error message --->
-                <font class="form-message" id="form-message-3" style="color: #e06c6c"></font>
-
                 <!---Submit button --->
                 <button type="button" id="list-show-button" class="invalidButton" disabled>LIST SHOW</button>
 
@@ -740,13 +762,15 @@
         </div>
 
         <!--- If there is no account/payment method messages --->
-        <div id="add_account_post_message" class='post_message'>Before you can post a show you must create a payment account.</div>
-        <br/>
-        <a href="/addpayments" id="add_account_link" class="payments_link">Add a payment account</a>
+        <div style="text-align: center;padding-bottom: 20px;">
+            <div id="add_account_post_message" class='post_message'>Before you can post a show you must create a payment account.</div>
+            <br/>
+            <a href="/addpayments" id="add_account_link" class="add_payments_link ripple">Add a payment account</a>
 
-        <div id="add_payment_post_message" class="post_message">Before you can post a show you must attach a payment method.</div>
-        <br/>
-        <a href="/payments" id="add_payment_link" class="payments_link">Add a payment method</a>
+            <div id="add_payment_post_message" class="post_message">Before you can post a show you must attach a payment method.</div>
+            <br/>
+            <a href="/payments" id="add_payment_link" class="add_payments_link ripple">Add a payment method</a>
+        </div>
 
     </div>
     <!--- End of Show posting card --->
@@ -904,11 +928,11 @@
             }
 
             if (result === true) {
-                $("#next-button-1").prop('disabled', false).removeClass('invalidButton')
+                $("#next-button-1").prop('disabled', false).removeClass('invalidButton').addClass('ripple')
                 $("#form-message-1").html("")
             }
             else {
-                $("#next-button-1").prop('disabled', true).addClass('invalidButton')
+                $("#next-button-1").prop('disabled', true).addClass('invalidButton').removeClass('ripple')
             }
         }
 
@@ -934,8 +958,8 @@
             }
         }
 
-        //On focus out of any input in first group validate field
-        $("#form-holder-1 input").focusout(function() {
+        //Form on current input change validation
+        $("#form-holder-1 input, #form-holder-1 select").on('change focusout', function() {
             let current_input = $(this)
             let input_id = $(this).attr('id')
 
@@ -955,16 +979,6 @@
                     validate_form_group1()
                 })
             }
-        })
-
-        $("#form-holder-1 select").on('change', function() {
-            let current_input = $(this)
-
-            //Wait to give time for input to load in
-            $.when(validate_one_input(current_input)).then(function() {
-                //Check all fields
-                validate_form_group1()
-            })
         })
 
         //When next button 1 is pressed show next form window
@@ -1032,10 +1046,10 @@
 
             //If form is valid let post
             if (result == true) {
-                $("#list-show-button").prop('disabled', false).removeClass('invalidButton')
+                $("#list-show-button").prop('disabled', false).removeClass('invalidButton').addClass('ripple')
             }
             else {
-                $("#list-show-button").prop('disabled', true).addClass('invalidButton')
+                $("#list-show-button").prop('disabled', true).addClass('invalidButton').removeClass('ripple')
             }
         }
 
@@ -1047,25 +1061,48 @@
             //Check if field is required
             if (input_id == "show_price" || input_id == "show_set_length") {
 
-                //If field is empty
-                if (input_val == "" || current_input.find(":selected").text() == "Pick a time") {
-                    $("#form-message-3").html("Please fill out all fields")
-                    $(current_input).addClass("invalidForm")
+                //If input is show price
+                if (input_id == "show_price") {
+
+                    //If empty
+                    if (input_val == "") {
+                        $("#form-message-price").html("Please fill out field").css("color", "#e06c6c")
+                        $(current_input).addClass("invalidForm")
+                    }
+                    //If not a number
+                    else if (isNaN(input_val)) {
+                        $("#form-message-price").html("Must be a number").css("color", "#e06c6c")
+                        $(current_input).addClass("invalidForm")
+                    }
+                    //If less than minimum required
+                    else if (int(input_val) < 50) {
+                        $("#form-message-price").html("Minimum amount is $50").css("color", "#e06c6c")
+                        $(current_input).addClass("invalidForm")
+                    }
+                    else {
+                        $("#form-message-price").html("Required").css("color", "#d2d2d2")
+                        $(current_input).removeClass("invalidForm")
+                    }
                 }
-                //If current input is show price amd not a number
-                else if (input_id == "show_price" && isNaN(input_val)) {
-                    $("#form-message-3").html("Must be a number")
-                    $(current_input).addClass("invalidForm")
-                }
-                else {
-                    $("#form-message-3").html("")
-                    $(current_input).removeClass("invalidForm")
+
+                //If input is show length
+                if (input_id == "show_set_length") {
+
+                    //If value is default
+                    if (current_input.find(":selected").text() == "Pick a time") {
+                        $("#form-message-set-time").html("Please select a time").css("color", "#e06c6c")
+                        $(current_input).addClass("invalidForm")
+                    }
+                    else {
+                        $("#form-message-set-time").html("Required").css("color", "#d2d2d2")
+                        $(current_input).removeClass("invalidForm")
+                    }
                 }
             }
         }
 
         //On change check form group 3
-        $("#form-holder-3 input, #form-holder-3 select").focusout(function(event) {
+        $("#form-holder-3 input, #form-holder-3 select").on('change focusout keyup', function(event) {
             let current_input = $(this)
 
             //Check single input and style

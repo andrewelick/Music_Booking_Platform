@@ -2132,7 +2132,7 @@ def check_stripe_account(email):
 
     except Exception as e:
         print (e)
-        return json.dumps({"result": "Error"})
+        return json.dumps({"error": "There was a problem connecting to Stripe"})
     finally:
         if conn:
             conn.close()
