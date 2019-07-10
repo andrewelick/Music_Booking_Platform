@@ -688,7 +688,7 @@
                 <br/>
                 <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
                     <img class="form-icon" src="static/time.png" />
-                    <select id="show_length">
+                    <select id="show_set_length">
                         <option>Pick a time</option>
                         <option>30min</option>
                         <option>1 hour</option>
@@ -1015,11 +1015,11 @@
         //Validate all form group 3 inputs
         function validate_form_group3() {
             let show_price = $("#show_price").val()
-            let show_requirements = $("#show_requirements").val()
+            let show_set_length = $("#show_set_length").find(":selected").text()
             let result = false
 
             //Check if any field is empty
-            if (show_price == "" || show_requirements == "") {
+            if (show_price == "" || show_set_length == "Pick a time") {
                 result = false
             }
             //Check if show price is a number
@@ -1044,24 +1044,28 @@
             let input_id = current_input.attr('id')
             let input_val = current_input.val()
 
-            //If field is empty
-            if (input_val == "") {
-                $("#form-message-3").html("Please fill out all fields")
-                $(current_input).addClass("invalidForm")
-            }
-            //If current input is show price amd not a number
-            else if (input_id == "show_price" && isNaN(input_val)) {
-                $("#form-message-3").html("Must be a number")
-                $(current_input).addClass("invalidForm")
-            }
-            else {
-                $("#form-message-3").html("")
-                $(current_input).removeClass("invalidForm")
+            //Check if field is required
+            if (input_id == "show_price" || input_id == "show_set_length") {
+
+                //If field is empty
+                if (input_val == "" || current_input.find(":selected").text() == "Pick a time") {
+                    $("#form-message-3").html("Please fill out all fields")
+                    $(current_input).addClass("invalidForm")
+                }
+                //If current input is show price amd not a number
+                else if (input_id == "show_price" && isNaN(input_val)) {
+                    $("#form-message-3").html("Must be a number")
+                    $(current_input).addClass("invalidForm")
+                }
+                else {
+                    $("#form-message-3").html("")
+                    $(current_input).removeClass("invalidForm")
+                }
             }
         }
 
         //On change check form group 3
-        $("#form-holder-3 input, #form-holder-3 textarea").focusout(function(event) {
+        $("#form-holder-3 input, #form-holder-3 select").focusout(function(event) {
             let current_input = $(this)
 
             //Check single input and style
