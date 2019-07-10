@@ -234,16 +234,18 @@
         button, input[type="submit"] {
           margin-top: 10px;
           padding: 10px;
-          padding-left: 30px;
-          padding-right: 30px;
+          padding-left: 20px;
+          padding-right: 20px;
           border-radius: 5px;
           border: 0;
-          font-size: 14px;
+          font-size: 13px;
+          font-weight: bold;
           background-color: #328CC1;
           color: #FFFFFF;
           float: right;
           display: inline-block;
           outline: none;
+          box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
         }
 
         button:hover, input[type='submit']:hover {
@@ -346,6 +348,45 @@
 
         .invalidForm {
             border-color: #d22d2d;
+        }
+
+        .prev-button {
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: #232f42;
+            color: #FFFFFF;
+            border-color: #465f86;
+            box-shadow: 0px 0px 0px 0px;
+        }
+
+        .prev-button:hover {
+            background-color: #354764;
+        }
+
+        .show_genre_option {
+            border: 2px solid;
+            padding: 7px;
+            margin: 3px;
+            margin-right: 5px;
+            margin-left: 0;
+            border-radius: 5px;
+            border-color: #465f86;
+            font-size: 13px;
+        }
+
+        .show_genre_option:hover {
+            background-color: #465f86;
+            cursor: pointer;
+        }
+
+        .show_genre_option_active {
+            border-color: #FFFFFF;
+            background-color: #465f86;
+        }
+
+        /* Google classes */
+        .pac-item {
+            padding: 5px;
         }
 
         /* If screen is bigger than 800px */
@@ -469,146 +510,233 @@
 
         <!--- Post show container --->
         <div id="new_show_container">
-            <form action="/" method="POST">
 
-                <div class="form-holder" id="form-holder-1">
-                    <!--- Date for show --->
-                    <span class="show_label">Location</span>
+            <div class="form-holder" id="form-holder-1">
+                <!--- Date for show --->
+                <span class="show_label">Location</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img class="form-icon" src="static/placeholder-white.png" />
+                    <input type="text" id="show_location" name="show_location" placeholder="123 Main Street, Memphis TN" autocomplete="off" />
+                    <input type="hidden" name="lat" />
+                    <input type="hidden" name="long" />
+                </div>
+                <div class="form-message">Required</div>
+
+                <br/>
+
+                <!--- Date for show --->
+                <div class="form-wrapper" style="float: left;display: inline;width: 45%; margin-right: 5%;">
+                    <span class="show_label">Date</span>
                     <br/>
                     <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                        <img class="form-icon" src="static/placeholder-white.png" />
-                        <input type="text" id="show_location" name="show_location" placeholder="123 Main Street, Memphis TN" autocomplete="off" />
-                        <input type="hidden" name="lat" />
-                        <input type="hidden" name="long" />
+                        <img class="form-icon" src="static/calendar.png" />
+                        <input type="text" id="show_date" name="show_date" placeholder="12/20/21" autocomplete="off" />
                     </div>
-
-                    <br/>
-
-                    <!--- Date for show --->
-                    <div class="form-wrapper" style="float: left;display: inline;width: 45%; margin-right: 5%;">
-                        <span class="show_label">Date</span>
-                        <br/>
-                        <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                            <img class="form-icon" src="static/calendar.png" />
-                            <input type="text" id="show_date" name="show_date" placeholder="12/20/21" autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <!--- Time for new show --->
-                    <div style="float: left;display: inline;width: 50%;margin-bottom: 15px;margin-top: -1px;">
-                        <span class="show_label">Time</span>
-                        <br/>
-                        <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                            <img style="height: 20px" class="form-icon" src="static/time.png" />
-                            <select id="show_time" name="show_time">
-                                <option val="">Select time</option>
-                                <option value="12:00am">12:00am</option>
-                                <option value="12:30am">12:30am</option>
-                                <option value="1:00am">1:00am</option>
-                                <option value="1:30am">1:30am</option>
-                                <option value="2:00am">2:00am</option>
-                                <option value="2:30am">2:30am</option>
-                                <option value="3:00am">3:00am</option>
-                                <option value="3:30am">3:30am</option>
-                                <option value="4:00am">4:00am</option>
-                                <option value="4:30am">4:30am</option>
-                                <option value="5:00am">5:00am</option>
-                                <option value="5:30am">5:30am</option>
-                                <option value="6:00am">6:00am</option>
-                                <option value="6:30am">6:30am</option>
-                                <option value="7:00am">7:00am</option>
-                                <option value="7:30am">7:30am</option>
-                                <option value="8:00am">8:00am</option>
-                                <option value="8:30am">8:30am</option>
-                                <option value="9:00am">9:00am</option>
-                                <option value="9:30am">9:30am</option>
-                                <option value="10:00am">10:00am</option>
-                                <option value="10:30am">10:30am</option>
-                                <option value="11:00am">11:00am</option>
-                                <option value="11:30am">11:30am</option>
-                                <option value="12:00pm">12:00pm</option>
-                                <option value="12:30pm">12:30pm</option>
-                                <option value="1:00pm">1:00pm</option>
-                                <option value="1:30pm">1:30pm</option>
-                                <option value="2:00pm">2:00pm</option>
-                                <option value="2:30pm">2:30pm</option>
-                                <option value="3:00pm">3:00pm</option>
-                                <option value="3:30pm">3:30pm</option>
-                                <option value="4:00pm">4:00pm</option>
-                                <option value="4:30pm">4:30pm</option>
-                                <option value="5:00pm">5:00pm</option>
-                                <option value="5:30pm">5:30pm</option>
-                                <option value="6:00pm">6:00pm</option>
-                                <option value="6:30pm">6:30pm</option>
-                                <option value="7:00pm">7:00pm</option>
-                                <option value="7:30pm">7:30pm</option>
-                                <option value="8:00pm">8:00pm</option>
-                                <option value="8:30pm">8:30pm</option>
-                                <option value="9:00pm">9:00pm</option>
-                                <option value="9:30pm">9:30pm</option>
-                                <option value="10:00pm">10:00pm</option>
-                                <option value="10:30pm">10:30pm</option>
-                                <option value="11:00pm">11:00pm</option>
-                                <option value="11:30pm">11:30pm</option>
-                                <option value="12:00pm">12:00pm</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!--- Form error message --->
-                    <font class="form-message" id="form-1" style="color: #e06c6c"></font>
-
-                    <!--- Next button --->
-                    <button type="button" id="next-button-1" class="invalidButton" disabled>Next</button>
+                    <div class="form-message">Required</div>
                 </div>
 
-                <div class="form-holder" id="form-holder-2" style="display: none">
-                    <!--- New artist type --->
-                    <span class="show_label">Type of artist?</span>
+                <!--- Time for new show --->
+                <div style="float: left;display: inline;width: 50%;margin-bottom: 15px;margin-top: -1px;">
+                    <span class="show_label">Time</span>
                     <br/>
                     <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                        <img style="height: 21px" class="form-icon" src="static/user-icon.png" />
-                        <select name="show_artist">
-                            <option value="Any">Any</option>
-                            <option value="Singer">Singer</option>
-                            <option value="Band">Band</option>
-                            <option value="Rapper">Rapper</option>
-                            <option value="DJ">DJ</option>
+                        <img style="height: 20px" class="form-icon" src="static/time.png" />
+                        <select id="show_time" name="show_time">
+                            <option val="">Select time</option>
+                            <option value="12:00am">12:00am</option>
+                            <option value="12:30am">12:30am</option>
+                            <option value="1:00am">1:00am</option>
+                            <option value="1:30am">1:30am</option>
+                            <option value="2:00am">2:00am</option>
+                            <option value="2:30am">2:30am</option>
+                            <option value="3:00am">3:00am</option>
+                            <option value="3:30am">3:30am</option>
+                            <option value="4:00am">4:00am</option>
+                            <option value="4:30am">4:30am</option>
+                            <option value="5:00am">5:00am</option>
+                            <option value="5:30am">5:30am</option>
+                            <option value="6:00am">6:00am</option>
+                            <option value="6:30am">6:30am</option>
+                            <option value="7:00am">7:00am</option>
+                            <option value="7:30am">7:30am</option>
+                            <option value="8:00am">8:00am</option>
+                            <option value="8:30am">8:30am</option>
+                            <option value="9:00am">9:00am</option>
+                            <option value="9:30am">9:30am</option>
+                            <option value="10:00am">10:00am</option>
+                            <option value="10:30am">10:30am</option>
+                            <option value="11:00am">11:00am</option>
+                            <option value="11:30am">11:30am</option>
+                            <option value="12:00pm">12:00pm</option>
+                            <option value="12:30pm">12:30pm</option>
+                            <option value="1:00pm">1:00pm</option>
+                            <option value="1:30pm">1:30pm</option>
+                            <option value="2:00pm">2:00pm</option>
+                            <option value="2:30pm">2:30pm</option>
+                            <option value="3:00pm">3:00pm</option>
+                            <option value="3:30pm">3:30pm</option>
+                            <option value="4:00pm">4:00pm</option>
+                            <option value="4:30pm">4:30pm</option>
+                            <option value="5:00pm">5:00pm</option>
+                            <option value="5:30pm">5:30pm</option>
+                            <option value="6:00pm">6:00pm</option>
+                            <option value="6:30pm">6:30pm</option>
+                            <option value="7:00pm">7:00pm</option>
+                            <option value="7:30pm">7:30pm</option>
+                            <option value="8:00pm">8:00pm</option>
+                            <option value="8:30pm">8:30pm</option>
+                            <option value="9:00pm">9:00pm</option>
+                            <option value="9:30pm">9:30pm</option>
+                            <option value="10:00pm">10:00pm</option>
+                            <option value="10:30pm">10:30pm</option>
+                            <option value="11:00pm">11:00pm</option>
+                            <option value="11:30pm">11:30pm</option>
+                            <option value="12:00pm">12:00pm</option>
                         </select>
                     </div>
-
-                    <!--- New show price --->
-                    <span class="show_label">Budget</span>
-                    </br>
-                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                        <img class="form-icon" src="static/dollar-sign.png" />
-                        <input type="text" name="show_price" placeholder="500" autocomplete="off" required/>
-                    </div>
-                    <br/>
-
-                    <!--- Requirements for new show --->
-                    <span class="show_label">Requirements</span>
-                    </br>
-                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                        <img style="height: 21px" class="form-icon" src="static/padlock.png" />
-                        <textarea name="show_requirements" placeholder="Do they bring equipment, set length, etc."></textarea>
-                    </div>
-                    <div class="form-message">Enter comma-separated values</div>
-                    </br>
-
-                    <!--- Description for new show --->
-                    <span class="show_label">Description</span>
-                    </br>
-                    <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
-                        <img style="height: 21px" class="form-icon" src="static/comment-icon.png" />
-                        <textarea name="show_description" placeholder="Whats going on?"></textarea>
-                    </div>
-                    </br>
-
-                    <!---Submit button --->
-                    <input type="submit" value="List a show" />
+                    <div class="form-message">Required</div>
                 </div>
-            </form>
+
+
+                <!--- Form error message --->
+                <font class="form-message" id="form-message-1" style="color: #e06c6c"></font>
+
+                <!--- Next button --->
+                <button type="button" id="next-button-1" class="invalidButton" disabled>NEXT</button>
+            </div>
+
+            <!--- Second form card --->
+            <div class="form-holder" id="form-holder-2" style="display: none">
+
+                <!--- Description for new show --->
+                <span class="show_label">Description</span>
+                </br>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img style="height: 21px" class="form-icon" src="static/comment-icon.png" />
+                    <textarea name="show_description" placeholder="Whats going on?"></textarea>
+                </div>
+                </br>
+
+                <!--- New artist type --->
+                <span class="show_label">Type of artist?</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img style="height: 21px" class="form-icon" src="static/user-icon.png" />
+                    <select name="show_artist">
+                        <option value="Any">Any</option>
+                        <option value="Singer">Singer</option>
+                        <option value="Band">Band</option>
+                        <option value="Rapper">Rapper</option>
+                        <option value="DJ">DJ</option>
+                    </select>
+                </div>
+
+                <br/>
+
+                <!--- New genres --->
+                <span class="show_label">Genre?</span>
+                <br/>
+                <div style="display: flex;flex-wrap: wrap; width: 100%;vertical-align: middle;align-items : center;">
+                    <img style="height: 21px" class="form-icon" src="static/tag.png" />
+                    <div class="show_genre_option" value="Blues">Blues</div>
+                    <div class="show_genre_option" value="Rock">Rock</div>
+                    <div class="show_genre_option" value="Classical">Classical</div>
+                    <div class="show_genre_option" value="Hiphop">Hiphop</div>
+                    <div class="show_genre_option" value="Pop">Pop</div>
+                    <div class="show_genre_option" value="Jazz">Jazz</div>
+                    <div class="show_genre_option" value="Country">Country</div>
+                    <div class="show_genre_option" value="Funk">Funk</div>
+                    <div class="show_genre_option" value="Punk">Punk</div>
+                    <div class="show_genre_option" value="Reggae">Reggae</div>
+                    <div class="show_genre_option" value="Soul">Soul</div>
+                    <div class="show_genre_option" value="EDM">EDM</div>
+                    <div class="show_genre_option" value="Alternative">Alternative</div>
+                    <div class="show_genre_option" value="Instrumental">Instrumental</div>
+                    <div class="show_genre_option" value="Folk">Folk</div>
+                    <div class="show_genre_option" value="Dance">Dance</div>
+                    <div class="show_genre_option" value="Acoustic">Acoustic</div>
+                    <div class="show_genre_option" value="Bluegrass">Bluegrass</div>
+                    <div class="show_genre_option" value="Indie">Indie</div>
+                    <div class="show_genre_option" value="Metal">Metal</div>
+                </div>
+
+                <!--- Form error message --->
+                <font class="form-message" id="form-message-2" style="color: #e06c6c"></font>
+
+                <!--- Next button --->
+                <button type="button" id="next-button-2" >NEXT</button>
+
+                <!--- Prev button --->
+                <button type="button" id="prev-button-1" class="prev-button" style="margin-right: 15px;">BACK</button>
+
+            </div>
+
+            <div class="form-holder" id="form-holder-3" style="display: none">
+                <!--- New show price --->
+                <span class="show_label">Budget</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img class="form-icon" src="static/dollar-sign.png" />
+                    <input type="text" id="show_price" name="show_price" placeholder="500" autocomplete="off" required/>
+                </div>
+                <div class="form-message">Required</div>
+                <br/>
+
+                <!--- New show deposit --->
+                <span class="show_label">Set length?</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img class="form-icon" src="static/time.png" />
+                    <select id="show_length">
+                        <option>Pick a time</option>
+                        <option>30min</option>
+                        <option>1 hour</option>
+                        <option>1.5 hours</option>
+                        <option>2 hours</option>
+                        <option>2.5 hours</option>
+                        <option>3 hours</option>
+                        <option>3.5 hours</option>
+                        <option>4 hours</option>
+                        <option>4.5 hours</option>
+                        <option>5 hours</option>
+                        <option>5.5 hours</option>
+                        <option>6 hours</option>
+                    </select>
+                </div>
+                <div class="form-message">Required</div>
+                <br/>
+
+                <!--- Requirements for new show --->
+                <span class="show_label">Other Requirements</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img style="height: 21px" class="form-icon" src="static/padlock.png" />
+                    <textarea id="show_requirements" name="show_requirements" placeholder="Bring equipment, max band size, show up 30 minutes early"></textarea>
+                </div>
+                <div class="form-message">Enter comma-separated values</div>
+                <br/>
+
+                <!--- Requirements for new show --->
+                <span class="show_label">Artist Perks</span>
+                <br/>
+                <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
+                    <img style="height: 21px" class="form-icon" src="static/padlock.png" />
+                    <textarea id="show_requirements" name="show_requirements" placeholder="% of ticket sales, free drinks/meal, etc"></textarea>
+                </div>
+                <div class="form-message">Enter comma-separated values</div>
+                <br/>
+
+                <!--- Form error message --->
+                <font class="form-message" id="form-message-3" style="color: #e06c6c"></font>
+
+                <!---Submit button --->
+                <button type="button" id="list-show-button" class="invalidButton" disabled>LIST SHOW</button>
+
+                <!--- Prev button --->
+                <button type="button" id="prev-button-2" class="prev-button" style="margin-right: 15px;">BACK</button>
+            </div>
+
         </div>
 
         <!--- If there is no account/payment method messages --->
@@ -777,7 +905,7 @@
 
             if (result === true) {
                 $("#next-button-1").prop('disabled', false).removeClass('invalidButton')
-                $("#form-1").html("")
+                $("#form-message-1").html("")
             }
             else {
                 $("#next-button-1").prop('disabled', true).addClass('invalidButton')
@@ -798,7 +926,7 @@
 
             if (input_val == "" || input_val == "Select time") {
                 this_input.addClass("invalidForm")
-                $("#form-1").html("Please fill out all fields")
+                $("#form-message-1").html("Please fill out all fields")
                 result = false
             }
             else {
@@ -847,6 +975,122 @@
 
             //Show form holder 2
             $("#form-holder-2").show();
+        });
+
+        //When next button 1 is pressed show next form window
+        $("#prev-button-1").click(function() {
+
+            //Hide form holder 2
+            $("#form-holder-2").hide();
+
+            //Show form holder 1
+            $("#form-holder-1").show();
+        });
+
+        //active class to show_genre_option when clicked
+        $(".show_genre_option").click(function() {
+            $(this).toggleClass('show_genre_option_active')
+        })
+
+        //When next button 1 is pressed show next form window
+        $("#next-button-2").click(function() {
+
+            //Hide form holder 1
+            $("#form-holder-2").hide();
+
+            //Show form holder 2
+            $("#form-holder-3").show();
+        });
+
+        //When next button 1 is pressed show next form window
+        $("#prev-button-2").click(function() {
+
+            //Hide form holder 3
+            $("#form-holder-3").hide();
+
+            //Show form holder 2
+            $("#form-holder-2").show();
+        });
+
+        //Validate all form group 3 inputs
+        function validate_form_group3() {
+            let show_price = $("#show_price").val()
+            let show_requirements = $("#show_requirements").val()
+            let result = false
+
+            //Check if any field is empty
+            if (show_price == "" || show_requirements == "") {
+                result = false
+            }
+            //Check if show price is a number
+            else if (isNaN(show_price)) {
+                result = false
+            }
+            else {
+                result = true
+            }
+
+            //If form is valid let post
+            if (result == true) {
+                $("#list-show-button").prop('disabled', false).removeClass('invalidButton')
+            }
+            else {
+                $("#list-show-button").prop('disabled', true).addClass('invalidButton')
+            }
+        }
+
+        //Check input form 3 that is being changed
+        function validate_one_input3(current_input) {
+            let input_id = current_input.attr('id')
+            let input_val = current_input.val()
+
+            //If field is empty
+            if (input_val == "") {
+                $("#form-message-3").html("Please fill out all fields")
+                $(current_input).addClass("invalidForm")
+            }
+            //If current input is show price amd not a number
+            else if (input_id == "show_price" && isNaN(input_val)) {
+                $("#form-message-3").html("Must be a number")
+                $(current_input).addClass("invalidForm")
+            }
+            else {
+                $("#form-message-3").html("")
+                $(current_input).removeClass("invalidForm")
+            }
+        }
+
+        //On change check form group 3
+        $("#form-holder-3 input, #form-holder-3 textarea").focusout(function(event) {
+            let current_input = $(this)
+
+            //Check single input and style
+            validate_one_input3(current_input)
+
+            //Check whole form and enable/disable button
+            validate_form_group3()
+        })
+
+        //Submit show posting
+        $("#list-show-button").click(function() {
+
+            //Inputs
+            let show_location = $("#show_location").val()
+            let show_date = $("#show_date").val()
+            let show_time = $("#show_time").find(":selected").text()
+            let show_description = $("#show_description")
+            let show_artist = $("#show_artist").find(":selected").text()
+            let show_price = $("#show_price").val()
+            let show_requirements = $("#show_requirements").val()
+            let show_genres_list = []
+
+            //Loop through each show genre and get value
+            $(".show_genre_option_active").each(function() {
+                let single_genre = $(this).html()
+                show_genres_list.push(single_genre);
+            });
+
+            console.log(show_genres_list)
         })
 
     </script>
