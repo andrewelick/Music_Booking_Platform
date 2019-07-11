@@ -23,7 +23,7 @@
         box-sizing: border-box;
         height: 100%;
         width: 100%;
-        background-color: #f6f9fc;
+        background-color: #232f42;
       }
 
         .mobilegridrow-2 {
@@ -40,8 +40,8 @@
             box-sizing: border-box;
             width: 100%;
             padding: 10px;
-            background-color: #232f42;
-            color: #FFFFFF;
+            background-color: #FFFFFF;
+            color: #383838;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
@@ -69,7 +69,7 @@
             display: inline-block;
             margin-bottom: 4px;
             margin-right: 4px;
-            color: #FFFFFF;
+            color: #383838;
         }
 
         .profile_quick_link:hover {
@@ -154,18 +154,19 @@
 
         .listingbutton {
             box-sizing: border-box;
-            width: 100%;
+            width: 90%;
             padding:5px;
             padding-top:10px;
             padding-bottom:10px;
             font-size: 14px;
             display: inline-block;
+            border-radius: 5px;
             background-color:#328CC1;
             color:#FFFFFF;
             -webkit-transition: background-color 200ms linear;
             -ms-transition: background-color 200ms linear;
             transition: background-color 200ms linear;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
         }
 
         .listingbutton:hover {
@@ -174,7 +175,6 @@
             -webkit-transition: background-color 200ms linear;
             -ms-transition: background-color 200ms linear;
             transition: background-color 200ms linear;
-            box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
         .show_label {
@@ -462,8 +462,8 @@
                 </a>
 
                 <!--- Profile name --->
-                <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
-                    <a href="/profile" style="color: white">{% print venue_details[1] %}</a>
+                <div style="padding-top: 10px;font-size: 14px;text-align: left;">
+                    <a style="font-weight: bold;" href="/profile">{% print venue_details[1] %}</a>
                 </div>
 
                 <!--- Bidding stats -->
@@ -491,7 +491,7 @@
         </div>
 
         <div id="artist_showcase" style="box-sizing: border-box;float: left;padding: 10px;">
-            <div style="padding-bottom:10px;font-size:15px;">Artists around Memphis, TN</div>
+            <div style="padding-bottom:10px;font-size:17px;">Artists around Memphis, TN</div>
 
             <!--- Venue showcase pictures -->
                 {% for artist in featured_artists %}
@@ -546,7 +546,7 @@
                     <input type="hidden" name="lat" />
                     <input type="hidden" name="long" />
                 </div>
-                <div class="form-message">Required</div>
+                <div class="form-message" id="form-message-location">Required</div>
 
                 <br/>
 
@@ -558,7 +558,7 @@
                         <img class="form-icon" src="static/calendar.png" />
                         <input type="text" id="show_date" name="show_date" placeholder="12/20/21" autocomplete="off" />
                     </div>
-                    <div class="form-message">Required</div>
+                    <div class="form-message" id="form-message-date">Required</div>
                 </div>
 
                 <!--- Time for new show --->
@@ -620,7 +620,7 @@
                             <option value="12:00pm">12:00pm</option>
                         </select>
                     </div>
-                    <div class="form-message">Required</div>
+                    <div class="form-message" id="form-message-time">Required</div>
                 </div>
 
 
@@ -747,7 +747,7 @@
                 <br/>
                 <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
                     <img style="height: 21px" class="form-icon" src="static/trophy.png" />
-                    <textarea id="show_requirements" name="show_requirements" placeholder="% of ticket sales, free drinks/meal, etc"></textarea>
+                    <textarea id="show_perks" name="show_perks" placeholder="% of ticket sales, free drinks/meal, etc"></textarea>
                 </div>
                 <div class="form-message">Enter comma-separated values</div>
                 <br/>
@@ -938,24 +938,45 @@
 
         //Validate form group 1
         function validate_one_input(this_input) {
-            let result = true
-            let input_val = ""
+            let input_val = this_input.val()
+            let input_id = this_input.attr('id')
 
-            if (this_input.attr('id') == 'show_time') {
-                input_val = this_input.find(":selected").text()
-            }
-            else {
-                input_val = this_input.val()
+            //Location
+            if (input_id == "show_location") {
+                if (input_val == "") {
+                    this_input.addClass("invalidForm")
+                    $("#form-message-location").css("color", "#e06c6c")
+                }
+                else {
+                    this_input.removeClass("invalidForm")
+                    $("#form-message-location").css("color", "#d2d2d2")
+                }
             }
 
-            if (input_val == "" || input_val == "Select time") {
-                this_input.addClass("invalidForm")
-                $("#form-message-1").html("Please fill out all fields")
-                result = false
+            //Time
+            if (input_id == 'show_time') {
+                if (this_input.find(":selected").text() == "Select time") {
+                    this_input.addClass("invalidForm")
+                    $("#form-message-time").css("color", "#e06c6c")
+                }
+                else {
+                    this_input.addClass("invalidForm")
+                    $("#form-message-time").css("color", "#d2d2d2")
+                }
             }
-            else {
-                this_input.removeClass("invalidForm")
+
+            //Date
+            if (input_id == "show_date") {
+                if (input_val == "") {
+                    this_input.addClass("invalidForm")
+                    $("#form-message-date").css("color", "#e06c6c")
+                }
+                else {
+                    this_input.removeClass("invalidForm")
+                    $("#form-message-date").css("color", "#d2d2d2")
+                }
             }
+
         }
 
         //Form on current input change validation
@@ -1075,7 +1096,7 @@
                         $(current_input).addClass("invalidForm")
                     }
                     //If less than minimum required
-                    else if (int(input_val) < 50) {
+                    else if (Number(input_val) < 50) {
                         $("#form-message-price").html("Minimum amount is $50").css("color", "#e06c6c")
                         $(current_input).addClass("invalidForm")
                     }
@@ -1112,18 +1133,36 @@
             validate_form_group3()
         })
 
+        let tester = "show up 30 minutes early, bring equipment , no yelling"
+        let tester_parsed = tester.split(",")
+        let tester_parsed2 = []
+
+        for (x in tester_parsed) {
+
+            if (tester_parsed[x] != "") {
+                tester_parsed2.push($.trim(tester_parsed[x]))
+            }
+        }
+
+        console.log(tester_parsed2)
+
         //Submit show posting
         $("#list-show-button").click(function() {
 
-            //Inputs
+            //Input values
             let show_location = $("#show_location").val()
             let show_date = $("#show_date").val()
             let show_time = $("#show_time").find(":selected").text()
-            let show_description = $("#show_description")
+            let show_description = $("#show_description").val()
             let show_artist = $("#show_artist").find(":selected").text()
             let show_price = $("#show_price").val()
             let show_requirements = $("#show_requirements").val()
+            let show_perks = $("#show_perks").val()
+
+            //Arrays for multiple values
             let show_genres_list = []
+            let show_requirements_list = []
+            let show_perks_list = []
 
             //Loop through each show genre and get value
             $(".show_genre_option_active").each(function() {
@@ -1131,7 +1170,9 @@
                 show_genres_list.push(single_genre);
             });
 
-            console.log(show_genres_list)
+            //Parse requirements
+
+            console.log(show_location,show_date,show_time,show_description,show_artist,show_price,show_requirements,show_perks,show_genres_list)
         })
 
     </script>
