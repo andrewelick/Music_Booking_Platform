@@ -108,11 +108,11 @@ def check_show_7_close():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated_logs/7DaysTill/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/7DaysTill/error_'+str(datetime.date.today())+'.txt'
 
         #Log the error
         with open(log_filename, 'a') as log_file:
-            log_file.write(e)
+            log_file.write(str(e))
 
         #Send to AWS
         log_type = "7DaysTill/error_"+str(datetime.date.today())+".txt"
@@ -133,7 +133,7 @@ def check_playing_shows():
             next_24 = datetime.datetime.today() + datetime.timedelta(days=1)
 
             #Get all shows that are happening in 24 hours
-            c.execute("""SELECT * FROM show_postings WHERE show_date <= %s""", (next_24))
+            c.execute("""SELECT * FROM show_postings WHERE show_date <= %s AND won = 1""", (next_24))
             upcoming_shows = c.fetchall()
 
             if len(upcoming_shows) != 0:
@@ -149,7 +149,7 @@ def check_playing_shows():
                     if result['result'] == "success":
 
                         #Log filename
-                        log_filename='logs/Automated_logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursBefore/shows_success_'+str(datetime.date.today())+'.txt'
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
@@ -160,11 +160,11 @@ def check_playing_shows():
                         write_log_AWS(log_type)
                     else:
                         #Log filename
-                        log_filename='logs/Automated_logs/24HoursBefore/shows_error_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursBefore/shows_error_'+str(datetime.date.today())+'.txt'
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
-                            log_file.write("Show id:"+str(show[0])+"- error: "+str(result['reason'])+"\n")
+                            log_file.write("Show id:"+show[0]+"- error: "+result['reason']+"\n")
 
                         #Send to AWS
                         log_type = "24HoursBefore/shows_error_"+str(datetime.date.today())+".txt"
@@ -183,7 +183,7 @@ def check_playing_shows():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated_logs/24HoursBefore/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/24HoursBefore/error_'+str(datetime.date.today())+'.txt'
 
         #Log error
         with open(log_filename, 'a') as log_file:
@@ -223,7 +223,7 @@ def check_pay_artist_ready():
                         conn.commit()
 
                         #Log filename
-                        log_filename='logs/Automated_logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt',
+                        log_filename='logs/Automated_logs/24HoursAfter/completed_'+str(datetime.date.today())+'.txt'
 
                         #Log result
                         with open(log_filename, 'a') as log_file:
@@ -246,7 +246,7 @@ def check_pay_artist_ready():
 
     except Exception as e:
         #Log filename
-        log_filename='logs/Automated_logs/24HoursAfter/error_'+str(datetime.date.today())+'.txt',
+        log_filename='logs/Automated_logs/24HoursAfter/error_'+str(datetime.date.today())+'.txt'
 
         #Log error
         with open(log_filename, 'a') as log_file:
