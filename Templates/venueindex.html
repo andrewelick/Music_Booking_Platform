@@ -210,7 +210,7 @@
             border-top-left-radius: 5px;
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
-            border-color: #d2d2d2;
+            border-color: #7992b9;
             color: #FFFFFF;
             background-color: #465f86;
             outline: none;
@@ -228,7 +228,7 @@
         }
 
         input[type='text']:focus, select:focus, textarea:focus {
-            border-color: #FFFFFF;
+            border-color: #cdd6e5;
         }
 
         button, input[type="submit"] {
@@ -326,7 +326,7 @@
             height:100%;
             width: 100%;
             background-color:#000000;
-            opacity:.8
+            opacity:.7
         }
 
         #error_message {
@@ -648,7 +648,7 @@
                 <br/>
                 <div style="display: flex; width: 100%;vertical-align: middle;align-items : center;">
                     <img style="height: 21px" class="form-icon" src="static/user-icon.png" />
-                    <select name="show_artist">
+                    <select id ="show_artist" name="show_artist">
                         <option value="Any">Any</option>
                         <option value="Singer">Singer</option>
                         <option value="Band">Band</option>
@@ -960,7 +960,7 @@
                     $("#form-message-time").css("color", "#e06c6c")
                 }
                 else {
-                    this_input.addClass("invalidForm")
+                    this_input.removeClass("invalidForm")
                     $("#form-message-time").css("color", "#d2d2d2")
                 }
             }
@@ -1133,21 +1133,8 @@
             validate_form_group3()
         })
 
-        let tester = "show up 30 minutes early, bring equipment , no yelling"
-        let tester_parsed = tester.split(",")
-        let tester_parsed2 = []
-
-        for (x in tester_parsed) {
-
-            if (tester_parsed[x] != "") {
-                tester_parsed2.push($.trim(tester_parsed[x]))
-            }
-        }
-
-        console.log(tester_parsed2)
-
-        //Submit show posting
-        $("#list-show-button").click(function() {
+        //Gather all new show inputs and parse
+        function gather_show_inputs_parse() {
 
             //Input values
             let show_location = $("#show_location").val()
@@ -1171,8 +1158,46 @@
             });
 
             //Parse requirements
+            show_requirements = show_requirements.split(",")
 
-            console.log(show_location,show_date,show_time,show_description,show_artist,show_price,show_requirements,show_perks,show_genres_list)
+            for (x in show_requirements) {
+                //Check if not empty and trim whitespace
+                if (/\S/.test(show_requirements[x])) {
+                    show_requirements_list.push($.trim(show_requirements[x]))
+                }
+            }
+
+            //Parse perks
+            show_perks = show_perks.split(",")
+
+            for (x in show_perks) {
+                //Check if not empty and trim whitespace
+                if (/\S/.test(show_perks[x])) {
+                    show_perks_list.push($.trim(show_perks[x]))
+                }
+            }
+
+            //Dictionary for all inputs
+            return {
+                'location': show_location,
+                'date': show_date,
+                'time': show_time,
+                'description': show_description,
+                'artist_type': show_artist,
+                'genres': show_genres_list,
+                'price': show_price,
+                'requirements': show_requirements_list,
+                'perks': show_perks_list,
+            }
+        }
+
+        //Submit show posting
+        $("#list-show-button").click(function() {
+
+            //Get and parse all new show inputs
+            let show_inputs = gather_show_inputs_parse()
+
+            console.log(show_inputs)
         })
 
     </script>

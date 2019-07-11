@@ -2268,6 +2268,7 @@ def charge_stripe_venue_payment(show_id):
                     conn.commit()
 
                     return json.dumps({'show_id': show_id,'result': 'success'})
+
                 else:
                     result = charge['status']
             else:
@@ -2275,9 +2276,13 @@ def charge_stripe_venue_payment(show_id):
 
             return json.dumps({'show_id': show_id,'result': 'error', 'reason': result})
 
+        else:
+            return json.dumps({'show_id': show_id,'result': 'error', 'reason': "Could not connect to the database"})
+
     except Exception as e:
+
         print (e)
-        return json.dumps({'show_id': show_id,'result': 'error', 'reason': str(e)})
+        return json.dumps({'show_id': show_id,'result': 'error', 'reason': repr(e)})
     finally:
         if conn:
             conn.close()
