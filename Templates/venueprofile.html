@@ -135,15 +135,39 @@
         }
 
         .singlelisting {
-          padding: 20px;
+          padding: 10px;
           margin-bottom: 10px;
           border-bottom: 1px solid;
-          border-color: #d2d2d2
+          border-color: #d2d2d2;
+          font-size: 14px;
+        }
+
+        .lisiting_header_title {
+            font-size: 19px;
+            color: blue;
+        }
+
+        .lisiting_header_title:hover {
+            cursor: pointer;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 14px;
+            vertical-align: middle;
         }
 
         .listing_body_description {
-            overflow: hidden;
+            box-sizing: border-box;
             padding-top: 10px;
+            padding-right: 35px;
+            font-size: 13px;
+            max-height: 100px;
+            overflow: hidden;
         }
 
         .listing_stats_option {
@@ -226,9 +250,15 @@
             }
 
             #currentlistings {
+                max-width: 600px;
             }
 
             #pastListings {
+                max-width: 600px;
+            }
+
+            .listing_details {
+                overflow: hidden
             }
 
             #contact_send_message_container {
@@ -404,29 +434,69 @@
                         <!--- Single Past listing --->
                         <div class="singlelisting">
 
-                            <!--- Link to single listing page --->
-                            <a href="/shows?id=${shows[x].show_id}" style='text-decoration:none;color:#383838'>
-
-                                <!--- Listing header --->
-                                <div class="lisiting_header" style='text-align:left'>
-                                    <!-- Profile picture --->
+                            <!--- Listing header --->
+                            <div class="lisiting_header" style='text-align:left'>
+                                <!-- Profile picture --->
+                                <a href="/shows?id=${shows[x].show_id}" style='color:#383838'>
                                     <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].uid}_profile.jpg" class='profilepicture_mini' />
+                                </a>
+
+                                <!--- Listing details --->
+                                <div class="listing_details">
+
                                     <!--- Profile name --->
                                     <span class="lisiting_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
-                                    <!--- Listed price --->
-                                    <span class="offer_price" style='float:right;font-size:17px;'>$${shows[x].price}</span>
-                                </div>
-                                <!--- End Listing header -->
 
-                                <!--- Listing body --->
-                                <div class="listing_body" style='text-align:left;font-size:14px;'>
-                                    <span class="lisiting_body_date">${shows[x].show_date} <font style='font-size:11px;color:#383838'>@</font> ${shows[x].show_time}</span>
-                                    <div class="listing_body_description">${shows[x].description}</div>
-                                </div>
-                                <!--- End Listing body --->
+                                    <!--- Location --->
+                                    <div style="padding-top: 10px;">
+                                        <!--- Icon --->
+                                        <img class="icon" src="static/placeholder-black.png" />
 
-                            </a>
-                            <!--- End of link to single page --->
+                                        <font class="detail_title">${shows[x].location}</font>
+                                    </div>
+
+                                    <!--- Date --->
+                                    <div style="overflow: hidden; padding-top: 10px;">
+                                        <!--- Icon --->
+                                        <img class="icon" src="static/calendar-black.png" />
+
+                                        <font class="detail_title">
+                                            ${shows[x].show_date}
+                                            <font style='font-size:11px'>@</font>
+                                            ${shows[x].show_time}
+                                        </font>
+
+                                    </div>
+
+                                    <div style="margin-top: 10px; padding-top: 10px;padding-bottom: 10px;overflow: hidden">
+                                        <!--- Price --->
+                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                            <div style="padding-bottom: 5px;">Budget</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;color: #5f9341">$${shows[x].price}</font>
+                                        </div>
+
+                                        <!--- Artist Type --->
+                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                            <div style="padding-bottom: 5px;">Artist</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;">${shows[x].artist_type}</font>
+                                        </div>
+
+                                        <!--- Set length --->
+                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                            <div style="padding-bottom: 5px;">Set length</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;">${shows[x].set_length}</font>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <a href="/shows?id=${shows[x].show_id}" style='text-decoration:none;color:#383838'>More details</a>
+
                         </div>
                         <!--- End of Single Past listing --->
                     `

@@ -1469,6 +1469,7 @@ def get_venue_show_postings(uid = None, ending_soon = None):
 
 #Get show details for one listing
 def get_venue_one_show(show_id):
+
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
@@ -1476,7 +1477,7 @@ def get_venue_one_show(show_id):
         try:
             #Get show details
             c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_id = %s AND venue_profile_details.uid = show_postings.uid""", (show_id,))
-            x = c.fetchall()[0]
+            show_results = c.fetchall()[0]
 
             #Get show genres
             c.execute("""SELECT genre_id, name FROM show_genres WHERE show_id = %s""", (show_id,))
@@ -1495,21 +1496,45 @@ def get_venue_one_show(show_id):
             perks_list = []
             requirements_list = []
 
+            #Loop through genres, convert to dict
+            for x in genre_results:
+                dict = {
+                    'id': x[0],
+                    'genre': x[1]
+                }
+                genres_list.append(dict)
+
+            #Loop through perks, convert to dict
+            for x in perks_results:
+                dict = {
+                    'id': x[0],
+                    'perk': x[1]
+                }
+                perks_list.append(dict)
+
+            #Loop through genres, convert to dict
+            for x in requirements_results:
+                dict = {
+                    'id': x[0],
+                    'requirement': x[1]
+                }
+                requirements_list.append(dict)
+
             show_details = {
-                'show_id': x[0],
-                'uid': x[1],
-                'price': x[2],
-                'description': x[3],
-                'artist_type': x[4],
-                'location': x[5],
-                'show_date': str(x[6].strftime("%b %d")),
-                'show_time': x[7],
-                'set_length': x[8],
-                'date_posted': str(x[9]),
-                'business_name': x[11],
-                'genres': genre_results,
-                'perks': perks_results,
-                'requirements': requirements_results,
+                'show_id': show_results[0],
+                'uid': show_results[1],
+                'price': show_results[2],
+                'description': show_results[3],
+                'artist_type': show_results[4],
+                'location': show_results[5],
+                'show_date': str(show_results[6].strftime("%b %d")),
+                'show_time': show_results[7],
+                'set_length': show_results[8],
+                'date_posted': str(show_results[9]),
+                'business_name': show_results[11],
+                'genres': genres_list,
+                'perks': perks_list,
+                'requirements': requirements_list,
             }
 
 
