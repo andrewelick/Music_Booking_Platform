@@ -1467,66 +1467,6 @@ def get_venue_show_postings(uid = None, ending_soon = None):
             if conn:
                 conn.close()
 
-#Get venue show postings that are closing with 7 days
-def get_venue_show_postings_ending_soon(uid):
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            two_weeks = datetime.datetime.today() + datetime.timedelta(days=14)
-
-            #Select shows that are open and ending soon
-            c.execute("""SELECT show_id, description, artist_type, location, show_date, show_time, set_length FROM show_postings WHERE uid = %s AND won = 0 AND show_date <= %s ORDER BY show_date ASC LIMIT 10""", (uid, two_weeks))
-            results = c.fetchall()
-
-            shows_list = []
-
-            #Loop through results
-            for show in results:
-
-                #Get bid stats
-                all_bids = c.execute("""SELECT bid_amount FROM show_bids WHERE show_id = %s""", (show[0]))
-                results = c.fetchall()
-
-                if all_bids > 0:
-                    #Bid count on show
-                    bid_amounts = []
-
-                    #Loop through all bids
-                    for bid in results:
-                        bid_amounts.append(bid[0])
-
-                    #Highest bid
-                    highest_bid = max(bid_amounts)
-                else:
-                    highest_bid = 0
-
-
-                show_details = {
-                    'show_id': show[0],
-                    'description': show[1],
-                    'artist_type': show[2],
-                    'location': show[3],
-                    'show_date': str(show[4].strftime("%b %d")),
-                    'show_time': show[5],
-                    'set_length': show[6],
-                    'total_bids': all_bids,
-                    'highest_bid': highest_bid,
-                }
-
-                shows_list.append(show_details)
-
-            return json.dumps({'success': shows_list})
-
-    except Exception as e:
-        print (e)
-        return json.dumps({'error': 'Could not retrieve shows'})
-    finally:
-        if conn:
-            conn.close()
-
 #Get show details for one listing
 def get_venue_one_show(show_id):
     #Connect to database
@@ -1537,6 +1477,23 @@ def get_venue_one_show(show_id):
             #Get show details
             c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_id = %s AND venue_profile_details.uid = show_postings.uid""", (show_id,))
             x = c.fetchall()[0]
+
+            #Get show genres
+            c.execute("""SELECT genre_id, name FROM show_genres WHERE show_id = %s""", (show_id,))
+            genre_results = c.fetchall()
+
+            #Get show perks
+            c.execute("""SELECT id, message FROM show_perks WHERE show_id = %s""", (show_id,))
+            perks_results = c.fetchall()
+
+            #Get show requirements
+            c.execute("""SELECT id, message FROM show_requirements WHERE show_id = %s""", (show_id,))
+            requirements_results = c.fetchall()
+
+            #List for genre, perks, requirements
+            genres_list = []
+            perks_list = []
+            requirements_list = []
 
             show_details = {
                 'show_id': x[0],
@@ -1550,6 +1507,9 @@ def get_venue_one_show(show_id):
                 'set_length': x[8],
                 'date_posted': str(x[9]),
                 'business_name': x[11],
+                'genres': genre_results,
+                'perks': perks_results,
+                'requirements': requirements_results,
             }
 
 

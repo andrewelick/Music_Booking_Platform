@@ -61,9 +61,9 @@
 
         .profilepicture_mini {
           box-sizing: border-box;
-          width: 50px;
+          width: 45px;
           border-radius: 100px;
-          margin-right: 5px;
+          margin-right: 10px;
           float: left;
         }
 
@@ -117,7 +117,6 @@
         }
 
         #currentlistings {
-          max-width: 700px;
           margin: auto;
           margin-top:10px;
           padding: 10px;
@@ -127,7 +126,6 @@
         }
 
         #pastListings {
-            max-width: 700px;
             margin: auto;
             margin-top:10px;
             padding: 10px;
@@ -141,6 +139,11 @@
           margin-bottom: 10px;
           border-bottom: 1px solid;
           border-color: #d2d2d2
+        }
+
+        .listing_body_description {
+            overflow: hidden;
+            padding-top: 10px;
         }
 
         .listing_stats_option {
@@ -223,11 +226,9 @@
             }
 
             #currentlistings {
-                width: 500px;
             }
 
             #pastListings {
-                width: 500px;
             }
 
             #contact_send_message_container {
@@ -413,13 +414,14 @@
                                     <!--- Profile name --->
                                     <span class="lisiting_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
                                     <!--- Listed price --->
-                                    <span class="offer_price" style='float:right;font-size:15px;'>Listed price: $${shows[x].price}</span>
+                                    <span class="offer_price" style='float:right;font-size:17px;'>$${shows[x].price}</span>
                                 </div>
                                 <!--- End Listing header -->
 
                                 <!--- Listing body --->
-                                <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
+                                <div class="listing_body" style='text-align:left;font-size:14px;'>
                                     <span class="lisiting_body_date">${shows[x].show_date} <font style='font-size:11px;color:#383838'>@</font> ${shows[x].show_time}</span>
+                                    <div class="listing_body_description">${shows[x].description}</div>
                                 </div>
                                 <!--- End Listing body --->
 

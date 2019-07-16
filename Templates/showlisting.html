@@ -43,6 +43,14 @@
           float:left;
         }
 
+        .description {
+            box-sizing: border-box;
+            padding-top: 10px;
+            font-size: 13px;
+            height: 100px;
+            overflow: hidden;
+        }
+
         .show_details_stats {
           padding-top:10px;
           font-size:11px;
@@ -249,6 +257,21 @@
           background: linear-gradient(0deg, rgba(248,19,213,1) 0%, rgba(77,158,255,1) 100%);
         }
 
+        #show_more {
+            margin: 0 auto;
+            width: 90px;
+            padding: 10px;
+            font-size: 13px;
+            border-radius: 5px;
+            color: blue;
+            text-align: center;
+        }
+
+        #show_more:hover {
+            cursor: pointer;
+            background-color: #efefef;
+        }
+
         @media screen and (min-width: 800px) {
 
             .mobilegridrow-2 {
@@ -290,16 +313,22 @@
                 <div style="margin-left:70px;font-size:14px;">
 
                     <a href="/profile?uid={% print show_details.uid %}">
-                        <font style='color: blue; font-weight: bold; font-size:15px;'>{% print show_details.business_name %}</font>
+                        <font style='color: blue; font-size:15px;'>{% print show_details.business_name %}</font>
                     </a>
 
                     <div style="padding-top:2px;">{% print show_details.location %}</div>
                     <div style='padding-top:2px;'>{% print show_details.show_date %} <font style='font-size:11px'>@</font> {% print show_details.show_time %}</div>
-                    <div style="padding-top:10px;font-size:12px;">Description: {% print show_details.description %}</div>
+                    <div class="description">Description: {% print show_details.description %}</div>
                 </div>
 
             </div>
             <!--- End of profile container --->
+
+            <div id="show_more_container">
+                <div id="show_more">Show More</div>
+            </div>
+
+            {% print show_details %}
         </div>
         <!--- End of show snapshot --->
 
@@ -496,6 +525,24 @@
         $("#acceptoffername").html(accept_bidder_name)
         $("#winning_bidder_uid").val(accept_bidder_uid)
         $("#winning_bidder_price").val(accept_bidder_price)
+    })
+
+    //Expand Details
+    let desc_height = $(".description")[0].scrollHeight;
+
+    $("#show_more").click(function() {
+
+        //Check text of button
+        let button_value = $("#show_more").html()
+
+        if (button_value == "Show More") {
+            $("#show_more").html("Show Less")
+            $('.description').animate({'height': desc_height})
+        }
+        else {
+            $("#show_more").html("Show More")
+            $('.description').animate({'height': '100px'})
+        }
     })
 
     </script>

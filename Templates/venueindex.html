@@ -504,26 +504,26 @@
             <div style="padding-bottom:10px;font-size:17px;">Artists around Memphis, TN</div>
 
             <!--- Venue showcase pictures -->
-                {% for artist in featured_artists %}
-                <div class="showcase_container" >
-                    <a href="/profile?uid={% print artist['uid'] %}">
-                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
-                    </a>
+            {% for artist in featured_artists %}
+            <div class="showcase_container" >
+                <a href="/profile?uid={% print artist['uid'] %}">
+                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                </a>
 
-                    <div>
-                        <b>{% print artist['artist_name'] %}</b>
-                        <font class="venue_showcase_busi_type">- {% print artist['genre'] %}</font>
-                    </div>
-
-                    <!--- Business bio --->
-                    <div class="showcase_bio">{% print artist['bio'] %}</div>
-
+                <div>
+                    <b>{% print artist['artist_name'] %}</b>
+                    <font class="venue_showcase_busi_type">- {% print artist['genre'] %}</font>
                 </div>
-                {% endfor %}
 
-                {% if featured_artists|length == 0 %}
-                    <div class="empty_box_text">There are no artists in your area. Give them a reason to be!</div>
-                {% endif %}
+                <!--- Business bio --->
+                <div class="showcase_bio">{% print artist['bio'] %}</div>
+
+            </div>
+            {% endfor %}
+
+            {% if featured_artists|length == 0 %}
+                <div class="empty_box_text">There are no artists in your area. Give them a reason to be!</div>
+            {% endif %}
 
         </div>
 
