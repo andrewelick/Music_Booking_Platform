@@ -1417,7 +1417,7 @@ def get_venue_show_postings(uid = None, ending_soon = None):
                     two_weeks = datetime.datetime.today() + datetime.timedelta(days=14)
 
                     #Select shows that are open and ending soon
-                    c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE venue_profile_details.uid = %s AND show_postings.uid = %s AND show_postings.won = 0 AND show_postings.show_date <= %s ORDER BY show_postings.show_date DESC LIMIT 10""", (uid, uid, two_weeks))
+                    c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE venue_profile_details.uid = %s AND show_postings.uid = %s AND show_postings.won = 0 AND show_postings.show_date <= %s ORDER BY show_postings.show_date ASC LIMIT 5""", (uid, uid, two_weeks))
                 else:
                     #Get list of posts by user
                     c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid = %s AND venue_profile_details.uid = %s ORDER BY show_postings.show_date ASC""", (uid, uid))

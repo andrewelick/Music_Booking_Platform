@@ -91,38 +91,53 @@
             margin-top: 20px;
         }
 
-        .single_ending_show {
+        .singlelisting {
+          padding: 10px;
+          border-top: 1px solid;
+          border-color: #d2d2d2;
+          font-size: 12px;
+          overflow: hidden;
+        }
+
+        .listing_details {
+            padding-bottom: 10px;
+        }
+
+        .listing_header_title {
+            font-size: 16px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 13px;
+            vertical-align: middle;
+        }
+
+        .listing_stats_option {
+          margin-top:-5px;
+          padding:5px;
+          border-radius: 5px;
+          font-size:10px;
+          background-color:#596B83;
+          color:#FFFFFF;
+        }
+
+        .more_details_link {
+            width: 100;
             padding: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-            font-size: 13px;
-            text-align: left;
-            border-top: 1px solid;
-            border-color: #efefef;
-        }
-
-        .single_ending_bids_container {
-            box-sizing: border-box;
-            width: 100%;
-            padding-top: 5px;
-            font-size: 11px;
-        }
-
-        .ending_show_description {
-            width: 100%;
-            padding-top: 6px;
-            font-size: 11px;
-        }
-
-        .ending_show_link {
-            float:right;
             color: blue;
-            font-size: 11px;
+            float: right;
+            border-radius: 5px;
+            font-size: 12px;
         }
 
-        .ending_show_link:hover{
-            cursor: pointer;
-            text-decoration: underline;
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
         }
 
         .showcase_container {
@@ -896,18 +911,77 @@
 
                     //Loop through each result and format
                     for (i = 0; i < ending_shows.length; i++) {
-                        let show = `
-                            <div class="single_ending_show">
-                                <!--- Show date --->
-                                <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} @ ${ending_shows[i]['show_time']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">View</a>
 
-                                <!--- Description --->
-                                <div class="ending_show_description">${ending_shows[i]['description']}</div>
+                        let single_listing = `
+                            <!--- Single Past listing --->
+                            <div class="singlelisting">
+
+                                <!--- Listing header --->
+                                <div class="listing_header" style='text-align:left'>
+
+                                    <!--- Listing details --->
+                                    <div class="listing_details">
+
+                                        <!--- Profile name --->
+                                        <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
+
+                                        <!--- Location --->
+                                        <div style="padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/placeholder-black.png" />
+
+                                            <font class="detail_title">${ending_shows[i].location}</font>
+                                        </div>
+
+                                        <!--- Date --->
+                                        <div style="overflow: hidden; padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/calendar-black.png" />
+
+                                            <font class="detail_title">
+                                                ${ending_shows[i].show_date}
+                                                <font style='font-size:11px'>@</font>
+                                                ${ending_shows[i].show_time}
+                                            </font>
+
+                                        </div>
+
+                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                            <!--- Price --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;color: #5f9341">$${ending_shows[i].price}</font>
+                                            </div>
+
+                                            <!--- Artist Type --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].artist_type}</font>
+                                            </div>
+
+                                            <!--- Set length --->
+                                            <div style="float: left;overflow: hidden;">
+                                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].set_length}</font>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--- More details link --->
+                                    <a href="/shows?id=${ending_shows[i].show_id}" class="more_details_link">More details</a>
+
+                                </div>
 
                             </div>
+                            <!--- End of Single Past listing --->
                         `
 
-                        $("#ending_shows").append(show)
+
+                        $("#ending_shows").append(single_listing)
                     }
                 }
             }

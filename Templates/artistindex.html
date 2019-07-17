@@ -14,7 +14,6 @@
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-color: #f6f9fc;
       }
 
         .mobilegridrow-2 {
@@ -37,8 +36,7 @@
           padding: 10px;
           text-align: center;
           font-size: 16px;
-          color: #FFFFFF;
-          background-color: #232f42;
+          color: #383838;
           border-top-right-radius: 5px;
           border-top-left-radius: 5px;
           box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
@@ -91,28 +89,61 @@
             font-size: 12px;
         }
 
+        .singlelisting {
+          padding: 10px;
+          border-bottom: 1px solid;
+          border-color: #d2d2d2;
+          font-size: 14px;
+          overflow: hidden;
+        }
+
         .profilepicture_mini {
           box-sizing: border-box;
-          width: 40px;
+          width: 45px;
           border-radius: 100px;
-          margin-right: 5px;
+          margin-right: 10px;
           float: left;
         }
 
-        .singlelisting {
-          padding: 10px;
-          margin-bottom: 10px;
-          border-bottom: 1px solid;
-          border-color: #d2d2d2
+        .listing_details {
+            padding-bottom: 10px;
+        }
+
+        .listing_header_title {
+            font-size: 16px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 13px;
+            vertical-align: middle;
         }
 
         .listing_stats_option {
           margin-top:-5px;
-          padding:7px;
+          padding:5px;
           border-radius: 5px;
-          font-size:11px;
+          font-size:10px;
           background-color:#596B83;
           color:#FFFFFF;
+        }
+
+        .more_details_link {
+            width: 100;
+            padding: 10px;
+            color: blue;
+            float: right;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
         }
 
         #profile_container {
@@ -120,8 +151,9 @@
             width: 100%;
             margin-bottom: 20px;
             padding: 10px;
-            background-color: #232f42;
-            color: #FFFFFF;
+            color: #383838;
+            border-bottom: 1px solid;
+            border-color: #efefef;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
@@ -149,7 +181,7 @@
             display: inline-block;
             margin-bottom: 4px;
             margin-right: 4px;
-            color: #FFFFFF;
+            color: #383838;
         }
 
         .profile_quick_link:hover {
@@ -176,6 +208,10 @@
           #recentlistingscontainer {
               width: 450px;
           }
+
+          .listing_details {
+              overflow: hidden
+          }
       }
 
     </style>
@@ -200,7 +236,7 @@
 
                 <!--- Profile name --->
                 <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
-                    <a href="/profile" style="color: white">{% print profile_details[4] %}</a>
+                    <a href="/profile">{% print profile_details[4] %}</a>
                 </div>
 
                 <!--- Bidding stats -->
@@ -244,7 +280,7 @@
           <div class="card_header">Latest listings in Memphis</div>
 
           <div id="openListingsContainer">
-              <div id="emptyOpenListings" style="padding: 20px;">There are no open shows</div>
+              <div id="emptyOpenListings" style="padding: 10px;"></div>
           </div>
 
           <!-- Loading gif -->
@@ -280,55 +316,96 @@
         }).done(function(data) {
 
             if (data['success']) {
-                let shows = data['success']
+                let ending_shows = data['success']
 
-                //Loop through each result and put in correct listing box
-                for (x in shows) {
+                if (ending_shows.length == 0) {
+                    $("#emptyOpenListings").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>There are no open shows</div>")
+                }
+                else {
 
-                    if (shows[x].show_status == "open") {
+                    //Loop through each result and format
+                    for (i = 0; i < ending_shows.length; i++) {
 
                         let single_listing = `
                             <!--- Single Past listing --->
                             <div class="singlelisting">
 
-                                <!--- Link to single listing page --->
-                                <a href="/shows?id=${shows[x].show_id}" style='text-decoration:none;color:#383838'>
+                                <!--- Listing header --->
+                                <div class="listing_header" style='text-align:left'>
 
-                                    <!--- Listing header --->
-                                    <div class="lisiting_header" style='text-align:left'>
-                                        <!-- Profile picture --->
-                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].uid}_profile.jpg" class='profilepicture_mini' />
+                                    <!-- Profile picture --->
+                                    <a href="/profile?uid=${ending_shows[i].uid}">
+                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${ending_shows[i].uid}_profile.jpg" class='profilepicture_mini' />
+                                    </a>
+
+
+                                    <!--- Listing details --->
+                                    <div class="listing_details">
+
                                         <!--- Profile name --->
-                                        <span class="lisiting_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
-                                        <!--- Listed price --->
-                                        <span class="offer_price" style='float:right;font-size:15px;'>Listed price: $${shows[x].price}</span>
-                                    </div>
-                                    <!--- End Listing header -->
+                                        <a href="/profile?uid=${ending_shows[i].uid}" style="color: blue">
+                                            <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
+                                        </a>
 
-                                    <!--- Listing body --->
-                                    <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                                        <span class="lisiting_body_date">${shows[x].show_date} <font style='font-size:11px;color:#383838'>@</font> ${shows[x].show_time}</span>
-                                    </div>
-                                    <!--- End Listing body --->
+                                        <!--- Location --->
+                                        <div style="padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/placeholder-black.png" />
 
-                                </a>
-                                <!--- End of link to single page --->
+                                            <font class="detail_title">${ending_shows[i].location}</font>
+                                        </div>
+
+                                        <!--- Date --->
+                                        <div style="overflow: hidden; padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/calendar-black.png" />
+
+                                            <font class="detail_title">
+                                                ${ending_shows[i].show_date}
+                                                <font style='font-size:11px'>@</font>
+                                                ${ending_shows[i].show_time}
+                                            </font>
+
+                                        </div>
+
+                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                            <!--- Price --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;color: #5f9341">$${ending_shows[i].price}</font>
+                                            </div>
+
+                                            <!--- Artist Type --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;">${ending_shows[i].artist_type}</font>
+                                            </div>
+
+                                            <!--- Set length --->
+                                            <div style="float: left;overflow: hidden;">
+                                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;">${ending_shows[i].set_length}</font>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--- More details link --->
+                                    <a href="/shows?id=${ending_shows[i].show_id}" class="more_details_link">More details</a>
+
+                                </div>
+
                             </div>
                             <!--- End of Single Past listing --->
                         `
 
 
-                        //Hide empty container message
-                        $("#emptyOpenListings").hide()
-
-                        //Add results to container
-                        $("#openListingsContainer").append(single_listing)
+                        $("#emptyOpenListings").append(single_listing)
                     }
                 }
-            }
-            else {
-                //Show loading errors
-                $("#openListingsContainer").html("There was an error loading open show listings")
             }
         });
 

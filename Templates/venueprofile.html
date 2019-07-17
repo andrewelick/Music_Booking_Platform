@@ -59,14 +59,6 @@
           padding: 2px;
         }
 
-        .profilepicture_mini {
-          box-sizing: border-box;
-          width: 45px;
-          border-radius: 100px;
-          margin-right: 10px;
-          float: left;
-        }
-
         .contact {
             display: inline-block;
             width: 100px;
@@ -78,6 +70,11 @@
             text-align: center;
             background-color: #328CC1;
             color: #FFFFFF
+        }
+
+        .contact:hover {
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .editprofile {
@@ -140,15 +137,23 @@
           border-bottom: 1px solid;
           border-color: #d2d2d2;
           font-size: 14px;
+          overflow: hidden;
         }
 
-        .lisiting_header_title {
+        .profilepicture_mini {
+          box-sizing: border-box;
+          width: 45px;
+          border-radius: 100px;
+          margin-right: 10px;
+          float: left;
+        }
+
+        .listing_details {
+            padding-bottom: 15px;
+        }
+
+        .listing_header_title {
             font-size: 19px;
-            color: blue;
-        }
-
-        .lisiting_header_title:hover {
-            cursor: pointer;
         }
 
         .detail_title {
@@ -179,6 +184,20 @@
           color:#FFFFFF;
         }
 
+        .more_details_link {
+            width: 100;
+            padding: 10px;
+            color: blue;
+            float: right;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
+        }
+
         textarea {
           padding: 8px;
           width: 70%;
@@ -197,6 +216,14 @@
           border: 0;
           background-color: #328CC1;
           color: #FFFFFF;
+        }
+
+        a {
+            color: blue;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         #contact_send_message_container {
@@ -309,7 +336,7 @@
                 <!--- Contact bar --->
                 <div id="contactbar">
                     {% if email != session['username'] %}
-                        <a href="#" class="contact" id="messageartist">Messsage</a>
+                        <a class="contact ripple" id="messageartist">Messsage</a>
                     {% endif %}
                 </div>
                 <!--- End of contact bar --->
@@ -435,9 +462,9 @@
                         <div class="singlelisting">
 
                             <!--- Listing header --->
-                            <div class="lisiting_header" style='text-align:left'>
+                            <div class="listing_header" style='text-align:left'>
                                 <!-- Profile picture --->
-                                <a href="/shows?id=${shows[x].show_id}" style='color:#383838'>
+                                <a href="/profile?uid=${shows[x].uid}">
                                     <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].uid}_profile.jpg" class='profilepicture_mini' />
                                 </a>
 
@@ -445,7 +472,7 @@
                                 <div class="listing_details">
 
                                     <!--- Profile name --->
-                                    <span class="lisiting_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
+                                    <span class="listing_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
 
                                     <!--- Location --->
                                     <div style="padding-top: 10px;">
@@ -470,21 +497,21 @@
 
                                     <div style="margin-top: 10px; padding-top: 10px;padding-bottom: 10px;overflow: hidden">
                                         <!--- Price --->
-                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                        <div style="float: left;overflow: hidden; padding-right: 25px;">
                                             <div style="padding-bottom: 5px;">Budget</div>
 
                                             <font style="font-weight: bold;font-size: 16px;color: #5f9341">$${shows[x].price}</font>
                                         </div>
 
                                         <!--- Artist Type --->
-                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                        <div style="float: left;overflow: hidden; padding-right: 25px;">
                                             <div style="padding-bottom: 5px;">Artist</div>
 
                                             <font style="font-weight: bold;font-size: 16px;">${shows[x].artist_type}</font>
                                         </div>
 
                                         <!--- Set length --->
-                                        <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                        <div style="float: left;overflow: hidden;">
                                             <div style="padding-bottom: 5px;">Set length</div>
 
                                             <font style="font-weight: bold;font-size: 16px;">${shows[x].set_length}</font>
@@ -493,9 +520,10 @@
 
                                 </div>
 
-                            </div>
+                                <!--- More details link --->
+                                <a href="/shows?id=${shows[x].show_id}" class="more_details_link">More details</a>
 
-                            <a href="/shows?id=${shows[x].show_id}" style='text-decoration:none;color:#383838'>More details</a>
+                            </div>
 
                         </div>
                         <!--- End of Single Past listing --->

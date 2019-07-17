@@ -121,6 +121,7 @@
 
         #profilecontainer {
             padding: 10px;
+            padding-bottom: 0px;
         }
 
         #bidscontainer {
@@ -324,6 +325,11 @@
                 width: 400px;
                 border-radius: 5px;
             }
+
+            #show_more_container {
+                width: 580px;
+                margin: auto;
+            }
         }
 
     </style>
@@ -398,7 +404,7 @@
                             </div>
 
                             <!--- Set length --->
-                            <div style="float: left;overflow: hidden; padding-right: 30px;">
+                            <div style="float: left;overflow: hidden;">
                                 <div style="padding-bottom: 5px;">Set length</div>
 
                                 <font style="font-weight: bold;font-size: 18px;">{% print show_details.set_length %}</font>
@@ -465,7 +471,7 @@
             </div>
             <!--- End of profile container --->
 
-            <div id="show_more_container">
+            <div id="show_more_container" style="padding-top: 10px;">
                 <div id="show_more">Show More</div>
             </div>
 
@@ -677,7 +683,7 @@
 
         if (button_value == "Show More") {
             $("#show_more").html("Show Less")
-            $('.description').animate({'height': desc_height})
+            $('.description').animate({'height': desc_height+20})
         }
         else {
             $("#show_more").html("Show More")

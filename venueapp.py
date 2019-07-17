@@ -44,10 +44,6 @@ def index():
             if request.form.get("check_stripe_payment_method"):
                 return venuehandler.check_stripe_payment_method(email, account_type)
 
-            #Venue shows that are ending soon
-            elif request.form.get('ending_shows'):
-                return venuehandler.get_venue_show_postings_ending_soon(uid)
-
         else:
             #Artist account
             if account_type == "artist":
@@ -680,7 +676,7 @@ def your_listings():
             uid=uid,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
         )
-        
+
     else:
         return redirect(url_for("/"))
 
