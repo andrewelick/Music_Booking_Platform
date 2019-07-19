@@ -32,7 +32,6 @@
 
         .card_header {
           box-sizing: border-box;
-          margin-bottom: 10px;
           padding: 10px;
           text-align: center;
           font-size: 16px;
@@ -91,6 +90,7 @@
 
         .singlelisting {
           padding: 10px;
+          padding-top: 20px;
           border-bottom: 1px solid;
           border-color: #d2d2d2;
           font-size: 14px;
@@ -110,6 +110,7 @@
         }
 
         .listing_header_title {
+            color: blue;
             font-size: 16px;
         }
 
@@ -135,10 +136,14 @@
         .more_details_link {
             width: 100;
             padding: 10px;
-            color: blue;
+            color: #328CC1;
             float: right;
+            border: 1px solid;
+            border-color: #d2d2d2;
             border-radius: 5px;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: bolder;
+            text-transform: uppercase;
         }
 
         .more_details_link:hover {
@@ -161,7 +166,7 @@
         }
 
         .profile_picture_personal {
-            height: 35px;
+            height: 40px;
             margin: 5px;
             border-radius: 100%;
             border: 2px solid;
@@ -235,7 +240,7 @@
                 </a>
 
                 <!--- Profile name --->
-                <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
+                <div style="padding-top: 10px;font-size: 14px;text-transform: capitalize;text-align: left;">
                     <a href="/profile">{% print profile_details[4] %}</a>
                 </div>
 
@@ -279,9 +284,8 @@
       <div id="recentlistingscontainer">
           <div class="card_header">Latest listings in Memphis</div>
 
-          <div id="openListingsContainer">
-              <div id="emptyOpenListings" style="padding: 10px;"></div>
-          </div>
+          <!--- Load in listings --->
+          <div id="openListingsContainer"></div>
 
           <!-- Loading gif -->
           <img class="loading_gif" src="static/loading-spinner.gif" />
@@ -319,7 +323,7 @@
                 let ending_shows = data['success']
 
                 if (ending_shows.length == 0) {
-                    $("#emptyOpenListings").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>There are no open shows</div>")
+                    $("#openListingsContainer").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>There are no open shows</div>")
                 }
                 else {
 
@@ -403,7 +407,7 @@
                         `
 
 
-                        $("#emptyOpenListings").append(single_listing)
+                        $("#openListingsContainer").append(single_listing)
                     }
                 }
             }

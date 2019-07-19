@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
         body {
@@ -29,6 +30,7 @@
         #showcontainer {
             max-width: 700px;
             margin: auto;
+            padding-top: 20px;
             padding-bottom: 10px;
             border-radius: 5px;
             text-align: left;
@@ -144,40 +146,28 @@
             text-align: left;
         }
 
-        .singlebid {
+        .single_bid {
             border-bottom: 1px solid;
             padding: 10px;
             min-height: 50px;
             border-color: #e2e2e2;
+            overflow: hidden;
         }
 
-        .bid_picture {
-            display: inline;
-            float: left;
-            height: 50px;
-            width: 50px;
-            border-radius: 100px;
+        .single_bid_artist_details {
+            padding-left: 10px;
+            text-align: left;
+            overflow: hidden;
         }
 
         input[type="number"] {
-            width: 45px;
-            padding: 5px;
-            margin: 5px;
-            border-radius: 5px;
-            font-size: 17px;
-            border: 1px solid;
-            border-color: #d2d2d2;
-        }
-
-        input[type="submit"], button {
-            margin-top: 10px;
-            padding: 10px;
-            width: 200px;
-            border-radius: 5px;
+            width: 80px;
             border: 0;
-            font-size: 14px;
-            background-color: #328CC1;
-            color: #FFFFFF;
+            border-bottom: 2px solid;
+            font-size: 24px;
+            border-color: #d2d2d2;
+            outline: none;
+            transition: ease 200ms;
         }
 
         a {
@@ -187,17 +177,6 @@
 
         a:hover {
             text-decoration: underline;
-        }
-
-        textarea {
-            box-sizing: border-box;
-            padding: 10px;
-            width: 100%;
-            font-family: inherit;
-            resize: none;
-            border: 0;
-            border-radius: 5px;
-
         }
 
         .acceptbid {
@@ -291,18 +270,71 @@
         }
 
         #show_more {
-            margin: 0 auto;
-            width: 90px;
+            float: right;
+            width: 80px;
             padding: 10px;
-            font-size: 13px;
-            border-radius: 5px;
+            font-size: 11px;
             color: blue;
             text-align: center;
+            text-transform: uppercase;
         }
 
         #show_more:hover {
             cursor: pointer;
             background-color: #efefef;
+        }
+
+        #place_bid_button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 150px;
+            border-radius: 5px;
+            border: 0;
+            font-size: 14px;
+            color: #FFFFFF;
+            float: right;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12)
+        }
+
+        #bidding_error_message {
+            padding-top: 10px;
+            padding-right: 40px;
+            text-align: right;
+            color: red;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            background-color: #328CC1;
+            background-position: center;
+            transition: background 0.8s;
+            outline: none;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
+        .bluff-icons {
+            color: inherit;
+            font-size: 18px;
+            vertical-align: middle
+        }
+
+        .material-icons.mi-35 {
+            font-size: 35px;
+        }
+
+        .disableButton {
+            background-color: #d2d2d2;
+        }
+
+        .loading_gif {
+            height: 50px;
         }
 
         @media screen and (min-width: 800px) {
@@ -344,7 +376,6 @@
 
         <!--- Show snapchot --->
         <div id="showcontainer">
-            <div class="card_header">Show details</div>
 
             <!--- Profile container --->
             <div id="profilecontainer">
@@ -383,6 +414,17 @@
 
                         </div>
 
+                        <!-- Description --->
+                        <div class="description">
+                            <font style="font-size: 15px">Description</font>
+                            <br/>
+                            {% print show_details.description %}
+                        </div>
+
+                        <div id="show_more_container" style="overflow: hidden;text-align: right">
+                            <div id="show_more">Show More</div>
+                        </div>
+
                     </div>
 
                     <!--- Show details --->
@@ -412,57 +454,56 @@
                         </div>
 
                         <!--- Genres -->
-                        <div class="single_show_details_container">
+                        {% if show_details.genres|length != 0 %}
+                            <div class="single_show_details_container">
 
-                            <div style="padding-bottom: 10px;">
-                                <!--- Icon --->
-                                <img class="icon" src="static/tag-black-shape.png" />
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/tag-black-shape.png" />
 
-                                Genres
+                                    Genres
+                                </div>
+
+                                {% for x in show_details.genres %}
+                                    <div style="background-color: #6eb9f7" class="show_details_bubble">{% print x['genre'] %}</div>
+                                {% endfor %}
                             </div>
-
-                            {% for x in show_details.genres %}
-                                <div style="background-color: #6eb9f7" class="show_details_bubble">{% print x['genre'] %}</div>
-                            {% endfor %}
-                        </div>
+                        {% endif %}
 
                         <!--- Perks -->
-                        <div class="single_show_details_container">
+                        {% if show_details.perks|length != 0 %}
+                            <div class="single_show_details_container">
 
-                            <div style="padding-bottom: 10px;">
-                                <!--- Icon --->
-                                <img class="icon" src="static/trophy-black.png" />
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/trophy-black.png" />
 
-                                <font class="detail_title">Perks</font>
+                                    <font class="detail_title">Perks</font>
+                                </div>
+
+                                {% for x in show_details.perks %}
+                                    <div style="background-color: #72b14e" class="show_details_bubble">{% print x['perk'] %}</div>
+                                {% endfor %}
                             </div>
+                        {% endif %}
 
-                            {% for x in show_details.perks %}
-                                <div style="background-color: #72b14e" class="show_details_bubble">{% print x['perk'] %}</div>
-                            {% endfor %}
-                        </div>
+                        <!--- Requirements -->
+                        {% if show_details.requirements|length != 0 %}
+                            <div class="single_show_details_container">
 
-                        <!--- Requirements & Set length -->
-                        <div class="single_show_details_container">
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/padlock-black.png" />
 
-                            <div style="padding-bottom: 10px;">
-                                <!--- Icon --->
-                                <img class="icon" src="static/padlock-black.png" />
+                                    <font class="detail_title">Requirements</font>
+                                </div>
 
-                                <font class="detail_title">Requirements</font>
+                                <!--- Requirements--->
+                                {% for x in show_details.requirements %}
+                                    <div style="background-color: #232f42" class="show_details_bubble">{% print x['requirement'] %}</div>
+                                {% endfor %}
                             </div>
-
-                            <!--- Requirements--->
-                            {% for x in show_details.requirements %}
-                                <div style="background-color: #232f42" class="show_details_bubble">{% print x['requirement'] %}</div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Description --->
-                        <div class="description">
-                            <font style="font-size: 15px">Description</font>
-                            <br/>
-                            {% print show_details.description %}
-                        </div>
+                        {% endif %}
 
                     </div>
 
@@ -471,8 +512,27 @@
             </div>
             <!--- End of profile container --->
 
-            <div id="show_more_container" style="padding-top: 10px;">
-                <div id="show_more">Show More</div>
+            <!--- Bottom bar --->
+            <div style="margin-top: 20px; padding-right: 20px;-webkit-box-shadow: 0px 0px 10px rgba(0,0,0,.8);-moz-box-shadow: 0px 0px 10px rgba(0,0,0,.8);box-shadow: 0px -5px 5px rgba(0,0,0,.1);">
+
+                <div id="place_bid_container" style="overflow: hidden;">
+                    <!--- Place bid button -->
+                    <button id="place_bid_button" class="ripple" type="submit">
+                        <i class="material-icons bluff-icons" style="padding-right: 5px;">gavel</i>
+                        PLACE BID
+                    </button>
+
+                    <!--- Bid price input box -->
+                    <div style="display: inline-block;margin-top: 10px;margin-right: 30px;float: right;">
+                        Enter your price:
+                        <font style="font-size: 20px;font-weight: bold;">$</font>
+
+                        <input type="number" id="new_bid_price" placeholder="5000" min="1" required/>
+                    </div>
+                </div>
+
+                <!--- Error message for bidding --->
+                <div id="bidding_error_message"></div>
             </div>
 
         </div>
@@ -526,84 +586,20 @@
         <!-- If there is no winner --->
         {% else %}
 
-            <!--- Make a bid --->
-            {% if account_type == "artist" %}
-                <div id="make_bid_container">
-                    <div class="card_header">Make a bid</div>
-
-                    <form action="{{ url_for("one_show_page", id=show_details.show_id) }}" method="POST">
-                        <label>Enter your price:<input type="number" name="new_bid_price" placeholder="$500" min="50" step="5" required/></label>
-                        </br>
-                        <font style="position: relative;top:-5px;font-size:11px;color:#383838">Minimum is $50</font>
-                        </br>
-                        <input type="submit" value="Place Bid" />
-                    </form>
-
-                    <div id="bid_message">{{ get_flashed_messages()[0] }}</div>
-                </div>
-            {% endif %}
-            <!--- End of Make a bid --->
-
             <!--- Bids container --->
             <div id="bidscontainer">
                 <div class="card_header">Bids</div>
 
-                <!-- Bids stats --->
-                <div style="padding:5px;font-size:14px;">
-                    {% if bids_stats[0] == 1 %}
-                        <font class="show_details_stats_bubble">1 bid</font>
-                    {% elif bids_stats[0] > 0 %}
-                        <font>{% print bids_stats[0] %} bids <font style="font-size:11px;color:#383838">ranging from</font> ${% print bids_stats[1] %} - ${% print bids_stats[2] %}</font>
-                    {% endif %}
-                </div>
-                <!-- End of bids stats --->
-
-                <!--- All bids cards --->
-                <div id="single_bid_container">
-                    {% if bids_info != 0 %}
-                        {% for x in bids_info %}
-
-                        <!-- Single bid --->
-                        <div class="singlebid" style="font-size:14px;">
-                        <!--- Profile picture --->
-                        <a href="/profile?uid={% print x[2] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[2] %}_profile.jpg" class="bid_picture" /></a>
-                        <!--- Name --->
-                        <font style="padding-left: 10px;border: 0px solid;"><a href="/profile?uid={% print x[2] %}" style="text-decoration:none;">{% print bidder_details(x[2])[0] %}</a></font>
-                        <!--- Bid price --->
-                        <font style="float:right;font-size:17px;" class="bid_price" name="{% print x[3] %}">${% print x[3] %}</font>
-                        </br>
-                        <!--- Artist genre --->
-                        <font style="padding-left: 10px;font-size:12px;">Genre: {% print bidder_details(x[2])[1][0] %}</font>
-
-                        </br>
-
-                        <!--- Venue accept bid button --->
-                        {% if account_type == "venue" %}
-                        <button id="acceptbid" class="acceptbid" name="{% print bidder_details(x[2])[0] %}" value="{% print x[2] %}">Accept offer</button>
-                        {% endif %}
-                        <!--- End Venue accept bid button --->
-
-                        <!--- Delete bid button --->
-                        {% if x[2] == uid %}
-                        <span id="deletebidbutton" class="deletebid" onclick="show_confirm_delete_bid()">Delete Bid</span>
-                        {% endif %}
-                        <!--- End of Delete bid button --->
-
-                        </div>
-                        <!-- End of single bid --->
-                        </br>
-                        {% endfor %}
-
-                    {% else %}
-                        <div style="padding:10px;text-align:center">This are currently no bids on this show</div>
-                    {% endif %}
+                <!--- All bids container --->
+                <div id="load_single_bids_here">
+                    <!-- Loading gif -->
+                    <img class="loading_gif" src="static/loading-spinner.gif" />
                 </div>
                 <!-- End of all bids card --->
 
             </div>
             <!--- End of bids container --->
 
-        <!--- End of no winning bid --->
         {% endif %}
 
     </div>
@@ -644,53 +640,227 @@
 
     <script type="text/javascript">
 
-    //Show delete bid container
-    $("#deletebidbutton").click(function() {
-        $("#blackbackground").show()
-        $("#confirm_deletebid_container").show()
-    })
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
 
-    //Hide delete bid or accept bid container
-    $("#blackbackground").click(function() {
-        $("#blackbackground").hide()
-        $("#confirm_deletebid_container").hide()
-        $("#accept_bid_offer").hide()
-    })
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
 
-    //Show the bidding pop up
-    $("#acceptbid").click(function() {
-        //Name of bidder and uid
-        var accept_bidder_name =$(this).attr('name');
-        var accept_bidder_uid = $(this).val()
-        var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
+        //Show delete bid container
+        $("#deletebidbutton").click(function() {
+            $("#blackbackground").show()
+            $("#confirm_deletebid_container").show()
+        })
 
-        $("#blackbackground").show()
-        $("#accept_bid_offer").show()
+        //Hide delete bid or accept bid container
+        $("#blackbackground").click(function() {
+            $("#blackbackground").hide()
+            $("#confirm_deletebid_container").hide()
+            $("#accept_bid_offer").hide()
+        })
 
-        //Change title name and uid
-        $("#acceptoffername").html(accept_bidder_name)
-        $("#winning_bidder_uid").val(accept_bidder_uid)
-        $("#winning_bidder_price").val(accept_bidder_price)
-    })
+        //Show the bidding pop up
+        $("#acceptbid").click(function() {
+            //Name of bidder and uid
+            var accept_bidder_name =$(this).attr('name');
+            var accept_bidder_uid = $(this).val()
+            var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
 
-    //Expand Details
-    let desc_height = $(".description")[0].scrollHeight;
+            $("#blackbackground").show()
+            $("#accept_bid_offer").show()
 
-    $("#show_more").click(function() {
+            //Change title name and uid
+            $("#acceptoffername").html(accept_bidder_name)
+            $("#winning_bidder_uid").val(accept_bidder_uid)
+            $("#winning_bidder_price").val(accept_bidder_price)
+        })
 
-        //Check text of button
-        let button_value = $("#show_more").html()
+        //Expand Details
+        let desc_height = $(".description")[0].scrollHeight;
 
-        if (button_value == "Show More") {
-            $("#show_more").html("Show Less")
-            $('.description').animate({'height': desc_height+20})
+        if (desc_height <= 100) {
+            $("#show_more").hide()
         }
         else {
-            $("#show_more").html("Show More")
-            $('.description').animate({'height': '100px'})
-        }
-    })
+            $("#show_more").click(function() {
 
+                //Check text of button
+                let button_value = $("#show_more").html()
+
+                if (button_value == "Show More") {
+                    $("#show_more").html("Show Less")
+                    $('.description').animate({'height': desc_height+20})
+                }
+                else {
+                    $("#show_more").html("Show More")
+                    $('.description').animate({'height': '100px'})
+                }
+            })
+        }
+
+        //Load bids
+        function load_artist_bids(winner = undefined) {
+            //If there is no winner
+            if (winner === undefined) {
+                //Show id
+                let show_id = '{% print show_details.show_id %}'
+
+                $.ajax({
+                    type: "POST",
+                    url: "/artist_bids",
+                    data: {
+                        "get_single_show_bids": "check",
+                        "show_id": show_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    //If loaded bids
+                    if (data.success) {
+                        let all_bids = data.success
+
+                        //Loop through each bid and print
+                        for (x in all_bids) {
+                            console.log(all_bids[x])
+
+                            let single_bid = `
+                                <div class='single_bid'>
+                                    <!--- Profile picture --->
+                                    <a href="/profile?uid={% print show_details.uid %}">
+                                        <img style="float: left; height: 45px;" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${all_bids[x].artist_details.uid}_profile.jpg" />
+                                    </a>
+
+                                    <!--- Artist details --->
+                                    <div class="single_bid_artist_details">
+
+                                        <!--- Artist Name & Bid price --->
+                                        <div style="overflow: hidden">
+                                            <font style="font-size: 16px;text-transform: capitalize;">${all_bids[x].artist_details.name}</font>
+                                            <font class="show_details_bubble" style="padding: 4px;min-width: 30px;background-color: #72b14e;font-size: 14px;text-align: center;float: right;">$${all_bids[x].bid_details.amount}</font>
+                                        </div>
+
+                                        <!--- Artist Bio --->
+                                        <div style="font-size: 13px;padding-bottom: 10px;">${all_bids[x].artist_details.bio}</div>
+
+                                        <!--- Artist genres -->
+                                        <div class="show_details_bubble" style="font-size: 12px;">${all_bids[x].artist_details.genre}</div>
+
+                                    </div>
+
+                                    <!--- Bottom bar --->
+                                    <div style="single_bid_artist_bottom_bar">
+
+                                    </div>
+
+                                </div>
+                            `
+
+                            //Add bid to bid container
+                            $("#load_single_bids_here").append(single_bid)
+                        }
+                    }
+                    else {
+                        console.log(data.error)
+                    }
+                })
+            }
+            //Load winner box
+            else {
+                console.log("Show has been won by "+winner.artist_name)
+                console.log(winner)
+            }
+        }
+
+        //Check if show has already been won, if not load bid results
+        function check_show_for_winner(callback) {
+            //Show id
+            let show_id = '{% print show_details.show_id %}'
+            let show_status = false
+
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "check_show_for_winner": "check",
+                    "show_id": show_id,
+                },
+                dataType: "json"
+            }).done(function(data) {
+
+                //If call was completed
+                if (data.success) {
+                    let result = data.success
+
+                    //If there is no winner
+                    if (result == "No winner") {
+                        load_artist_bids()
+                    }
+                    else {
+                        load_artist_bids(winner = result)
+                    }
+                }
+                else {
+                    console.log(data.error)
+                }
+            })
+        }
+
+        check_show_for_winner()
+
+        //Validate bid and send
+        $("#place_bid_button").click(function() {
+            let bid_val = $("#new_bid_price").val()
+            let show_id = "{% print show_details.show_id %}"
+
+            if (bid_val < 1) {
+                //Highlight bid price red
+                $("#new_bid_price").css("border-color", "red")
+
+                //Show error message
+                $("#bidding_error_message").show().html("You must bid at least $1")
+            }
+            else {
+
+                //Hide error message
+                $("#bidding_error_message").html("")
+                $("#place_bid_button").prop("disable", true).removeClass("ripple").addClass("disableButton")
+
+                //Send bid
+                $.ajax({
+                    type: "POST",
+                    url: "/shows",
+                    data: {
+                        'placebid': 'yes',
+                        'new_bid_price': bid_val,
+                        'show_id': show_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    if (data.success) {
+
+                        //Show success message
+                        $("#bidding_error_message").html(`
+                            <i class="material-icons mi-35" style="color: green;vertical-align: middle">check_circle</i>
+                            Your bid has been placed!
+                        `).css("color", "green")
+
+                        //Hide bid button & number input
+                        $("#place_bid_container").hide()
+                    }
+                    else {
+                        //Show error message
+                        $("#bidding_error_message").show().html(data.error)
+
+                        //Enable bid button
+                        $("#place_bid_button").prop("disable", false).addClass("ripple").removeClass("disableButton")
+                    }
+                })
+            }
+        })
     </script>
 
   </body>

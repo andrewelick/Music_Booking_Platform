@@ -469,17 +469,6 @@ def one_show_page():
             show_id = request.args.get("id")
             show_details = venuehandler.get_venue_one_show(show_id)
 
-            #Check if winning bid
-            winning_bid = venuehandler.check_winning_bid(show_id)
-
-            #If there is no winner
-            if winning_bid == False:
-                bids_info = venuehandler.get_full_bid_info(show_id)
-                bids_stats = venuehandler.get_bids_stats(show_id)
-            else:
-                bids_info = None
-                bids_stats = None
-
             #If coming from notification mark as read
             if request.args.get("noti"):
                 venuehandler.mark_notification_read(show_id)
@@ -515,35 +504,17 @@ def one_show_page():
                 else:
                     return redirect(url_for("profile_page"))
 
-            else:
+            elif request.form.get('placebid'):
                 #Create new bid
                 new_bid_price = request.form['new_bid_price']
-                place_bid = venuehandler.place_bid_on_show(email,show_id,new_bid_price)
-
-                if place_bid:
-                    #If use has already bid on show
-                    if place_bid == "already_bid":
-                        flash("You have already bid on this show")
-                    else:
-                        #Send notification
-                        send_id = email
-                        rec_id = show_details[1]
-                        noti_type = 2
-                        venuehandler.create_new_notification(send_id,rec_id,noti_type,show_id=show_id)
-
-                        return redirect(url_for("one_show_page", id=show_id))
-
-                else:
-                    return "Could not place bid"
+                show_id = request.form['show_id']
+                return venuehandler.place_bid_on_show(uid,show_id,new_bid_price)
 
         return render_template(
             "showlisting.html",
             account_type=account_type,
             uid=uid,
             show_details=show_details,
-            bids_info=bids_info,
-            bids_stats=bids_stats,
-            winning_bid=winning_bid,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
         )
     else:
@@ -855,6 +826,61 @@ def edit_profile_page():
     else:
         return redirect(url_for("index"))
 
+#Contact page
+@app.route('/contact')
+def contact_us():
+    return render_template('contactus.html')
+
+#Terms and Conditions
+@app.route('/terms')
+def terms_conditions():
+    return render_template("terms.html")
+
+#Privacy
+@app.route('/privacy')
+def privacy():
+    return render_template("privacy.html")
+
+#Get AWS profile picture
+@app.route('/profilepicture', methods=["POST"])
+def get_profile_picture():
+    if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+
+        return venuehandler.get_profile_picture_url(uid, ajax_request = "yes")
+
+#Header, loads all info needed
+@app.context_processor
+def load_header_vars():
+    if 'username' in session:
+        header_email = session['username']
+        account_type = venuehandler.check_account_type(header_email)
+        noti_number = venuehandler.get_notification_number(header_email)
+
+        return dict(header_email=header_email,account_type=account_type,noti_number=noti_number)
+    else:
+        return dict(header_email=None,account_type=None,noti_number=None)
+
+##--- Artist bids API CALLS --------
+@app.route('/artist_bids', methods=['POST'])
+def artist_bids():
+    if 'username' in session:
+
+        #Check if winning bid
+        if request.form.get('check_show_for_winner'):
+            show_id = request.form.get('show_id')
+            return venuehandler.check_winning_bid(show_id)
+
+        #Get artist bids for one show
+        if request.form.get('get_single_show_bids'):
+            show_id = request.form.get('show_id')
+            return venuehandler.get_full_bid_info(show_id)
+
+    else:
+        return json.dumps({'error': 'Must be logged in'})
+
+###----Show posting API calls -----------------
 #New show posting
 @app.route('/newshow', methods=['POST'])
 def post_new_show():
@@ -898,57 +924,6 @@ def show_posting_endpoint():
             return venuehandler.get_venue_show_postings(uid = venue_id, ending_soon = True)
     else:
         json.dumps({'error': 'Must be logged in'})
-
-#Contact page
-@app.route('/contact')
-def contact_us():
-    return render_template('contactus.html')
-
-#Terms and Conditions
-@app.route('/terms')
-def terms_conditions():
-    return render_template("terms.html")
-
-#Privacy
-@app.route('/privacy')
-def privacy():
-    return render_template("privacy.html")
-
-#Get AWS profile picture
-@app.route('/profilepicture', methods=["POST"])
-def get_profile_picture():
-    if 'username' in session:
-        email = session['username']
-        uid = venuehandler.get_uid(email)
-
-        return venuehandler.get_profile_picture_url(uid, ajax_request = "yes")
-
-#Header, loads all info needed
-@app.context_processor
-def load_header_vars():
-    if 'username' in session:
-        header_email = session['username']
-        account_type = venuehandler.check_account_type(header_email)
-        noti_number = venuehandler.get_notification_number(header_email)
-
-        return dict(header_email=header_email,account_type=account_type,noti_number=noti_number)
-    else:
-        return dict(header_email=None,account_type=None,noti_number=None)
-#Get bidder details
-@app.context_processor
-def utility_processor():
-    def get_bidder_details(uid):
-        bidder_details = venuehandler.find_bidder_details(uid)
-        return bidder_details
-    return dict(bidder_details=get_bidder_details)
-
-#Get show posting bid stats for venues
-@app.context_processor
-def utility_processor():
-    def get_bids_for_show(show_id):
-        bids = venuehandler.get_bids_stats(show_id)
-        return bids
-    return dict(show_bids_stats=get_bids_for_show)
 
 ###--Artist media API CALLS---------------
 @app.route('/artist_media', methods=['POST', 'GET'])
