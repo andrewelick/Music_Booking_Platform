@@ -390,8 +390,25 @@
             background-color: #e64f7e;
         }
 
+        #acceptoffer {
+            border: 0px;
+            padding: 7px;
+            padding-top: 8px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #FFFFFF;
+            display: inline-flex;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+            outline: none;
+        }
+
         .loading_gif {
             height: 50px;
+        }
+
+        .bannerIcon {
+            height: 30px;
+            vertical-align: middle;
         }
 
         @media screen and (min-width: 800px) {
@@ -684,24 +701,35 @@
 
     <!--- Aceept offer by venue --->
     <div id="accept_bid_offer" class="popupcard">
-        <!--- Accept offer title --->
-        <div style="margin-bottom: 10px;font-size: 14px;;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details.show_date %}</b> at <b>{% print show_details.show_time %}</b></div>
-
-        <!--- Accept offer button --->
-        <form action="" method="POST" name="accept_bid_offer">
-            <input type="hidden" id="winning_bidder_uid" name="winning_bidder_uid" value="winneruid" />
-            <input type="hidden" id="winning_bidder_price" name="winning_bidder_price" value="winnerprice" />
-            <button value="Accept Offer" name="acceptoffer">Accept offer</button>
-        </form>
+        <h3>Book this show</h3>
 
         <!--- Disclaimer --->
-        <div style='padding-top: 10px;font-size:12px;color:#383838'>Accepting this offer will close bidding for this show and notify artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour till the completetion of the show. There is a 24 hour dipute window following the performance to ensure eveything went smoothly.</div>
+        <div style='padding-top: 10px;font-size:14px;color:#383838'>Accepting this offer will close bidding for this show and notify the artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour until the completetion of said show. There is a 24 hour dipute window following this performance to ensure both parties were fairly compensated. There may be a cancellation fee depending on the circumstances of said cancellation.</div>
+
+        <br/>
+
+        <!--- Terms checkbox --->
+        <input type="checkbox" id="bid_terms_checkbox" /> I agree the terms to the terms listed above
+        <!--- Accept offer button --->
+        <button id="acceptoffer" class="ripple">
+            <!--- Gavel icon --->
+            <i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>gavel</i>
+            ACCEPT OFFER
+        </button>
+
+        <!--- Bid id -->
+        <input type="hidden" id="winning_bid_id" name="winning_bid_id" value="" />
+
     </div>
     <!--- End of accept offer by venue --->
 
     <!--- Black background for acceot bid --->
     <div id="blackbackground" class="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
+
+    <!--- Banner message --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 10px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;"></div>
+
 
     <script type="text/javascript">
 
@@ -749,17 +777,10 @@
             //Show the bidding pop up
             $(".accept_bid").click(function() {
                 //Name of bidder and uid
-                var accept_bidder_name =$(this).attr('name');
-                var accept_bidder_uid = $(this).val()
-                var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
+                let bid_id =$(this).attr('name');
 
                 $("#blackbackground").show()
                 $("#accept_bid_offer").show()
-
-                //Change title name and uid
-                $("#acceptoffername").html(accept_bidder_name)
-                $("#winning_bidder_uid").val(accept_bidder_uid)
-                $("#winning_bidder_price").val(accept_bidder_price)
             });
 
         });
@@ -871,8 +892,13 @@
                                         <!--- Bottom bar --->
                                         <div class="single_bid_artist_bottom_bar">
                                             ${show_owner_uid == current_user_uid ? "<div class='accept_bid ripple'><i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>local_play</i>Book</div>" : ""}
+
+                                            <!--- Hidden inputs for bid data --->
+                                            <input type='hidden' id='${all_bids[x].artist_details.uid}' class='artist_uid' />
+                                            <input type='hidden' class='accept_bid_id' val='${all_bids[x].bid_details.bid_id}' />
+
                                             <!--- Bid price -->
-                                            <font style="color: #72b14e;font-size: 23px;margin-right: 10px;float: right;">$${all_bids[x].bid_details.amount}</font>
+                                            <font style="color: #72b14e;font-size: 23px;margin-right: 10px;float: right;" class='bid_price'>$${all_bids[x].bid_details.amount}</font>
                                         </div>
 
                                     </div>
@@ -1003,7 +1029,22 @@
             }).done(function(data) {
 
                 if (data.success) {
-                    console.log("Bid has been deleted")
+
+                    //Hide popup box
+                    $("#blackbackground").hide()
+                    $("#confirm_deletebid_container").hide()
+
+                    //Show banner message
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/success_checkmark.png' class='bannerIcon'>
+                            <font style='font-size: 22px;font-weight: bold;vertical-align: middle'>Bid deleted!</font>
+                        </div>
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+
 
                     load_artist_bids()
                 }

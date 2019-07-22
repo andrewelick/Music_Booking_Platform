@@ -54,15 +54,11 @@ def index():
                 #Get profile details
                 profile_details = venuehandler.get_artist_profile_details(email)
 
-                #Get your bids
-                open_bids = len(venuehandler.get_all_bids(email))
-
                 return render_template(
                     "artistindex.html",
                     uid = uid,
                     profile_details = profile_details,
                     venue_showcase=venue_showcase,
-                    open_bids = open_bids,
                     AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
                 )
 
