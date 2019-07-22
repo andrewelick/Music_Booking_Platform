@@ -773,6 +773,99 @@ def get_full_bid_info(show_id):
             if conn:
                 conn.close()
 
+#Find all bids placed
+def get_all_artist_bids(uid):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            #Todays date
+            today = datetime.datetime.now()
+
+            #Get bids by artist that are active
+            c.execute("""SELECT show_bids.show_id, show_bids.bid_amount, show_postings.uid, show_postings.show_date, show_postings.show_time, show_postings.location, venue_profile_details.business_name FROM show_bids, show_postings, venue_profile_details WHERE show_bids.uid = %s AND show_bids.winner = 0 AND show_postings.show_date > %s AND show_postings.show_id = show_bids.show_id AND venue_profile_details.uid = show_postings.uid AND show_postings.won = 0 """, (uid, today,))
+            all_bids = c.fetchall()
+
+            if len(all_bids) != 0:
+
+                all_bids_list = []
+
+                #loop through each result and format to dictionary
+                for x in all_bids:
+                    bid_dict = {
+                        'show_id': x[0],
+                        'business_uid': x[2],
+                        'business_name': x[6],
+                        'bid_price': x[1],
+                        'show_date': x[3].strftime("%b %d"),
+                        'show_time': x[4],
+                        'show_location': x[5]
+                    }
+
+                    all_bids_list.append(bid_dict)
+            else:
+                all_bids_list = "no bids"
+
+            return json.dumps({'success': all_bids_list})
+        else:
+            results = "could not connect to database"
+
+        return json.dumps({'error': result})
+    except Exception as e:
+        print (e)
+        return json.dumps({'error': str(e)})
+    finally:
+        if conn:
+            conn.close()
+
+#Get all upcoming winning shows for artist
+def get_upcoming_artist_shows(uid):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            today_date = datetime.datetime.now()
+
+            #Get shows that artist has won and have not happened yet
+            c.execute("""SELECT show_postings.show_id, show_postings.uid, venue_profile_details.business_name, show_bids.bid_amount, show_postings.show_date, show_postings.show_time, show_postings.set_length, show_postings.location FROM show_bids, show_postings, venue_profile_details WHERE show_bids.show_id = show_postings.show_id AND show_bids.uid = %s AND show_postings.uid = venue_profile_details.uid AND show_bids.winner = 1 AND show_postings.show_date > %s""", (uid,today_date))
+            upcoming_shows = c.fetchall()
+
+            if len(upcoming_shows) != 0:
+
+                upcoming_shows_list = []
+
+                #Loop through each result and format to dict
+                for x in upcoming_shows:
+                    new_dict = {
+                        'show_id': x[0],
+                        'business_uid': x[1],
+                        'business_name': x[2],
+                        'bid_amount': x[3],
+                        'show_date': x[4],
+                        'show_time': x[5],
+                        'set_length': x[6],
+                        'show_location': x[7]
+                    }
+
+                    upcoming_shows_list.append(new_dict)
+
+                result = upcoming_shows_list
+            else:
+                result = "no upcoming shows"
+
+            return json.dumps({'success': result})
+        else:
+            return json.dumps({'error': 'Could not connect to database'})
+    except Exception as e:
+        print (e)
+        return json.dumps({"result": str(e)})
+
 #Make a bid on a show posting
 def place_bid_on_show(uid,show_id,bid_amount):
     try:
@@ -1254,59 +1347,6 @@ def mark_notification_read(show_id):
         finally:
             if conn:
                 conn.close()
-
-#-#-#-# YOUR BIDS PAGE SECTION -#-#-#-#-#-#-#-#-#
-
-#Find all bids placed
-def get_all_bids(email):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get uid
-            artist_uid = get_uid(email)
-
-            #Todays date
-            today = datetime.datetime.now()
-
-            #Get bids by artist that are active
-            c.execute("""SELECT show_bids.show_id, show_bids.bid_amount, show_postings.uid, show_postings.show_date, venue_profile_details.business_name FROM show_bids, show_postings, venue_profile_details WHERE show_bids.uid = %s AND show_bids.winner = 0 AND show_postings.show_date > %s AND show_postings.show_id = show_bids.show_id AND venue_profile_details.uid = show_postings.uid AND show_postings.won = 0 """, (artist_uid, today))
-            results = c.fetchall()
-
-            return results
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Get all upcoming winning shows for artist
-def get_upcoming_artist_shows(email):
-    try:
-        #Connect to database
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            #Get uid
-            artist_uid = get_uid(email)
-
-            today_date = datetime.datetime.now()
-
-            #Get shows that artist has won and have not happened yet
-            c.execute("""SELECT show_postings.show_id, show_postings.uid, venue_profile_details.business_name, show_bids.bid_amount, show_postings.show_date, show_postings.am_pm FROM show_bids, show_postings, venue_profile_details WHERE show_bids.show_id = show_postings.show_id AND show_bids.uid = %s AND show_postings.uid = venue_profile_details.uid AND show_bids.winner = 1 AND show_postings.show_date > %s""", (artist_uid,today_date))
-            upcoming_shows = c.fetchall()
-
-            return upcoming_shows
-        else:
-            result = "Could not connect to database"
-    except Exception as e:
-        print (e)
-
-        return json.dumps({"result": "Could not load upcoming shows"})
 
 #-#-#-#-# LISTING & POSTING SECTION -------------------------------
 

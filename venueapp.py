@@ -607,16 +607,8 @@ def your_bids():
     if 'username' in session:
         email = session['username']
 
-        #Get your bids
-        all_user_bids = venuehandler.get_all_bids(email)
-
-        #Get upcoming shows for artist
-        upcoming_shows = venuehandler.get_upcoming_artist_shows(email)
-
         return render_template(
             "upcomingshows.html",
-            all_user_bids=all_user_bids,
-            upcoming_shows=upcoming_shows,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
         )
     else:
@@ -866,12 +858,19 @@ def artist_bids():
             show_id = request.form.get('show_id')
             return venuehandler.get_full_bid_info(show_id)
 
+        #Get all artist shows that they have one and will be performing
+        if request.form.get('get_upcoming_artist_shows'):
+            return venuehandler.get_upcoming_artist_shows(uid)
+
+        #Get all bids for one artist
+        if request.form.get('get_all_artist_bids'):
+            return venuehandler.get_all_artist_bids(uid)
+
         #Place new bid
         if request.form.get('place_bid'):
             new_bid_price = request.form['new_bid_price']
             show_id = request.form['show_id']
             return venuehandler.place_bid_on_show(uid,show_id,new_bid_price)
-
 
         #Delete artist bid
         if request.form.get('delete_artist_bid'):

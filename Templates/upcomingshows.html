@@ -14,7 +14,6 @@
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-color: #f6f9fc;
       }
 
         .mobilegridrow-2 {
@@ -125,6 +124,10 @@
           margin-left: 45px;
         }
 
+        .loading_gif {
+            height: 50px;
+        }
+
         @media screen and (min-width: 800px) {
 
             .mobilegridrow-2 {
@@ -148,32 +151,9 @@
             <!--- Header --->
             <div style="font-size: 17px;padding-bottom: 10px;">Upcoming Shows</div>
 
-            <!-- Shows container --->
+            <!-- Where upcoming shows are placed into --->
             <div id="shows_container">
-                {% for details in upcoming_shows %}
-
-                    <!--- Single show posting bubble --->
-                    <a href="/shows?id={% print details[0] %}" class="single_show_link">
-                        <div class="single_show_bubble">
-                            <!-- Venue picture --->
-                            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print details[1] %}_profile.jpg" class="show_picture" />
-
-                            <!--- Venue name --->
-                            <font class="venue_name">{% print details[2] %}</font>
-
-                            <!--- Show date --->
-                            <font class="show_time">{% print details[4].strftime("%b %d, %Y") %} <font style='font-size: 13px;'>{% print details[4].strftime("%H:%M"), details[5] %}</font></font>
-
-                            <!--- Show price --->
-                            <font class="show_price">+${% print details[3] %}</font>
-                        </div>
-                    </a>
-
-                {% endfor %}
-
-                {% if upcoming_shows|length == 0 %}
-                    <div style="padding: 30px">You are not scheduled to perform any shows. Get bidding!</div>
-                {% endif %}
+                <img class="loading_gif" src="static/loading-spinner.gif" />
             </div>
 
         </div>
@@ -182,37 +162,130 @@
         <div class="bubble_container">
             <div style="font-size:18px">Open Bids</div>
 
-            {% for bid in all_user_bids %}
-
-            <!--- Single show posting bubble --->
-            <a href="/shows?id={% print bid[0] %}" class="single_show_link">
-                <div class="single_show_bubble">
-                    <!-- Venue picture --->
-                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print bid[2] %}_profile.jpg" class="show_picture" />
-
-                    <!--- Venue name --->
-                    <font class="venue_name">{% print bid[5] %}</font>
-
-                    <!--- Show date --->
-                    <font class="show_time">{% print bid[3].strftime("%b %d, %Y") %} <font style='font-size: 13px;'>{% print bid[3].strftime("%H:%M"), bid[4] %}</font></font>
-
-                    <!--- Show price --->
-                    <font class="show_price" style="color: #383838">${% print bid[1] %}</font>
-                </div>
-            </a>
-
-            {% endfor %}
-
-            {% if not all_user_bids %}
-            <div style="padding: 30px;">You don't have any active bids</div>
-            {% endif %}
-
+            <!-- Where upcoming shows are placed into --->
+            <div id="bids_container">
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
         </div>
 
 
     </div>
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        function load_artist_upcoming_shows() {
+
+            //Send ajax request to fetch results
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "get_upcoming_artist_shows": "check",
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    //If there are no upcoming shows
+                    if (data.success == "no upcoming shows") {
+                        $("#shows_container").html("<div style='padding: 20px;'>You have no upcoming shows</div>")
+                    }
+                    else {
+
+                        let shows = data.success
+
+                        let single_show = `
+                            <!--- Single show posting bubble --->
+                            <a href="/shows?id=${shows[x].show_id}" class="single_show_link">
+                                <div class="single_show_bubble">
+                                    <!-- Venue picture --->
+                                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].business_uid}_profile.jpg" class="show_picture" />
+
+                                    <!--- Venue name --->
+                                    <font class="venue_name">${shows[x].business_name}</font>
+
+                                    <!--- Show date --->
+                                    <font class="show_time">${shows[x].show_date}@${shows[x].show_time}</font>
+
+                                    <!--- Show price --->
+                                    <font class="show_price">Pay: ${shows[x].bid_price}</font>
+                                </div>
+                            </a>
+                        `
+
+                        $("#shows_container").append(single_show)
+                    }
+                }
+                else {
+                    $("#shows_container").html("<div style='padding: 20px;color: red;'>There was an error loading this content</div>")
+                }
+            });
+        } load_artist_upcoming_shows()
+
+        function load_all_artist_bids() {
+
+            //Send ajax request to fetch results
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "get_all_artist_bids": "check",
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    if (data.success == "no bids") {
+                        $("#bids_container").append("<div style='padding: 20px;'>You have no open bids</div>")
+                    }
+                    else {
+                        let bids = data.success
+
+                        //Loop through each result
+                        for (x in bids) {
+                            let single_bid = `
+                                <!--- Single show posting bubble --->
+                                <a href="/shows?id=${bids[x].show_id}" class="single_show_link">
+                                    <div class="single_show_bubble">
+                                        <!-- Venue picture --->
+                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${bids[x].business_uid}_profile.jpg" class="show_picture" />
+
+                                        <!--- Venue name --->
+                                        <font class="venue_name">${bids[x].business_name}</font>
+
+                                        <!--- Show date --->
+                                        <font class="show_time">${bids[x].show_date} @ ${bids[x].show_time}</font>
+
+                                        <!--- Bid price --->
+                                        <font class="show_price">Your bid: $${bids[x].bid_price}</font>
+                                    </div>
+                                </a>
+                            `
+
+                            $("#bids_container").append(single_bid)
+                        }
+                    }
+                }
+                else {
+                    $("#bids_container").html("<div style='padding: 20px;color: red;'>There was an error loading this content</div>")
+                }
+            });
+        } load_all_artist_bids()
+
+    </script>
 
   </body>
 </html>
