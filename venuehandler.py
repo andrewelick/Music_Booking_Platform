@@ -22,6 +22,11 @@ from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
 import boto3
 from botocore.client import Config
+from dotenv import load_dotenv
+
+
+#Load env variables
+load_dotenv('test.env')
 
 #Connect to database
 def connect_to_database():
@@ -732,7 +737,7 @@ def get_full_bid_info(show_id):
 
             #Check if there no bids
             if (len(all_bids) == 0):
-                result = "There are no bids yet"
+                result = "no bids"
 
             else:
 
@@ -758,7 +763,9 @@ def get_full_bid_info(show_id):
 
                     bids_list.append(new_dict)
 
-            return json.dumps({'success': bids_list})
+                result = bids_list
+
+            return json.dumps({'success': result})
         except Exception as e:
             print (e)
             return json.dumps({'error': str(e)})
@@ -768,11 +775,11 @@ def get_full_bid_info(show_id):
 
 #Make a bid on a show posting
 def place_bid_on_show(uid,show_id,bid_amount):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
+    try:
+        #Connect to database
+        conn = connect_to_database()
+        if conn is not False:
+            c = conn.cursor()
 
             #Check if user has already placed bid
             already_bid = c.execute("""SELECT uid FROM show_bids WHERE show_id=%s AND uid=%s""", (show_id,uid,))
@@ -800,27 +807,30 @@ def place_bid_on_show(uid,show_id,bid_amount):
             else:
                 #User already placed bid
                 return json.dumps({'error': 'You have already placed a bid for this show'})
-        except Exception as e:
-            print (e)
-            return json.dumps({'error': str(e)})
-        finally:
-            if conn:
-                conn.close()
+        else:
+            return json.dumps({'error': 'Could not connect to database'})
+    except Exception as e:
+        print (e)
+        return json.dumps({'error': str(e)})
+    finally:
+        if conn:
+            conn.close()
 
 #Delete bid from show
-def delete_bid(email,show_id):
+def delete_bid(bid_id,artist_uid):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""DELETE FROM show_bids WHERE show_id=%s AND uid IN (SELECT uid FROM accounts WHERE email=%s)""",(show_id,email,))
-            c.execute("""DELETE FROM notifications WHERE show_id=%s AND send_id IN (SELECT uid FROM accounts WHERE email=%s)""", (show_id,email,))
+            #Delete bid from database
+            c.execute("""DELETE FROM show_bids WHERE bid_id = %s AND uid = %s""",(bid_id,artist_uid,))
             conn.commit()
-            return True
+
+            return json.dumps({'success': 'bid deleted'})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': str(e)})
         finally:
             if conn:
                 conn.close()

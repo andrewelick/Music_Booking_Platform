@@ -151,7 +151,6 @@
             padding: 10px;
             min-height: 50px;
             border-color: #e2e2e2;
-            overflow: hidden;
         }
 
         .single_bid_artist_details {
@@ -179,36 +178,33 @@
             text-decoration: underline;
         }
 
-        .acceptbid {
-            padding:6px;
-            margin-top:-10px;
-            width: 80px;
-            float:right;
-            border:0px;
-            border-radius: 5px;
-            color:#FFFFFF;
-            background-color:#328CC1;
-            font-size: 11px;
+        .single_bid_artist_bottom_bar {
+            overflow: auto;
         }
 
-        .acceptbid:hover {
+        .accept_bid {
+            padding: 8px;
+            border: 0px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            background-color: #328CC1;
+            font-size: 13px;
+            float: right;
+            vertical-align: middle;
+        }
+
+        .accept_bid:hover {
             cursor: pointer;
             background-color: #3494cb;
         }
 
         .deletebid {
-            padding:0px;
-            float:right;
-            border: 0px;
-            border-radius: 5px;
-            font-size: 12px;
-            color: red;
-            background-color:#FFFFFF;
+            color: #E0245E;
+            vertical-align: center;
         }
 
         .deletebid:hover {
             cursor: pointer;
-            text-decoration: underline;
         }
 
         .popupcard {
@@ -327,6 +323,46 @@
 
         .material-icons.mi-35 {
             font-size: 35px;
+        }
+
+        .bid-dropdown-container {
+            position: relative;
+            display: block;
+            float: right;
+            z-index: 1;
+        }
+
+        .bid-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0px;
+            width: 100px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #d2d2d2;
+            background-color: #ffffff;
+            padding: 5px;
+            font-size: 13px;
+            z-index: 88888;
+        }
+
+        .details-icon {
+            padding: 2px;
+            border-radius: 100%;
+            color: #383838;
+            font-size: 20px;
+            transition: background 0.8s;
+        }
+
+        .details-icon:hover {
+            cursor: pointer;
+            background-color: #47a7f5;
+            color: #FFFFFF;
+        }
+
+        .dropdown-active {
+            background-color: #47a7f5;
+            color: #FFFFFF;
         }
 
         .disableButton {
@@ -515,24 +551,26 @@
             <!--- Bottom bar --->
             <div style="margin-top: 20px; padding-right: 20px;-webkit-box-shadow: 0px 0px 10px rgba(0,0,0,.8);-moz-box-shadow: 0px 0px 10px rgba(0,0,0,.8);box-shadow: 0px -5px 5px rgba(0,0,0,.1);">
 
-                <div id="place_bid_container" style="overflow: hidden;">
-                    <!--- Place bid button -->
-                    <button id="place_bid_button" class="ripple" type="submit">
-                        <i class="material-icons bluff-icons" style="padding-right: 5px;">gavel</i>
-                        PLACE BID
-                    </button>
+                {% if account_type == "artist" %}
+                    <div id="place_bid_container" style="overflow: hidden;">
+                        <!--- Place bid button -->
+                        <button id="place_bid_button" class="ripple" type="submit">
+                            <i class="material-icons bluff-icons" style="padding-right: 5px;">gavel</i>
+                            PLACE BID
+                        </button>
 
-                    <!--- Bid price input box -->
-                    <div style="display: inline-block;margin-top: 10px;margin-right: 30px;float: right;">
-                        Enter your price:
-                        <font style="font-size: 20px;font-weight: bold;">$</font>
+                        <!--- Bid price input box -->
+                        <div style="display: inline-block;margin-top: 10px;margin-right: 30px;float: right;">
+                            Enter your price:
+                            <font style="font-size: 20px;font-weight: bold;">$</font>
 
-                        <input type="number" id="new_bid_price" placeholder="5000" min="1" required/>
+                            <input type="number" id="new_bid_price" placeholder="5000" min="1" required/>
+                        </div>
                     </div>
-                </div>
 
-                <!--- Error message for bidding --->
-                <div id="bidding_error_message"></div>
+                    <!--- Error message for bidding --->
+                    <div id="bidding_error_message"></div>
+                {% endif %}
             </div>
 
         </div>
@@ -611,9 +649,8 @@
     <div id="confirm_deletebid_container" class="popupcard">
         <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
 
-        <form action="" method="POST">
-            <button value="Delete Bid" name="deletebid">Delete bid</button>
-        </form>
+        <button id="confirm_delete_bid" value="Delete Bid" name="deletebid">Delete bid</button>
+        <input type="hidden" id="delete_bid_id" val='' />
     </div>
     <!--- End of confirm delete bid card --->
 
@@ -647,35 +684,63 @@
 
         $(document).ajaxStop(function() {
             $(".loading_gif").hide();
-        });
 
-        //Show delete bid container
-        $("#deletebidbutton").click(function() {
-            $("#blackbackground").show()
-            $("#confirm_deletebid_container").show()
-        })
+            //Show bid options settings
+            $(".bid-dropdown-container").click(function(event) {
+
+                event.stopPropagation();
+
+                //Hide all other menus open
+                $(".bid-dropdown-content").hide()
+
+                //Show dropdown content
+                $(this).find('.bid-dropdown-content').show()
+
+                //Change font color of dropdown button
+                $(this).find('.details-icon').addClass("dropdown-active")
+            });
+
+            //Hide bid options settings
+            $(document).click(function() {
+                $(".bid-dropdown-content").hide()
+                $(".details-icon").removeClass("dropdown-active")
+            })
+
+            //Show delete bid container
+            $(".deletebid").click(function() {
+
+                //Show confirm delete container
+                $("#blackbackground").show()
+                $("#confirm_deletebid_container").show()
+
+                //Find bid id and attach to confirm delete bid container
+                let bid_id = $(this).siblings('input').attr('id')
+                $("#delete_bid_id").val(bid_id)
+            });
+
+            //Show the bidding pop up
+            $(".accept_bid").click(function() {
+                //Name of bidder and uid
+                var accept_bidder_name =$(this).attr('name');
+                var accept_bidder_uid = $(this).val()
+                var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
+
+                $("#blackbackground").show()
+                $("#accept_bid_offer").show()
+
+                //Change title name and uid
+                $("#acceptoffername").html(accept_bidder_name)
+                $("#winning_bidder_uid").val(accept_bidder_uid)
+                $("#winning_bidder_price").val(accept_bidder_price)
+            });
+
+        });
 
         //Hide delete bid or accept bid container
         $("#blackbackground").click(function() {
             $("#blackbackground").hide()
             $("#confirm_deletebid_container").hide()
             $("#accept_bid_offer").hide()
-        })
-
-        //Show the bidding pop up
-        $("#acceptbid").click(function() {
-            //Name of bidder and uid
-            var accept_bidder_name =$(this).attr('name');
-            var accept_bidder_uid = $(this).val()
-            var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
-
-            $("#blackbackground").show()
-            $("#accept_bid_offer").show()
-
-            //Change title name and uid
-            $("#acceptoffername").html(accept_bidder_name)
-            $("#winning_bidder_uid").val(accept_bidder_uid)
-            $("#winning_bidder_price").val(accept_bidder_price)
         })
 
         //Expand Details
@@ -708,6 +773,9 @@
                 //Show id
                 let show_id = '{% print show_details.show_id %}'
 
+                //Clear any info inside container
+                $('#load_single_bids_here').html('<img class="loading_gif" src="static/loading-spinner.gif" />')
+
                 $.ajax({
                     type: "POST",
                     url: "/artist_bids",
@@ -720,46 +788,71 @@
 
                     //If loaded bids
                     if (data.success) {
-                        let all_bids = data.success
 
-                        //Loop through each bid and print
-                        for (x in all_bids) {
-                            console.log(all_bids[x])
+                        //If there are no bids
+                        if (data.success == "no bids") {
+                            $("#load_single_bids_here").html("<div style='padding: 20px;'>There are no bids yet</div>")
+                        }
+                        else {
+                            let all_bids = data.success
 
-                            let single_bid = `
-                                <div class='single_bid'>
-                                    <!--- Profile picture --->
-                                    <a href="/profile?uid={% print show_details.uid %}">
-                                        <img style="float: left; height: 45px;" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${all_bids[x].artist_details.uid}_profile.jpg" />
-                                    </a>
+                            //UID of user who is logged in right now
+                            let current_user_uid = "{% print uid %}"
+                            let show_owner_uid = "{% print show_details.uid %}"
 
-                                    <!--- Artist details --->
-                                    <div class="single_bid_artist_details">
+                            //Loop through each bid and print
+                            for (x in all_bids) {
 
-                                        <!--- Artist Name & Bid price --->
-                                        <div style="overflow: hidden">
-                                            <font style="font-size: 16px;text-transform: capitalize;">${all_bids[x].artist_details.name}</font>
-                                            <font class="show_details_bubble" style="padding: 4px;min-width: 30px;background-color: #72b14e;font-size: 14px;text-align: center;float: right;">$${all_bids[x].bid_details.amount}</font>
+                                let single_bid = `
+                                    <div class='single_bid'>
+                                        <!--- Profile picture --->
+                                        <a href="/profile?uid=${all_bids[x].artist_details.uid}">
+                                            <img style="float: left; height: 45px;" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${all_bids[x].artist_details.uid}_profile.jpg" />
+                                        </a>
+
+                                        <!--- Options ---!>
+                                        <div class="bid-dropdown-container">
+                                            <!--- Options Icon --->
+                                            <i class='material-icons details-icon'>expand_more</i>
+
+                                            <!--- Options content container -->
+                                            <div class="bid-dropdown-content">
+
+                                                <!--- Delete bid --->
+                                                ${all_bids[x].artist_details.uid == current_user_uid ? "<div class='deletebid'><i class='material-icons' style='font-size: 22px;vertical-align: middle'>delete</i>Delete</div>" : ""}
+                                                <input type="hidden" id="${all_bids[x].bid_details.bid_id}" />
+                                            </div>
                                         </div>
 
-                                        <!--- Artist Bio --->
-                                        <div style="font-size: 13px;padding-bottom: 10px;">${all_bids[x].artist_details.bio}</div>
+                                        <!--- Artist details --->
+                                        <div class="single_bid_artist_details">
 
-                                        <!--- Artist genres -->
-                                        <div class="show_details_bubble" style="font-size: 12px;">${all_bids[x].artist_details.genre}</div>
+                                            <!--- Artist Name & Bid price --->
+                                            <div>
+                                                <font style="font-size: 16px;text-transform: capitalize;">${all_bids[x].artist_details.name}</font>
+                                            </div>
+
+                                            <!--- Artist Bio --->
+                                            <div style="font-size: 13px;padding-bottom: 10px;">${all_bids[x].artist_details.bio}</div>
+
+                                            <!--- Artist genres -->
+                                            <div class="show_details_bubble" style="font-size: 12px;">${all_bids[x].artist_details.genre}</div>
+
+                                        </div>
+
+                                        <!--- Bottom bar --->
+                                        <div class="single_bid_artist_bottom_bar">
+                                            ${show_owner_uid == current_user_uid ? "<div class='accept_bid ripple'><i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>local_play</i>Book</div>" : ""}
+                                            <!--- Bid price -->
+                                            <font style="color: #72b14e;font-size: 23px;margin-right: 10px;float: right;">$${all_bids[x].bid_details.amount}</font>
+                                        </div>
 
                                     </div>
+                                `
 
-                                    <!--- Bottom bar --->
-                                    <div style="single_bid_artist_bottom_bar">
-
-                                    </div>
-
-                                </div>
-                            `
-
-                            //Add bid to bid container
-                            $("#load_single_bids_here").append(single_bid)
+                                //Add bid to bid container
+                                $("#load_single_bids_here").append(single_bid)
+                            }
                         }
                     }
                     else {
@@ -831,9 +924,9 @@
                 //Send bid
                 $.ajax({
                     type: "POST",
-                    url: "/shows",
+                    url: "/artist_bids",
                     data: {
-                        'placebid': 'yes',
+                        'place_bid': 'yes',
                         'new_bid_price': bid_val,
                         'show_id': show_id,
                     },
@@ -850,6 +943,9 @@
 
                         //Hide bid button & number input
                         $("#place_bid_container").hide()
+
+                        //Reload show bids
+                        load_artist_bids()
                     }
                     else {
                         //Show error message
@@ -861,6 +957,34 @@
                 })
             }
         })
+
+        //Delete bid when confirmed
+        $("#confirm_delete_bid").click(function() {
+
+            let bid_id = $("#delete_bid_id").val()
+
+            //Send deletion request
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    'delete_artist_bid': 'yes',
+                    'bid_id': bid_id,
+                },
+                dataType: "json"
+            }).done(function(data) {
+
+                if (data.success) {
+                    console.log("Bid has been deleted")
+
+                    load_artist_bids()
+                }
+                else {
+                    console.log(data.error)
+                }
+            })
+        })
+
     </script>
 
   </body>

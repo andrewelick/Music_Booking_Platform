@@ -18,6 +18,7 @@ from dotenv import load_dotenv
 
 #Load env variables
 load_dotenv('test.env')
+
 app = Flask(__name__, template_folder='Templates', static_folder='static')
 
 #Cookies config
@@ -495,21 +496,6 @@ def one_show_page():
                     else:
                         return redirect(url_for("profile_page"))
 
-            #Delete a bid
-            elif request.form.get('deletebid'):
-                bid_deleted = venuehandler.delete_bid(email,show_id)
-
-                if bid_deleted:
-                    return redirect(url_for("one_show_page", id=show_id))
-                else:
-                    return redirect(url_for("profile_page"))
-
-            elif request.form.get('placebid'):
-                #Create new bid
-                new_bid_price = request.form['new_bid_price']
-                show_id = request.form['show_id']
-                return venuehandler.place_bid_on_show(uid,show_id,new_bid_price)
-
         return render_template(
             "showlisting.html",
             account_type=account_type,
@@ -866,6 +852,9 @@ def load_header_vars():
 @app.route('/artist_bids', methods=['POST'])
 def artist_bids():
     if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+        account_type = venuehandler.check_account_type(email)
 
         #Check if winning bid
         if request.form.get('check_show_for_winner'):
@@ -876,6 +865,18 @@ def artist_bids():
         if request.form.get('get_single_show_bids'):
             show_id = request.form.get('show_id')
             return venuehandler.get_full_bid_info(show_id)
+
+        #Place new bid
+        if request.form.get('place_bid'):
+            new_bid_price = request.form['new_bid_price']
+            show_id = request.form['show_id']
+            return venuehandler.place_bid_on_show(uid,show_id,new_bid_price)
+
+
+        #Delete artist bid
+        if request.form.get('delete_artist_bid'):
+            bid_id = request.form.get('bid_id')
+            return venuehandler.delete_bid(bid_id, uid)
 
     else:
         return json.dumps({'error': 'Must be logged in'})
