@@ -130,7 +130,6 @@
             max-width: 700px;
             margin: auto;
             margin-top:10px;
-            padding-bottom: 10px;
             border-radius: 5px;
             background-color: #FFFFFF;
             border-color: #d2d2d2;
@@ -167,6 +166,17 @@
             border-color: #d2d2d2;
             outline: none;
             transition: ease 200ms;
+        }
+
+        .winner_input {
+            margin: auto;
+            width: 400px;
+            border: 0px;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 14px;
+            border-radius: 5px;
+            outline: none;
         }
 
         a {
@@ -392,6 +402,7 @@
 
         #acceptoffer {
             border: 0px;
+            margin-top: 10px;
             padding: 7px;
             padding-top: 8px;
             border-radius: 5px;
@@ -400,6 +411,10 @@
             display: inline-flex;
             box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
             outline: none;
+        }
+
+        #accept_offer_message {
+            font-size: 13px;
         }
 
         .loading_gif {
@@ -614,69 +629,18 @@
         </div>
         <!--- End of show snapshot --->
 
-        <!-- If there is a winning bid --->
-        {% if winning_bid %}
-            <!--- Winner card --->
-            <div id="winner_bid_card">
 
-                <!--- If show is by user venue --->
-                {% if uid == show_details.uid %}
-                    <div style="margin-bottom:10px;">This artist will be performing at your show</div>
-                {% else %}
-                    <div style="margin-bottom:10px;">An artist has been chosen for this show</div>
-                {% endif %}
+        <!--- Bids container --->
+        <div id="bidscontainer">
+            <div class="card_header">Bids</div>
 
-                <!--- Profile picture --->
-                <a href="/profile?uid={% print winning_bid[0] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print winning_bid[0] %}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
-
-                </br>
-                <!--- Name --->
-                <a href="/profile?uid={% print winning_bid[0] %}" style="color:#FFFFFF">{% print winning_bid[1][0] %}</a>
-                <div style="font-size:13px;">Genre: {% print winning_bid[1][1] %}</div>
-
-
-                {% if account_type == "artist" %}
-                    <!--- If winner is user --->
-                    {% if uid == winning_bid[0] %}
-                        <div style="padding-top:10px;font-size:13px;">You have won this show and are expected to perform at the listed date and time. You will be paid at the date of the show if all requirements are met.</div>
-                        <div style="font-size:13px;"><b>Please contact venue if you have any questions or concerns</b></div>
-                    </br>
-                    {% endif %}
-                    <!--- End of winner is user -->
-
-                    </br>
-                    <a href="/" style="color:#FFFFFF">Go back to listings</a>
-                {% endif %}
-
-                <!--- If show is by venue --->
-                {% if uid == show_details.uid %}
-                </br>
-                <textarea name="send_winner_message" placeholder="Send a message" rows=1 style="padding-right:75px;"></textarea>
-                <input type="submit" value="Send" style="margin:0;padding-left:15px;padding-right:15px;padding-bottom:9px;border-top-left-radius:0;border-bottom-left-radius:0;position:relative;top:-40px;float:right;width: auto;background-color:#4d9eff"/>
-                {% endif %}
-                <!--- End of show is by venue --->
-
+            <!--- All bids container --->
+            <div id="load_single_bids_here">
+                <!-- Loading gif -->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
             </div>
-            <!--- End of winner card --->
 
-        <!-- If there is no winner --->
-        {% else %}
-
-            <!--- Bids container --->
-            <div id="bidscontainer">
-                <div class="card_header">Bids</div>
-
-                <!--- All bids container --->
-                <div id="load_single_bids_here">
-                    <!-- Loading gif -->
-                    <img class="loading_gif" src="static/loading-spinner.gif" />
-                </div>
-                <!-- End of all bids card --->
-
-            </div>
-            <!--- End of bids container --->
-
-        {% endif %}
+        </div>
 
     </div>
     <!--- End of Description card --->
@@ -699,17 +663,21 @@
     </div>
     <!--- End of confirm delete bid card --->
 
-    <!--- Aceept offer by venue --->
+    <!--- Accept offer by venue --->
     <div id="accept_bid_offer" class="popupcard">
         <h3>Book this show</h3>
 
         <!--- Disclaimer --->
-        <div style='padding-top: 10px;font-size:14px;color:#383838'>Accepting this offer will close bidding for this show and notify the artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour until the completetion of said show. There is a 24 hour dipute window following this performance to ensure both parties were fairly compensated. There may be a cancellation fee depending on the circumstances of said cancellation.</div>
+        <div style='padding-top: 10px;font-size:14px;color:#383838'>Accepting this offer will close bidding for this show and notify the artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour until the completetion of said show. There is a 24 hour dispute window following this performance to ensure both parties were fairly compensated. There may be a cancellation fee depending on the circumstances of said cancellation.</div>
 
         <br/>
 
         <!--- Terms checkbox --->
-        <input type="checkbox" id="bid_terms_checkbox" /> I agree the terms to the terms listed above
+        <input type="checkbox" id="bid_terms_checkbox" />
+        <label for="bid_terms_checkbox" style="font-size: 13px;">I agree the terms to the terms listed above</label>
+
+        <br/>
+
         <!--- Accept offer button --->
         <button id="acceptoffer" class="ripple">
             <!--- Gavel icon --->
@@ -720,8 +688,10 @@
         <!--- Bid id -->
         <input type="hidden" id="winning_bid_id" name="winning_bid_id" value="" />
 
+        <!--- Error message --->
+        <div id="accept_offer_message"></div>
+
     </div>
-    <!--- End of accept offer by venue --->
 
     <!--- Black background for acceot bid --->
     <div id="blackbackground" class="blackbackground" style="display:none"></div>
@@ -774,10 +744,13 @@
                 $("#delete_bid_id").val(bid_id)
             });
 
-            //Show the bidding pop up
+            //Show the accept bid pop up
             $(".accept_bid").click(function() {
-                //Name of bidder and uid
-                let bid_id =$(this).attr('name');
+                //Bid id
+                let bid_id = $(this).parent().children('.single_bid_id').attr('id').split('_')[1]
+
+                //Add bid id to hidden input in confirm bid
+                $("#winning_bid_id").val(bid_id)
 
                 $("#blackbackground").show()
                 $("#accept_bid_offer").show()
@@ -894,8 +867,7 @@
                                             ${show_owner_uid == current_user_uid ? "<div class='accept_bid ripple'><i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>local_play</i>Book</div>" : ""}
 
                                             <!--- Hidden inputs for bid data --->
-                                            <input type='hidden' id='${all_bids[x].artist_details.uid}' class='artist_uid' />
-                                            <input type='hidden' class='accept_bid_id' val='${all_bids[x].bid_details.bid_id}' />
+                                            <input type='hidden' class='single_bid_id' id='confirm_${all_bids[x].bid_details.bid_id}' />
 
                                             <!--- Bid price -->
                                             <font style="color: #72b14e;font-size: 23px;margin-right: 10px;float: right;" class='bid_price'>$${all_bids[x].bid_details.amount}</font>
@@ -916,8 +888,34 @@
             }
             //Load winner box
             else {
-                console.log("Show has been won by "+winner.artist_name)
-                console.log(winner)
+
+                //Current user uid
+                let current_user_uid = "{% print uid %}"
+
+                let winner_card = `
+                    <!--- Winner card --->
+                    <div id="winner_bid_card">
+
+                        <!--- If show is by user venue --->
+                        {% if uid == show_details.uid %}
+                            <div style="margin-bottom:10px;">This artist will be performing at your show</div>
+                        {% else %}
+                            ${winner.artist_uid == current_user_uid ? "<div style='margin-bottom:10px;'>Congrats! You're playing this show, see you there<i class='material-icons' style='font-size: 28px'>where_to_vote</i></div>" : "<div style='margin-bottom:10px;'>An artist has been chosen for this show</div>"}
+                        {% endif %}
+
+                        <!--- Profile picture --->
+                        <a href="/profile?uid=${winner.artist_uid}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${winner.artist_uid}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
+
+                        </br>
+                        <!--- Name --->
+                        <a href="/profile?uid=${winner.artist_uid}" style="color:#FFFFFF;text-transform: capitalize;">${winner.artist_name}</a>
+                        <div style="font-size:13px;">Genre: ${winner.genre}</div>
+
+                    </div>
+                    <!--- End of winner card --->
+                `
+
+                $("#bidscontainer").html(winner_card)
             }
         }
 
@@ -946,6 +944,10 @@
                         load_artist_bids()
                     }
                     else {
+
+                        //Hide bid button
+                        $("#place_bid_container").hide()
+
                         load_artist_bids(winner = result)
                     }
                 }
@@ -1052,6 +1054,37 @@
                     console.log(data.error)
                 }
             })
+        })
+
+        //Confirm accept bid
+        $("#acceptoffer").click(function() {
+
+            //Check if terms checkbox is selected
+            if ($("#bid_terms_checkbox").is(':checked')) {
+
+                //Bid id from hidden input
+                let bid_id = $(this).parent().find("#winning_bid_id").val()
+
+                //Send ajax call
+                $.ajax({
+                    type: "POST",
+                    url: "/artist_bids",
+                    data: {
+                        'accept_bid_offer': 'yes',
+                        'bid_id': bid_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+                    console.log(data)
+
+                    if (data.success) {
+                        check_show_for_winner()
+                    }
+                })
+            }
+            else {
+                $("#accept_offer_message").css("color", "red").css("margin-top", "10px").html("Please accept terms to accept offer")
+            }
         })
 
     </script>

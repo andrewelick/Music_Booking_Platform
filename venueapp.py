@@ -470,28 +470,6 @@ def one_show_page():
             if request.args.get("noti"):
                 venuehandler.mark_notification_read(show_id)
 
-        #If post action
-        if request.method == "POST":
-
-            #Accept bid offer
-            if request.form.get("acceptoffer"):
-                artist_uid = request.form["winning_bidder_uid"]
-                venue_uid = uid
-
-                #Save transaction into our database, will charge using stripe at later date
-                change_bid_winner = venuehandler.accept_bid_offer(show_id,artist_uid,venue_uid)
-
-                #If transaction was completed
-                if change_bid_winner is not False:
-
-                    #Send notification to winner of bid
-                    process_winner_notification = venuehandler.create_new_notification(email,artist_uid,3,show_id=show_id)
-
-                    if process_winner_notification:
-                        return redirect(url_for("index"))
-                    else:
-                        return redirect(url_for("profile_page"))
-
         return render_template(
             "showlisting.html",
             account_type=account_type,
@@ -556,7 +534,7 @@ def message_page():
             #If message is sent redirect back to page
             if send_new_message:
                 #Create notification
-                venuehandler.create_new_notification(email,rec_id,noti_type)
+                venuehandler.create_new_notification(uid,rec_id,noti_type)
 
                 return redirect(url_for(
                         "message_page",
@@ -587,8 +565,10 @@ def message_page():
 def notifications_page():
     if 'username' in session:
         email = session['username']
-        all_notis = venuehandler.get_all_notifications(email)
+        uid = venuehandler.get_uid(email)
+        all_notis = venuehandler.get_all_notifications(uid)
 
+        print(all_notis)
         return render_template(
             "notifications.html",
             all_notis=all_notis,
@@ -872,6 +852,13 @@ def artist_bids():
         if request.form.get('delete_artist_bid'):
             bid_id = request.form.get('bid_id')
             return venuehandler.delete_bid(bid_id, uid)
+
+        #Accept bid offer
+        if request.form.get('accept_bid_offer'):
+            bid_id = request.form.get('bid_id')
+
+            #Save transaction into our database, will charge using stripe at later date
+            return venuehandler.accept_bid_offer(bid_id)
 
     else:
         return json.dumps({'error': 'Must be logged in'})

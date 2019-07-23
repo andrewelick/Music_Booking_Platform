@@ -847,7 +847,7 @@ def get_upcoming_artist_shows(uid):
                         'business_uid': x[1],
                         'business_name': x[2],
                         'bid_amount': x[3],
-                        'show_date': x[4],
+                        'show_date': str(x[4].strftime("%b %d")),
                         'show_time': x[5],
                         'set_length': x[6],
                         'show_location': x[7]
@@ -929,20 +929,24 @@ def delete_bid(bid_id,artist_uid):
                 conn.close()
 
 #Accept bid for a show positng
-def accept_bid_offer(show_id,artist_uid,venue_uid):
+def accept_bid_offer(bid_id):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
             #Get show bid details
-            find_bid = c.execute("""SELECT show_bids.bid_amount, show_postings.show_date FROM show_bids, show_postings WHERE show_bids.show_id = %s AND show_bids.show_id = show_postings.show_id AND show_bids.uid = %s""", (show_id,artist_uid,))
+            find_bid = c.execute("""SELECT show_bids.bid_amount, show_bids.uid, show_postings.show_id, show_postings.uid, show_postings.show_date FROM show_bids, show_postings WHERE show_bids.bid_id = %s AND show_bids.show_id = show_postings.show_id""", (bid_id,))
 
             #If bid is found
             if find_bid == 1:
                 bid_details = c.fetchone()
+
                 show_price = int(bid_details[0]) * 100
-                show_date = bid_details[1]
+                artist_uid = bid_details[1]
+                show_id = bid_details[2]
+                venue_uid = bid_details[3]
+                show_date = bid_details[4]
                 current_date = datetime.datetime.now()
                 status = "waiting"
 
@@ -967,8 +971,13 @@ def accept_bid_offer(show_id,artist_uid,venue_uid):
                 c.execute("""UPDATE show_postings SET won = 1 WHERE show_id = %s""", (show_id))
 
                 conn.commit()
+
+                #Send notification
+                create_new_notification(venue_uid,artist_uid,3,show_id=show_id)
+
+                return json.dumps({'success': 'Bid has been accepted'})
             else:
-                return False
+                return json.dumps({'error': 'could not find show'})
 
         except Exception as e:
             print (e)
@@ -1194,10 +1203,6 @@ def create_new_notification(send_id,rec_id,type,**kwargs):
         c = conn.cursor()
         try:
 
-            #Get send uid
-            c.execute("""SELECT uid FROM accounts WHERE email=%s""", (send_id,))
-            send_id = c.fetchone()[0]
-
             #Notification id
             noti_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
 
@@ -1244,15 +1249,15 @@ def get_notification_number(email):
                 conn.close()
 
 #Get all notifications details
-def get_all_notifications(email):
+def get_all_notifications(uid):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""SELECT * FROM notifications WHERE rec_id IN (SELECT uid FROM accounts WHERE email=%s) ORDER BY time_sent DESC""", (email,))
+            c.execute("""SELECT * FROM notifications WHERE rec_id = %s ORDER BY time_sent DESC""", (uid,))
             results = c.fetchall()
-
+            print(results)
             all_noti_details = []
 
             #Loop to add name to details
@@ -1283,7 +1288,7 @@ def get_all_notifications(email):
 
                 #If notifcation is a bid
                 elif noti_type == 2:
-                    c.execute("""SELECT show_date,am_pm FROM show_postings WHERE show_id=%s""", (x[6],))
+                    c.execute("""SELECT show_date FROM show_postings WHERE show_id=%s""", (x[6],))
                     noti_type_results = c.fetchone()
 
                     #Add show details
@@ -1298,7 +1303,7 @@ def get_all_notifications(email):
                     x.append(venue_business_name)
 
                     #Get show date and time
-                    c.execute("""SELECT show_date,am_pm FROM show_postings WHERE show_id=%s""", (x[6],))
+                    c.execute("""SELECT show_date FROM show_postings WHERE show_id=%s""", (x[6],))
                     show_details = c.fetchone()
 
                     x.append(show_details)
