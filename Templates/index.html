@@ -369,8 +369,8 @@
 
                   <div style="text-align: left">Sign up today</div>
                   </br>
-                  <form action='/newaccount' method="POST">
-                    <input type='text' name='new_name' placeholder="Stage Name or Name" />
+                  <form>
+                    <input type='text' name='new_name' id="new_name" placeholder="Stage Name or Name" />
                     <input type='text' name='new_email' id="new_email" placeholder='Email' />
                     <input type='password' name='new_password' id='new_password' placeholder="Password" />
                     <input type='password' name='new_confirm_password' id='new_confirm_password' placeholder="Confirm Password"  />
@@ -662,6 +662,43 @@
             }
         }
 
+        //Submit new user signup
+        function submit_new_user() {
+
+            //Sign up fields
+            let new_name = $("#new_name").val()
+            let new_email = $("#new_email").val()
+            let new_password = $("#new_password").val()
+            let new_confirm_password = $("#new_confirm_password").val()
+            let new_account_type = $("#account_type").find(":selected").val()
+
+            //Send ajax call
+            $.ajax({
+                url: "/newaccount",
+                type: "POST",
+                data: {
+                    'submit_new_user': 'yes',
+                    'new_name': new_name,
+                    'new_email': new_email,
+                    'new_password': new_password,
+                    'new_confirm_password': new_confirm_password,
+                    'new_account_type': new_account_type,
+                },
+                dataType: "json"
+            }).done(function(data) {
+
+                if (data.success) {
+                    let current_url = window.location.href
+
+                    //Go to next page
+                    window.location.replace(current_url+"setupaccount");
+                }
+                else {
+                    $("#error_message").html(data.error)
+                }
+            })
+        }
+
         //Valid form fields
         $("form").submit(function() {
             event.preventDefault();
@@ -736,7 +773,7 @@
                                         $("#error_message").html("")
 
                                         //Submit form
-                                        $("form").submit();
+                                        submit_new_user()
                                     }
                                 })
                             }

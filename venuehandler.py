@@ -145,7 +145,7 @@ def create_new_account(email,password,confirm_password,name,account_type):
 
             #if error quit, else continue
             if error is True:
-                return False
+                return json.dumps({'error': 'Invalid form fields'})
             else:
                 #Used for account creation
                 uid = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)]) #Combine letters and numbers, in a 12 digit string
@@ -187,9 +187,9 @@ def create_new_account(email,password,confirm_password,name,account_type):
                     #Send picture to AWS bucket bluffbucket
                     create_default_aws_picture(uid)
 
-                    return True
+                    return json.dumps({'success': 'Account created'})
                 else:
-                    return "Email is already being used"
+                    return json.dumps({'error': 'Email already used with another account'})
         except Exception as e:
             print (e)
             return json.dumps({'error': 'error when creating account'})

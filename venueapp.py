@@ -162,8 +162,9 @@ def change_password():
 #Create account API
 @app.route("/newaccount", methods=['POST'])
 def create_account():
+
     #If create new account
-    if request.method == 'POST':
+    if request.form.get('submit_new_user'):
         #Form details
         name = request.form['new_name']
         email = request.form['new_email']
@@ -172,13 +173,15 @@ def create_account():
         account_type = request.form['new_account_type']
 
         account_result = venuehandler.create_new_account(email,password,confirm_password,name,account_type)
-        print (account_result)
-        if account_result is True:
+
+        #format json
+        account_result_loaded = json.loads(account_result)
+
+        if account_result_loaded['success']:
             session['username'] = email
-            return redirect(url_for("setup_account"))
+            return account_result
         else:
-            error = account_result
-            return render_template('index.html', account_result=error)
+            return account_result
 
 #Check if email is being used
 @app.route("/check_email_used", methods=['POST'])
