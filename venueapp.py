@@ -159,7 +159,7 @@ def change_password():
         reset_code = request.args.get('reset_code')
         return render_template("changepassword.html", uid=uid, reset_code=reset_code)
 
-#Create account page
+#Create account API
 @app.route("/newaccount", methods=['POST'])
 def create_account():
     #If create new account
@@ -172,7 +172,7 @@ def create_account():
         account_type = request.form['new_account_type']
 
         account_result = venuehandler.create_new_account(email,password,confirm_password,name,account_type)
-
+        print (account_result)
         if account_result is True:
             session['username'] = email
             return redirect(url_for("setup_account"))

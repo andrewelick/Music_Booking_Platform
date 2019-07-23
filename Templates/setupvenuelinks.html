@@ -28,6 +28,8 @@
         #setupcontainer {
           padding: 15px;
           border-radius: 5px;
+          background-color: #FFFFFF;
+          border-radius: 5px;
           box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
         }
 
@@ -95,33 +97,34 @@
 
     <div class='mobilegridrow-2'>
 
-      <div id="setupcontainer">
-          <div class='venue_setup_selection'>
-            <form action="setuplinks" method="POST">
+        <div id="setupcontainer">
+            <div class='venue_setup_selection'>
+                <form action="setuplinks" method="POST">
 
-              <h3 style="margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
+                    <h3 style="margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
 
-              <div class="input_title">Website</div>
-              <input type='text' name='personal_website' placeholder='https://www.BluffTour.com'/>
+                    <div class="input_title">Website</div>
+                    <input type='text' name='personal_website' placeholder='https://www.BluffTour.com'/>
 
-              <div class="input_title">Twitter</div>
-              <input type='text' name='twitter' placeholder='https://www.Twitter.com/BluffTour'/>
+                    <div class="input_title">Twitter</div>
+                    <input type='text' name='twitter' placeholder='https://www.Twitter.com/BluffTour'/>
 
-              <div class="input_title">Instagram</div>
-              <input type='text' name='instagram' placeholder="https://www.Instagram.com/BluffTour" />
+                    <div class="input_title">Instagram</div>
+                    <input type='text' name='instagram' placeholder="https://www.Instagram.com/BluffTour" />
 
-              <div class="input_title">Facebook</div>
-              <input type='text' name='facebook' placeholder="https://www.Facebook.com/BluffTour" />
+                    <div class="input_title">Facebook</div>
+                    <input type='text' name='facebook' placeholder="https://www.Facebook.com/BluffTour" />
 
-              <br/>
+                    <br/>
 
-              <input type="submit" id='finishbutton' value="Next" />
-              {% if error %}
-                {%print error%}
-              {% endif %}
-            </form>
-          </div>
-      </div>
+                    <input type="submit" id='finishbutton' value="Next" />
+
+                    {% if error %}
+                        {%print error%}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
     </div>
 
     {% include 'footer.html' %}
