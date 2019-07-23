@@ -15,12 +15,18 @@ import urllib.parse
 import json
 import base64
 import re
+import traceback
 import bcrypt
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
 import boto3
 from botocore.client import Config
+from dotenv import load_dotenv
+
+
+#Load env variables
+load_dotenv('test.env')
 
 #Connect to database
 def connect_to_database():
@@ -620,346 +626,6 @@ def delete_artist_media(uid, media_id):
             if conn:
                 conn.close()
 
-#Upload show posting
-def create_show_posting(email,price,description,artist_type,show_date,am_pm):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #User id
-            uid = get_uid(email)
-
-            #Create show_id
-            show_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
-
-            #Check if show_id is unique
-            show_id_unique = c.execute("""SELECT show_id FROM show_postings WHERE show_id=%s""",(show_id,))
-
-            while show_id_unique > 0:
-                show_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
-                show_id_unique = c.execute("""SELECT show_id FROM show_postings WHERE show_id=%s""",(show_id,))
-
-            date_posted = datetime.datetime.utcnow()
-            show_post_details = (show_id,uid,price,description,artist_type,show_date,am_pm,date_posted)
-
-            c.execute("""INSERT INTO show_postings(show_id,uid,price,description,artist_type,show_date,am_pm,date_posted) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)""", show_post_details)
-            conn.commit()
-            return True
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Get venue show postings
-def get_venue_show_postings(email):
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get list of posts by user
-            c.execute("""SELECT * FROM show_postings WHERE uid IN (SELECT uid FROM accounts WHERE email=%s) ORDER By date_posted DESC""",(email,))
-            venue_show_postings = c.fetchall()
-            #Get name of business
-            c.execute("""SELECT business_name FROM venue_profile_details WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
-            business_name = c.fetchone()[0]
-
-            #Another list of show postings so we can modify the real one without breaking Loop
-            loop_postings = venue_show_postings
-            venue_show_postings = []
-
-            for x in loop_postings:
-                x = list(x)
-
-                #Check if there is already a winner for the show
-                has_winner = c.execute("""SELECT * FROM show_bids WHERE show_id=%s AND winner=1""", x[0])
-
-                if has_winner == 1:
-                    x.append("winner")
-                elif has_winner == 2:
-                    x.append("closed")
-                else:
-                    x.append("no_winner")
-
-                venue_show_postings.append(x)
-
-
-            venue_show_postings = (venue_show_postings,business_name)
-
-            return venue_show_postings
-        except Exception as e:
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Get venue show postings that are closing with 7 days
-def get_venue_show_postings_ending_soon(uid):
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            two_weeks = datetime.datetime.today() + datetime.timedelta(days=14)
-
-            #Select shows that are open and ending soon
-            c.execute("""SELECT show_id, description, artist_type, show_date, am_pm FROM show_postings WHERE uid = %s AND won = 0 AND show_date <= %s ORDER BY show_date ASC LIMIT 10""", (uid, two_weeks))
-            results = c.fetchall()
-
-            shows_list = []
-
-            #Loop through results
-            for show in results:
-
-                #Get bid stats
-                all_bids = c.execute("""SELECT bid_amount FROM show_bids WHERE show_id = %s""", (show[0]))
-                results = c.fetchall()
-
-                if all_bids > 0:
-                    #Bid count on show
-                    bid_amounts = []
-
-                    #Loop through all bids
-                    for bid in results:
-                        bid_amounts.append(bid[0])
-
-                    #Highest bid
-                    highest_bid = max(bid_amounts)
-                else:
-                    highest_bid = 0
-
-
-                show_details = {
-                    'show_id': show[0],
-                    'description': show[1],
-                    'artist_type': show[2],
-                    'show_date': str(show[3].strftime('%m/%d/%Y')),
-                    'show_time': str(show[3].strftime('%I:%M')),
-                    'am_pm': show[4],
-                    'total_bids': all_bids,
-                    'highest_bid': highest_bid,
-                }
-
-                shows_list.append(show_details)
-
-            return json.dumps({'success': shows_list})
-
-    except Exception as e:
-        print (e)
-        return json.dumps({'error': 'Could not retrieve shows'})
-    finally:
-        if conn:
-            conn.close()
-
-#Get show details for one listing
-def get_venue_one_show(show_id):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get show details
-            c.execute("""SELECT * FROM show_postings WHERE show_id=%s""", (show_id,))
-            show_details = c.fetchall()[0]
-            return show_details
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Get venue information for single listing
-def get_listing_profile_details(uid):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get venue details
-            c.execute("""SELECT * FROM venue_profile_details WHERE uid=%s""", (uid,))
-            venue_details = c.fetchone()
-            return venue_details
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Make a bid on a show posting
-def place_bid_on_show(email,show_id,bid_amount):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get uid of bidder
-            uid = get_uid(email)
-
-            #Check if user has already placed bid
-            already_bid = c.execute("""SELECT uid FROM show_bids WHERE show_id=%s AND uid=%s""", (show_id,uid,))
-            if already_bid == 0:
-
-                #Current date
-                date = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-                #Generate bid id
-                bid_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
-                #Check bid_id and get new one if already used
-                bid_id_unique = c.execute("""SELECT bid_id FROM show_bids WHERE bid_id=%s""",(bid_id,))
-
-                while bid_id_unique > 0:
-                    bid_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
-                    bid_id_unique = c.execute("""SELECT bid_id FROM show_bids WHERE bid_id=%s""",(bid_id))
-
-                bid_details = (bid_id,show_id,uid,bid_amount,date)
-                #Create new bid row
-                c.execute("""INSERT INTO show_bids(bid_id,show_id,uid,bid_amount,date) VALUES(%s,%s,%s,%s,%s)""", (bid_details))
-                conn.commit()
-                return True
-            else:
-                #User already placed bid
-                return "already_bid"
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-
-#Get bidding stats on a show posting
-def get_bids_stats(show_id):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get bids where show id matches
-            all_bids = c.execute("""SELECT * FROM show_bids WHERE show_id=%s""", (show_id,))
-            #If show posting has bids grab them
-            if all_bids != 0:
-                all_bids = c.fetchall()
-
-                total_bids = 0
-                bid_price_list = []
-
-                for x in all_bids:
-                    total_bids += 1
-                    bid_price_list.append(x[3])
-
-                bid_price_list.sort()
-                high_bid = bid_price_list[-1]
-                low_bid = bid_price_list[0]
-            else:
-                total_bids = 0
-                low_bid = 0
-                high_bid = 0
-
-            bid_stats_details = [total_bids,low_bid,high_bid]
-            return bid_stats_details
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Check for winning bid
-def check_winning_bid(show_id):
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            winner_bid = c.execute("""SELECT uid FROM show_bids WHERE show_id=%s AND winner=1""", (show_id,))
-
-            if winner_bid == 1:
-                winner_info = list(c.fetchone())
-
-                #Get winning bidder name
-                c.execute("""SELECT accounts.name,artist_profile_details.genre FROM accounts,artist_profile_details WHERE accounts.uid=%s AND artist_profile_details.uid=%s""", (winner_info,winner_info))
-                name = c.fetchone()
-
-                winner_info.append(name)
-
-                return winner_info
-            else:
-                return False
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Get full bid details for single listing page
-def get_full_bid_info(show_id):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get all bids from show
-            find_bids = c.execute("""SELECT * FROM show_bids where show_id=%s ORDER BY date DESC""", (show_id,))
-
-            if find_bids != 0:
-                all_bids = c.fetchall()
-            else:
-                all_bids = 0
-
-            return all_bids
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Find bidder details
-def find_bidder_details(uid):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            #Get bidder name
-            c.execute("""SELECT name FROM accounts WHERE uid=%s""", (uid,))
-            bidder_name = c.fetchone()[0]
-
-            #Get bidder account details
-            c.execute("""SELECT genre,member FROM artist_profile_details WHERE uid=%s""",(uid,))
-            bidder_details = c.fetchone()
-
-            bidder_details_list = [bidder_name,bidder_details]
-            return bidder_details_list
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
-#Delete bid from show
-def delete_bid(email,show_id):
-    #Connect to database
-    conn = connect_to_database()
-    if conn is not False:
-        c = conn.cursor()
-        try:
-            c.execute("""DELETE FROM show_bids WHERE show_id=%s AND uid IN (SELECT uid FROM accounts WHERE email=%s)""",(show_id,email,))
-            c.execute("""DELETE FROM notifications WHERE show_id=%s AND send_id IN (SELECT uid FROM accounts WHERE email=%s)""", (show_id,email,))
-            conn.commit()
-            return True
-        except Exception as e:
-            print (e)
-            return False
-        finally:
-            if conn:
-                conn.close()
-
 #Get featured venues
 def get_showcase_venues():
     #Connect to database
@@ -1020,23 +686,267 @@ def get_featured_artists():
             if conn:
                 conn.close()
 
-#-#-#-# ACCEPT BID AND PROCESS SECTION #-#-#-#-#-#-# ------------------------------
+#-#-#-# ARTIST BIDS SECTION #-#-#-#-#-#-# ------------------------------
+
+#Check for winning bid
+def check_winning_bid(show_id):
+    conn = connect_to_database()
+    if conn is not False:
+        c = conn.cursor()
+        try:
+            winner_bid = c.execute("""SELECT uid FROM show_bids WHERE show_id = %s AND winner = 1""", (show_id,))
+
+            #If there is a winner
+            if winner_bid == 1:
+                winner_info = {'artist_uid': c.fetchone()[0]}
+
+                print (winner_info['artist_uid'])
+
+                #Get winning bidder name & genre
+                c.execute("""SELECT accounts.name,artist_profile_details.genre FROM accounts,artist_profile_details WHERE accounts.uid=%s AND artist_profile_details.uid=%s""", (winner_info['artist_uid'],winner_info['artist_uid']))
+                name = c.fetchone()
+
+                winner_info.update({
+                    'artist_name': name[0],
+                    'genre': name[1]
+                })
+
+                result = winner_info
+            else:
+                result = "No winner"
+
+            return json.dumps({'success': result})
+
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': 'Could not check for show status'})
+        finally:
+            if conn:
+                conn.close()
+
+#Get bids for single listing page
+def get_full_bid_info(show_id):
+    #Connect to database
+    conn = connect_to_database()
+    if conn is not False:
+        c = conn.cursor()
+        try:
+            #Get all bids from show
+            find_bids = c.execute("""SELECT show_bids.*, artist_profile_details.genre,  artist_profile_details.bio, accounts.name FROM show_bids, artist_profile_details, accounts WHERE show_id= %s AND  artist_profile_details.uid = show_bids.uid AND accounts.uid = show_bids.uid ORDER BY date DESC""", (show_id,))
+            all_bids = c.fetchall()
+
+            #Check if there no bids
+            if (len(all_bids) == 0):
+                result = "no bids"
+
+            else:
+
+                #Loop through each bid and format into dict
+                bids_list = []
+
+                for x in all_bids:
+                    new_dict = {
+                        'bid_details': {
+                            'bid_id': x[0],
+                            'show_id': x[1],
+                            'amount': x[3],
+                            'date_posted': x[4].strftime("%b %d"),
+                            'winner': x[5],
+                        },
+                        'artist_details': {
+                            'uid': x[2],
+                            'name': x[8],
+                            'genre': x[6],
+                            'bio': x[7],
+                        },
+                    }
+
+                    bids_list.append(new_dict)
+
+                result = bids_list
+
+            return json.dumps({'success': result})
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': str(e)})
+        finally:
+            if conn:
+                conn.close()
+
+#Find all bids placed
+def get_all_artist_bids(uid):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            #Todays date
+            today = datetime.datetime.now()
+
+            #Get bids by artist that are active
+            c.execute("""SELECT show_bids.show_id, show_bids.bid_amount, show_postings.uid, show_postings.show_date, show_postings.show_time, show_postings.location, venue_profile_details.business_name FROM show_bids, show_postings, venue_profile_details WHERE show_bids.uid = %s AND show_bids.winner = 0 AND show_postings.show_date > %s AND show_postings.show_id = show_bids.show_id AND venue_profile_details.uid = show_postings.uid AND show_postings.won = 0 """, (uid, today,))
+            all_bids = c.fetchall()
+
+            if len(all_bids) != 0:
+
+                all_bids_list = []
+
+                #loop through each result and format to dictionary
+                for x in all_bids:
+                    bid_dict = {
+                        'show_id': x[0],
+                        'business_uid': x[2],
+                        'business_name': x[6],
+                        'bid_price': x[1],
+                        'show_date': x[3].strftime("%b %d"),
+                        'show_time': x[4],
+                        'show_location': x[5]
+                    }
+
+                    all_bids_list.append(bid_dict)
+            else:
+                all_bids_list = "no bids"
+
+            return json.dumps({'success': all_bids_list})
+        else:
+            results = "could not connect to database"
+
+        return json.dumps({'error': result})
+    except Exception as e:
+        print (e)
+        return json.dumps({'error': str(e)})
+    finally:
+        if conn:
+            conn.close()
+
+#Get all upcoming winning shows for artist
+def get_upcoming_artist_shows(uid):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+
+        if conn is not False:
+            c = conn.cursor()
+
+            today_date = datetime.datetime.now()
+
+            #Get shows that artist has won and have not happened yet
+            c.execute("""SELECT show_postings.show_id, show_postings.uid, venue_profile_details.business_name, show_bids.bid_amount, show_postings.show_date, show_postings.show_time, show_postings.set_length, show_postings.location FROM show_bids, show_postings, venue_profile_details WHERE show_bids.show_id = show_postings.show_id AND show_bids.uid = %s AND show_postings.uid = venue_profile_details.uid AND show_bids.winner = 1 AND show_postings.show_date > %s""", (uid,today_date))
+            upcoming_shows = c.fetchall()
+
+            if len(upcoming_shows) != 0:
+
+                upcoming_shows_list = []
+
+                #Loop through each result and format to dict
+                for x in upcoming_shows:
+                    new_dict = {
+                        'show_id': x[0],
+                        'business_uid': x[1],
+                        'business_name': x[2],
+                        'bid_amount': x[3],
+                        'show_date': str(x[4].strftime("%b %d")),
+                        'show_time': x[5],
+                        'set_length': x[6],
+                        'show_location': x[7]
+                    }
+
+                    upcoming_shows_list.append(new_dict)
+
+                result = upcoming_shows_list
+            else:
+                result = "no upcoming shows"
+
+            return json.dumps({'success': result})
+        else:
+            return json.dumps({'error': 'Could not connect to database'})
+    except Exception as e:
+        print (e)
+        return json.dumps({"result": str(e)})
+
+#Make a bid on a show posting
+def place_bid_on_show(uid,show_id,bid_amount):
+    try:
+        #Connect to database
+        conn = connect_to_database()
+        if conn is not False:
+            c = conn.cursor()
+
+            #Check if user has already placed bid
+            already_bid = c.execute("""SELECT uid FROM show_bids WHERE show_id=%s AND uid=%s""", (show_id,uid,))
+            if already_bid == 0:
+
+                #Current date
+                date = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+                #Generate bid id
+                bid_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
+                #Check bid_id and get new one if already used
+                bid_id_unique = c.execute("""SELECT bid_id FROM show_bids WHERE bid_id=%s""",(bid_id,))
+
+                while bid_id_unique > 0:
+                    bid_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
+                    bid_id_unique = c.execute("""SELECT bid_id FROM show_bids WHERE bid_id=%s""",(bid_id))
+
+                bid_details = (bid_id,show_id,uid,bid_amount,date)
+                #Create new bid row
+                c.execute("""INSERT INTO show_bids(bid_id,show_id,uid,bid_amount,date) VALUES(%s,%s,%s,%s,%s)""", (bid_details))
+                conn.commit()
+
+                #create_new_notification(send_id,rec_id,noti_type,show_id=show_id)
+
+                return json.dumps({'success': 'Placed new bid'})
+            else:
+                #User already placed bid
+                return json.dumps({'error': 'You have already placed a bid for this show'})
+        else:
+            return json.dumps({'error': 'Could not connect to database'})
+    except Exception as e:
+        print (e)
+        return json.dumps({'error': str(e)})
+    finally:
+        if conn:
+            conn.close()
+
+#Delete bid from show
+def delete_bid(bid_id,artist_uid):
+    #Connect to database
+    conn = connect_to_database()
+    if conn is not False:
+        c = conn.cursor()
+        try:
+            #Delete bid from database
+            c.execute("""DELETE FROM show_bids WHERE bid_id = %s AND uid = %s""",(bid_id,artist_uid,))
+            conn.commit()
+
+            return json.dumps({'success': 'bid deleted'})
+        except Exception as e:
+            print (e)
+            return json.dumps({'error': str(e)})
+        finally:
+            if conn:
+                conn.close()
 
 #Accept bid for a show positng
-def accept_bid_offer(show_id,artist_uid,venue_uid):
+def accept_bid_offer(bid_id):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
             #Get show bid details
-            find_bid = c.execute("""SELECT show_bids.bid_amount, show_postings.show_date FROM show_bids, show_postings WHERE show_bids.show_id = %s AND show_bids.show_id = show_postings.show_id AND show_bids.uid = %s""", (show_id,artist_uid,))
+            find_bid = c.execute("""SELECT show_bids.bid_amount, show_bids.uid, show_postings.show_id, show_postings.uid, show_postings.show_date FROM show_bids, show_postings WHERE show_bids.bid_id = %s AND show_bids.show_id = show_postings.show_id""", (bid_id,))
 
             #If bid is found
             if find_bid == 1:
                 bid_details = c.fetchone()
+
                 show_price = int(bid_details[0]) * 100
-                show_date = bid_details[1]
+                artist_uid = bid_details[1]
+                show_id = bid_details[2]
+                venue_uid = bid_details[3]
+                show_date = bid_details[4]
                 current_date = datetime.datetime.now()
                 status = "waiting"
 
@@ -1061,8 +971,13 @@ def accept_bid_offer(show_id,artist_uid,venue_uid):
                 c.execute("""UPDATE show_postings SET won = 1 WHERE show_id = %s""", (show_id))
 
                 conn.commit()
+
+                #Send notification
+                create_new_notification(venue_uid,artist_uid,3,show_id=show_id)
+
+                return json.dumps({'success': 'Bid has been accepted'})
             else:
-                return False
+                return json.dumps({'error': 'could not find show'})
 
         except Exception as e:
             print (e)
@@ -1288,10 +1203,6 @@ def create_new_notification(send_id,rec_id,type,**kwargs):
         c = conn.cursor()
         try:
 
-            #Get send uid
-            c.execute("""SELECT uid FROM accounts WHERE email=%s""", (send_id,))
-            send_id = c.fetchone()[0]
-
             #Notification id
             noti_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
 
@@ -1338,15 +1249,15 @@ def get_notification_number(email):
                 conn.close()
 
 #Get all notifications details
-def get_all_notifications(email):
+def get_all_notifications(uid):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""SELECT * FROM notifications WHERE rec_id IN (SELECT uid FROM accounts WHERE email=%s) ORDER BY time_sent DESC""", (email,))
+            c.execute("""SELECT * FROM notifications WHERE rec_id = %s ORDER BY time_sent DESC""", (uid,))
             results = c.fetchall()
-
+            print(results)
             all_noti_details = []
 
             #Loop to add name to details
@@ -1377,7 +1288,7 @@ def get_all_notifications(email):
 
                 #If notifcation is a bid
                 elif noti_type == 2:
-                    c.execute("""SELECT show_date,am_pm FROM show_postings WHERE show_id=%s""", (x[6],))
+                    c.execute("""SELECT show_date FROM show_postings WHERE show_id=%s""", (x[6],))
                     noti_type_results = c.fetchone()
 
                     #Add show details
@@ -1392,7 +1303,7 @@ def get_all_notifications(email):
                     x.append(venue_business_name)
 
                     #Get show date and time
-                    c.execute("""SELECT show_date,am_pm FROM show_postings WHERE show_id=%s""", (x[6],))
+                    c.execute("""SELECT show_date FROM show_postings WHERE show_id=%s""", (x[6],))
                     show_details = c.fetchone()
 
                     x.append(show_details)
@@ -1442,159 +1353,237 @@ def mark_notification_read(show_id):
             if conn:
                 conn.close()
 
-#-#-#-# YOUR BIDS PAGE SECTION -#-#-#-#-#-#-#-#-#
+#-#-#-#-# LISTING & POSTING SECTION -------------------------------
 
-#Find all bids placed
-def get_all_bids(email):
+#Upload show posting
+def create_show_posting(uid, show_inputs):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            #Get uid
-            artist_uid = get_uid(email)
+            #Parse show inputs
+            show_inputs = json.loads(show_inputs)
 
-            #Todays date
-            today = datetime.datetime.now()
+            #Create show_id
+            show_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
 
-            #Get bids by artist that are active
-            c.execute("""SELECT show_bids.show_id, show_bids.bid_amount, show_postings.uid, show_postings.show_date, show_postings.am_pm, venue_profile_details.business_name FROM show_bids, show_postings, venue_profile_details WHERE show_bids.uid = %s AND show_bids.winner = 0 AND show_postings.show_date > %s AND show_postings.show_id = show_bids.show_id AND venue_profile_details.uid = show_postings.uid AND show_postings.won = 0 """, (artist_uid, today))
-            results = c.fetchall()
+            #Check if show_id is unique
+            show_id_unique = c.execute("""SELECT show_id FROM show_postings WHERE show_id=%s""",(show_id,))
 
-            return results
+            #Find a new show id if already used
+            while show_id_unique > 0:
+                show_id = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(15)])
+                show_id_unique = c.execute("""SELECT show_id FROM show_postings WHERE show_id=%s""",(show_id,))
+
+            #Convert show time sting to date
+            show_date = show_inputs['date'].replace('/', '-')
+            show_date = datetime.datetime.strptime(show_date, '%m-%d-%Y')
+
+            #Today's date
+            date_posted = datetime.datetime.utcnow()
+
+            #Show details
+            show_post_details = (
+                show_id,
+                uid,
+                show_inputs['price'],
+                show_inputs['description'],
+                show_inputs['artist_type'],
+                show_inputs['location'],
+                show_date,
+                show_inputs['time'],
+                show_inputs['set_length'],
+                date_posted,
+            )
+
+            #Insert into show_postings
+            c.execute("""INSERT INTO show_postings(show_id,uid,price,description,artist_type,location,show_date,show_time,set_length,date_posted) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", show_post_details)
+
+            #Add genres
+            if (len(show_inputs['genres']) != 0):
+                for genre in show_inputs['genres']:
+                    #Insert into show_genres
+                    c.execute("""INSERT INTO show_genres(show_id,name) VALUES(%s,%s)""", (show_id, genre,))
+
+            #Add requirements
+            if (len(show_inputs['requirements']) != 0):
+                for requirement in show_inputs['requirements']:
+                    #Insert into show_requirements
+                    c.execute("""INSERT INTO show_requirements(show_id,message) VALUES(%s,%s)""", (show_id, requirement,))
+
+            #Add perks
+            if (len(show_inputs['perks']) != 0):
+                for perk in show_inputs['perks']:
+                    #Insert into show_perks
+                    c.execute("""INSERT INTO show_perks(show_id,message) VALUES(%s,%s)""", (show_id, perk,))
+
+            conn.commit()
+
+            return json.dumps({'success': 'show posted'})
         except Exception as e:
-            print (e)
-            return False
+            traceback.print_exc()
+            return json.dumps({'error': str(e)})
         finally:
             if conn:
                 conn.close()
 
-#Get all upcoming winning shows for artist
-def get_upcoming_artist_shows(email):
-    try:
-        #Connect to database
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            #Get uid
-            artist_uid = get_uid(email)
-
-            today_date = datetime.datetime.now()
-
-            #Get shows that artist has won and have not happened yet
-            c.execute("""SELECT show_postings.show_id, show_postings.uid, venue_profile_details.business_name, show_bids.bid_amount, show_postings.show_date, show_postings.am_pm FROM show_bids, show_postings, venue_profile_details WHERE show_bids.show_id = show_postings.show_id AND show_bids.uid = %s AND show_postings.uid = venue_profile_details.uid AND show_bids.winner = 1 AND show_postings.show_date > %s""", (artist_uid,today_date))
-            upcoming_shows = c.fetchall()
-
-            return upcoming_shows
-        else:
-            result = "Could not connect to database"
-    except Exception as e:
-        print (e)
-
-        return json.dumps({"result": "Could not load upcoming shows"})
-
-#-#-#-#-# LISTINGS SECTION -------------------------------
-
-#Get all show listings for area
-def get_all_show_listings():
-    #Connect to Database
+#Get venue show postings
+def get_venue_show_postings(uid = None, ending_soon = None):
     conn = connect_to_database()
+
     if conn is not False:
         c = conn.cursor()
         try:
-            listing_count = c.execute("""SELECT show_postings.*, venue_profile_details.business_name,venue_profile_details.type FROM show_postings, venue_profile_details WHERE show_postings.uid=venue_profile_details.uid ORDER BY show_postings.date_posted DESC LIMIT 10""")
-            all_listings = c.fetchall()
 
-            all_listings = list(all_listings)
-            all_listings2 = []
+            #If getting specific user's show postings
+            if uid:
 
-            for x in all_listings:
-                x = list(x)
+                #If getting shows ending soon
+                if ending_soon:
+                    two_weeks = datetime.datetime.today() + datetime.timedelta(days=14)
+
+                    #Select shows that are open and ending soon
+                    c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE venue_profile_details.uid = %s AND show_postings.uid = %s AND show_postings.won = 0 AND show_postings.show_date <= %s ORDER BY show_postings.show_date ASC LIMIT 5""", (uid, uid, two_weeks))
+                else:
+                    #Get list of posts by user
+                    c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid = %s AND venue_profile_details.uid = %s ORDER BY show_postings.show_date ASC""", (uid, uid))
+            else:
+                #Get all show postings
+                c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid=venue_profile_details.uid ORDER BY show_postings.show_date ASC LIMIT 10""")
+
+            venue_show_postings = c.fetchall()
+
+            #Another list of show postings so we can modify the real one without breaking Loop
+            loop_postings = venue_show_postings
+            venue_show_postings = []
+
+            for x in loop_postings:
+
+                show_details = {
+                    'show_id': x[0],
+                    'uid': x[1],
+                    'price': x[2],
+                    'description': x[3],
+                    'artist_type': x[4],
+                    'location': x[5],
+                    'show_date': str(x[6].strftime("%b %d")),
+                    'show_time': x[7],
+                    'set_length': x[8],
+                    'date_posted': str(x[9]),
+                    'business_name': x[11],
+                }
+
+                #Check if there is already a winner for the show
                 has_winner = c.execute("""SELECT * FROM show_bids WHERE show_id=%s AND winner=1""", x[0])
 
-                #If winner has not been selected
-                if has_winner == 0:
-                    all_listings2.append(x)
+                if has_winner == 1:
+                    show_details['show_status'] = "won"
+                elif has_winner == 2:
+                    show_details['show_status'] = "closed"
+                else:
+                    show_details['show_status'] = "open"
 
+                venue_show_postings.append(show_details)
 
-            return all_listings2
+            return json.dumps({'success': venue_show_postings})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'could not load show postings'})
         finally:
             if conn:
                 conn.close()
 
-#Listings for venue's yourlisting&profile page
-def get_all_your_listings(email):
+#Get show details for one listing
+def get_venue_one_show(show_id):
+
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""SELECT * FROM show_postings WHERE uid IN (SELECT uid FROM accounts WHERE email=%s) ORDER BY show_date""", (email,))
-            results = c.fetchall()
+            #Get show details
+            c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_id = %s AND venue_profile_details.uid = show_postings.uid""", (show_id,))
+            show_results = c.fetchall()[0]
 
-            your_listings_details = []
+            #Get show genres
+            c.execute("""SELECT genre_id, name FROM show_genres WHERE show_id = %s""", (show_id,))
+            genre_results = c.fetchall()
 
-            for x in results:
-                x = list(x)
-                show_id = x[0]
+            #Get show perks
+            c.execute("""SELECT id, message FROM show_perks WHERE show_id = %s""", (show_id,))
+            perks_results = c.fetchall()
 
-                #Get winning bid status
-                c.execute("""SELECT winner FROM show_bids WHERE show_id=%s""", show_id)
-                winner_status = c.fetchall()
+            #Get show requirements
+            c.execute("""SELECT id, message FROM show_requirements WHERE show_id = %s""", (show_id,))
+            requirements_results = c.fetchall()
 
-                winner_results = "no_winner"
-                for y in winner_status:
-                    if 1 in y:
-                        winner_results = "winner"
-                    else:
-                        pass
+            #List for genre, perks, requirements
+            genres_list = []
+            perks_list = []
+            requirements_list = []
 
-                x.append(winner_results)
-                your_listings_details.append(x)
+            #Loop through genres, convert to dict
+            for x in genre_results:
+                dict = {
+                    'id': x[0],
+                    'genre': x[1]
+                }
+                genres_list.append(dict)
 
-            return your_listings_details
+            #Loop through perks, convert to dict
+            for x in perks_results:
+                dict = {
+                    'id': x[0],
+                    'perk': x[1]
+                }
+                perks_list.append(dict)
+
+            #Loop through genres, convert to dict
+            for x in requirements_results:
+                dict = {
+                    'id': x[0],
+                    'requirement': x[1]
+                }
+                requirements_list.append(dict)
+
+            show_details = {
+                'show_id': show_results[0],
+                'uid': show_results[1],
+                'price': show_results[2],
+                'description': show_results[3],
+                'artist_type': show_results[4],
+                'location': show_results[5],
+                'show_date': str(show_results[6].strftime("%b %d")),
+                'show_time': show_results[7],
+                'set_length': show_results[8],
+                'date_posted': str(show_results[9]),
+                'business_name': show_results[11],
+                'genres': genres_list,
+                'perks': perks_list,
+                'requirements': requirements_list,
+            }
+
+
+            return show_details
         except Exception as e:
             print (e)
-            return False
+            return "Could not load results"
         finally:
             if conn:
                 conn.close()
 
-#Listings for index page
-def get_all_your_active_listings(email):
+#Get venue information for single listing
+def get_listing_profile_details(uid):
     #Connect to database
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""SELECT * FROM show_postings WHERE uid IN (SELECT uid FROM accounts WHERE email=%s) ORDER BY show_date""", (email,))
-            results = c.fetchall()
-
-            your_listings_details = []
-
-            for x in results:
-                x = list(x)
-                show_id = x[0]
-
-                #Get winning bid status
-                c.execute("""SELECT winner FROM show_bids WHERE show_id=%s""", show_id)
-                winner_status = c.fetchall()
-
-                print (winner_status)
-
-                #If show is not active skip, else add to list
-                for y in winner_status:
-                    if None in y:
-                        your_listings_details.append(x)
-                    else:
-                        pass
-
-            return your_listings_details
+            #Get venue details
+            c.execute("""SELECT * FROM venue_profile_details WHERE uid=%s""", (uid,))
+            venue_details = c.fetchone()
+            return venue_details
         except Exception as e:
             print (e)
             return False

@@ -18,6 +18,7 @@ from dotenv import load_dotenv
 
 #Load env variables
 load_dotenv('test.env')
+
 app = Flask(__name__, template_folder='Templates', static_folder='static')
 
 #Cookies config
@@ -44,62 +45,20 @@ def index():
             if request.form.get("check_stripe_payment_method"):
                 return venuehandler.check_stripe_payment_method(email, account_type)
 
-            #Venue shows that are ending soon
-            elif request.form.get('ending_shows'):
-                return venuehandler.get_venue_show_postings_ending_soon(uid)
-            else:
-                #Details for new show post
-                show_price = request.form['show_price']
-                show_description = request.form['show_description']
-                show_artist = request.form['show_artist']
-                show_date = request.form['show_date']
-                #Format show date
-                show_split = show_date.split("/")
-                show_month = show_split[0]
-                show_day = show_split[1]
-                show_year = show_split[2]
-                #Show time
-                show_hour = request.form['show_hour']
-                show_min = request.form['show_min']
-                am_pm = request.form['show_am_pm']
-                show_date = datetime.datetime(int(show_year),int(show_month),int(show_day),int(show_hour),int(show_min),0)
-
-                result = venuehandler.create_show_posting(email,show_price,show_description,show_artist,show_date,am_pm)
-
-            if result:
-                return redirect(url_for("index"))
-            else:
-                return render_template(
-                    "venueindex.html",
-                    uid=uid,
-                    venue_show_postings=venue_show_postings,
-                    result=result,
-                    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
-                )
         else:
             #Artist account
             if account_type == "artist":
-                #Get show listings
-                all_listings = venuehandler.get_all_show_listings()
+                #Get showcase of venues
                 venue_showcase = venuehandler.get_showcase_venues()
 
                 #Get profile details
                 profile_details = venuehandler.get_artist_profile_details(email)
 
-                #Get your bids
-                open_bids = len(venuehandler.get_all_bids(email))
-
-                #Get upcoming shows for artist
-                upcoming_shows = len(venuehandler.get_upcoming_artist_shows(email))
-
                 return render_template(
                     "artistindex.html",
                     uid = uid,
                     profile_details = profile_details,
-                    upcoming_shows = upcoming_shows,
-                    all_listings=all_listings,
                     venue_showcase=venue_showcase,
-                    open_bids = open_bids,
                     AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
                 )
 
@@ -118,6 +77,7 @@ def index():
                     featured_artists=featured_artists,
                     AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
                 )
+
     else:
 
         #Load random artist uids for artist showcase
@@ -482,28 +442,12 @@ def profile_page():
             venue_details = venuehandler.get_venue_profile_details(email)
             venue_links = venuehandler.get_venue_links(email)
 
-            #Get all of the users shows
-            your_show_listings = venuehandler.get_all_your_listings(email)
-
-            #Lists for the active/nonactive shows
-            winning_show = []
-            active_show = []
-
-            #Loop through all shows and filter them
-            for x in your_show_listings:
-                if 'winner' in x:
-                    winning_show.append(x)
-                else:
-                    active_show.append(x)
-
             return render_template(
                 "venueprofile.html",
                 email= email,
                 uid= uid,
                 venue_details= venue_details,
                 venue_links= venue_links,
-                winning_show= winning_show,
-                active_show= active_show,
                 AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
             )
     else:
@@ -521,94 +465,21 @@ def one_show_page():
         if request.args.get("id"):
             show_id = request.args.get("id")
             show_details = venuehandler.get_venue_one_show(show_id)
-            venue_details = venuehandler.get_listing_profile_details(show_details[1])
-
-            #Check if winning bid
-            winning_bid = venuehandler.check_winning_bid(show_id)
-
-            #If there is no winner
-            if winning_bid == False:
-                bids_info = venuehandler.get_full_bid_info(show_id)
-                bids_stats = venuehandler.get_bids_stats(show_id)
-            else:
-                bids_info = None
-                bids_stats = None
 
             #If coming from notification mark as read
             if request.args.get("noti"):
                 venuehandler.mark_notification_read(show_id)
-
-        #If post action
-        if request.method == "POST":
-
-            #Accept bid offer
-            if request.form.get("acceptoffer"):
-                artist_uid = request.form["winning_bidder_uid"]
-                venue_uid = uid
-
-                #Save transaction into our database, will charge using stripe at later date
-                change_bid_winner = venuehandler.accept_bid_offer(show_id,artist_uid,venue_uid)
-
-                #If transaction was completed
-                if change_bid_winner is not False:
-
-                    #Send notification to winner of bid
-                    process_winner_notification = venuehandler.create_new_notification(email,artist_uid,3,show_id=show_id)
-
-                    if process_winner_notification:
-                        return redirect(url_for("index"))
-                    else:
-                        return redirect(url_for("profile_page"))
-
-            #Delete a bid
-            elif request.form.get('deletebid'):
-                bid_deleted = venuehandler.delete_bid(email,show_id)
-
-                if bid_deleted:
-                    return redirect(url_for("one_show_page", id=show_id))
-                else:
-                    return redirect(url_for("profile_page"))
-            else:
-                #Create new bid
-                new_bid_price = request.form['new_bid_price']
-                place_bid = venuehandler.place_bid_on_show(email,show_id,new_bid_price)
-
-                if place_bid:
-                    #If use has already bid on show
-                    if place_bid == "already_bid":
-                        flash("You have already bid on this show")
-                    else:
-                        #Send notification
-                        send_id = email
-                        rec_id = show_details[1]
-                        noti_type = 2
-                        venuehandler.create_new_notification(send_id,rec_id,noti_type,show_id=show_id)
-
-                        return redirect(url_for("one_show_page", id=show_id))
-                else:
-                    return "Could not place bid"
 
         return render_template(
             "showlisting.html",
             account_type=account_type,
             uid=uid,
             show_details=show_details,
-            venue_details=venue_details,
-            bids_info=bids_info,
-            bids_stats=bids_stats,
-            winning_bid=winning_bid,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
         )
     else:
         return redirect(url_for("index"))
 
-    #Delete bid from show
-    def delete_bid():
-        if request.method == "POST":
-            email = session["username"]
-            show_id = request.form["show_id"]
-
-            return redirect(url_for("index"))
 
 #Messages page
 @app.route("/messages", methods=['POST','GET'])
@@ -663,7 +534,7 @@ def message_page():
             #If message is sent redirect back to page
             if send_new_message:
                 #Create notification
-                venuehandler.create_new_notification(email,rec_id,noti_type)
+                venuehandler.create_new_notification(uid,rec_id,noti_type)
 
                 return redirect(url_for(
                         "message_page",
@@ -682,6 +553,7 @@ def message_page():
 
         #Load all threads for user
         all_threads = venuehandler.get_messages_threads(email)
+
         return render_template("messages.html",
             uid=uid,
             all_threads=all_threads,
@@ -693,8 +565,10 @@ def message_page():
 def notifications_page():
     if 'username' in session:
         email = session['username']
-        all_notis = venuehandler.get_all_notifications(email)
+        uid = venuehandler.get_uid(email)
+        all_notis = venuehandler.get_all_notifications(uid)
 
+        print(all_notis)
         return render_template(
             "notifications.html",
             all_notis=all_notis,
@@ -709,16 +583,8 @@ def your_bids():
     if 'username' in session:
         email = session['username']
 
-        #Get your bids
-        all_user_bids = venuehandler.get_all_bids(email)
-
-        #Get upcoming shows for artist
-        upcoming_shows = venuehandler.get_upcoming_artist_shows(email)
-
         return render_template(
             "upcomingshows.html",
-            all_user_bids=all_user_bids,
-            upcoming_shows=upcoming_shows,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME'),
         )
     else:
@@ -730,29 +596,12 @@ def your_listings():
         email = session['username']
         uid = venuehandler.get_uid(email)
 
-        #Get all of the users shows
-        your_show_listings = venuehandler.get_all_your_listings(email)
-        venue_profile_details = venuehandler.get_venue_profile_details(email)
-
-        #Lists for the active/nonactive shows
-        winning_show = []
-        active_show = []
-
-        #Loop through all shows and filter them
-        for x in your_show_listings:
-            if 'winner' in x:
-                winning_show.append(x)
-            else:
-                active_show.append(x)
-
         return render_template(
             "yourlistings.html",
             uid=uid,
-            venue_details=venue_profile_details,
-            winning_show=winning_show,
-            active_show= active_show,
             AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
         )
+
     else:
         return redirect(url_for("/"))
 
@@ -966,21 +815,98 @@ def load_header_vars():
         return dict(header_email=header_email,account_type=account_type,noti_number=noti_number)
     else:
         return dict(header_email=None,account_type=None,noti_number=None)
-#Get bidder details
-@app.context_processor
-def utility_processor():
-    def get_bidder_details(uid):
-        bidder_details = venuehandler.find_bidder_details(uid)
-        return bidder_details
-    return dict(bidder_details=get_bidder_details)
 
-#Get show posting bid stats for venues
-@app.context_processor
-def utility_processor():
-    def get_bids_for_show(show_id):
-        bids = venuehandler.get_bids_stats(show_id)
-        return bids
-    return dict(show_bids_stats=get_bids_for_show)
+##--- Artist bids API CALLS --------
+@app.route('/artist_bids', methods=['POST'])
+def artist_bids():
+    if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+        account_type = venuehandler.check_account_type(email)
+
+        #Check if winning bid
+        if request.form.get('check_show_for_winner'):
+            show_id = request.form.get('show_id')
+            return venuehandler.check_winning_bid(show_id)
+
+        #Get artist bids for one show
+        if request.form.get('get_single_show_bids'):
+            show_id = request.form.get('show_id')
+            return venuehandler.get_full_bid_info(show_id)
+
+        #Get all artist shows that they have one and will be performing
+        if request.form.get('get_upcoming_artist_shows'):
+            return venuehandler.get_upcoming_artist_shows(uid)
+
+        #Get all bids for one artist
+        if request.form.get('get_all_artist_bids'):
+            return venuehandler.get_all_artist_bids(uid)
+
+        #Place new bid
+        if request.form.get('place_bid'):
+            new_bid_price = request.form['new_bid_price']
+            show_id = request.form['show_id']
+            return venuehandler.place_bid_on_show(uid,show_id,new_bid_price)
+
+        #Delete artist bid
+        if request.form.get('delete_artist_bid'):
+            bid_id = request.form.get('bid_id')
+            return venuehandler.delete_bid(bid_id, uid)
+
+        #Accept bid offer
+        if request.form.get('accept_bid_offer'):
+            bid_id = request.form.get('bid_id')
+
+            #Save transaction into our database, will charge using stripe at later date
+            return venuehandler.accept_bid_offer(bid_id)
+
+    else:
+        return json.dumps({'error': 'Must be logged in'})
+
+###----Show posting API calls -----------------
+#New show posting
+@app.route('/newshow', methods=['POST'])
+def post_new_show():
+    if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+        account_type = venuehandler.check_account_type(email)
+
+        if account_type == 'venue':
+
+            if request.form.get('new_show'):
+                #All show inputs
+                show_inputs = request.form.get('show_inputs')
+                return venuehandler.create_show_posting(uid, show_inputs)
+
+        else:
+            result = "Must be venue account"
+    else:
+        return json.dumps({'error': 'must be logged in'})
+
+#Show postings endpoint
+@app.route('/show_postings', methods=['POST'])
+def show_posting_endpoint():
+    if 'username' in session:
+        email = session['username']
+        uid = venuehandler.get_uid(email)
+        account_type = venuehandler.check_account_type(email)
+
+        #Get all show postings
+        if request.form.get('get_all_postings'):
+            return venuehandler.get_venue_show_postings()
+
+        #Get specific user's show postings
+        elif request.form.get('get_user_postings'):
+            venue_id = request.form.get('venue_id')
+            return venuehandler.get_venue_show_postings(uid = venue_id)
+
+        #Get specific user's show postings that are ending in 2 weeks
+        elif request.form.get('get_user_postings_ending_soon'):
+            venue_id = request.form.get('venue_id')
+            return venuehandler.get_venue_show_postings(uid = venue_id, ending_soon = True)
+    else:
+        json.dumps({'error': 'Must be logged in'})
 
 ###--Artist media API CALLS---------------
 @app.route('/artist_media', methods=['POST', 'GET'])

@@ -91,38 +91,52 @@
             margin-top: 20px;
         }
 
-        .single_ending_show {
+        .singlelisting {
+          padding: 10px;
+          border-top: 1px solid;
+          border-color: #d2d2d2;
+          font-size: 12px;
+          overflow: hidden;
+        }
+
+        .listing_details {
+            padding-bottom: 10px;
+        }
+
+        .listing_header_title {
+            font-size: 16px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 13px;
+            vertical-align: middle;
+        }
+
+        .listing_stats_option {
+          margin-top:-5px;
+          padding:5px;
+          border-radius: 5px;
+          font-size:10px;
+          background-color:#596B83;
+          color:#FFFFFF;
+        }
+
+        .more_details_link {
+            width: 100;
             padding: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-            font-size: 13px;
-            text-align: left;
-            border-top: 1px solid;
-            border-color: #efefef;
+            float: right;
+            border-radius: 5px;
+            font-size: 12px;
         }
 
-        .single_ending_bids_container {
-            box-sizing: border-box;
-            width: 100%;
-            padding-top: 5px;
-            font-size: 11px;
-        }
-
-        .ending_show_description {
-            width: 100%;
-            padding-top: 6px;
-            font-size: 11px;
-        }
-
-        .ending_show_link {
-            float:right;
-            color: blue;
-            font-size: 11px;
-        }
-
-        .ending_show_link:hover{
-            cursor: pointer;
-            text-decoration: underline;
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
         }
 
         .showcase_container {
@@ -171,7 +185,6 @@
 
         .listingbutton:hover {
             cursor: pointer;
-            background-color: #3494cb;
             -webkit-transition: background-color 200ms linear;
             -ms-transition: background-color 200ms linear;
             transition: background-color 200ms linear;
@@ -281,6 +294,7 @@
         }
 
         #postshow {
+            display: none;
             box-sizing: border-box;
             position: fixed;
             left: 50%;
@@ -319,6 +333,7 @@
         }
 
         #blackbackground {
+            display: none;
             position: fixed;
             top: 0px;
             left: 0px;
@@ -365,7 +380,6 @@
             transition: background 0s;
         }
 
-
         .prev-button {
             padding-left: 15px;
             padding-right: 15px;
@@ -408,6 +422,16 @@
         .pac-item {
             padding: 5px;
         }
+
+        .banner-header {
+            padding-bottom: 10px;
+        }
+
+        .bannerIcon {
+            height: 40px;
+            vertical-align: middle;
+        }
+
 
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
@@ -494,26 +518,26 @@
             <div style="padding-bottom:10px;font-size:17px;">Artists around Memphis, TN</div>
 
             <!--- Venue showcase pictures -->
-                {% for artist in featured_artists %}
-                <div class="showcase_container" >
-                    <a href="/profile?uid={% print artist['uid'] %}">
-                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
-                    </a>
+            {% for artist in featured_artists %}
+            <div class="showcase_container" >
+                <a href="/profile?uid={% print artist['uid'] %}">
+                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print artist['uid'] %}_profile.jpg" class="venue_showcase_picture fade"/>
+                </a>
 
-                    <div>
-                        <b>{% print artist['artist_name'] %}</b>
-                        <font class="venue_showcase_busi_type">- {% print artist['genre'] %}</font>
-                    </div>
-
-                    <!--- Business bio --->
-                    <div class="showcase_bio">{% print artist['bio'] %}</div>
-
+                <div>
+                    <b>{% print artist['artist_name'] %}</b>
+                    <font class="venue_showcase_busi_type">- {% print artist['genre'] %}</font>
                 </div>
-                {% endfor %}
 
-                {% if featured_artists|length == 0 %}
-                    <div class="empty_box_text">There are no artists in your area. Give them a reason to be!</div>
-                {% endif %}
+                <!--- Business bio --->
+                <div class="showcase_bio">{% print artist['bio'] %}</div>
+
+            </div>
+            {% endfor %}
+
+            {% if featured_artists|length == 0 %}
+                <div class="empty_box_text">There are no artists in your area. Give them a reason to be!</div>
+            {% endif %}
 
         </div>
 
@@ -527,11 +551,6 @@
 
         <div style="border-bottom: 1px solid; border-color: #465f86;padding-bottom: 10px;font-size: 25px;">List a show</div>
         </br>
-
-        <div style="text-align: center">
-            <!--- Loading gif --->
-            <img class="loading_gif" src="static/loading-spinner.gif" />
-        </div>
 
         <!--- Post show container --->
         <div id="new_show_container">
@@ -752,6 +771,8 @@
                 <div class="form-message">Enter comma-separated values</div>
                 <br/>
 
+                <div class="form-message" id="form-message-submit"></div>
+
                 <!---Submit button --->
                 <button type="button" id="list-show-button" class="invalidButton" disabled>LIST SHOW</button>
 
@@ -772,12 +793,20 @@
             <a href="/payments" id="add_payment_link" class="add_payments_link ripple">Add a payment method</a>
         </div>
 
+        <div style="text-align: center">
+            <!--- Loading gif --->
+            <img class="loading_gif" src="static/loading-spinner.gif" />
+        </div>
+
     </div>
     <!--- End of Show posting card --->
 
     <!--- Black background for send messages screen --->
     <div id="blackbackground"></div>
     <!--- End of Black background --->
+
+    <!--- Banner for messages --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;"></div>
 
     <script type="text/javascript">
 
@@ -791,6 +820,7 @@
         });
 
         $("#listingbutton").click(function() {
+            check_stripe_account()
             $("#postshow").show();
             $("#blackbackground").show()
         });
@@ -816,53 +846,56 @@
         google.maps.event.addDomListener(window, 'load', load_google_location);
 
         //Check if venue has stripe account set up
-        $.ajax({
-            type: "POST",
-            url: "/",
-            data: {
-                "check_stripe_account": "check"
-            },
-            dataType: "json"
-        }).done(function(data) {
+        function check_stripe_account() {
+            $.ajax({
+                type: "POST",
+                url: "/",
+                data: {
+                    "check_stripe_account": "check"
+                },
+                dataType: "json"
+            }).done(function(data) {
 
-            //If account has no payment method
-            if (data['result'] == "No account") {
-                $("#add_account_post_message").show()
-                $("#add_account_link").show()
-            }
-            else if (data["result"] == "Has account") {
+                //If account has no payment method
+                if (data['result'] == "No account") {
+                    $("#add_account_post_message").show()
+                    $("#add_account_link").show()
+                }
+                else if (data["result"] == "Has account") {
 
-                //Check if payment method attached
-                $.ajax({
-                    type: "POST",
-                    url: "/",
-                    data: {
-                        "check_stripe_payment_method": "check"
-                    },
-                    dataType: "json"
-                }).done(function(data) {
+                    //Check if payment method attached
+                    $.ajax({
+                        type: "POST",
+                        url: "/",
+                        data: {
+                            "check_stripe_payment_method": "check"
+                        },
+                        dataType: "json"
+                    }).done(function(data) {
 
-                    if (data['result'] == "has_payment") {
-                        $("#new_show_container").show()
-                    }
-                    else {
-                        $("#add_payment_post_message").show()
-                        $("#add_payment_link").show()
-                    }
-                });
-            }
-            else {
-                $("#post_message").show().html("There was an error loading your payment information").css("color", "red")
-            }
-        })
+                        if (data['result'] == "has_payment") {
+                            $("#new_show_container").show()
+                        }
+                        else {
+                            $("#add_payment_post_message").show()
+                            $("#add_payment_link").show()
+                        }
+                    });
+                }
+                else {
+                    $("#post_message").show().html("There was an error loading your payment information").css("color", "red")
+                }
+            })
+        }
 
         //Load show postings that are ending soon
         $.ajax({
             async: true,
             type: "POST",
-            url: "/",
+            url: "/show_postings",
             data: {
-                "ending_shows": "check"
+                "get_user_postings_ending_soon": "check",
+                "venue_id": "{% print uid %}"
             },
             dataType: "json"
         }).done(function(data) {
@@ -877,24 +910,77 @@
 
                     //Loop through each result and format
                     for (i = 0; i < ending_shows.length; i++) {
-                        let show = `
-                            <div class="single_ending_show">
-                                <!--- Show date --->
-                                <b>${ending_shows[i]['artist_type']}</b> | <font style="font-size: 12px;">${ending_shows[i]['show_date']} ${ending_shows[i]['show_time']}${ending_shows[i]['am_pm']}</font> <a href="/shows?id=${ending_shows[i]['show_id']}" class="ending_show_link">Show</a>
 
-                                <!--- Bids --->
-                                <div class="single_ending_bids_container">
-                                    <font style="padding-right: 5px;">Bids: ${ending_shows[i]['total_bids']}</font>
-                                    Highest: $${ending_shows[i]['highest_bid']}
+                        let single_listing = `
+                            <!--- Single Past listing --->
+                            <div class="singlelisting">
+
+                                <!--- Listing header --->
+                                <div class="listing_header" style='text-align:left'>
+
+                                    <!--- Listing details --->
+                                    <div class="listing_details">
+
+                                        <!--- Profile name --->
+                                        <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
+
+                                        <!--- Location --->
+                                        <div style="padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/placeholder-black.png" />
+
+                                            <font class="detail_title">${ending_shows[i].location}</font>
+                                        </div>
+
+                                        <!--- Date --->
+                                        <div style="overflow: hidden; padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/calendar-black.png" />
+
+                                            <font class="detail_title">
+                                                ${ending_shows[i].show_date}
+                                                <font style='font-size:11px'>@</font>
+                                                ${ending_shows[i].show_time}
+                                            </font>
+
+                                        </div>
+
+                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                            <!--- Price --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;color: #5f9341">$${ending_shows[i].price}</font>
+                                            </div>
+
+                                            <!--- Artist Type --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].artist_type}</font>
+                                            </div>
+
+                                            <!--- Set length --->
+                                            <div style="float: left;overflow: hidden;">
+                                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].set_length}</font>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--- More details link --->
+                                    <a href="/shows?id=${ending_shows[i].show_id}" class="more_details_link">More details</a>
+
                                 </div>
 
-                                <!--- Description --->
-                                <div class="ending_show_description">${ending_shows[i]['description']}</div>
-
                             </div>
+                            <!--- End of Single Past listing --->
                         `
 
-                        $("#ending_shows").append(show)
+
+                        $("#ending_shows").append(single_listing)
                     }
                 }
             }
@@ -1061,6 +1147,9 @@
             else if (isNaN(show_price)) {
                 result = false
             }
+            else if (Number(show_price) < 50) {
+                result = false
+            }
             else {
                 result = true
             }
@@ -1134,7 +1223,7 @@
         })
 
         //Gather all new show inputs and parse
-        function gather_show_inputs_parse() {
+        function new_show_parse_show_inputs() {
 
             //Input values
             let show_location = $("#show_location").val()
@@ -1145,11 +1234,17 @@
             let show_price = $("#show_price").val()
             let show_requirements = $("#show_requirements").val()
             let show_perks = $("#show_perks").val()
+            let show_set_length = $("#show_set_length").find(":selected").text()
 
             //Arrays for multiple values
             let show_genres_list = []
             let show_requirements_list = []
             let show_perks_list = []
+
+            //If description is empty
+            if (show_description === undefined) {
+                show_description = "No description"
+            }
 
             //Loop through each show genre and get value
             $(".show_genre_option_active").each(function() {
@@ -1187,17 +1282,106 @@
                 'genres': show_genres_list,
                 'price': show_price,
                 'requirements': show_requirements_list,
+                'set_length': show_set_length,
                 'perks': show_perks_list,
             }
+        }
+
+        //Validate required fields
+        function new_show_fields_validate(required_fields) {
+            let all_valid = true
+
+            //Check if any field is empty
+            for (x in required_fields) {
+
+                //If empty mark group unvalid
+                if (required_fields[x] == "") {
+                    all_valid = false
+                }
+                else {
+                    if (Number(required_fields.price) < 50) {
+                        all_valid = false
+                    }
+                }
+            }
+
+            return all_valid
         }
 
         //Submit show posting
         $("#list-show-button").click(function() {
 
-            //Get and parse all new show inputs
-            let show_inputs = gather_show_inputs_parse()
+            //Disable submit button to prevent multiple posting
+            $("#list-show-button").prop('disabled', true).addClass('invalidButton')
 
-            console.log(show_inputs)
+            //Get and parse all new show inputs
+            let show_inputs = new_show_parse_show_inputs()
+
+            //Required fields
+            let required_fields = {
+                'location': show_inputs.location,
+                'date': show_inputs.date,
+                'time': show_inputs.time,
+                'price': show_inputs.price,
+                'set_length': show_inputs.set_length
+            }
+
+            //Validate required inputs
+            if (new_show_fields_validate(required_fields)) {
+
+                //Send ajax call to post new message
+                $.ajax({
+                    type: "POST",
+                    url: "/newshow",
+                    data: {
+                        'new_show': 'yes',
+                        'show_inputs': JSON.stringify(show_inputs)
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    if (data.success) {
+
+                        //Clear all inputs
+                        $('#new_show_container').find('input:text, textarea').val('');
+                        $('#show_date').prop('selectedIndex',0);
+                        $('#show_time').prop('selectedIndex',0);
+                        $("#show_artist").prop('selectedIndex',0);
+                        $('#show_set_length').prop('selectedIndex',0);
+                        $('.show_genre_option').removeClass("show_genre_option_active")
+
+                        //Reset form holders
+                        $("#form-holder-1").show();
+                        $("#form-holder-3").hide()
+
+                        //Hide post show container and blackbackground
+                        $("#postshow").hide()
+                        $("#blackbackground").hide()
+
+                        //Send banner message
+                        let banner_message = `
+                            <div class="banner-header">
+                                <img src='static/success_checkmark.png' class='bannerIcon'>
+                                <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                            </div>
+                            New show has been posted
+                        `
+
+                        //Flash success message
+                        $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+
+                    }
+                    else {
+                        $("#form-message-submit").html(data.error).css("color", "#e06c6c")
+
+                        //Enable submit button
+                        $("#list-show-button").prop('disabled', false).removeClass('invalidButton')
+                    }
+                })
+            }
+            else {
+                $("#form-message-submit").html("A required field is not filled out")
+            }
         })
 
     </script>

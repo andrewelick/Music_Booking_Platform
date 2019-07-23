@@ -14,7 +14,6 @@
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-color: #f6f9fc;
       }
 
         .mobilegridrow-2 {
@@ -33,12 +32,10 @@
 
         .card_header {
           box-sizing: border-box;
-          margin-bottom: 10px;
           padding: 10px;
           text-align: center;
           font-size: 16px;
-          color: #FFFFFF;
-          background-color: #232f42;
+          color: #383838;
           border-top-right-radius: 5px;
           border-top-left-radius: 5px;
           box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
@@ -91,28 +88,67 @@
             font-size: 12px;
         }
 
+        .singlelisting {
+          padding: 10px;
+          padding-top: 20px;
+          border-bottom: 1px solid;
+          border-color: #d2d2d2;
+          font-size: 14px;
+          overflow: hidden;
+        }
+
         .profilepicture_mini {
           box-sizing: border-box;
-          width: 40px;
+          width: 45px;
           border-radius: 100px;
-          margin-right: 5px;
+          margin-right: 10px;
           float: left;
         }
 
-        .singlelisting {
-          padding: 10px;
-          margin-bottom: 10px;
-          border-bottom: 1px solid;
-          border-color: #d2d2d2
+        .listing_details {
+            padding-bottom: 10px;
+        }
+
+        .listing_header_title {
+            color: blue;
+            font-size: 16px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 13px;
+            vertical-align: middle;
         }
 
         .listing_stats_option {
           margin-top:-5px;
-          padding:7px;
+          padding:5px;
           border-radius: 5px;
-          font-size:11px;
+          font-size:10px;
           background-color:#596B83;
           color:#FFFFFF;
+        }
+
+        .more_details_link {
+            width: 100;
+            padding: 10px;
+            color: #328CC1;
+            float: right;
+            border: 1px solid;
+            border-color: #d2d2d2;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
         }
 
         #profile_container {
@@ -120,8 +156,9 @@
             width: 100%;
             margin-bottom: 20px;
             padding: 10px;
-            background-color: #232f42;
-            color: #FFFFFF;
+            color: #383838;
+            border-bottom: 1px solid;
+            border-color: #efefef;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
@@ -129,7 +166,7 @@
         }
 
         .profile_picture_personal {
-            height: 35px;
+            height: 40px;
             margin: 5px;
             border-radius: 100%;
             border: 2px solid;
@@ -149,11 +186,15 @@
             display: inline-block;
             margin-bottom: 4px;
             margin-right: 4px;
-            color: #FFFFFF;
+            color: #383838;
         }
 
         .profile_quick_link:hover {
             text-decoration: underline;
+        }
+
+        .loading_gif {
+            height: 50px;
         }
 
       /* For Desktop users: */
@@ -171,6 +212,10 @@
 
           #recentlistingscontainer {
               width: 450px;
+          }
+
+          .listing_details {
+              overflow: hidden
           }
       }
 
@@ -195,8 +240,8 @@
                 </a>
 
                 <!--- Profile name --->
-                <div style="padding-top: 10px;font-size: 14px;color: #FFFFFF;text-align: left;">
-                    <a href="/profile" style="color: white">{% print profile_details[4] %}</a>
+                <div style="padding-top: 10px;font-size: 14px;text-transform: capitalize;text-align: left;">
+                    <a href="/profile">{% print profile_details[4] %}</a>
                 </div>
 
                 <!--- Bidding stats -->
@@ -237,48 +282,13 @@
 
       <!--- Listing container --->
       <div id="recentlistingscontainer">
-        <div class="card_header">Latest listings in Memphis</div>
+          <div class="card_header">Latest listings in Memphis</div>
 
-        {% for x in all_listings %}
+          <!--- Load in listings --->
+          <div id="openListingsContainer"></div>
 
-            <!--- Single Active listing --->
-            <div class="singlelisting">
-
-              <!--- Link to single listing page --->
-              <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
-
-              <!--- Listing header --->
-              <div class="lisiting_header" style='text-align:left'>
-
-                <!-- Profile picture --->
-                <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[1] %}_profile.jpg" class='profilepicture_mini' />
-
-                <!--- Profile name --->
-                <span class="lisiting_header_title" style='font-weight:bold;'>{% print x[9] %}</span>
-
-              </div>
-              <!--- End Listing header -->
-
-              <!--- Listing body --->
-              <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                <span class="lisiting_body_date">{% print x[5].strftime("%b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
-              </div>
-              <!--- End Listing body --->
-              <!--- Lisiting stats -->
-              <div class="listing_stats" style="padding-top:15px;text-align:center;font-size:12px;">
-                <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
-                <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
-                <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
-              </div>
-              <!--- End of Listing stats --->
-              </a>
-              <!--- End of link to single page --->
-            </div>
-        {% endfor %}
-
-        {% if all_listings|length == 0 %}
-            <div style="padding: 50px;">No recent shows have been posted</div>
-        {% endif %}
+          <!-- Loading gif -->
+          <img class="loading_gif" src="static/loading-spinner.gif" />
 
       </div>
       <!--- End of listing container --->
@@ -286,6 +296,124 @@
     </div>
 
     {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        //Load show postings that are ending soon
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/show_postings",
+            data: {
+                "get_all_postings": "check",
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                let ending_shows = data['success']
+
+                if (ending_shows.length == 0) {
+                    $("#openListingsContainer").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>There are no open shows</div>")
+                }
+                else {
+
+                    //Loop through each result and format
+                    for (i = 0; i < ending_shows.length; i++) {
+
+                        let single_listing = `
+                            <!--- Single Past listing --->
+                            <div class="singlelisting">
+
+                                <!--- Listing header --->
+                                <div class="listing_header" style='text-align:left'>
+
+                                    <!-- Profile picture --->
+                                    <a href="/profile?uid=${ending_shows[i].uid}">
+                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${ending_shows[i].uid}_profile.jpg" class='profilepicture_mini' />
+                                    </a>
+
+
+                                    <!--- Listing details --->
+                                    <div class="listing_details">
+
+                                        <!--- Profile name --->
+                                        <a href="/profile?uid=${ending_shows[i].uid}" style="color: blue">
+                                            <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
+                                        </a>
+
+                                        <!--- Location --->
+                                        <div style="padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/placeholder-black.png" />
+
+                                            <font class="detail_title">${ending_shows[i].location}</font>
+                                        </div>
+
+                                        <!--- Date --->
+                                        <div style="overflow: hidden; padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/calendar-black.png" />
+
+                                            <font class="detail_title">
+                                                ${ending_shows[i].show_date}
+                                                <font style='font-size:11px'>@</font>
+                                                ${ending_shows[i].show_time}
+                                            </font>
+
+                                        </div>
+
+                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                            <!--- Price --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;color: #5f9341">$${ending_shows[i].price}</font>
+                                            </div>
+
+                                            <!--- Artist Type --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;">${ending_shows[i].artist_type}</font>
+                                            </div>
+
+                                            <!--- Set length --->
+                                            <div style="float: left;overflow: hidden;">
+                                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                                <font style="font-weight: bold;font-size: 17px;">${ending_shows[i].set_length}</font>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--- More details link --->
+                                    <a href="/shows?id=${ending_shows[i].show_id}" class="more_details_link">More details</a>
+
+                                </div>
+
+                            </div>
+                            <!--- End of Single Past listing --->
+                        `
+
+
+                        $("#openListingsContainer").append(single_listing)
+                    }
+                }
+            }
+        });
+
+    </script>
 
   </body>
 </html>

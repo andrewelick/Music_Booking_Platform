@@ -27,47 +27,50 @@
         }
 
         #notis_container {
-          padding: 10px;
-          margin: auto;
-          max-width: 500px;
-          margin-top: 10px;
-          border-radius: 5px;
-          max-width: 600px;
+            padding: 10px;
+            margin: auto;
+            max-width: 500px;
+            margin-top: 10px;
+            border-radius: 5px;
+            max-width: 600px;
         }
 
         .single_noti {
-          margin-bottom: 10px;
-          min-height: 42px;
-          text-align: left;
-          border-radius: 5px;
-          border-bottom: 1px solid;
-          border-color: #e2e2e2;
-          box-shadow: 0 1px 8px 0 #d2d2d2;
+            padding: 10px;
+            padding-top: 10px;
+            margin-bottom: 10px;
+            min-height: 42px;
+            text-align: left;
+            border-radius: 5px;
+            border-bottom: 1px solid;
+            border-color: #e2e2e2;
+            background-color: #FFFFFF;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         .noti_picture {
-          float: left;
-          border-radius: 100px;
+            float: left;
+            border-radius: 100px;
         }
 
         .noti_time {
-          margin-top:-5px;
-          float:right;
-          font-size: 11px;
-          color: #8c8c8c;
+            margin-top:-5px;
+            float:right;
+            font-size: 11px;
+            color: #8c8c8c;
         }
 
         .noti_message {
-          padding-top: 11px;
-          font-size: 13px;
-          margin-left: 45px;
+            padding-top: 11px;
+            font-size: 13px;
+            margin-left: 45px;
         }
 
         .error_message {
-          padding: 5px;
-          text-align: center;
-          font-size: 14px;
-          color: red;
+            padding: 5px;
+            text-align: center;
+            font-size: 14px;
+            color: red;
         }
 
         /* If screen is bigger than 800px */
@@ -89,7 +92,7 @@
 
     <div class='mobilegridrow-2'>
 
-      <div style="font-size:18px;margin-top: 20px;">All Notifications</div>
+      <div style="font-size:18px;margin-top: 20px;color: #FFFFFF">All Notifications</div>
       <!--- notis container --->
       <div id="notis_container">
         {% for noti in all_notis %}
@@ -97,10 +100,10 @@
             <!--- If notification hasn't already been read --->
             {% if noti[5] == 0 %}
             <!--- Single notifcation box --->
-            <div class="single_noti" style="padding:10px;padding-top:10px;">
+            <div class="single_noti">
             {% else %}
             <!--- Single notifcation box --->
-            <div class="single_noti" style="padding:10px;padding-top:10px;background-color:#f9f9f9">
+            <div class="single_noti" style="background-color:#f9f9f9">
             {% endif %}
 
               <!--- If notifcation is a message sent --->
@@ -143,7 +146,7 @@
 
               <!--- If notification is winning a show --->
               {% if noti[3] == 3 %}
-              <div class="noti_message"><b>{% print noti[9] %}</b> has accepted your offer for the show</div>
+              <div class="noti_message"><b style="color: blue">{% print noti[9] %}</b> has accepted your offer for the show</div>
               {% endif %}
               <!--- End of notification is winning a show --->
 
@@ -154,7 +157,7 @@
         {% endfor %}
 
         {% if not all_notis %}
-        You don't have any notifications.
+            <div style='color: #FFFFFF'>You don't have any notifications.</div>
         {% endif %}
       </div>
       <!--- End of notis container --->

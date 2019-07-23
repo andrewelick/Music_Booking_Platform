@@ -8,216 +8,242 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
-      body {
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-        background-color: #f6f9fc;
-      }
+        body {
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
 
         .mobilegridrow-2 {
             box-sizing: border-box;
-          width: 100%;
-          padding: 0;
-          padding:10px;
-          padding-top:20px;
-          margin-bottom: 20px;
-          text-align: center;
+            width: 100%;
+            padding: 0;
+            padding:10px;
+            padding-top:20px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         #showcontainer {
-          max-width: 700px;
-          margin: auto;
-          padding-bottom: 10px;
-          border-radius: 5px;
-          text-align: left;
-          background-color: #ffffff;
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: auto;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            border-radius: 5px;
+            text-align: left;
+            background-color: #ffffff;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         #venuepicture {
-          width: 60px;
-          height: 60px;
-          border-radius: 100px;
-          float:left;
+            width: 60px;
+            height: 60px;
+            border-radius: 100px;
+            padding-right: 5px;
+            float:left;
         }
 
-        .show_details_stats {
-          padding-top:10px;
-          font-size:11px;
-          text-align: center;
+        #details_text_container {
+            font-size:14px;
+            padding-left: 15px;
         }
 
-        .show_details_stats_bubble {
-          padding: 4px;
-          border: 1px solid;
-          border-radius: 5px;
-          background-color:#596B83;
-          color: #ffffff;
+        #business_details {
+            overflow: hidden;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        #show_details_container {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid;
+            border-color: #efefef;
+        }
+
+        .single_show_details_container {
+            padding-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .show_details_bubble {
+            display: inline-block;
+            padding: 6px;
+            margin-bottom: 2px;
+            border: 1px solid;
+            border-radius: 5px;
+            background-color:#596B83;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        .description {
+            box-sizing: border-box;
+            padding-top: 10px;
+            padding-right: 35px;
+            font-size: 13px;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 14px;
+            vertical-align: middle;
         }
 
         #make_bid_container {
-          max-width: 700px;
-          margin: auto;
-          margin-top:10px;
-          padding-bottom: 10px;
-          border-radius: 5px;
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: auto;
+            margin-top:10px;
+            padding-bottom: 10px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         .card_header {
-          box-sizing: border-box;
-          margin-bottom: 10px;
-          padding: 10px;
-          text-align: center;
-          font-size: 16px;
-          border-top-left-radius: 5px;
-          border-top-right-radius: 5px;
-          color: #FFFFFF;
-          background-color: #232f42;
-          box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            color: #383838;
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
         }
 
         #profilecontainer {
-          padding: 10px;
+            padding: 10px;
+            padding-bottom: 0px;
         }
 
         #bidscontainer {
-          max-width: 700px;
-          margin: auto;
-          margin-top:10px;
-          padding-bottom: 10px;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: auto;
+            margin-top:10px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            border-color: #d2d2d2;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         #bid_message {
-          margin-top: 10px;
-          color: red;
+            margin-top: 10px;
+            color: red;
         }
 
         #single_bid_container {
-          text-align: left;
+            text-align: left;
         }
 
-        .singlebid {
-          border-bottom: 1px solid;
-          padding: 10px;
-          min-height: 50px;
-          border-color: #e2e2e2;
+        .single_bid {
+            border-bottom: 1px solid;
+            padding: 10px;
+            min-height: 50px;
+            border-color: #e2e2e2;
         }
 
-        .bid_picture {
-          display: inline;
-          float: left;
-          height: 50px;
-          width: 50px;
-          border-radius: 100px;
+        .single_bid_artist_details {
+            padding-left: 10px;
+            text-align: left;
+            overflow: hidden;
         }
 
         input[type="number"] {
-          width: 45px;
-          padding: 5px;
-          margin: 5px;
-          border-radius: 5px;
-          font-size: 17px;
-          border: 1px solid;
-          border-color: #d2d2d2;
+            width: 80px;
+            border: 0;
+            border-bottom: 2px solid;
+            font-size: 24px;
+            border-color: #d2d2d2;
+            outline: none;
+            transition: ease 200ms;
         }
 
-        input[type="submit"], button {
-          margin-top: 10px;
-          padding: 10px;
-          width: 200px;
-          border-radius: 5px;
-          border: 0;
-          font-size: 14px;
-          background-color: #328CC1;
-          color: #FFFFFF;
+        .winner_input {
+            margin: auto;
+            width: 400px;
+            border: 0px;
+            padding: 7px;
+            font-family: inherit;
+            font-size: 14px;
+            border-radius: 5px;
+            outline: none;
         }
 
         a {
-          color: blue;
-          text-decoration: none;
+            color: blue;
+            text-decoration: none;
         }
 
         a:hover {
-          text-decoration: underline;
+            text-decoration: underline;
         }
 
-        textarea {
-          box-sizing: border-box;
-          padding: 10px;
-          width: 100%;
-          font-family: inherit;
-          resize: none;
-          border: 0;
-          border-radius: 5px;
-
+        .single_bid_artist_bottom_bar {
+            overflow: auto;
         }
 
-        .acceptbid {
-          padding:6px;
-          margin-top:-10px;
-          width: 80px;
-          float:right;
-          border:0px;
-          border-radius: 5px;
-          color:#FFFFFF;
-          background-color:#328CC1;
-          font-size: 11px;
+        .accept_bid {
+            padding: 8px;
+            border: 0px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            background-color: #328CC1;
+            font-size: 13px;
+            float: right;
+            vertical-align: middle;
         }
 
-        .acceptbid:hover {
+        .accept_bid:hover {
             cursor: pointer;
             background-color: #3494cb;
         }
 
         .deletebid {
-          padding:0px;
-          float:right;
-          border: 0px;
-          border-radius: 5px;
-          font-size: 12px;
-          color: red;
-          background-color:#FFFFFF;
+            color: #E0245E;
+            vertical-align: center;
         }
 
         .deletebid:hover {
             cursor: pointer;
-            text-decoration: underline;
         }
 
         .popupcard {
-          box-sizing: border-box;
-          position: fixed;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width:100%;
-          padding:20px;
-          padding-top:30px;
-          padding-bottom:30px;
-          z-index:99;
-          text-align: center;
-          background-color:#FFFFFF;
-          display:none;
-          transition: 0.5s;
-          box-shadow: 0 0px 15px 0 #111111;
+            box-sizing: border-box;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width:100%;
+            padding:20px;
+            padding-top:30px;
+            padding-bottom:30px;
+            z-index:99;
+            text-align: center;
+            background-color:#FFFFFF;
+            display:none;
+            transition: 0.5s;
+            box-shadow: 0 0px 15px 0 #111111;
         }
 
         .blackbackground {
-          position: fixed;
-          top: 0px;
-          left: 0px;
-          z-index:10;
-          height:100%;
-          width:100%;
-          background-color:#000000;
-          opacity:.8;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index:10;
+            height:100%;
+            width:100%;
+            background-color:#000000;
+            opacity:.8;
         }
 
         #confirm_deletebid_container {
@@ -229,24 +255,175 @@
         }
 
         #close_confirm_delete {
-          position: absolute;
-          top:5px;
-          right:10px;
-          padding:5px;
-          color:#000000;
-          width: 100%;
+            position: absolute;
+            top:5px;
+            right:10px;
+            padding:5px;
+            color:#000000;
+            width: 100%;
         }
 
         #winner_bid_card {
-          max-width: 700px;
-          margin: auto;
-          margin-top:20px;
-          padding:20px;
-          border-radius: 5px;
-          box-sizing: border-box;
-          color: #FFFFFF;
-          background: rgb(248,19,213);
-          background: linear-gradient(0deg, rgba(248,19,213,1) 0%, rgba(77,158,255,1) 100%);
+            max-width: 700px;
+            margin: auto;
+            margin-top:20px;
+            padding:20px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            background: rgb(248,19,213);
+            background: linear-gradient(0deg, rgba(248,19,213,1) 0%, rgba(77,158,255,1) 100%);
+        }
+
+        #show_more {
+            float: right;
+            width: 80px;
+            padding: 10px;
+            font-size: 11px;
+            color: blue;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        #show_more:hover {
+            cursor: pointer;
+            background-color: #efefef;
+        }
+
+        #place_bid_button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 150px;
+            border-radius: 5px;
+            border: 0;
+            font-size: 14px;
+            color: #FFFFFF;
+            float: right;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12)
+        }
+
+        #bidding_error_message {
+            padding-top: 10px;
+            padding-right: 40px;
+            text-align: right;
+            color: red;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            background-color: #328CC1;
+            background-position: center;
+            transition: background 0.8s;
+            outline: none;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+            cursor: pointer;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
+        .bluff-icons {
+            color: inherit;
+            font-size: 18px;
+            vertical-align: middle
+        }
+
+        .material-icons.mi-35 {
+            font-size: 35px;
+        }
+
+        .bid-dropdown-container {
+            position: relative;
+            display: block;
+            float: right;
+            z-index: 1;
+        }
+
+        .bid-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0px;
+            width: 100px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: #d2d2d2;
+            background-color: #ffffff;
+            padding: 5px;
+            font-size: 13px;
+            z-index: 88888;
+        }
+
+        .details-icon {
+            padding: 2px;
+            border-radius: 100%;
+            color: #383838;
+            font-size: 20px;
+            transition: background 0.8s;
+        }
+
+        .details-icon:hover {
+            cursor: pointer;
+            background-color: #47a7f5;
+            color: #FFFFFF;
+        }
+
+        .dropdown-active {
+            background-color: #47a7f5;
+            color: #FFFFFF;
+        }
+
+        .disableButton {
+            background-color: #d2d2d2;
+        }
+
+        #confirm_delete_bid {
+            border: 0px;
+            padding: 7px;
+            padding-top: 8px;
+            border-radius: 5px;
+            font-size: 13px;
+            background-color: #E0245E;
+            color: #FFFFFF;
+            display: inline-flex;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+            transition: background 0.8s;
+            outline: none;
+        }
+
+        #confirm_delete_bid:hover {
+            cursor: pointer;
+            background-color: #e64f7e;
+        }
+
+        #acceptoffer {
+            border: 0px;
+            margin-top: 10px;
+            padding: 7px;
+            padding-top: 8px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #FFFFFF;
+            display: inline-flex;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+            outline: none;
+        }
+
+        #accept_offer_message {
+            font-size: 13px;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+        .bannerIcon {
+            height: 30px;
+            vertical-align: middle;
         }
 
         @media screen and (min-width: 800px) {
@@ -254,6 +431,10 @@
             .mobilegridrow-2 {
                 width: 800px;
                 margin: 0 auto;
+            }
+
+            #details_text_container {
+                overflow: hidden;
             }
 
             #accept_bid_offer {
@@ -264,6 +445,11 @@
             #confirm_deletebid_container {
                 width: 400px;
                 border-radius: 5px;
+            }
+
+            #show_more_container {
+                width: 580px;
+                margin: auto;
             }
         }
 
@@ -277,155 +463,184 @@
     <!-- Mobile welcome picture with text -->
     <div class='mobilegridrow-2'>
 
-      <!--- Show snapchot --->
-      <div id="showcontainer">
-        <div class="card_header">Show details</div>
+        <!--- Show snapchot --->
+        <div id="showcontainer">
 
-        <!--- Profile container --->
-        <div id="profilecontainer">
-          <a href="/profile?uid={% print show_details[1] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print show_details[1] %}_profile.jpg" id="venuepicture"/></a>
-          <div style="margin-left:70px;font-size:14px;">
-            <a href="/profile?uid={% print show_details[1] %}"><font style='font-size:15px;'><b>{% print venue_details[1] %}</b></font></a>
+            <!--- Profile container --->
+            <div id="profilecontainer">
+                <a href="/profile?uid={% print show_details.uid %}">
+                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print show_details.uid %}_profile.jpg" id="venuepicture"/>
+                </a>
 
-            <div style="padding-top:2px;">{% print venue_details[3] %}</div>
-            <div style='padding-top:2px;'>{% print show_details[5].strftime("%b %d, %Y") %} <font style='font-size:11px'>at</font> {% print show_details[5].strftime("%H:%M") %}<font style="font-size:11px;">{% print show_details[6] %}</font></div>
-            <div style="padding-top:10px;font-size:12px;">Description: {% print show_details[3] %}</div>
-          </div>
-          <!--- Show stats --->
-          <div class="show_details_stats">
-            <font class="show_details_stats_bubble">Wants: {% print show_details[4] %}</font>
-            <font class="show_details_stats_bubble">Offering: ${% print show_details[2] %}</font>
-          </div>
-          <!--- End of show stats --->
+                <div id="details_text_container">
+
+                    <!--- Business details --->
+                    <div class="business_details">
+
+                        <!--- Business Name -->
+                        <a href="/profile?uid={% print show_details.uid %}">
+                            <font style='color: blue; font-size:19px;'>{% print show_details.business_name %}</font>
+                        </a>
+
+                        <!--- Location --->
+                        <div style="padding-top: 10px;">
+                            <!--- Icon --->
+                            <img class="icon" src="static/placeholder-black.png" />
+
+                            <font class="detail_title">{% print show_details.location %}</font>
+                        </div>
+
+                        <!--- Date --->
+                        <div style="overflow: hidden; padding-top: 10px;">
+                            <!--- Icon --->
+                            <img class="icon" src="static/calendar-black.png" />
+
+                            <font class="detail_title">
+                                {% print show_details.show_date %}
+                                <font style='font-size:11px'>@</font>
+                                {% print show_details.show_time %}
+                            </font>
+
+                        </div>
+
+                        <!-- Description --->
+                        <div class="description">
+                            <font style="font-size: 15px">Description</font>
+                            <br/>
+                            {% print show_details.description %}
+                        </div>
+
+                        <div id="show_more_container" style="overflow: hidden;text-align: right">
+                            <div id="show_more">Show More</div>
+                        </div>
+
+                    </div>
+
+                    <!--- Show details --->
+                    <div id="show_details_container">
+
+                        <div style="padding-bottom: 20px;overflow: hidden">
+                            <!--- Price --->
+                            <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                <font style="font-weight: bold;font-size: 18px;color: #5f9341">${% print show_details.price %}</font>
+                            </div>
+
+                            <!--- Artist Type --->
+                            <div style="float: left;overflow: hidden; padding-right: 30px;">
+                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                <font style="font-weight: bold;font-size: 18px;">{% print show_details.artist_type %}</font>
+                            </div>
+
+                            <!--- Set length --->
+                            <div style="float: left;overflow: hidden;">
+                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                <font style="font-weight: bold;font-size: 18px;">{% print show_details.set_length %}</font>
+                            </div>
+                        </div>
+
+                        <!--- Genres -->
+                        {% if show_details.genres|length != 0 %}
+                            <div class="single_show_details_container">
+
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/tag-black-shape.png" />
+
+                                    Genres
+                                </div>
+
+                                {% for x in show_details.genres %}
+                                    <div style="background-color: #6eb9f7" class="show_details_bubble">{% print x['genre'] %}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!--- Perks -->
+                        {% if show_details.perks|length != 0 %}
+                            <div class="single_show_details_container">
+
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/trophy-black.png" />
+
+                                    <font class="detail_title">Perks</font>
+                                </div>
+
+                                {% for x in show_details.perks %}
+                                    <div style="background-color: #72b14e" class="show_details_bubble">{% print x['perk'] %}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!--- Requirements -->
+                        {% if show_details.requirements|length != 0 %}
+                            <div class="single_show_details_container">
+
+                                <div style="padding-bottom: 10px;">
+                                    <!--- Icon --->
+                                    <img class="icon" src="static/padlock-black.png" />
+
+                                    <font class="detail_title">Requirements</font>
+                                </div>
+
+                                <!--- Requirements--->
+                                {% for x in show_details.requirements %}
+                                    <div style="background-color: #232f42" class="show_details_bubble">{% print x['requirement'] %}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!--- End of profile container --->
+
+            <!--- Bottom bar --->
+            <div style="margin-top: 20px; padding-right: 20px;-webkit-box-shadow: 0px 0px 10px rgba(0,0,0,.8);-moz-box-shadow: 0px 0px 10px rgba(0,0,0,.8);box-shadow: 0px -5px 5px rgba(0,0,0,.1);">
+
+                {% if account_type == "artist" %}
+                    <div id="place_bid_container" style="overflow: hidden;">
+                        <!--- Place bid button -->
+                        <button id="place_bid_button" class="ripple" type="submit">
+                            <i class="material-icons bluff-icons" style="padding-right: 5px;">gavel</i>
+                            PLACE BID
+                        </button>
+
+                        <!--- Bid price input box -->
+                        <div style="display: inline-block;margin-top: 10px;margin-right: 30px;float: right;">
+                            Enter your price:
+                            <font style="font-size: 20px;font-weight: bold;">$</font>
+
+                            <input type="number" id="new_bid_price" placeholder="5000" min="1" required/>
+                        </div>
+                    </div>
+
+                    <!--- Error message for bidding --->
+                    <div id="bidding_error_message"></div>
+                {% endif %}
+            </div>
 
         </div>
-        <!--- End of profile container --->
-      </div>
-      <!--- End of show snapshot --->
+        <!--- End of show snapshot --->
 
-      <!-- If there is a winning bid --->
-      {% if winning_bid %}
-      <!--- Winner card --->
-      <div id="winner_bid_card">
-
-        <!--- If show is by user venue --->
-        {% if uid == show_details[1] %}
-        <div style="margin-bottom:10px;">This artist will be performing at your show</div>
-        {% else %}
-        <div style="margin-bottom:10px;">An artist has been chosen for this show</div>
-        {% endif %}
-
-        <!--- Profile picture --->
-        <a href="/profile?uid={% print winning_bid[0] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print winning_bid[0] %}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
-
-        </br>
-        <!--- Name --->
-        <a href="/profile?uid={% print winning_bid[0] %}" style="color:#FFFFFF">{% print winning_bid[1][0] %}</a>
-        <div style="font-size:13px;">Genre: {% print winning_bid[1][1] %}</div>
-
-
-        {% if account_type == "artist" %}
-          <!--- If winner is user --->
-          {% if uid == winning_bid[0] %}
-          <div style="padding-top:10px;font-size:13px;">You have won this show and are expected to perform at the listed date and time. You will be paid at the date of the show if all requirements are met.</div>
-          <div style="font-size:13px;"><b>Please contact venue if you have any questions or concerns</b></div>
-          </br>
-          {% endif %}
-          <!--- End of winner is user -->
-
-          </br>
-          <a href="/" style="color:#FFFFFF">Go back to listings</a>
-        {% endif %}
-
-        <!--- If show is by venue --->
-        {% if uid == show_details[1] %}
-          </br>
-          <textarea name="send_winner_message" placeholder="Send a message" rows=1 style="padding-right:75px;"></textarea>
-          <input type="submit" value="Send" style="margin:0;padding-left:15px;padding-right:15px;padding-bottom:9px;border-top-left-radius:0;border-bottom-left-radius:0;position:relative;top:-40px;float:right;width: auto;background-color:#4d9eff"/>
-        {% endif %}
-        <!--- End of show is by venue --->
-      </div>
-      <!--- End of winner card --->
-
-      <!-- If there is no winner --->
-      {% else %}
-        <!--- Make a bid --->
-        {% if account_type == "artist" %}
-        <div id="make_bid_container">
-          <div class="card_header">Make a bid</div>
-
-          <form action="{{ url_for("one_show_page", id=show_details[0]) }}" method="POST">
-            <label>Enter your price:<input type="number" name="new_bid_price" placeholder="$500" min="50" step="5" required/></label>
-            </br>
-            <font style="position: relative;top:-5px;font-size:11px;color:#383838">Minimum is $50</font>
-            </br>
-            <input type="submit" value="Place Bid" />
-          </form>
-
-          <div id="bid_message">{{ get_flashed_messages()[0] }}</div>
-        </div>
-        {% endif %}
-        <!--- End of Make a bid --->
 
         <!--- Bids container --->
         <div id="bidscontainer">
-          <div class="card_header">Bids</div>
+            <div class="card_header">Bids</div>
 
-          <!-- Bids stats --->
-          <div style="padding:5px;font-size:14px;">
-          {% if bids_stats[0] == 1 %}
-            <font class="show_details_stats_bubble">1 bid</font>
-          {% elif bids_stats[0] > 0 %}
-            <font>{% print bids_stats[0] %} bids <font style="font-size:11px;color:#383838">ranging from</font> ${% print bids_stats[1] %} - ${% print bids_stats[2] %}</font>
-          {% endif %}
-        </div>
-          <!-- End of bids stats --->
-
-          <!--- All bids cards --->
-          <div id="single_bid_container">
-          {% if bids_info != 0 %}
-            {% for x in bids_info %}
-
-            <!-- Single bid --->
-            <div class="singlebid" style="font-size:14px;">
-              <!--- Profile picture --->
-              <a href="/profile?uid={% print x[2] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print x[2] %}_profile.jpg" class="bid_picture" /></a>
-              <!--- Name --->
-              <font style="padding-left: 10px;border: 0px solid;"><a href="/profile?uid={% print x[2] %}" style="text-decoration:none;">{% print bidder_details(x[2])[0] %}</a></font>
-              <!--- Bid price --->
-              <font style="float:right;font-size:17px;" class="bid_price" name="{% print x[3] %}">${% print x[3] %}</font>
-              </br>
-              <!--- Artist genre --->
-              <font style="padding-left: 10px;font-size:12px;">Genre: {% print bidder_details(x[2])[1][0] %}</font>
-
-              </br>
-
-              <!--- Venue accept bid button --->
-              {% if account_type == "venue" %}
-              <button id="acceptbid" class="acceptbid" name="{% print bidder_details(x[2])[0] %}" value="{% print x[2] %}">Accept offer</button>
-              {% endif %}
-              <!--- End Venue accept bid button --->
-
-              <!--- Delete bid button --->
-              {% if x[2] == uid %}
-              <span id="deletebidbutton" class="deletebid" onclick="show_confirm_delete_bid()">Delete Bid</span>
-              {% endif %}
-              <!--- End of Delete bid button --->
-
+            <!--- All bids container --->
+            <div id="load_single_bids_here">
+                <!-- Loading gif -->
+                <img class="loading_gif" src="static/loading-spinner.gif" />
             </div>
-            <!-- End of single bid --->
-            </br>
-            {% endfor %}
-          {% else %}
-            <div style="padding:10px;text-align:center">This are currently no bids on this show</div>
-          {% endif %}
-          </div>
-          <!-- End of all bids card --->
-        </div>
-        <!--- End of bids container --->
 
-      <!--- End of no winning bid --->
-      {% endif %}
+        </div>
 
     </div>
     <!--- End of Description card --->
@@ -434,63 +649,443 @@
 
     <!--- Confirm delete bid card --->
     <div id="confirm_deletebid_container" class="popupcard">
-      <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
+        <div style="margin-bottom:10px;">Are you sure you want to delete this bid?</div>
 
-      <form action="" method="POST">
-        <button value="Delete Bid" name="deletebid">Delete bid</button>
-      </form>
+        <!--- Delete bid button --->
+        <div id="confirm_delete_bid">
+            <!--- Icon  --->
+            <i class='material-icons' style='font-size: 18px;'>delete_forever</i>
+            DELETE BID
+        </div>
+
+        <!--- Input that holds bid id --->
+        <input type="hidden" id="delete_bid_id" val='' />
     </div>
     <!--- End of confirm delete bid card --->
 
-    <!--- Aceept offer by venue --->
+    <!--- Accept offer by venue --->
     <div id="accept_bid_offer" class="popupcard">
-      <!--- Accept offer title --->
-      <div style="margin-bottom: 10px;font-size: 14px;;">Accept offer by <b><span id="acceptoffername"></span></b> for this show on <b>{% print show_details[5].strftime("%b %d, %Y") %}</b> at <b>{% print show_details[5].strftime("%H:%M") %}{% print show_details[6] %}</b></div>
-      <!--- Accept offer button --->
-      <form action="" method="POST" name="accept_bid_offer">
-        <input type="hidden" id="winning_bidder_uid" name="winning_bidder_uid" value="winneruid" />
-        <input type="hidden" id="winning_bidder_price" name="winning_bidder_price" value="winnerprice" />
-        <button value="Accept Offer" name="acceptoffer">Accept offer</button>
-      </form>
-      <!--- Disclaimer --->
-      <div style='padding-top: 10px;font-size:12px;color:#383838'>Accepting this offer will close bidding for this show and notify artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour till the completetion of the show. There is a 24 hour dipute window following the perfomance to enure eveything went smoothly.</div>
+        <h3>Book this show</h3>
+
+        <!--- Disclaimer --->
+        <div style='padding-top: 10px;font-size:14px;color:#383838'>Accepting this offer will close bidding for this show and notify the artist that they are performing. You will be charged for the agreed amount 24 hours before the scheduled time and all funds will be held by Bluff Tour until the completetion of said show. There is a 24 hour dispute window following this performance to ensure both parties were fairly compensated. There may be a cancellation fee depending on the circumstances of said cancellation.</div>
+
+        <br/>
+
+        <!--- Terms checkbox --->
+        <input type="checkbox" id="bid_terms_checkbox" />
+        <label for="bid_terms_checkbox" style="font-size: 13px;">I agree the terms to the terms listed above</label>
+
+        <br/>
+
+        <!--- Accept offer button --->
+        <button id="acceptoffer" class="ripple">
+            <!--- Gavel icon --->
+            <i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>gavel</i>
+            ACCEPT OFFER
+        </button>
+
+        <!--- Bid id -->
+        <input type="hidden" id="winning_bid_id" name="winning_bid_id" value="" />
+
+        <!--- Error message --->
+        <div id="accept_offer_message"></div>
+
     </div>
-    <!--- End of accept offer by venue --->
 
     <!--- Black background for acceot bid --->
     <div id="blackbackground" class="blackbackground" style="display:none"></div>
     <!--- End of Black background --->
 
+    <!--- Banner message --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 10px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;"></div>
+
+
     <script type="text/javascript">
 
-    //Show delete bid container
-    $("#deletebidbutton").click(function() {
-        $("#blackbackground").show()
-        $("#confirm_deletebid_container").show()
-    })
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
 
-    //Hide delete bid or accept bid container
-    $("#blackbackground").click(function() {
-        $("#blackbackground").hide()
-        $("#confirm_deletebid_container").hide()
-        $("#accept_bid_offer").hide()
-    })
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
 
-    //Show the bidding pop up
-    $("#acceptbid").click(function() {
-        //Name of bidder and uid
-        var accept_bidder_name =$(this).attr('name');
-        var accept_bidder_uid = $(this).val()
-        var accept_bidder_price = $(this).siblings(".bid_price").attr("name")
+            //Show bid options settings
+            $(".bid-dropdown-container").click(function(event) {
 
-        $("#blackbackground").show()
-        $("#accept_bid_offer").show()
+                event.stopPropagation();
 
-        //Change title name and uid
-        $("#acceptoffername").html(accept_bidder_name)
-        $("#winning_bidder_uid").val(accept_bidder_uid)
-        $("#winning_bidder_price").val(accept_bidder_price)
-    })
+                //Hide all other menus open
+                $(".bid-dropdown-content").hide()
+
+                //Show dropdown content
+                $(this).find('.bid-dropdown-content').show()
+
+                //Change font color of dropdown button
+                $(this).find('.details-icon').addClass("dropdown-active")
+            });
+
+            //Hide bid options settings
+            $(document).click(function() {
+                $(".bid-dropdown-content").hide()
+                $(".details-icon").removeClass("dropdown-active")
+            })
+
+            //Show delete bid container
+            $(".deletebid").click(function() {
+
+                //Show confirm delete container
+                $("#blackbackground").show()
+                $("#confirm_deletebid_container").show()
+
+                //Find bid id and attach to confirm delete bid container
+                let bid_id = $(this).siblings('input').attr('id')
+                $("#delete_bid_id").val(bid_id)
+            });
+
+            //Show the accept bid pop up
+            $(".accept_bid").click(function() {
+                //Bid id
+                let bid_id = $(this).parent().children('.single_bid_id').attr('id').split('_')[1]
+
+                //Add bid id to hidden input in confirm bid
+                $("#winning_bid_id").val(bid_id)
+
+                $("#blackbackground").show()
+                $("#accept_bid_offer").show()
+            });
+
+        });
+
+        //Hide delete bid or accept bid container
+        $("#blackbackground").click(function() {
+            $("#blackbackground").hide()
+            $("#confirm_deletebid_container").hide()
+            $("#accept_bid_offer").hide()
+        })
+
+        //Expand Details
+        let desc_height = $(".description")[0].scrollHeight;
+
+        if (desc_height <= 100) {
+            $("#show_more").hide()
+        }
+        else {
+            $("#show_more").click(function() {
+
+                //Check text of button
+                let button_value = $("#show_more").html()
+
+                if (button_value == "Show More") {
+                    $("#show_more").html("Show Less")
+                    $('.description').animate({'height': desc_height+20})
+                }
+                else {
+                    $("#show_more").html("Show More")
+                    $('.description').animate({'height': '100px'})
+                }
+            })
+        }
+
+        //Load bids
+        function load_artist_bids(winner = undefined) {
+            //If there is no winner
+            if (winner === undefined) {
+                //Show id
+                let show_id = '{% print show_details.show_id %}'
+
+                //Clear any info inside container
+                $('#load_single_bids_here').html('<img class="loading_gif" src="static/loading-spinner.gif" />')
+
+                $.ajax({
+                    type: "POST",
+                    url: "/artist_bids",
+                    data: {
+                        "get_single_show_bids": "check",
+                        "show_id": show_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    //If loaded bids
+                    if (data.success) {
+
+                        //If there are no bids
+                        if (data.success == "no bids") {
+                            $("#load_single_bids_here").html("<div style='padding: 20px;'>There are no bids yet</div>")
+                        }
+                        else {
+                            let all_bids = data.success
+
+                            //UID of user who is logged in right now
+                            let current_user_uid = "{% print uid %}"
+                            let show_owner_uid = "{% print show_details.uid %}"
+
+                            //Loop through each bid and print
+                            for (x in all_bids) {
+
+                                let single_bid = `
+                                    <div class='single_bid'>
+                                        <!--- Profile picture --->
+                                        <a href="/profile?uid=${all_bids[x].artist_details.uid}">
+                                            <img style="float: left; height: 45px;" src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${all_bids[x].artist_details.uid}_profile.jpg" />
+                                        </a>
+
+                                        <!--- Options ---!>
+                                        <div class="bid-dropdown-container">
+                                            <!--- Options Icon --->
+                                            <i class='material-icons details-icon'>expand_more</i>
+
+                                            <!--- Options content container -->
+                                            <div class="bid-dropdown-content">
+
+                                                <!--- Delete bid --->
+                                                ${all_bids[x].artist_details.uid == current_user_uid ? "<div class='deletebid'><i class='material-icons' style='font-size: 22px;vertical-align: middle'>delete</i>Delete</div>" : ""}
+                                                <input type="hidden" id="${all_bids[x].bid_details.bid_id}" />
+                                            </div>
+                                        </div>
+
+                                        <!--- Artist details --->
+                                        <div class="single_bid_artist_details">
+
+                                            <!--- Artist Name & Bid price --->
+                                            <div>
+                                                <a href="/profile?uid=${all_bids[x].artist_details.uid}" style="color: blue;font-size: 16px;text-transform: capitalize;">${all_bids[x].artist_details.name}</a>
+                                            </div>
+
+                                            <!--- Artist Bio --->
+                                            <div style="font-size: 13px;padding-bottom: 10px;">${all_bids[x].artist_details.bio}</div>
+
+                                            <!--- Artist genres -->
+                                            <div class="show_details_bubble" style="font-size: 12px;">${all_bids[x].artist_details.genre}</div>
+
+                                        </div>
+
+                                        <!--- Bottom bar --->
+                                        <div class="single_bid_artist_bottom_bar">
+                                            ${show_owner_uid == current_user_uid ? "<div class='accept_bid ripple'><i class='material-icons' style='vertical-align: middle;font-size:14px;padding-right: 4px;'>local_play</i>Book</div>" : ""}
+
+                                            <!--- Hidden inputs for bid data --->
+                                            <input type='hidden' class='single_bid_id' id='confirm_${all_bids[x].bid_details.bid_id}' />
+
+                                            <!--- Bid price -->
+                                            <font style="color: #72b14e;font-size: 23px;margin-right: 10px;float: right;" class='bid_price'>$${all_bids[x].bid_details.amount}</font>
+                                        </div>
+
+                                    </div>
+                                `
+
+                                //Add bid to bid container
+                                $("#load_single_bids_here").append(single_bid)
+                            }
+                        }
+                    }
+                    else {
+                        console.log(data.error)
+                    }
+                })
+            }
+            //Load winner box
+            else {
+
+                //Current user uid
+                let current_user_uid = "{% print uid %}"
+
+                let winner_card = `
+                    <!--- Winner card --->
+                    <div id="winner_bid_card">
+
+                        <!--- If show is by user venue --->
+                        {% if uid == show_details.uid %}
+                            <div style="margin-bottom:10px;">This artist will be performing at your show</div>
+                        {% else %}
+                            ${winner.artist_uid == current_user_uid ? "<div style='margin-bottom:10px;'>Congrats! You're playing this show, see you there<i class='material-icons' style='font-size: 28px'>where_to_vote</i></div>" : "<div style='margin-bottom:10px;'>An artist has been chosen for this show</div>"}
+                        {% endif %}
+
+                        <!--- Profile picture --->
+                        <a href="/profile?uid=${winner.artist_uid}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${winner.artist_uid}_profile.jpg" style="border-radius:100px;" height=100 width=100 /></a>
+
+                        </br>
+                        <!--- Name --->
+                        <a href="/profile?uid=${winner.artist_uid}" style="color:#FFFFFF;text-transform: capitalize;">${winner.artist_name}</a>
+                        <div style="font-size:13px;">Genre: ${winner.genre}</div>
+
+                    </div>
+                    <!--- End of winner card --->
+                `
+
+                $("#bidscontainer").html(winner_card)
+            }
+        }
+
+        //Check if show has already been won, if not load bid results
+        function check_show_for_winner(callback) {
+            //Show id
+            let show_id = '{% print show_details.show_id %}'
+            let show_status = false
+
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "check_show_for_winner": "check",
+                    "show_id": show_id,
+                },
+                dataType: "json"
+            }).done(function(data) {
+
+                //If call was completed
+                if (data.success) {
+                    let result = data.success
+
+                    //If there is no winner
+                    if (result == "No winner") {
+                        load_artist_bids()
+                    }
+                    else {
+
+                        //Hide bid button
+                        $("#place_bid_container").hide()
+
+                        load_artist_bids(winner = result)
+                    }
+                }
+                else {
+                    console.log(data.error)
+                }
+            })
+        }
+
+        check_show_for_winner()
+
+        //Validate bid and send
+        $("#place_bid_button").click(function() {
+            let bid_val = $("#new_bid_price").val()
+            let show_id = "{% print show_details.show_id %}"
+
+            if (bid_val < 1) {
+                //Highlight bid price red
+                $("#new_bid_price").css("border-color", "red")
+
+                //Show error message
+                $("#bidding_error_message").show().html("You must bid at least $1")
+            }
+            else {
+
+                //Hide error message
+                $("#bidding_error_message").html("")
+                $("#place_bid_button").prop("disable", true).removeClass("ripple").addClass("disableButton")
+
+                //Send bid
+                $.ajax({
+                    type: "POST",
+                    url: "/artist_bids",
+                    data: {
+                        'place_bid': 'yes',
+                        'new_bid_price': bid_val,
+                        'show_id': show_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+
+                    if (data.success) {
+
+                        //Show success message
+                        $("#bidding_error_message").html(`
+                            <i class="material-icons mi-35" style="color: green;vertical-align: middle">check_circle</i>
+                            Your bid has been placed!
+                        `).css("color", "green")
+
+                        //Hide bid button & number input
+                        $("#place_bid_container").hide()
+
+                        //Reload show bids
+                        load_artist_bids()
+                    }
+                    else {
+                        //Show error message
+                        $("#bidding_error_message").show().html(data.error)
+
+                        //Enable bid button
+                        $("#place_bid_button").prop("disable", false).addClass("ripple").removeClass("disableButton")
+                    }
+                })
+            }
+        })
+
+        //Delete bid when confirmed
+        $("#confirm_delete_bid").click(function() {
+
+            let bid_id = $("#delete_bid_id").val()
+
+            //Send deletion request
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    'delete_artist_bid': 'yes',
+                    'bid_id': bid_id,
+                },
+                dataType: "json"
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    //Hide popup box
+                    $("#blackbackground").hide()
+                    $("#confirm_deletebid_container").hide()
+
+                    //Show banner message
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/success_checkmark.png' class='bannerIcon'>
+                            <font style='font-size: 22px;font-weight: bold;vertical-align: middle'>Bid deleted!</font>
+                        </div>
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+
+
+                    load_artist_bids()
+                }
+                else {
+                    console.log(data.error)
+                }
+            })
+        })
+
+        //Confirm accept bid
+        $("#acceptoffer").click(function() {
+
+            //Check if terms checkbox is selected
+            if ($("#bid_terms_checkbox").is(':checked')) {
+
+                //Bid id from hidden input
+                let bid_id = $(this).parent().find("#winning_bid_id").val()
+
+                //Send ajax call
+                $.ajax({
+                    type: "POST",
+                    url: "/artist_bids",
+                    data: {
+                        'accept_bid_offer': 'yes',
+                        'bid_id': bid_id,
+                    },
+                    dataType: "json"
+                }).done(function(data) {
+                    console.log(data)
+
+                    if (data.success) {
+                        check_show_for_winner()
+                    }
+                })
+            }
+            else {
+                $("#accept_offer_message").css("color", "red").css("margin-top", "10px").html("Please accept terms to accept offer")
+            }
+        })
 
     </script>
 

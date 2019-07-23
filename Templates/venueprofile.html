@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -19,10 +20,12 @@
         .mobilegridrow-2 {
             box-sizing: border-box;
             width: 100%;
-            padding: 0;
             padding:10px;
+            padding-bottom: 20px;
+            margin-top: 10px;
             margin-bottom: 20px;
             text-align: center;
+            background-color: #FFFFFF;
         }
 
         #profilecontainer {
@@ -57,14 +60,6 @@
           padding: 2px;
         }
 
-        .profilepicture_mini {
-          box-sizing: border-box;
-          width: 50px;
-          border-radius: 100px;
-          margin-right: 5px;
-          float: left;
-        }
-
         .contact {
             display: inline-block;
             width: 100px;
@@ -78,20 +73,48 @@
             color: #FFFFFF
         }
 
-        #editprofile {
+        .contact:hover {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .editprofile {
             display: inline-block;
-            width: 100px;
-            padding: 7px;
+            padding: 10px;
             margin-top: 10px;
             border-radius: 5px;
             font-size:12px;
             color:#FFFFFF;
             background-color:#328CC1;
             text-align: center
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+        }
+
+        .editprofile:hover {
+            cursor: pointer;
+            -webkit-transition: background-color 200ms linear;
+            -ms-transition: background-color 200ms linear;
+            transition: background-color 200ms linear;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
         }
 
         #currentlistings {
-          max-width: 700px;
           margin: auto;
           margin-top:10px;
           padding: 10px;
@@ -101,7 +124,6 @@
         }
 
         #pastListings {
-            max-width: 700px;
             margin: auto;
             margin-top:10px;
             padding: 10px;
@@ -114,7 +136,44 @@
           padding: 10px;
           margin-bottom: 10px;
           border-bottom: 1px solid;
-          border-color: #d2d2d2
+          border-color: #d2d2d2;
+          font-size: 14px;
+          overflow: hidden;
+        }
+
+        .profilepicture_mini {
+          box-sizing: border-box;
+          width: 45px;
+          border-radius: 100px;
+          margin-right: 10px;
+          float: left;
+        }
+
+        .listing_details {
+            padding-bottom: 15px;
+        }
+
+        .listing_header_title {
+            font-size: 19px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 14px;
+            vertical-align: middle;
+        }
+
+        .listing_body_description {
+            box-sizing: border-box;
+            padding-top: 10px;
+            padding-right: 35px;
+            font-size: 13px;
+            max-height: 100px;
+            overflow: hidden;
         }
 
         .listing_stats_option {
@@ -124,6 +183,23 @@
           font-size:11px;
           background-color:#596B83;
           color:#FFFFFF;
+        }
+
+        .more_details_link {
+            width: 100;
+            padding: 10px;
+            border: 1px solid;
+            border-color: #d2d2d2;
+            color: #328CC1;
+            float: right;
+            border-radius: 5px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .more_details_link:hover {
+            text-decoration: none;
+            background-color: #efefef;
         }
 
         textarea {
@@ -144,6 +220,14 @@
           border: 0;
           background-color: #328CC1;
           color: #FFFFFF;
+        }
+
+        a {
+            color: blue;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         #contact_send_message_container {
@@ -182,20 +266,30 @@
             color:#000000;
         }
 
+        .loading_gif {
+            height: 50px;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
             .mobilegridrow-2 {
                 width: 800px;
                 margin: 0 auto;
+                margin-top: 10px;
+                border-radius: 5px;
             }
 
             #currentlistings {
-                width: 500px;
+                max-width: 600px;
             }
 
             #pastListings {
-                width: 500px;
+                max-width: 600px;
+            }
+
+            .listing_details {
+                overflow: hidden
             }
 
             #contact_send_message_container {
@@ -246,14 +340,14 @@
                 <!--- Contact bar --->
                 <div id="contactbar">
                     {% if email != session['username'] %}
-                        <a href="#" class="contact" id="messageartist">Messsage</a>
+                        <a class="contact ripple" id="messageartist">Messsage</a>
                     {% endif %}
                 </div>
                 <!--- End of contact bar --->
 
                 <!--- Edit profile button --->
                 {% if email == session['username'] %}
-                    <a href="/editprofile" id="editprofile">Edit profile</a>
+                    <a href="/editprofile" class="editprofile ripple">Edit profile</a>
                 {% endif %}
 
             </div>
@@ -288,52 +382,16 @@
       </div>
       <!--- End of Contact send message screen --->
 
-      <!--- Black background for send messages screen --->
-      <div id="blackbackground" style="display:none"></div>
-      <!--- End of Black background --->
-
       <!--- Current user venue listings --->
       <div id="currentlistings">
         <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Current show listings</div>
 
-        {% for x in active_show %}
-            <!--- Single Active listing --->
-            <div class="singlelisting">
+        <div id="openListingsContainer">
+            <div id="emptyOpenListings" style="padding: 20px;">There are no open shows</div>
+        </div>
 
-              <!--- Link to single listing page --->
-              <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
-              <!--- Listing header --->
-              <div class="lisiting_header" style='text-align:left'>
-                <!-- Profile picture --->
-                <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
-                <!--- Profile name --->
-                <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
-                <!--- Listed price --->
-                <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
-              </div>
-              <!--- End Listing header -->
-              <!--- Listing body --->
-              <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
-              </div>
-              <!--- End Listing body --->
-              <!--- Lisiting stats -->
-              <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
-                <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
-                <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
-                <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
-              </div>
-              <!--- End of Listing stats --->
-              </a>
-              <!--- End of link to single page --->
-            </div>
-            <!--- End of Single listing --->
-        {% endfor %}
-
-        {% if active_show|length == 0 %}
-            <div style="padding: 20px;font-size: 14px;">They do not currently have any shows open</div>
-        {% endif %}
-
+        <!-- Loading gif -->
+        <img class="loading_gif" src="static/loading-spinner.gif" />
       </div>
       <!--- End current user venue listings --->
 
@@ -341,44 +399,12 @@
         <div id="pastListings">
             <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Past show listings</div>
 
-            {% for x in winning_show %}
-                <!--- Single Past listing --->
-                <div class="singlelisting">
+            <div id="pastListingsContainer">
+                <div id="emptyClosedListings" style="padding: 20px;">There are no closed shows</div>
+            </div>
 
-                  <!--- Link to single listing page --->
-                  <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
-                  <!--- Listing header --->
-                  <div class="lisiting_header" style='text-align:left'>
-                      <!-- Profile picture --->
-                      <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
-                      <!--- Profile name --->
-                      <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
-                      <!--- Listed price --->
-                      <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
-                  </div>
-                  <!--- End Listing header -->
-                  <!--- Listing body --->
-                  <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                    <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
-                  </div>
-                  <!--- End Listing body --->
-                  <!--- Lisiting stats -->
-                  <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
-                    <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
-                    <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
-                    <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
-                  </div>
-                  <!--- End of Listing stats --->
-                  </a>
-                  <!--- End of link to single page --->
-                </div>
-                <!--- End of Single Past listing --->
-            {% endfor %}
-
-            {% if winning_show|length == 0 %}
-                <div style="padding: 20px;font-size: 14px;">No past shows</div>
-            {% endif %}
-
+            <!-- Loading gif -->
+            <img class="loading_gif" src="static/loading-spinner.gif" />
         </div>
         <!--- End of Past listings container --->
 
@@ -386,7 +412,20 @@
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}
 
+    <!--- Black background for send messages screen --->
+    <div id="blackbackground" style="display:none"></div>
+    <!--- End of Black background --->
+
     <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
 
         //Show send message container
         $("#messageartist").click(function() {
@@ -404,6 +443,120 @@
             $("#blackbackground").hide()
             $("#contact_send_message_container").hide()
         })
+
+        //Load show postings that are ending soon
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/show_postings",
+            data: {
+                "get_user_postings": "check",
+                "venue_id": "{% print uid %}"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                let shows = data['success']
+
+                //Loop through each result and put in correct listing box
+                for (x in shows) {
+                    let single_listing = `
+                        <!--- Single Past listing --->
+                        <div class="singlelisting">
+
+                            <!--- Listing header --->
+                            <div class="listing_header" style='text-align:left'>
+                                <!-- Profile picture --->
+                                <a href="/profile?uid=${shows[x].uid}">
+                                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].uid}_profile.jpg" class='profilepicture_mini' />
+                                </a>
+
+                                <!--- Listing details --->
+                                <div class="listing_details">
+
+                                    <!--- Profile name --->
+                                    <span class="listing_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
+
+                                    <!--- Location --->
+                                    <div style="padding-top: 10px;">
+                                        <!--- Icon --->
+                                        <img class="icon" src="static/placeholder-black.png" />
+
+                                        <font class="detail_title">${shows[x].location}</font>
+                                    </div>
+
+                                    <!--- Date --->
+                                    <div style="overflow: hidden; padding-top: 10px;">
+                                        <!--- Icon --->
+                                        <img class="icon" src="static/calendar-black.png" />
+
+                                        <font class="detail_title">
+                                            ${shows[x].show_date}
+                                            <font style='font-size:11px'>@</font>
+                                            ${shows[x].show_time}
+                                        </font>
+
+                                    </div>
+
+                                    <div style="margin-top: 10px; padding-top: 10px;padding-bottom: 10px;overflow: hidden">
+                                        <!--- Price --->
+                                        <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                            <div style="padding-bottom: 5px;">Budget</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;color: #5f9341">$${shows[x].price}</font>
+                                        </div>
+
+                                        <!--- Artist Type --->
+                                        <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                            <div style="padding-bottom: 5px;">Artist</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;">${shows[x].artist_type}</font>
+                                        </div>
+
+                                        <!--- Set length --->
+                                        <div style="float: left;overflow: hidden;">
+                                            <div style="padding-bottom: 5px;">Set length</div>
+
+                                            <font style="font-weight: bold;font-size: 16px;">${shows[x].set_length}</font>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!--- More details link --->
+                                <a href="/shows?id=${shows[x].show_id}" class="more_details_link">More details</a>
+
+                            </div>
+
+                        </div>
+                        <!--- End of Single Past listing --->
+                    `
+
+                    if (shows[x].show_status == "open") {
+                        //Hide empty container message
+                        $("#emptyOpenListings").hide()
+
+                        //Add results to container
+                        $("#openListingsContainer").append(single_listing)
+                    }
+                    else {
+                        //Hide empty container message
+                        $("#emptyClosedListings").hide()
+
+                        //Add results to container
+                        $("#pastListingsContainer").append(single_listing)
+                    }
+                }
+            }
+            else {
+                //Show loading errors
+                $("#openListingsContainer").html("There was an error loading open show listings")
+
+                //Show loading errors
+                $("#closedListingsContainer").html("There was an error loading closed show listings")
+            }
+        });
 
     </script>
 

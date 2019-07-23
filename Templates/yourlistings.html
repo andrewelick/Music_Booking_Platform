@@ -38,6 +38,7 @@
           margin-top:10px;
           padding: 10px;
           border-radius: 5px;
+          background-color: #FFFFFF;
           border-color: #d2d2d2;
           box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
@@ -48,6 +49,7 @@
             margin-top:10px;
             padding: 10px;
             border-radius: 5px;
+            background-color: #FFFFFF;
             border-color: #d2d2d2;
             box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
@@ -81,8 +83,8 @@
           color:#FFFFFF;
         }
 
-        .empty_box_text {
-            padding: 30px;
+        .loading_gif {
+            height: 50px;
         }
 
         /* If screen is bigger than 800px */
@@ -107,43 +109,12 @@
         <div id="currentlistings">
           <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Current show listings</div>
 
-          {% for x in active_show %}
-              <!--- Single Active listing --->
-              <div class="singlelisting">
+          <div id="openListingsContainer">
+              <div id="emptyOpenListings" style="padding: 20px;">There are no open shows</div>
+          </div>
 
-                <!--- Link to single listing page --->
-                <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
-                <!--- Listing header --->
-                <div class="lisiting_header" style='text-align:left'>
-                  <!-- Profile picture --->
-                  <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
-                  <!--- Profile name --->
-                  <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
-                  <!--- Listed price --->
-                  <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
-                </div>
-                <!--- End Listing header -->
-                <!--- Listing body --->
-                <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                  <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
-                </div>
-                <!--- End Listing body --->
-                <!--- Lisiting stats -->
-                <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
-                  <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
-                  <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
-                  <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
-                </div>
-                <!--- End of Listing stats --->
-                </a>
-                <!--- End of link to single page --->
-              </div>
-              <!--- End of Single listing --->
-          {% endfor %}
-
-          {% if active_show|length == 0 %}
-              <div class="empty_box_text">You do not have any shows currently open</div>
-          {% endif %}
+          <!-- Loading gif -->
+          <img class="loading_gif" src="static/loading-spinner.gif" />
 
         </div>
         <!--- End current user venue listings --->
@@ -152,43 +123,12 @@
       <div id="pastListings">
           <div style='margin-bottom: 15px;padding-bottom:5px;border-bottom: 1px solid;font-size:18px;border-color:#d2d2d2;'>Past show listings</div>
 
-          {% for x in winning_show %}
-              <!--- Single Past listing --->
-              <div class="singlelisting">
+          <div id="pastListingsContainer">
+              <div id="emptyClosedListings" style="padding: 20px;">There are no closed shows</div>
+          </div>
 
-                <!--- Link to single listing page --->
-                <a href="/shows?id={% print x[0] %}" style='text-decoration:none;color:#383838'>
-                <!--- Listing header --->
-                <div class="lisiting_header" style='text-align:left'>
-                    <!-- Profile picture --->
-                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class='profilepicture_mini' />
-                    <!--- Profile name --->
-                    <span class="lisiting_header_title" style='font-weight:bold;'>{% print venue_details[1] %}</span>
-                    <!--- Listed price --->
-                    <span class="offer_price" style='float:right;font-size:15px;'>Listed price: ${% print x[2] %}</span>
-                </div>
-                <!--- End Listing header -->
-                <!--- Listing body --->
-                <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
-                  <span class="lisiting_body_date">{% print x[5].strftime("%A, %b %d, %Y")%} <font style='font-size:11px;color:#383838'>at</font> {% print x[5].strftime("%H:%M") %}{% print x[6] %}</span>
-                </div>
-                <!--- End Listing body --->
-                <!--- Lisiting stats -->
-                <div class="listing_stats" style="padding-top:10px;text-align:center;font-size:12px;">
-                  <span id="listing_stats_artist" class="listing_stats_option">{% print x[4] %}</span>
-                  <span id="listing_stats_bids" class="listing_stats_option">{{ show_bids_stats(x[0])[0] }} bids</span>
-                  <span id="listing_stats_range" class="listing_stats_option">${{ show_bids_stats(x[0])[1] }} - ${{ show_bids_stats(x[0])[2] }}</span>
-                </div>
-                <!--- End of Listing stats --->
-                </a>
-                <!--- End of link to single page --->
-              </div>
-              <!--- End of Single Past listing --->
-          {% endfor %}
-
-          {% if winning_show|length == 0 %}
-              <div class="empty_box_text">You do not have any past shows</div>
-          {% endif %}
+          <!-- Loading gif -->
+          <img class="loading_gif" src="static/loading-spinner.gif" />
 
       </div>
       <!--- End of Past listings container --->
@@ -196,6 +136,91 @@
     </div>
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        //Load show postings that are ending soon
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/show_postings",
+            data: {
+                "get_user_postings": "check",
+                "venue_id": "{% print uid %}"
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                let shows = data['success']
+
+                //Loop through each result and put in correct listing box
+                for (x in shows) {
+                    let single_listing = `
+                        <!--- Single Past listing --->
+                        <div class="singlelisting">
+
+                            <!--- Link to single listing page --->
+                            <a href="/shows?id=${shows[x].show_id}" style='text-decoration:none;color:#383838'>
+
+                                <!--- Listing header --->
+                                <div class="lisiting_header" style='text-align:left'>
+                                    <!-- Profile picture --->
+                                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].uid}_profile.jpg" class='profilepicture_mini' />
+                                    <!--- Profile name --->
+                                    <span class="lisiting_header_title" style='font-weight:bold;'>${shows[x].business_name}</span>
+                                    <!--- Listed price --->
+                                    <span class="offer_price" style='float:right;font-size:15px;'>Listed price: $${shows[x].price}</span>
+                                </div>
+                                <!--- End Listing header -->
+
+                                <!--- Listing body --->
+                                <div class="listing_body" style='margin-top:5px;text-align:left;font-size:14px;'>
+                                    <span class="lisiting_body_date">${shows[x].show_date} <font style='font-size:11px;color:#383838'>@</font> ${shows[x].show_time}</span>
+                                </div>
+                                <!--- End Listing body --->
+
+                            </a>
+                            <!--- End of link to single page --->
+                        </div>
+                        <!--- End of Single Past listing --->
+                    `
+
+                    if (shows[x].show_status == "open") {
+                        //Hide empty container message
+                        $("#emptyOpenListings").hide()
+
+                        //Add results to container
+                        $("#openListingsContainer").append(single_listing)
+                    }
+                    else {
+                        //Hide empty container message
+                        $("#emptyClosedListings").hide()
+
+                        //Add results to container
+                        $("#pastListingsContainer").append(single_listing)
+                    }
+                }
+            }
+            else {
+                //Show loading errors
+                $("#openListingsContainer").html("There was an error loading open show listings")
+
+                //Show loading errors
+                $("#closedListingsContainer").html("There was an error loading closed show listings")
+            }
+        });
+
+    </script>
 
   </body>
 </html>

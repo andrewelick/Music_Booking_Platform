@@ -69,6 +69,7 @@
           font-size: 13px;
           color: #FFFFFF;
           border-color: #FFFFFF;
+          text-decoration: none;
       }
 
       .headerlink:hover {
@@ -149,15 +150,15 @@
 
             <!--- User header options --->
             <div id="header_options_container" style="display:none">
-                    <a href='/profile' class="floatlink"><div class="headerlink">Profile</div></a>
-                    <a href='/messages' class="floatlink"><div class="headerlink">Messages</div></a>
+                    <a href='/profile' class="floatlink" style="text-decoration: none;"><div class="headerlink">Profile</div></a>
+                    <a href='/messages' class="floatlink" style="text-decoration: none;"><div class="headerlink">Messages</div></a>
                     {% if account_type == "artist" %}
-                    <a href='/upcomingshows' class="floatlink"><div class="headerlink">Shows/Bids</div></a>
+                    <a href='/upcomingshows' class="floatlink" style="text-decoration: none;"><div class="headerlink">Shows/Bids</div></a>
                     {% else %}
-                    <a href="/yourlistings" class="floatlink"><div class="headerlink">Your listings</div></a>
+                    <a href="/yourlistings" class="floatlink" style="text-decoration: none;"><div class="headerlink">Your listings</div></a>
                     {% endif %}
-                    <a href="/payments" class="floatlink"><div class="headerlink">Payments</div>
-                    <a href='/logout' class="floatlink"><div class="headerlink">Logout</div></a>
+                    <a href="/payments" class="floatlink" style="text-decoration: none;"><div class="headerlink">Payments</div>
+                    <a href='/logout' class="floatlink" style="text-decoration: none;"><div class="headerlink">Logout</div></a>
             </div>
             <!--- End of user header options --->
 

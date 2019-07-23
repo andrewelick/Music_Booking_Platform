@@ -8,13 +8,13 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
       body {
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-color: #f6f9fc;
       }
 
         .mobilegridrow-2 {
@@ -99,12 +99,23 @@
             display: block;
         }
 
+        .show_location {
+            font-size: 12px;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
         .show_time {
+            font-size: 13px;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .set_length {
             font-size: 13px;
         }
 
         .show_price {
-            margin-top: -13px;
             float: right;
             font-size: 20px;
             color: green;
@@ -115,14 +126,19 @@
           border-radius: 100px;
         }
 
-        .show_time {
-          font-size: 12px;
-        }
-
         .noti_message {
           padding-top: 11px;
           font-size: 13px;
           margin-left: 45px;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+        .material-icons {
+            font-size: 16px;
+            vertical-align: middle;
         }
 
         @media screen and (min-width: 800px) {
@@ -148,32 +164,9 @@
             <!--- Header --->
             <div style="font-size: 17px;padding-bottom: 10px;">Upcoming Shows</div>
 
-            <!-- Shows container --->
+            <!-- Where upcoming shows are placed into --->
             <div id="shows_container">
-                {% for details in upcoming_shows %}
-
-                    <!--- Single show posting bubble --->
-                    <a href="/shows?id={% print details[0] %}" class="single_show_link">
-                        <div class="single_show_bubble">
-                            <!-- Venue picture --->
-                            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print details[1] %}_profile.jpg" class="show_picture" />
-
-                            <!--- Venue name --->
-                            <font class="venue_name">{% print details[2] %}</font>
-
-                            <!--- Show date --->
-                            <font class="show_time">{% print details[4].strftime("%b %d, %Y") %} <font style='font-size: 13px;'>{% print details[4].strftime("%H:%M"), details[5] %}</font></font>
-
-                            <!--- Show price --->
-                            <font class="show_price">+${% print details[3] %}</font>
-                        </div>
-                    </a>
-
-                {% endfor %}
-
-                {% if upcoming_shows|length == 0 %}
-                    <div style="padding: 30px">You are not scheduled to perform any shows. Get bidding!</div>
-                {% endif %}
+                <img class="loading_gif" src="static/loading-spinner.gif" />
             </div>
 
         </div>
@@ -182,37 +175,159 @@
         <div class="bubble_container">
             <div style="font-size:18px">Open Bids</div>
 
-            {% for bid in all_user_bids %}
-
-            <!--- Single show posting bubble --->
-            <a href="/shows?id={% print bid[0] %}" class="single_show_link">
-                <div class="single_show_bubble">
-                    <!-- Venue picture --->
-                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print bid[2] %}_profile.jpg" class="show_picture" />
-
-                    <!--- Venue name --->
-                    <font class="venue_name">{% print bid[5] %}</font>
-
-                    <!--- Show date --->
-                    <font class="show_time">{% print bid[3].strftime("%b %d, %Y") %} <font style='font-size: 13px;'>{% print bid[3].strftime("%H:%M"), bid[4] %}</font></font>
-
-                    <!--- Show price --->
-                    <font class="show_price" style="color: #383838">${% print bid[1] %}</font>
-                </div>
-            </a>
-
-            {% endfor %}
-
-            {% if not all_user_bids %}
-            <div style="padding: 30px;">You don't have any active bids</div>
-            {% endif %}
-
+            <!-- Where upcoming shows are placed into --->
+            <div id="bids_container">
+                <img class="loading_gif" src="static/loading-spinner.gif" />
+            </div>
         </div>
 
 
     </div>
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            $(".loading_gif").hide();
+        });
+
+        function load_artist_upcoming_shows() {
+
+            //Send ajax request to fetch results
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "get_upcoming_artist_shows": "check",
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    //If there are no upcoming shows
+                    if (data.success == "no upcoming shows") {
+                        $("#shows_container").html("<div style='padding: 20px;'>You have no upcoming shows</div>")
+                    }
+                    else {
+
+                        let shows = data.success
+                        console.log(shows)
+                        for (x in shows) {
+                            let single_show = `
+                                <!--- Single show posting bubble --->
+                                <a href="/shows?id=${shows[x].show_id}" class="single_show_link">
+                                    <div class="single_show_bubble">
+                                        <!-- Venue picture --->
+                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${shows[x].business_uid}_profile.jpg" class="show_picture" />
+
+                                        <!--- Show price --->
+                                        <font class="show_price">$${shows[x].bid_amount}</font>
+
+                                        <div style='overflow: hidden'>
+                                            <!--- Venue name --->
+                                            <font class="venue_name">${shows[x].business_name}</font>
+
+                                            <!--- Show location --->
+                                            <font class="show_location">
+                                                <!--- Icon --->
+                                                <i class="material-icons">place</i>
+                                                ${shows[x].show_location
+                                            }</font>
+
+                                            <br/>
+
+                                            <!--- Show date --->
+                                            <font class="show_time">
+                                                <!--- Icon --->
+                                                <i class="material-icons">event</i>
+                                                ${shows[x].show_date} @ ${shows[x].show_time}
+                                            </font>
+
+                                            <br/>
+
+                                            <!--- Set length --->
+                                            <font class="set_length">
+                                                <!--- Icon --->
+                                                <i class="material-icons">schedule</i>
+                                                ${shows[x].set_length}
+                                            </font>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            `
+
+                            $("#shows_container").append(single_show)
+                        }
+                    }
+                }
+                else {
+                    $("#shows_container").html("<div style='padding: 20px;color: red;'>There was an error loading this content</div>")
+                }
+            });
+        } load_artist_upcoming_shows()
+
+        function load_all_artist_bids() {
+
+            //Send ajax request to fetch results
+            $.ajax({
+                type: "POST",
+                url: "/artist_bids",
+                data: {
+                    "get_all_artist_bids": "check",
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    if (data.success == "no bids") {
+                        $("#bids_container").append("<div style='padding: 20px;'>You have no open bids</div>")
+                    }
+                    else {
+                        let bids = data.success
+
+                        //Loop through each result
+                        for (x in bids) {
+                            let single_bid = `
+                                <!--- Single show posting bubble --->
+                                <a href="/shows?id=${bids[x].show_id}" class="single_show_link">
+                                    <div class="single_show_bubble">
+                                        <!-- Venue picture --->
+                                        <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${bids[x].business_uid}_profile.jpg" class="show_picture" />
+
+                                        <div style='overflow: hidden'>
+                                            <!--- Venue name --->
+                                            <font class="venue_name">${bids[x].business_name}</font>
+
+                                            <!--- Show date --->
+                                            <font class="show_time">${bids[x].show_date} @ ${bids[x].show_time}</font>
+
+                                            <!--- Bid price --->
+                                            <font class="show_price">Your bid: $${bids[x].bid_price}</font>
+                                        </div>
+                                    </div>
+                                </a>
+                            `
+
+                            $("#bids_container").append(single_bid)
+                        }
+                    }
+                }
+                else {
+                    $("#bids_container").html("<div style='padding: 20px;color: red;'>There was an error loading this content</div>")
+                }
+            });
+        } load_all_artist_bids()
+
+    </script>
 
   </body>
 </html>
