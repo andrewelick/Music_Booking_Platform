@@ -90,12 +90,11 @@
 
         .thread_time {
           font-size: 11px;
-          color: #8c8c8c;
         }
 
         .thread_message {
           padding-top: 5px;
-          font-size: 13px;
+          font-size: 14px;
           margin-left: 60px;
           word-wrap: break-word;
         }
@@ -106,8 +105,6 @@
           width: 100%;
           min-height: 50px;
           padding-bottom: 5px;
-          border-bottom: 1px solid;
-          border-color: #EFEFEF;
         }
 
         #send_message_container {
@@ -218,14 +215,14 @@
         <!--- Single thread messages --->
         {% if all_thread_messages %}
             <div id="messages_header">
-
+                <!--- Profile picture --->
                 <a href="/profile?uid={% print thread_other_user[0] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print thread_other_user[0] %}_profile.jpg" style="height:50px;width:50px;border-radius:100px;"/></a>
 
                 <!--- Message profile header --->
-                <div style="display:inline;position:relative;top:-19px;">{% print thread_other_user[1] %}</div>
+                <div style="display:inline;position:relative;top:-19px;text-transform: capitalize">{% print thread_other_user[1] %}</div>
 
 
-                <a href="/messages" style="float:left;font-size:12px;color:blue;">Back</a>
+                <a href="/messages" style="float:left;font-size:12px;color:blue;padding-left: 10px;">Back</a>
             </div>
 
             <!--- Messages container --->
@@ -234,35 +231,52 @@
                 <a href="/messages?tid={% print thread_id %}&rec_id={% print rec_id %}&count={% print count %}" style="font-size: 14px;color: blue;margin-top: 20px;">Load older messages</a>
             {% endif %}
 
+            <!--- Loop through all messages in one thread --->
             {% for message in all_thread_messages[0] %}
 
                 {% if message[2] == uid %}
-                <div class="single_message" style="margin-left:60px;padding-left:0px;padding-bottom: 0;border-color:#EFEFEF;">
+                <div class="single_message" style="margin-left: 60px;text-align: right;">
                 {% else %}
                 <div class="single_message" style="margin-right:50px;">
                 {% endif %}
 
                 {% if message[2] == uid %}
-                    <a href="profile?uid={% print message[2] %}" style="float:right;"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;margin:0;" /></a>
-                {% else %}
-                    <a href="profile?uid={% print message[2] %}"><img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print message[2] %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;" /></a>
-                {% endif %}
-
-                {% if message[2] == uid %}
                     <!--- Thread message --->
-                    <div class="thread_message" id="single_message">
-                        <div style="margin-right:42px;word-wrap:break-word;">{% print message[5] %}</div>
+                    <div class="thread_message" id="single_message" style="margin-right: 50px;">
 
-                        <!--- Time of last message sent in thread --->
-                        <div class="thread_time" style="padding-top:5px;">{% print message[4] %}</div>
+                        <!--- Profile picture --->
+                        <a href="profile?uid={% print message[2] %}" style="float: right;padding-left: 10px;">
+                            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;margin:0;display: inline-block;" />
+                        </a>
+
+                        <!--- Text & Time container --->
+                        <div style="border-radius: 5px; display: inline-block;min-width: 100px;padding: 10px;background-color: #47a7f5;color: #FFFFFF;text-align: left;">
+                            <!--- Message --->
+                            <div style="word-wrap:break-word;">{% print message[5] %}</div>
+
+                            <!--- Time of last message sent in thread --->
+                            <div class="thread_time" style="padding-top:5px;text-align: right;color: #daedfd;">{% print message[4] %}</div>
+                        </div>
+
                     </div>
                 {% else %}
                     <!--- Thread message --->
-                    <div class="thread_message" id="single_message" style="padding-left:50px;">
-                        {% print message[5] %}
+                    <div class="thread_message" id="single_message">
 
-                        <!--- Time of last message sent in thread --->
-                        <div class="thread_time" style="padding-top:5px;">{% print message[4] %}</div>
+                        <!--- Profile picture --->
+                        <a href="profile?uid={% print message[2] %}">
+                            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print message[2] %}_profile.jpg" class="thread_picture" style="height:40px;width:40px;" />
+                        </a>
+
+                        <!--- Text & Time container --->
+                        <div style="border-radius: 5px; display: inline-block;min-width: 100px;padding: 10px;background-color: #bcbcbc;color: #FFFFFF;text-align: left;">
+                            <!--- Message --->
+                            <div style="word-wrap:break-word;">{% print message[5] %}</div>
+
+                            <!--- Time of last message sent in thread --->
+                            <div class="thread_time" style="padding-top:5px;color: #f7f7f7">{% print message[4] %}</div>
+                        </div>
+
                     </div>
                 {% endif %}
 
@@ -287,10 +301,8 @@
 
                 <div class="error_message">{{ get_flashed_messages()[0] }}</div>
             </div>
-            <!--- End of send message --->
 
-            </div>
-            <!--- End of message container --->
+        </div>
 
         <!--- All threads for user --->
         {% else %}

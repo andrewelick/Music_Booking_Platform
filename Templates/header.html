@@ -98,17 +98,11 @@
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
-        #notifications_container {
-            min-height:19px;
-            min-width:19px;
-            padding: 3px;
+        .notifications_container {
             margin-right: 20px;
-            border-radius: 100px;
             float:right;
             text-align: center;
-            font-size: 15px;
-            background-color: #FFFFFF;
-            color: #383838;
+            color: #FFFFFF;
         }
 
         a {
@@ -164,16 +158,21 @@
                     <i class="material-icons" style="font-size: 32px;">menu</i>
                 </div>
 
-            <!--- Notifications container --->
-            {% if noti_number == 0 %}
-                <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
-            {% else %}
-                <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
-            {% endif %}
-            <!--- End of Notifications container --->
+                <!--- Notifications container --->
+                {% if noti_number == 0 %}
+                    <a href="/notifications" class="notifications_container">
+                        <i class="material-icons" style="font-size: 26px;">notifications</i>
+                    </a>
+                {% else %}
+                    <a href="/notifications" id="has_notification" class="notifications_container">
+                        <i class="material-icons" style="font-size: 24px;">notifications_active</i>
+                        <font style="position: absolute;top: 10px;min-width: 20px;padding: 1px;display: inline-block;color: #FFFFFF;background-color: red;border-radius: 100%;font-size: 14px;">{% print noti_number %}</font>
+                    </a>
+                {% endif %}
+                <!--- End of Notifications container --->
 
             {% else %}
-                <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
+                <a href='/login' style="display: inline-block; float:right;margin-top:5px;padding-bottom: 10px;font-size:15px;color:#FFFFFF">Login</a>
             {% endif %}
 
             <!--- User header options --->
@@ -245,8 +244,8 @@
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
                 $("body").toggleClass("noScroll")
-                $("#header_options_container").toggle()
                 $("#headerbarcontainer").toggleClass("toggleheight")
+                $("#header_options_container").slideToggle(200, "linear")
             }
 
         }

@@ -187,6 +187,7 @@ def create_new_account(email,password,confirm_password,name,account_type):
                     #Send picture to AWS bucket bluffbucket
                     create_default_aws_picture(uid)
 
+
                     return json.dumps({'success': 'Account created'})
                 else:
                     return json.dumps({'error': 'Email already used with another account'})
@@ -1180,7 +1181,7 @@ def get_thread_other_user(rec_id):
 
             if account_type == 2:
                 c.execute("SELECT uid, name FROM accounts WHERE uid=%s", (rec_id,))
-                user_details = c.fetchone()[0]
+                user_details = c.fetchone()
             else:
                 c.execute("SELECT uid, business_name FROM venue_profile_details WHERE uid=%s", (rec_id,))
                 user_details = c.fetchone()
