@@ -410,23 +410,30 @@
         var stripe = Stripe('{{STRIPE_API_PUBLIC_KEY}}');
 
         //Create instance of Elements
-        var elements = stripe.elements();
+        var elements = stripe.elements({
+            fonts: [
+                {
+                // integrate your font into stripe
+                cssSrc: 'https://fonts.googleapis.com/css?family=Montserrat|Quicksand',
+                }
+            ]
+        });
 
         //Style for forms
         var style = {
             base: {
-            color: '#32325d',
-            fontFamily: 'inherit',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-                    color: '#aab7c4'
-                }
+                color: '#32325d',
+                fontFamily: 'Montserrat, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '14px',
+                '::placeholder': {
+                        color: '#aab7c4'
+                },
             },
             invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-          }
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
         };
 
         //Create an instance of the card Element

@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <title></title>
 
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
     <style>
         #headerbarcontainer {
             width: 100%;
@@ -16,155 +20,213 @@
             box-sizing: border-box;
             display: inline-block;
             padding: 20px;
+            padding-bottom: 10px;
             text-align:left;
             font-size: 20px;
             background-color: #328CC1;
             color: #FFFFFF;
         }
 
-      .mobileheader {
-        width: 100%;
-        box-sizing: border-box;
-        float: left;
-        padding: 20px;
-        text-align:left;
-        font-size: 20px;
-        border-color:#d2d2d2;
-        background-color: #232f42;
+        .mobileheader {
+            width: 100%;
+            box-sizing: border-box;
+            float: left;
+            padding: 20px;
+            text-align:left;
+            font-size: 20px;
+            border-color:#d2d2d2;
+            background-color: #232f42;
             color: #FFFFFF;
-      }
+        }
 
-      #optionsbutton {
-          position: relative;
-          top: 2px;
-          float: right;
-      }
+        #optionsbutton {
+            position: relative;
+            top: -3px;
+            float: right;
+        }
 
-      .bar {
-          width: 30px;
-          height: 4px;
-          background-color: #FFFFFF;
-          margin-bottom: 4px;
-      }
+        #optionsbutton:hover {
+            cursor: pointer;
+        }
 
-      #header_options_container {
-          display: inline-block;
-          width: 100%;
-          margin-top: 15px;
-          z-index: 99;
-          text-align: center;
-          transition: 0.3s;
-          overflow: hidden;
-      }
+        .bar {
+            width: 30px;
+            height: 4px;
+            background-color: #FFFFFF;
+            margin-bottom: 4px;
+        }
 
-      .floatlink {
-          box-sizing: border-box;
-          width: 100%;
-          float: left;
-      }
+        #header_options_container {
+            display: inline-block;
+            width: 100%;
+            margin-top: 15px;
+            z-index: 99;
+            text-align: center;
+            overflow: hidden;
+        }
 
-      .headerlink {
-          padding: 15px;
-          border-bottom: 2px solid;
-          font-size: 13px;
-          color: #FFFFFF;
-          border-color: #FFFFFF;
-          text-decoration: none;
-      }
+        .floatlink {
+            box-sizing: border-box;
+            width: 100%;
+            float: left;
+            overflow: hidden;
+        }
 
-      .headerlink:hover {
-          border-color: #232f42;
-      }
+        .headerlink {
+            padding-bottom: 5px;
+            border-bottom: 2px solid;
+            font-size: 13px;
+            color: #FFFFFF;
+            border-color: #5aa3cd;
+            text-decoration: none;
+        }
 
-      #notifications_container {
-        min-height:19px;
-        min-width:19px;
-        padding: 3px;
-        margin-right: 20px;
-        border-radius: 100px;
-        float:right;
-        text-align: center;
-        font-size: 15px;
-        background-color: #FFFFFF;
-        color: #383838;
-      }
+        .headerlink:hover {
+            border-color: #2d7ead;
+            animation: shake 90ms;
+        }
 
-      a {
-          text-decoration: none;
-          color: #383838;
-      }
+        .header-icon {
+            padding-right: 2px;
+            vertical-align: middle;
+            font-size: 19px
+        }
 
-      .noScroll {
-          overflow: hidden
-      }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
 
-      .toggleheight {
-          height: 800px;
-      }
+        #notifications_container {
+            min-height:19px;
+            min-width:19px;
+            padding: 3px;
+            margin-right: 20px;
+            border-radius: 100px;
+            float:right;
+            text-align: center;
+            font-size: 15px;
+            background-color: #FFFFFF;
+            color: #383838;
+        }
 
-      @media screen and (min-width: 800px) {
+        a {
+            text-decoration: none;
+            color: #383838;
+        }
 
-          #headerbar {
-              width: 800px;
-              margin: 0 auto;
-              float: center;
-              position: relative;
-              display: inline-block;
-          }
+        .noScroll {
+            overflow: hidden
+        }
 
-          #header_options_container {
-              overflow: auto;
-          }
+        .toggleheight {
+            height: 800px;
+        }
 
-          .floatlink {
-              width: 150px;
-          }
-      }
+        @media screen and (max-width: 800px) {
+            .headerlink {
+                padding: 15px;
+            }
+        }
+
+        @media screen and (min-width: 800px) {
+
+            #headerbar {
+                width: 800px;
+                margin: 0 auto;
+                float: center;
+                position: relative;
+                display: inline-block;
+            }
+
+            #header_options_container {
+                overflow: auto;
+            }
+
+            .floatlink {
+                width: 150px;
+            }
+        }
 
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <!-- Mobile heading -->
     <div id="headerbarcontainer">
         <div id="headerbar">
+            <!--- Title --->
             <a href='/' style='text-decoration:none;color:#FFFFFF;'>Bluff Tour</a>
+
             <!--- If user is logged in --->
             {% if session['username'] %}
-            <div id="optionsbutton">
-              <div class="bar"></div>
-              <div class="bar"></div>
-              <div class="bar"></div>
-            </div>
+                <div id="optionsbutton">
+                    <i class="material-icons" style="font-size: 32px;">menu</i>
+                </div>
 
             <!--- Notifications container --->
             {% if noti_number == 0 %}
-            <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
+                <a href="/notifications" id="notifications_container">{% print noti_number %}</a>
             {% else %}
-            <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
+                <a href="/notifications" id="notifications_container" style="color:#FFFFFF;background-color:red;">{% print noti_number %}</a>
             {% endif %}
             <!--- End of Notifications container --->
 
             {% else %}
-              <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
+                <a href='/login' style="display: inline-block; float:right;margin-top:5px;font-size:15px;color:#FFFFFF">Login</a>
             {% endif %}
 
             <!--- User header options --->
             <div id="header_options_container" style="display:none">
-                    <a href='/profile' class="floatlink" style="text-decoration: none;"><div class="headerlink">Profile</div></a>
-                    <a href='/messages' class="floatlink" style="text-decoration: none;"><div class="headerlink">Messages</div></a>
-                    {% if account_type == "artist" %}
-                    <a href='/upcomingshows' class="floatlink" style="text-decoration: none;"><div class="headerlink">Shows/Bids</div></a>
-                    {% else %}
-                    <a href="/yourlistings" class="floatlink" style="text-decoration: none;"><div class="headerlink">Your listings</div></a>
-                    {% endif %}
-                    <a href="/payments" class="floatlink" style="text-decoration: none;"><div class="headerlink">Payments</div>
-                    <a href='/logout' class="floatlink" style="text-decoration: none;"><div class="headerlink">Logout</div></a>
+                <!--- Profile -->
+                <a href='/profile' class="floatlink" style="text-decoration: none;">
+                    <div class="headerlink">
+                        <i class="material-icons header-icon">person</i>
+                        Profile
+                    </div>
+                </a>
+                <!--- Messages -->
+                <a href='/messages' class="floatlink" style="text-decoration: none;">
+                    <div class="headerlink">
+                        <i class="material-icons header-icon">chat</i>
+                        Messages
+                    </div>
+                </a>
+                <!--- Show Bids --->
+                {% if account_type == "artist" %}
+                    <a href='/upcomingshows' class="floatlink" style="text-decoration: none;">
+                        <div class="headerlink">
+                            <i class="material-icons header-icon">gavel</i>
+                            Shows/Bids
+                        </div>
+                    </a>
+                <!--- Listings --->
+                {% else %}
+                    <a href="/yourlistings" class="floatlink" style="text-decoration: none;">
+                        <div class="headerlink">
+                            <i class="material-icons header-icon">gavel</i>
+                            Your listings
+                        </div>
+                    </a>
+                {% endif %}
+                <!--- Payments --->
+                <a href="/payments" class="floatlink" style="text-decoration: none;">
+                    <div class="headerlink">
+                        <i class="material-icons header-icon">payment</i>
+                        Payments
+                    </div>
+                </a>
+                <!--- Logout --->
+                <a href='/logout' class="floatlink" style="text-decoration: none;">
+                    <div class="headerlink">
+                        <i class="material-icons header-icon">clear</i>
+                        Logout
+                    </div>
+                </a>
             </div>
             <!--- End of user header options --->
 
         </div>
     </div>
-    <!-- End of mobile heading --->
 
     <!--- Obtain window size for header menu --->
     <script type="text/javascript">
@@ -175,8 +237,7 @@
         if (width > 800) {
             //Toggle mobile dropdown
             function toggleDropdown_menu(){
-                $(".mobileheader").hide()
-                $("#header_options_container").toggle()
+                $("#header_options_container").slideToggle(30, "linear")
             }
         }
         else {

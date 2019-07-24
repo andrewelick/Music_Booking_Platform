@@ -19,11 +19,11 @@
 
 
     <style type='text/css'>
-      body {
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-      }
+        body {
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
 
         .mobilegridrow-2 {
             overflow: hidden;
@@ -36,14 +36,14 @@
         }
 
         #setupcontainer {
-          max-width: 400px;
-          margin: auto;
-          padding: 15px;
-          background-color: #FFFFFF;
-          box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
-          border-radius: 5px;
-          -webkit-transition: box-shadow 1s ease;
-          transition: box-shadow 1s ease;
+            max-width: 400px;
+            margin: auto;
+            padding: 15px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            -webkit-transition: box-shadow 1s ease;
+            transition: box-shadow 1s ease;
         }
 
         .StripeElement {
@@ -78,20 +78,20 @@
         }
 
         input {
-          box-sizing: border-box;
-          border: 1px solid;
-          width: 100%;
-          padding:10px;
-          margin-top: 5px;
-          margin-bottom: 10px;
-          font-size: 16px;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          outline: none;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          -webkit-transition: box-shadow 150ms ease;
-          transition: 150ms ease;
-
+            box-sizing: border-box;
+            border: 1px solid;
+            width: 100%;
+            padding:10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            border-radius: 5px;
+            border-color: #d2d2d2;
+            outline: none;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: 150ms ease;
         }
 
         input:focus {
@@ -99,18 +99,18 @@
         }
 
         input[type='submit'] {
-          border: 0;
-          margin-top: 10px;
-          padding:10px;
-          font-size: 15px;
-          border-radius: 5px;
-          background-color: #328CC1;
-          color: #FFFFFF;
+            border: 0;
+            margin-top: 10px;
+            padding:10px;
+            font-size: 15px;
+            font-family: inherit;
+            border-radius: 5px;
+            background-color: #328CC1;
+            color: #FFFFFF;
         }
 
         input[type='submit']:hover {
-            background-color: #3494cb;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+            cursor: pointer;
         }
 
         .ui-datepicker {
@@ -228,6 +228,24 @@
             display: none;
         }
 
+        /* Ripple effect */
+        .ripple {
+            background-color: #328CC1;
+            background-position: center;
+            transition: background 0.8s;
+            outline: none;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+            cursor: pointer;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -304,21 +322,16 @@
                 <!-- Terms of service agreement --->
                 <div style="margin-top: 10px;font-size: 12px;"><input type="checkbox" name="TOS_checkbox" id="TOS_checkbox" style="width: auto;" />
                     I agree to the
-
                     <!--- Bluff tour terms --->
                     <a href="/terms" target="_blank" style="color: blue" id="TOS_link">
                         terms of service
-
                         <!--- Icon --->
                         <i class="material-icons" style="font-size: inherit">open_in_new</i>
                     </a>
-
                     and the
-
                     <!--- Stripe terms --->
                     <a href="https://stripe.com/connect-account/legal" target="_blank" style="color: blue;">
                         Stripe Connected Account Agreement
-
                         <!--- Icon --->
                         <i class="material-icons" style="font-size: inherit">open_in_new</i>
                     </a>
@@ -328,7 +341,7 @@
                 <div id="error_message"></div>
 
                 <!--- Submit button --->
-                <input type="submit" id="submit" value="Create payment account" />
+                <input type="submit" id="submit" class="ripple" value="Create payment account" />
 
                 <!--- Skip option --->
                 <a href="/" style="margin-top:10px;padding-top:10px;font-size:12px;" id="finishlater">Finish later</a>
@@ -497,23 +510,30 @@
         var stripe = Stripe('{{STRIPE_API_PUBLIC_KEY}}');
 
         //Create instance of Elements
-        var elements = stripe.elements();
+        var elements = stripe.elements({
+            fonts: [
+                {
+                // integrate your font into stripe
+                cssSrc: 'https://fonts.googleapis.com/css?family=Montserrat|Quicksand',
+                }
+            ]
+        });
 
         //Style for forms
         var style = {
             base: {
             color: '#32325d',
-            fontFamily: 'inherit',
+            fontFamily: 'Montserrat, sans-serif',
             fontSmoothing: 'antialiased',
-            fontSize: '16px',
+            fontSize: '15px',
             '::placeholder': {
                     color: '#aab7c4'
                 }
             },
             invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-          }
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
         };
 
         //Create an instance of the card Element
