@@ -10,69 +10,68 @@
 
         <style>
             body {
-              margin:0;
-              padding:0;
-              box-sizing: border-box;
-              background-color: #f6f9fc;
+                margin:0;
+                padding:0;
+                box-sizing: border-box;
             }
 
             /* For mobile phones: */
-              [class*="mobilegridrow-"] {
+            [class*="mobilegridrow-"] {
                 width: 100%;
                 box-sizing: border-box;
                 float: left;
                 padding: 10px;
                 border-color:#d2d2d2;
-              }
+            }
 
-              .mobilegridrow-2 {
+            .mobilegridrow-2 {
                 width: 100%;
                 padding: 0;
                 padding:10px;
                 margin-bottom: 20px;
-              }
+            }
 
-              .bubble_container {
-                  max-width: 600px;
-                  margin: auto;
-                  margin-top: 10px;
-                  padding: 20px;
-                  background-color: #FFFFFF;
-                  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
-                  border-radius: 5px;
-                  font-size: 13px;
-                  -webkit-transition: box-shadow 1s ease;
-                  transition: box-shadow 1s ease;
-              }
+            .bubble_container {
+                max-width: 600px;
+                margin: auto;
+                margin-top: 10px;
+                padding: 20px;
+                background-color: #FFFFFF;
+                box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+                font-size: 13px;
+                -webkit-transition: box-shadow 1s ease;
+                transition: box-shadow 1s ease;
+            }
 
-          [data-custom-class='body'], [data-custom-class='body'] * {
-                  background: transparent !important;
-                }
-        [data-custom-class='title'], [data-custom-class='title'] * {
-        font-size: 26px !important;
-        color: #000000 !important;
-                }
-        [data-custom-class='subtitle'], [data-custom-class='subtitle'] * {
-        color: #595959 !important;
-        font-size: 14px !important;
-                }
-        [data-custom-class='heading_1'], [data-custom-class='heading_1'] * {
-        font-size: 19px !important;
-        color: #000000 !important;
-                }
-        [data-custom-class='heading_2'], [data-custom-class='heading_2'] * {
-        font-size: 17px !important;
-        color: #000000 !important;
-                }
-        [data-custom-class='body_text'], [data-custom-class='body_text'] * {
-                  color: #595959 !important;
-        font-size: 14px !important;
-                }
-        [data-custom-class='link'], [data-custom-class='link'] * {
-                  color: #3030F1 !important;
-        font-size: 14px !important;
-        word-break: break-word !important;
-                }
+            [data-custom-class='body'], [data-custom-class='body'] * {
+                background: transparent !important;
+            }
+            [data-custom-class='title'], [data-custom-class='title'] * {
+                font-size: 26px !important;
+                color: #000000 !important;
+            }
+            [data-custom-class='subtitle'], [data-custom-class='subtitle'] * {
+                color: #595959 !important;
+                font-size: 14px !important;
+            }
+            [data-custom-class='heading_1'], [data-custom-class='heading_1'] * {
+                font-size: 19px !important;
+                color: #000000 !important;
+            }
+            [data-custom-class='heading_2'], [data-custom-class='heading_2'] * {
+                font-size: 17px !important;
+                color: #000000 !important;
+            }
+            [data-custom-class='body_text'], [data-custom-class='body_text'] * {
+                color: #595959 !important;
+                font-size: 14px !important;
+            }
+            [data-custom-class='link'], [data-custom-class='link'] * {
+                color: #3030F1 !important;
+                font-size: 14px !important;
+                word-break: break-word !important;
+            }
     </style>
 
     </head>
@@ -464,24 +463,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;">&nbsp;</span></di
             </div>
 
         </div>
-
+</div>
         {% include 'footer.html' %}
-
-        <script type="text/javascript">
-            //Adjust width if screen is bigger than phone
-            screenWidth = screen.width;
-
-            if (screenWidth > 450 && screenWidth < 1000) {
-                margin = (screenWidth - 450) / 2
-                $(".mobilegridrow-2").width(450).css("margin-left",margin).css("margin-right", margin);
-            }
-            else if (screenWidth > 1000){
-                margin = (screenWidth - 1000) / 2
-                $(".mobilegridrow-2").width(1000).css("margin-left",margin).css("margin-right", margin);
-                $("#start").width(100)
-                $("#cash_out_container").width(400).css('margin-left', margin * 2).css('margin-right', margin);
-            }
-        </script>
-
     </body>
 </html>

@@ -9,7 +9,12 @@
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!--- Stripe --->
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
       body {
@@ -124,8 +129,7 @@
         }
 
         input[type='submit']:hover {
-            background-color: #3494cb;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+            cursor: pointer;
         }
 
         .ui-datepicker {
@@ -260,6 +264,24 @@
             display: none;
         }
 
+        /* Ripple effect */
+        .ripple {
+            background-color: #328CC1;
+            background-position: center;
+            transition: background 0.8s;
+            outline: none;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+            cursor: pointer;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -298,7 +320,7 @@
 
       <div id="setupcontainer">
 
-        <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Add payment information</div>
+        <div style="font-weight: bold;font-size: 17px;padding-bottom: 30px;">Add payment information</div>
 
         <!--- Stripe container --->
         <form id="cardForm" method="post" name="cardForm">
@@ -329,7 +351,7 @@
                 <div id="error_message"></div>
 
                 <!--- Submit button --->
-                <input type="submit" id="submit" value="Add Card" />
+                <input type="submit" id="submit" value="Add Card" class="ripple" />
 
                 <!--- Skip option --->
                 <a href="/" style="margin-top:10px;padding-top:10px;font-size:12px;" id="finishlater">Finish later</a>
@@ -351,8 +373,18 @@
 
         <!--- Message telling why artist should add payments information --->
         <div style="font-size:12px;color:#383838;padding-top: 10px;">
-            All payment information is stored on Stripe's secure payment platform. This is to ensure your safety while using our service.
-            <a href="https://stripe.com/customers" class="link">Learn more about Stripe</a>
+
+            <!--- Explanation text --->
+            <div style="padding-bottom: 10px;">
+                All payment information is stored on Stripe's secure payment platform. This is to ensure your safety while using our service.
+            </div>
+
+            <a target="_blank" href="https://stripe.com/customers" class="link">
+                Learn more about Stripe
+
+                <!--- Icon --->
+                <i class="material-icons" style="font-size: inherit">open_in_new</i>
+            </a>
         </div>
 
 

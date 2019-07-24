@@ -10,14 +10,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--- Stripe --->
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
     <style type='text/css'>
       body {
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-color: #f6f9fc;
       }
 
         .mobilegridrow-2 {
@@ -81,7 +86,7 @@
           margin-bottom: 10px;
           font-size: 16px;
           border-radius: 5px;
-          border-color: #efefef;
+          border-color: #d2d2d2;
           outline: none;
           box-shadow: 0 1px 3px 0 #e6ebf1;
           -webkit-transition: box-shadow 150ms ease;
@@ -299,8 +304,24 @@
                 <!-- Terms of service agreement --->
                 <div style="margin-top: 10px;font-size: 12px;"><input type="checkbox" name="TOS_checkbox" id="TOS_checkbox" style="width: auto;" />
                     I agree to the
-                    <a href="/terms" target="_blank" style="color: blue" id="TOS_link">terms of service</a>
-                    and the <a href="https://stripe.com/connect-account/legal" target="_blank" style="color: blue;">Stripe Connected Account Agreement</a>
+
+                    <!--- Bluff tour terms --->
+                    <a href="/terms" target="_blank" style="color: blue" id="TOS_link">
+                        terms of service
+
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: inherit">open_in_new</i>
+                    </a>
+
+                    and the
+
+                    <!--- Stripe terms --->
+                    <a href="https://stripe.com/connect-account/legal" target="_blank" style="color: blue;">
+                        Stripe Connected Account Agreement
+
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: inherit">open_in_new</i>
+                    </a>
                 </div>
 
                 <!--- Error message --->
@@ -330,8 +351,18 @@
 
         <!--- Message telling why artist should add payments information --->
         <div style="font-size:12px;color:#383838;padding-top: 10px;">
-            All payment information is stored on Stripe's secure payment platform. This is to ensure your safety while using our service.
-            <a href="https://stripe.com/customers" class="link" target="_blank">Learn more about Stripe</a>
+
+            <!--- Explanation text --->
+            <div style="padding-bottom: 10px;">
+                All payment information is stored on Stripe's secure payment platform. This is to ensure your safety while using our service.
+            </div>
+
+            <a target="_blank" href="https://stripe.com/customers" class="link">
+                Learn more about Stripe
+
+                <!--- Icon --->
+                <i class="material-icons" style="font-size: inherit">open_in_new</i>
+            </a>
         </div>
 
       </div>

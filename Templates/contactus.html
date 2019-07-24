@@ -8,13 +8,14 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
-      body {
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-      }
+        body {
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
 
         .mobilegridrow-2 {
             box-sizing: border-box;
@@ -27,24 +28,29 @@
         }
 
         #contact_container {
-          padding: 20px;
-          font-size: 20px;
-          border-radius: 5px;
-          box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
         .contact_header {
-          border-bottom:1px solid;
-          border-color:#d2d2d2
+            border-bottom:1px solid;
+            border-color:#d2d2d2
         }
 
         .contact_info {
-          text-align: left;
-          font-size: 14px;
+            padding-top: 20px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .contact_icons {
-          height:15px;
+            font-size: 25px;
+            vertical-align: middle;
+            color: #232f42;
         }
 
       /* For Desktop users: */
@@ -68,21 +74,32 @@
     <!--- End of Mobile heading --->
 
     <div class='mobilegridrow-2'>
-      <!--- Contact container --->
-      <div id='contact_container'>
-        <div class='contact_header'>Contact us</div>
+        <!--- Contact container --->
+        <div id='contact_container'>
+            <!--- Header --->
+            <div class='contact_header'>Contact us</div>
 
-        <p style='font-size:15px;'>You can reach us at the following places:</p>
+            <!--- Subtitle --->
+            <p style='font-size:15px;'>Email or Call us if you every need any help</p>
 
-        <div class='contact_info'><img src='/static/arroba.png' class='contact_icons'/> <a href='mailto:andrew@blufftour.com'>andrew@blufftour.com</a></div>
-        </br>
-        <div class='contact_info'><img src='static/telephone.png' class='contact_icons' /> 901-606-5506</div>
-        </br>
-        <div class='contact_info'><img src='static/placeholder.png' class="contact_icons" /> 123 Main street, Memphis TN 38017</div>
-      </div>
-      <!--- End of Contact container --->
+            <!--- Email --->
+            <div class='contact_info'>
+                <!--- Icon --->
+                <i class='material-icons contact_icons'>email</i>
+                <a style="color: blue" href='mailto:andrew@blufftour.com'>Andrew@blufftour.com</a>
+            </div>
 
-      <div style='margin-top: 5px;font-size:10px;'>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            </br>
+
+            <!--- Phone number --->
+            <div class='contact_info'>
+                <!--- Icon --->
+                <i class='material-icons contact_icons'>call</i>
+                901-606-5506
+            </div>
+        </div>
+        <!--- End of Contact container --->
+
     </div>
     <!--- End of mobilesplash-2 --->
     {% include 'footer.html' %}

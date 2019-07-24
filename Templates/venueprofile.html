@@ -36,11 +36,11 @@
         }
 
         #profilepicture {
-          box-sizing: border-box;
-          width: 125px;
-          border-radius: 100%;
-          margin-right: 5px;
-          float: left;
+            box-sizing: border-box;
+            width: 125px;
+            border-radius: 100%;
+            margin-right: 5px;
+            float: left;
         }
 
         #bio {
@@ -51,13 +51,13 @@
         }
 
         .socialbar {
-          padding-top: 5px;
+            padding-top: 5px;
         }
 
         .socialicon {
-          height: 25px;
-          width: 25px;
-          padding: 2px;
+            height: 25px;
+            width: 25px;
+            padding: 2px;
         }
 
         .contact {
@@ -115,12 +115,12 @@
         }
 
         #currentlistings {
-          margin: auto;
-          margin-top:10px;
-          padding: 10px;
-          border-radius: 5px;
-          border-color: #d2d2d2;
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+            margin: auto;
+            margin-top:10px;
+            padding: 10px;
+            border-radius: 5px;
+            border-color: #d2d2d2;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         #pastListings {
@@ -133,20 +133,20 @@
         }
 
         .singlelisting {
-          padding: 10px;
-          margin-bottom: 10px;
-          border-bottom: 1px solid;
-          border-color: #d2d2d2;
-          font-size: 14px;
-          overflow: hidden;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid;
+            border-color: #d2d2d2;
+            font-size: 14px;
+            overflow: hidden;
         }
 
         .profilepicture_mini {
-          box-sizing: border-box;
-          width: 45px;
-          border-radius: 100px;
-          margin-right: 10px;
-          float: left;
+            box-sizing: border-box;
+            width: 45px;
+            border-radius: 100px;
+            margin-right: 10px;
+            float: left;
         }
 
         .listing_details {
@@ -177,12 +177,12 @@
         }
 
         .listing_stats_option {
-          margin-top:-5px;
-          padding:5px;
-          border-radius: 5px;
-          font-size:11px;
-          background-color:#596B83;
-          color:#FFFFFF;
+            margin-top:-5px;
+            padding:5px;
+            border-radius: 5px;
+            font-size:11px;
+            background-color:#596B83;
+            color:#FFFFFF;
         }
 
         .more_details_link {
@@ -203,23 +203,23 @@
         }
 
         textarea {
-          padding: 8px;
-          width: 70%;
-          font-family: inherit;
-          border-radius: 5px;
-          resize: none;
+            padding: 8px;
+            width: 70%;
+            font-family: inherit;
+            border-radius: 5px;
+            resize: none;
         }
 
         input[type="submit"] {
-          padding: 10px;
-          padding-left: 20px;
-          padding-right: 20px;
-          margin-right: 10px;
-          border-radius: 5px;
-          float: right;
-          border: 0;
-          background-color: #328CC1;
-          color: #FFFFFF;
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-right: 10px;
+            border-radius: 5px;
+            float: right;
+            border: 0;
+            background-color: #328CC1;
+            color: #FFFFFF;
         }
 
         a {
@@ -315,7 +315,7 @@
 
             <div id="profile_text_container" style="float: left;text-align: left;margin-left: 10px;">
                 <!--- Artist name --->
-                <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;'>{% print venue_details[1] %}</span>
+                <span style='font-size: 20px;font-weight:bold;padding-bottom: 10px;text-transform: capitalize'>{% print venue_details[1] %}</span>
 
                 <br/>
                 <div style='font-size:13px;'>{% print venue_details[2] %} | {% print venue_details[3] %}</div>
@@ -366,16 +366,16 @@
 
         <!--- Message rec profile --->
         <div id="message_rec_profile" style="margin-bottom: 15px;">
-          <img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' style="height:50px;width: 50px;border-radius: 100px" />
-          <span class="rec_name" style="display:inline;position:relative;top:-19px;">{% print venue_details[1] %}</span>
+            <img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' style="height:50px;width: 50px;border-radius: 100px" />
+            <span class="rec_name" style="display:inline;position:relative;top:-19px;text-transform: capitalize">{% print venue_details[1] %}</span>
         </div>
         <!--- End Message rec profile --->
 
         <!--- Send message form --->
         <form action="/profile" method="POST">
-          <input type="hidden" name="rec_id" value="{% print uid %}" />
-          <textarea name="send_message" placeholder="Type your message here" rows=2></textarea>
-          <input type="submit" value="Send" />
+            <input type="hidden" name="rec_id" value="{% print uid %}" />
+            <textarea name="send_message" placeholder="Type your message here" rows=2></textarea>
+            <input type="submit" value="Send" />
         </form>
         <!--- End of send message form --->
 

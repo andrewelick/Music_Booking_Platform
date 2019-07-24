@@ -29,9 +29,11 @@
         }
 
         #setupcontainer {
-          padding: 15px;
-          background-color: #FFFFFF;
-          box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            padding-left: 50px;
+            padding-right: 50px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
         }
 
         .button_upload, input[type="submit"] {
@@ -98,20 +100,20 @@
         }
 
         select, input[type='text'] {
-          box-sizing: border-box;
-          border: 1px solid;
-          width:100%;
-          padding:10px;
-          margin-bottom: 10px;
-          font-size: 13px;
-          font-family: inherit;
-          border-radius: 5px;
-          background-color: #FFFFFF;
-          border-color: #d2d2d2;
-          outline: none;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          transition: 150ms ease;
-          -webkit-appearance:none;
+            box-sizing: border-box;
+            border: 1px solid;
+            width:100%;
+            padding:10px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-family: inherit;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            border-color: #d2d2d2;
+            outline: none;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            transition: 150ms ease;
+            -webkit-appearance:none;
         }
 
         select:focus, input[type='text']:focus {
@@ -119,29 +121,30 @@
         }
 
         textarea {
-          box-sizing: border-box;
-          font-family: inherit;
-          width:100%;
-          padding:10px;
-          font-size:14px;
-          margin-top:20px;
-          border:1px solid;
-          border-radius: 5px;
-          border-color:#d2d2d2;
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          -webkit-appearance:none;
+            box-sizing: border-box;
+            font-family: inherit;
+            width:100%;
+            padding:10px;
+            font-size:14px;
+            margin-top:20px;
+            border:1px solid;
+            border-radius: 5px;
+            border-color:#d2d2d2;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-appearance:none;
         }
 
         input[type='submit'] {
-          border: 0;
-          width:30%;
-          margin-top: 10px;
-          padding:10px;
-          font-size: 14px;
-          border-radius: 5px;
-          background-color: #328CC1;
-          color: #FFFFFF;
-          -webkit-appearance:none;
+            border: 0;
+            width:30%;
+            margin-top: 10px;
+            padding:10px;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: #328CC1;
+            color: #FFFFFF;
+            font-family: inherit;
+            -webkit-appearance:none;
         }
 
         .banner-header {
@@ -237,15 +240,6 @@
           </div>
           <!--- End Venue type selection --->
 
-          <!--- Venue city --->
-          <div class="venue_setup_selection">
-            <div style="margin-top:20px;margin-bottom:20px;">City</div>
-            <select name="location_city">
-              <option value='memphis'>Memphis</option>
-            </select>
-          </div>
-          <!--- End of Venue city --->
-
           <!--- Venue Address --->
           <div class="venue_setup_selection">
             <div style="margin-top:20px;margin-bottom:20px;">Address</div>
@@ -256,7 +250,7 @@
 
           <!--- Bio section --->
           <div class='venue_setup_selection'>
-            <div>Tell us about it</div>
+            <div>Bio</div>
             <textarea name='bio' placeholder="Who you are, type of crowd, energy level." rows='4'/>{% print venue_details[4] %}</textarea>
           </div>
           <!--- End of Bio section --->
