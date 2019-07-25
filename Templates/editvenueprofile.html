@@ -8,8 +8,13 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--- Picture editor --->
     <link rel="stylesheet" href="static/croppie.css" />
     <script src="static/croppie.js"></script>
+
+    <!--- Google location search --->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjZgoGLs9Zj7KEs3NeLTBPq13QkTThx5U&amp;libraries=places"></script>
 
     <style type='text/css'>
       body {
@@ -147,14 +152,20 @@
             -webkit-appearance:none;
         }
 
+        /* Google classes */
+        .pac-item {
+            padding: 5px;
+        }
+
         .banner-header {
             padding-bottom: 10px;
         }
 
         .bannerIcon {
-            height: 45px;
+            height: 40px;
             vertical-align: middle;
         }
+
 
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
@@ -243,7 +254,7 @@
           <!--- Venue Address --->
           <div class="venue_setup_selection">
             <div style="margin-top:20px;margin-bottom:20px;">Address</div>
-            <input type="text" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
+            <input type="text" id="location" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
           </div>
           <!--- End of Venue address --->
           </br>
@@ -398,6 +409,22 @@
 
             });
         });
+
+        //Google autocomplete location search
+        function load_google_location() {
+            var input = document.getElementById('location');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            //Get place details
+            autocomplete.addListener('place_changed', function () {
+                // place variable will have all the information you are looking for.
+                var place = autocomplete.getPlace();
+            });
+        }
+
+        //Intialize google location search
+        google.maps.event.addDomListener(window, 'load', load_google_location);
+
 
     </script>
     <!--- End of upload temp profile script --->

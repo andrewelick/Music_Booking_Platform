@@ -9,13 +9,18 @@
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
     <style type='text/css'>
       body {
         margin:0;
         padding:0;
         box-sizing: border-box;
-        background-image: url("static/background.png");
+        background-image: url("static/landingPage.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
       }
 
         .mobilegridrow-2 {
@@ -34,66 +39,21 @@
             width: 100%;
             display: inline-block;
             padding: 30px;
-            border-radius: 5px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
             float: left;
-            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-	        background-size: 400% 400%;
-            -webkit-animation: Gradient 15s ease infinite;
-	        -moz-animation: Gradient 15s ease infinite;
-	        animation: Gradient 15s ease infinite;
+            background-color: rgba(231, 60, 126, .8);
             color: #FFFFFF;
         }
 
-        .explain_tiles {
+        .explain_tiles_container {
             box-sizing: border-box;
             display: inline-block;
             width: 100%;
             padding: 30px;
             margin: 0 auto;
-            margin-top: 10px;
-            border-radius: 5px;
             color: #FFFFFF;
-            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-	        background-size: 400% 400%;
-            -webkit-animation: Gradient 15s ease infinite;
-	        -moz-animation: Gradient 15s ease infinite;
-	        animation: Gradient 15s ease infinite;
-        }
-
-        @-webkit-keyframes Gradient {
-        	0% {
-        		background-position: 0% 50%
-        	}
-        	50% {
-        		background-position: 100% 50%
-        	}
-        	100% {
-        		background-position: 0% 50%
-        	}
-        }
-
-        @-moz-keyframes Gradient {
-        	0% {
-        		background-position: 0% 50%
-        	}
-        	50% {
-        		background-position: 100% 50%
-        	}
-        	100% {
-        		background-position: 0% 50%
-        	}
-        }
-
-        @keyframes Gradient {
-        	0% {
-        		background-position: 0% 50%
-        	}
-        	50% {
-        		background-position: 100% 50%
-        	}
-        	100% {
-        		background-position: 0% 50%
-        	}
+            background-color: rgba(50, 140, 193, .8);
         }
 
         #what_do_container {
@@ -161,10 +121,7 @@
             background-color: #328CC1;
             color: #FFFFFF;
             -webkit-appearance:none;
-        }
-
-        input[type='submit']:hover {
-            background-color: #3494cb;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
         }
 
         button {
@@ -215,14 +172,14 @@
         }
 
         .dropdownbutton {
-          width:100%;
-          padding-top:15px;
-          padding-bottom:15px;
-          border: none;
-          color: #FFFFFF;
-          background-color: #232f42;
-          font-size: 16px;
-          text-align: left;
+            width:100%;
+            padding-top:15px;
+            padding-bottom:15px;
+            border: none;
+            color: #FFFFFF;
+            background-color: #232f42;
+            font-size: 16px;
+            text-align: left;
         }
 
         .dropdownbutton:hover {
@@ -231,7 +188,7 @@
         }
 
         .dropdownbutton:focus {
-          outline:0;
+            outline:0;
         }
 
         .dropdowncontent {
@@ -242,25 +199,29 @@
             font-size: 14px;
         }
 
-        li {
-          padding:10px;
-          padding-top: 0px;
-          text-align: left;
+        ul {
+            list-style-type:none;
         }
 
-        a {
-          color: blue;
+        li {
+            padding-bottom: 20px;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .material-icons {
+            vertical-align: middle;
         }
 
         .slide-in-top {
         	-webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-        	        animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        	animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
         }
 
         @-webkit-keyframes slide-in-top {
           0% {
             -webkit-transform: translateY(-100px);
-                    transform: translateY(-1000px);
+            transform: translateY(-1000px);
             opacity: 0;
           }
           100% {
@@ -292,6 +253,75 @@
             border-color: #fa755a;
         }
 
+        /* Ripple effect */
+        .ripple {
+            cursor: pointer;
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
+        /* Random listings */
+        .singlelisting {
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+            font-size: 12px;
+            float: left;
+            transform: translatey(0px);
+            animation: show_float 3s ease-in-out infinite;
+        }
+
+        @keyframes show_float {
+        	0% {
+        		transform: translatey(0px);
+        	}
+        	50% {
+        		transform: translatey(-5px);
+        	}
+        	100% {
+        		transform: translatey(0px);
+        	}
+        }
+
+        .listing_details {
+            padding-bottom: 10px;
+        }
+
+        .listing_header_title {
+            font-size: 16px;
+        }
+
+        .detail_title {
+            vertical-align: middle;
+        }
+
+        .icon {
+            padding-right: 3px;
+            height: 13px;
+            vertical-align: middle;
+        }
+
+        .listing_stats_option {
+            margin-top:-5px;
+            padding:5px;
+            border-radius: 5px;
+            font-size:10px;
+            background-color:#596B83;
+            color:#FFFFFF;
+        }
+
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -305,12 +335,17 @@
             }
 
             #what_do_container {
-                width: 300px;
-                margin-left: 70px;
+                width: 340px;
             }
 
             #mobile-splash-card {
                 width: 300px;
+            }
+
+            .singlelisting {
+                box-sizing: border-box;
+                width: 47%;
+                margin: 10px;
             }
 
         }
@@ -341,25 +376,38 @@
                 </div>
 
                 <div id="book_showcase" class="slide-in-top">
-                    <div style="padding-top: 10px;font-size: 17px;">Easily fill your events</div>
-                    <ol>
-                        <li>Place your open shows</li>
-                        <li>Artists bid on them</li>
-                        <li>Choose the one you want</li>
-                    </ol>
+                    <ul>
+                        <li>
+                            <i class="material-icons">list_alt</i>
+                            List a show
+                        </li>
+                        <li>
+                            <i class="material-icons">gavel</i>
+                            Let the artists bid
+                        </li>
+                        <li>
+                            <i class="material-icons">done</i>
+                            Choose the one you want
+                        </li>
+                    </ul>
 
-                    <div id="artist_showcase"></div>
                 </div>
 
                 <div id="perform_showcase" class="slide-in-top" style="display: none">
-                    <div style="padding-top: 10px;font-size: 17px;">Find your next gig</div>
-                    <ol>
-                        <li>Search open shows around the city</li>
-                        <li>Place your bid</li>
-                        <li>Perform & get paid</li>
-                    </ol>
-
-                    <div id="venue_showcase"></div>
+                    <ul>
+                        <li>
+                            <i class="material-icons">list_alt</i>
+                            Search open shows around the city
+                        </li>
+                        <li>
+                            <i class="material-icons">gavel</i>
+                            Place your bid
+                        </li>
+                        <li>
+                            <i class="material-icons">monetization_on</i>
+                            Perform & get paid
+                        </li>
+                    </ul>
 
                 </div>
 
@@ -385,7 +433,7 @@
                     </div>
                     <!--- End of Alert mesage --->
 
-                    <input type="Submit" value="Create Account" />
+                    <input type="Submit" value="Create Account" class="ripple" />
                   </form>
 
                   <a href='/login' class='haveaccount'>Already have an account?</a>
@@ -395,62 +443,25 @@
         </div>
 
         <!--- Description card --->
-        <div class="explain_tiles">
+        <div class="explain_tiles_container">
 
-          <div style='margin-bottom:10px;text-align:center;font-size:16px;'>Bluff Tour eases the process of creating whats going down for the night.</div>
+            <!--- Header text --->
+            <div style='margin-bottom:10px;text-align:center;font-size:20px;'>It has never been easier to schedule and book shows</div>
 
-            <div style="border-radius: 5px;padding: 1px;background-color: #232f42">
-              <!--- For Venues Dropdown--->
-              <div class='dropdownmenu'>
-                <button class='dropdownbutton' name="venuemenu">
-                    Bookers
-                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
-                </button>
+            <!--- Subheader --->
+            <div style="margin-bottom: 20px;">Free up your time at no cost. We don't charge Bars, Events, or Venues so that you can use your money for the things you need</div>
 
-                <div id='venuemenu' class='dropdowncontent' style='display:none'>
-                  <ul>
-                    <li>Fill every night you need with ease.</li>
-                    <li>Set the price you're willing to pay and have performers bid away.</li>
-                    <li>Layout clear requirements so there is never any confusion</li>
-                  </ul>
-                </div>
-              </div>
-              <!--- End of Venues Dropdown --->
-
-                <!--- For Performer Dropdown--->
-                <div class='dropdownmenu'>
-                <button class='dropdownbutton' name="artistmenu">
-                    Performers
-                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
-                </button>
-
-                <div id='artistmenu' class='dropdowncontent' style='display:none'>
-                  <ul>
-                    <li>Easily find gigs within the city</li>
-                    <li>No need for a manager</li>
-                    <li>Safely collect your earnings at the end of the night</li>
-                  </ul>
-                </div>
-                </div>
-                <!--- End of Perfomrer Dropdown --->
-
-                <!--- For About us Dropdown--->
-                <div class='dropdownmenu'>
-                <button class='dropdownbutton' name="aboutusmenu">
-                    About Bluff Tour
-                    <img src="/static/arrow-down.png" style="vertical-align: middle;float: right;" height="11px"/>
-                </button>
-
-                <div id='aboutusmenu' class='dropdowncontent' style='display:none'>
-                  <ul>
-                    <li>We strive to connect artists to the city they love by making all parties happy.</li>
-                    <li>No hassle, no stress, only good times</li>
-                    <li>Memphis based startup looking to change how booking is done</li>
-                  </ul>
-                </div>
-                </div>
-                <!--- End of About us Dropdown --->
+            <!--- Venue explain --->
+            <div style="float: left;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
+                <!--- Container for random shows --->
+                <div id="shows_container"></div>
             </div>
+
+            <div style="float: left;width: 100%;padding: 20px;box-sizing: border-box;border-radius: 5px;">
+                List your show, choose an artist, and get billed the night before the show
+            </div>
+
+        </div>
 
 
             {% include 'footer.html' %}
@@ -519,18 +530,6 @@
                     picture = $(`<img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
 
                     $("#artist_showcase").append(picture)
-                }
-
-                //Append picture
-                for (i = 0; i < venue_list.length; i++) {
-                    let uid = venue_list[i][0]
-
-                    let random_number = Math.floor(Math.random() * 2000)
-                    random_number = random_number.toString()
-
-                    picture = $(`<img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
-
-                    $("#venue_showcase").append(picture)
                 }
             }
         })
@@ -782,6 +781,113 @@
                 }
             }
         });
+
+        if ($(window).width() < 800) {
+            var show_limit = 1
+        }
+        else {
+            var show_limit = 4
+        }
+
+        //Load show postings that are ending soon
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/show_postings",
+            data: {
+                "get_random_postings": "check",
+                "limit": show_limit,
+            },
+            dataType: "json"
+        }).done(function(data) {
+
+            if (data['success']) {
+                let ending_shows = data['success']
+
+                if (ending_shows.length == 0) {
+                    $("#ending_shows").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>You do not have any shows ending soon</div>")
+                }
+                else {
+
+                    //Loop through each result and format
+                    for (i = 0; i < ending_shows.length; i++) {
+
+                        let random_number = Math.floor(Math.random() * 3550)
+                        random_number = random_number.toString()
+
+                        let single_listing = `
+                            <!--- Single Past listing --->
+                            <div class="singlelisting" style="animation-delay: ${random_number}ms">
+
+                                <!--- Listing header --->
+                                <div class="listing_header" style='text-align:left;overflow: hidden'>
+
+                                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${ending_shows[i].uid}_profile.jpg" style="float: left;height: 45px;padding-right: 3px;"/>
+
+                                    <!--- Listing details --->
+                                    <div class="listing_details">
+
+                                        <!--- Profile name --->
+                                        <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
+
+                                        <!--- Location --->
+                                        <div style="padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/placeholder-black.png" />
+
+                                            <font class="detail_title">${ending_shows[i].location}</font>
+                                        </div>
+
+                                        <!--- Date --->
+                                        <div style="overflow: hidden; padding-top: 10px;">
+                                            <!--- Icon --->
+                                            <img class="icon" src="static/calendar-black.png" />
+
+                                            <font class="detail_title">
+                                                ${ending_shows[i].show_date}
+                                                <font style='font-size:11px'>@</font>
+                                                ${ending_shows[i].show_time}
+                                            </font>
+
+                                        </div>
+
+                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                            <!--- Price --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Budget</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;color: #5f9341">$${ending_shows[i].price}</font>
+                                            </div>
+
+                                            <!--- Artist Type --->
+                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                                <div style="padding-bottom: 5px;">Artist</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].artist_type}</font>
+                                            </div>
+
+                                            <!--- Set length --->
+                                            <div style="float: left;overflow: hidden;">
+                                                <div style="padding-bottom: 5px;">Set length</div>
+
+                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].set_length}</font>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--- End of Single Past listing --->
+                        `
+
+
+                        $("#shows_container").append(single_listing)
+                    }
+                }
+            }
+        });
+
 
 
     </script>

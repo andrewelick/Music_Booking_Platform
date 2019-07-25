@@ -1430,7 +1430,7 @@ def create_show_posting(uid, show_inputs):
                 conn.close()
 
 #Get venue show postings
-def get_venue_show_postings(uid = None, ending_soon = None):
+def get_venue_show_postings(uid = None, ending_soon = None, limit = None):
     conn = connect_to_database()
 
     if conn is not False:
@@ -1450,8 +1450,14 @@ def get_venue_show_postings(uid = None, ending_soon = None):
                     #Get list of posts by user
                     c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid = %s AND venue_profile_details.uid = %s ORDER BY show_postings.show_date ASC""", (uid, uid))
             else:
+                #Check for limit
+                if limit is None:
+                    limit = 10
+                else:
+                    limit = int(limit)
+
                 #Get all show postings
-                c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid=venue_profile_details.uid ORDER BY show_postings.show_date ASC LIMIT 10""")
+                c.execute("""SELECT show_postings.*, venue_profile_details.business_name FROM show_postings, venue_profile_details WHERE show_postings.uid=venue_profile_details.uid ORDER BY show_postings.show_date ASC LIMIT %s""", (limit,))
 
             venue_show_postings = c.fetchall()
 

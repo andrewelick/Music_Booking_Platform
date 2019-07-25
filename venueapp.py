@@ -909,7 +909,13 @@ def show_posting_endpoint():
             venue_id = request.form.get('venue_id')
             return venuehandler.get_venue_show_postings(uid = venue_id, ending_soon = True)
     else:
-        json.dumps({'error': 'Must be logged in'})
+
+        #Random postings for homepage
+        if request.form.get('get_random_postings'):
+            limit = request.form.get('limit')
+            return venuehandler.get_venue_show_postings(limit = limit)
+        else:
+            json.dumps({'error': 'Must be logged in'})
 
 ###--Artist media API CALLS---------------
 @app.route('/artist_media', methods=['POST', 'GET'])
