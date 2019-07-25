@@ -21,13 +21,14 @@
         background-image: url("static/landingPage.jpg");
         background-repeat: no-repeat;
         background-attachment: fixed;
+        background-size:cover
       }
 
         .mobilegridrow-2 {
             box-sizing: border-box;
             width: 100%;
             padding: 0;
-            padding:10px;
+            padding: 10px;
             padding-top:20px;
             margin-bottom: 20px;
             text-align: center;
@@ -38,11 +39,11 @@
             box-sizing: border-box;
             width: 100%;
             display: inline-block;
-            padding: 30px;
+            padding: 20px;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
-            background-color: rgba(231, 60, 126, .8);
+            background-color: rgba(231, 60, 177, .8);
             color: #FFFFFF;
         }
 
@@ -59,12 +60,16 @@
         #what_do_container {
             box-sizing: border-box;
             width: 100%;
-            padding-bottom: 20px;
+            margin-top: 15px;
+            padding: 25px;
             font-size: 14px;
             float: left;
+            background-color: rgba(255, 255, 255, .3);
+            border-radius: 5px;
         }
 
         .choicebuttons {
+            text-align: left;
             border-bottom: 4px solid;
             width: 90px;
             padding: 10px;
@@ -78,6 +83,12 @@
 
         .choicebuttonsActive {
             border-color: #FFFFFF;
+            animation: shake 100ms;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
         #mobile-splash-card {
@@ -143,9 +154,11 @@
 
 
         #welcometext {
-          margin-bottom: 40px;
-          font-size: 27px;
-          font-family: inherit;
+            padding-bottom: 10px;
+            font-size: 27px;
+            font-family: inherit;
+            border-bottom: 2px solid;
+            border-color: rgba(255, 255, 255, .1);
         }
 
         .artist_picture {
@@ -153,6 +166,12 @@
             padding-right: 10px;
             transform: translatey(0px);
             animation: float 6s ease-in-out infinite;
+        }
+
+        .band-icon {
+            margin: auto;
+            margin-top: 20px;
+            height: 200px
         }
 
         @keyframes float {
@@ -167,38 +186,6 @@
         	}
         }
 
-        .dropdownmenu {
-          background-color: #232f42;
-        }
-
-        .dropdownbutton {
-            width:100%;
-            padding-top:15px;
-            padding-bottom:15px;
-            border: none;
-            color: #FFFFFF;
-            background-color: #232f42;
-            font-size: 16px;
-            text-align: left;
-        }
-
-        .dropdownbutton:hover {
-            cursor: pointer;
-            background-color: #354764;
-        }
-
-        .dropdownbutton:focus {
-            outline:0;
-        }
-
-        .dropdowncontent {
-            color: #FFFFFF;
-            border-top: 1px solid;
-            border-color: #354764;
-            background-color: #232f42;
-            font-size: 14px;
-        }
-
         ul {
             list-style-type:none;
         }
@@ -211,36 +198,6 @@
 
         .material-icons {
             vertical-align: middle;
-        }
-
-        .slide-in-top {
-        	-webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-        	animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-        }
-
-        @-webkit-keyframes slide-in-top {
-          0% {
-            -webkit-transform: translateY(-100px);
-            transform: translateY(-1000px);
-            opacity: 0;
-          }
-          100% {
-            -webkit-transform: translateY(0);
-                    transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        @keyframes slide-in-top {
-          0% {
-            -webkit-transform: translateY(-100px);
-                    transform: translateY(-100px);
-            opacity: 0;
-          }
-          100% {
-            -webkit-transform: translateY(0);
-                    transform: translateY(0);
-            opacity: 1;
-          }
         }
 
         #error_message {
@@ -321,21 +278,33 @@
             color:#FFFFFF;
         }
 
+        .band-icon {
+            height: 150px;
+            padding-bottom: 20px;
+        }
+
 
         /* If screen is bigger than 800px */
-        @media screen and (min-width: 800px) {
+        @media screen and (min-width: 900px) {
 
             .mobilegridrow-2 {
-                width: 800px;
+                width: 900px;
                 margin: 0 auto;
             }
 
             #greeting_card {
                 margin: 0 auto;
+                padding: 30px;
+            }
+
+            #welcometext {
+                margin-bottom: 60px;
             }
 
             #what_do_container {
                 width: 340px;
+                margin-left: 80px;
+                margin-top: 30px;
             }
 
             #mobile-splash-card {
@@ -345,7 +314,12 @@
             .singlelisting {
                 box-sizing: border-box;
                 width: 47%;
+                height: 180px;
                 margin: 10px;
+            }
+
+            .band-icon {
+                margin: 0;
             }
 
         }
@@ -363,59 +337,13 @@
         <div id="greeting_card">
             <div id="welcometext">Book your next show with Bluff Tour</div>
 
-            <div id="what_do_container">
-                <div style="width:100%">
-                    <div class="choicebuttons choicebuttonsActive" id="book_choice">
-                        Book
-                        <img src="/static/ticket.png" style="height: 18px; padding-left: 5px;vertical-align: middle">
-                    </div>
-                    <div class="choicebuttons" id="perform_choice">
-                        Perform
-                        <img src="/static/microphone.png" style="height: 18px; padding-left: 5px;vertical-align: middle">
-                    </div>
-                </div>
+            <!--- Band image --->
+            <img src="static/band.png" class='band-icon' />
 
-                <div id="book_showcase" class="slide-in-top">
-                    <ul>
-                        <li>
-                            <i class="material-icons">list_alt</i>
-                            List a show
-                        </li>
-                        <li>
-                            <i class="material-icons">gavel</i>
-                            Let the artists bid
-                        </li>
-                        <li>
-                            <i class="material-icons">done</i>
-                            Choose the one you want
-                        </li>
-                    </ul>
-
-                </div>
-
-                <div id="perform_showcase" class="slide-in-top" style="display: none">
-                    <ul>
-                        <li>
-                            <i class="material-icons">list_alt</i>
-                            Search open shows around the city
-                        </li>
-                        <li>
-                            <i class="material-icons">gavel</i>
-                            Place your bid
-                        </li>
-                        <li>
-                            <i class="material-icons">monetization_on</i>
-                            Perform & get paid
-                        </li>
-                    </ul>
-
-                </div>
-
-            </div>
-
+            <!-- Sign up card --->
             <div id='mobile-splash-card'>
 
-                  <div style="text-align: left">Sign up today</div>
+                  <div style="text-align: left;font-size: 24px;">Sign up today</div>
                   </br>
                   <form>
                     <input type='text' name='new_name' id="new_name" placeholder="Stage Name or Name" />
@@ -440,6 +368,61 @@
 
             </div>
 
+            <!--- Book/Perform tiles -->
+            <div id="what_do_container">
+
+                <!--- Header text --->
+                <div style="margin-bottom: 10px;font-size: 25px;">How it works</div>
+
+                <div style="width:100%">
+                    <div class="choicebuttons choicebuttonsActive" id="book_choice">
+                        <i class="material-icons">event</i>
+                        Venues
+                    </div>
+                    <div class="choicebuttons" id="perform_choice">
+                        <i class="material-icons">mic</i>
+                        Artists
+                    </div>
+                </div>
+
+                <div id="book_showcase">
+                    <ul>
+                        <li>
+                            <i class="material-icons">list_alt</i>
+                            List a show
+                        </li>
+                        <li>
+                            <i class="material-icons">gavel</i>
+                            Let the artists bid
+                        </li>
+                        <li>
+                            <i class="material-icons">done</i>
+                            Choose the one you want
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div id="perform_showcase" style="display: none">
+                    <ul>
+                        <li>
+                            <i class="material-icons">search</i>
+                            Search open shows around the city
+                        </li>
+                        <li>
+                            <i class="material-icons">gavel</i>
+                            Place your bid
+                        </li>
+                        <li>
+                            <i class="material-icons">monetization_on</i>
+                            Perform & get paid
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
         </div>
 
         <!--- Description card --->
@@ -449,7 +432,7 @@
             <div style='margin-bottom:10px;text-align:center;font-size:20px;'>It has never been easier to schedule and book shows</div>
 
             <!--- Subheader --->
-            <div style="margin-bottom: 20px;">Free up your time at no cost. We don't charge Bars, Events, or Venues so that you can use your money for the things you need</div>
+            <div style="margin-bottom: 20px;font-size: 15px;">Free up your time at no cost. We don't charge Bars, Venues, or Events so that you can use your money for the things you need</div>
 
             <!--- Venue explain --->
             <div style="float: left;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
@@ -493,16 +476,6 @@
                 $("#book_choice").removeClass("choicebuttonsActive")
                 $("#book_showcase").hide()
             }
-        })
-
-        //Drop down tile
-        $(".dropdownbutton").click(function() {
-            let menu = $(this).attr('name')
-
-            $(".dropdowncontent").each(function() {
-                $(this).slideUp()
-            })
-            $("#"+menu).slideToggle()
         })
 
         //Get random account pictures
@@ -783,7 +756,7 @@
         });
 
         if ($(window).width() < 800) {
-            var show_limit = 1
+            var show_limit = 3
         }
         else {
             var show_limit = 4
