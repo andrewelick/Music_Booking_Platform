@@ -198,36 +198,6 @@ def create_new_account(email,password,confirm_password,name,account_type):
             if conn:
                 conn.close()
 
-#Load random artists pictures
-def get_random_accounts_uid():
-    try:
-        conn = connect_to_database()
-
-        if conn is not False:
-            c = conn.cursor()
-
-            #Get random artist uids
-            c.execute("""SELECT uid FROM accounts WHERE account_type = 2 ORDER BY RAND() LIMIT 4""")
-            artist_random_uids = c.fetchall()
-
-            #Get random venue uids
-            c.execute("""SELECT uid FROM accounts WHERE account_type = 1 ORDER BY RAND() LIMIT 4""")
-            venue_random_uids = c.fetchall()
-
-            results = {
-                'artists': artist_random_uids,
-                'venues': venue_random_uids
-            }
-
-            return json.dumps({'result': results})
-
-    except Exception as e:
-        print (e)
-        return json.dumps({'error': "Could not load uids"})
-    finally:
-        if conn:
-            conn.close()
-
 #Login to account
 def login_account(email,password):
     #Connect to database
@@ -659,12 +629,16 @@ def get_showcase_venues():
                 conn.close()
 
 #Get featured artists for showcase
-def get_featured_artists():
+def get_featured_artists(api = None, limit = None):
     conn = connect_to_database()
     if conn is not False:
         c = conn.cursor()
         try:
-            find_artists = c.execute("""SELECT accounts.uid, accounts.name, artist_profile_details.bio, artist_profile_details.genre FROM accounts, artist_profile_details WHERE account_type=2 AND artist_profile_details.uid = accounts.uid ORDER BY RAND() LIMIT 10""")
+
+            if limit is None:
+                limit = 10
+
+            find_artists = c.execute("""SELECT accounts.uid, accounts.name, artist_profile_details.bio, artist_profile_details.genre FROM accounts, artist_profile_details WHERE account_type=2 AND artist_profile_details.uid = accounts.uid ORDER BY RAND() LIMIT %s""", (limit,))
             results = c.fetchall()
 
             all_artists_list = []
@@ -679,7 +653,10 @@ def get_featured_artists():
 
                 all_artists_list.append(artist_details)
 
-            return all_artists_list
+            if api:
+                return json.dumps({'success': all_artists_list})
+            else:
+                return all_artists_list
         except Exception as e:
             print (e)
             return False

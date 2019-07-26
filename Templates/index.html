@@ -24,15 +24,19 @@
         background-size:cover
       }
 
+        /* Containers */
         .mobilegridrow-2 {
             box-sizing: border-box;
             width: 100%;
             padding: 0;
-            padding: 10px;
-            padding-top:20px;
+            margin: auto;
+            margin-top: 25px;
             margin-bottom: 20px;
             text-align: center;
             color: #383838;
+            border: 8px solid;
+            border-radius: 5px;
+            border-color: #FFFFFF;
         }
 
         #greeting_card {
@@ -40,27 +44,42 @@
             width: 100%;
             display: inline-block;
             padding: 20px;
+            padding-bottom: 80px;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
-            background-color: rgba(231, 60, 177, .8);
+            background-color: rgba(231, 60, 177, .85);
             color: #FFFFFF;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
         }
 
-        .explain_tiles_container {
+        .venue_booking_container {
             box-sizing: border-box;
             display: inline-block;
             width: 100%;
             padding: 30px;
+            padding-top: 50px;
             margin: 0 auto;
             color: #FFFFFF;
-            background-color: rgba(50, 140, 193, .8);
+            background-color: rgba(50, 140, 193, .85);
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
         }
 
-        #what_do_container {
+        .artist_booking_container {
+            box-sizing: border-box;
+            display: inline-block;
+            width: 100%;
+            padding: 30px;
+            padding-top: 50px;
+            margin: 0 auto;
+            color: #FFFFFF;
+            background-color: rgba(167, 89, 227, .85);
+        }
+
+        #how_it_works {
             box-sizing: border-box;
             width: 100%;
-            margin-top: 15px;
+            margin-top: 35px;
             padding: 25px;
             font-size: 14px;
             float: left;
@@ -68,37 +87,13 @@
             border-radius: 5px;
         }
 
-        .choicebuttons {
-            text-align: left;
-            border-bottom: 4px solid;
-            width: 90px;
-            padding: 10px;
-            display: inline-block;
-            border-color: #232f42;
-        }
-
-        .choicebuttons:hover {
-            cursor: pointer;
-        }
-
-        .choicebuttonsActive {
-            border-color: #FFFFFF;
-            animation: shake 100ms;
-        }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
-        #mobile-splash-card {
+        #sign-up-card {
             display: inline-block;
             margin: 0 auto;
             padding: 20px;
             border-radius: 5px;
             background-color: #232f42;
             color: #FFFFFF;
-            float: right;
         }
 
         input,select,option {
@@ -152,26 +147,29 @@
             text-decoration: underline;
         }
 
-
+        /* Welcome text & Band Image */
         #welcometext {
             padding-bottom: 10px;
-            font-size: 27px;
-            font-family: inherit;
+            padding-top: 30px;
+            padding-bottom: 15px;
             border-bottom: 2px solid;
             border-color: rgba(255, 255, 255, .1);
+            font-size: 24px;
+            font-family: inherit;
         }
 
-        .artist_picture {
-            width: 50px;
-            padding-right: 10px;
-            transform: translatey(0px);
-            animation: float 6s ease-in-out infinite;
+        #welcome_subtext_container {
+            padding: 10px;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            font-size: 16px;
+            vertical-align: middle;
         }
 
         .band-icon {
-            margin: auto;
-            margin-top: 20px;
-            height: 200px
+            float: left;
+            height: 100px
         }
 
         @keyframes float {
@@ -184,6 +182,30 @@
         	100% {
         		transform: translatey(0px);
         	}
+        }
+
+        /* How it works */
+        .choicebuttons {
+            text-align: left;
+            border-bottom: 4px solid;
+            width: 90px;
+            padding: 10px;
+            display: inline-block;
+            border-color: #232f42;
+        }
+
+        .choicebuttons:hover {
+            cursor: pointer;
+        }
+
+        .choicebuttonsActive {
+            border-color: #FFFFFF;
+            animation: shake 100ms;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
         ul {
@@ -278,42 +300,76 @@
             color:#FFFFFF;
         }
 
-        .band-icon {
-            height: 150px;
-            padding-bottom: 20px;
+        #artist_showcase {
+
         }
 
+        #artist_showcase:hover {
+            animation: artist_shake 3s ease-in-out;
+        }
 
-        /* If screen is bigger than 800px */
+        .artist_picture {
+            height: 80px;
+            margin: 10px;
+            border-radius: 100%;
+        }
+
+        @keyframes artist_shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .artist_band_icon {
+            float: right;
+            margin-right: 40px;
+            height: 100px;
+            display: inline-block;
+        }
+        /* If screen is bigger than 900px */
         @media screen and (min-width: 900px) {
 
             .mobilegridrow-2 {
                 width: 900px;
-                margin: 0 auto;
             }
 
             #greeting_card {
                 margin: 0 auto;
                 padding: 30px;
+                padding-bottom: 80px;
             }
 
             #welcometext {
-                margin-bottom: 60px;
+                font-size: 32px;
+                margin-bottom: 20px;
             }
 
-            #what_do_container {
+            #welcome_subtext_container {
+                margin: auto;
+                margin-bottom: 30px;
+                max-width: 500px;
+                font-size: 20px;
+            }
+
+            #how_it_works {
                 width: 340px;
-                margin-left: 80px;
-                margin-top: 30px;
+                height: 360px;
+                margin-left: 50px;
+                margin-top: -0px;
             }
 
-            #mobile-splash-card {
+            #sign-up-card {
                 width: 300px;
             }
 
             .singlelisting {
                 box-sizing: border-box;
-                width: 47%;
+                width: 50%;
                 height: 180px;
                 margin: 10px;
             }
@@ -335,15 +391,22 @@
     <div class='mobilegridrow-2'>
 
         <div id="greeting_card">
+
+            <!--- Welcome text --->
             <div id="welcometext">Book your next show with Bluff Tour</div>
 
-            <!--- Band image --->
-            <img src="static/band.png" class='band-icon' />
+            <!--- Subtext --->
+            <div id="welcome_subtext_container">
+                <!--- Band image --->
+                <img src="static/band.png" class='band-icon' />
+                <div>Schedule, book, and securely pay for shows effortlessly</div>
+            </div>
+
 
             <!-- Sign up card --->
-            <div id='mobile-splash-card'>
+            <div id='sign-up-card'>
 
-                  <div style="text-align: left;font-size: 24px;">Sign up today</div>
+                  <div style="text-align: center;font-size: 24px;">Sign up today</div>
                   </br>
                   <form>
                     <input type='text' name='new_name' id="new_name" placeholder="Stage Name or Name" />
@@ -368,8 +431,8 @@
 
             </div>
 
-            <!--- Book/Perform tiles -->
-            <div id="what_do_container">
+            <!--- How it works -->
+            <div id="how_it_works">
 
                 <!--- Header text --->
                 <div style="margin-bottom: 10px;font-size: 25px;">How it works</div>
@@ -425,23 +488,84 @@
 
         </div>
 
-        <!--- Description card --->
-        <div class="explain_tiles_container">
+        <!--- Venue description card --->
+        <div class="venue_booking_container">
 
             <!--- Header text --->
-            <div style='margin-bottom:10px;text-align:center;font-size:20px;'>It has never been easier to schedule and book shows</div>
+            <div style='margin-bottom:10px;text-align:center;font-size:24px;'>It has never been easier to schedule and book shows</div>
 
             <!--- Subheader --->
-            <div style="margin-bottom: 20px;font-size: 15px;">Free up your time at no cost. We don't charge Bars, Venues, or Events so that you can use your money for the things you need</div>
+            <div style="margin-bottom: 20px;font-size: 15px;">Find bands and book shows for free, absolutely no cost</div>
 
             <!--- Venue explain --->
-            <div style="float: left;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
+            <div style="width: 100%;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
                 <!--- Container for random shows --->
-                <div id="shows_container"></div>
+                <div style="border: 1px solid;overflow: hidden;margin: 0 auto;" id="shows_container"></div>
             </div>
 
-            <div style="float: left;width: 100%;padding: 20px;box-sizing: border-box;border-radius: 5px;">
-                List your show, choose an artist, and get billed the night before the show
+            <div style="float: left;width: 100%;margin-top: 40px;margin-bottom: 20px;padding: 20px;box-sizing: border-box;border-radius: 5px;background-color: rgba(255, 255, 255, .2); overflow: hidden;text-align: left">
+                <!--- Stripe image -->
+                <img src="static/stripe.png" style="float: left;height: 100px;margin-right: 20px;border-right: 1px solid;border-color: rgba(255,255,255,.2);"/>
+
+                <div style="font-size: 22px;padding-bottom: 10px;">
+                    <i class="material-icons" style="font-size: 30px;margin-top: -10px;">lock</i>
+                    Worry about the event, not the payment
+                </div>
+                <div style="font-size: 15px;">
+                    We've partnered with stripe to make booking safe and simple. We handle everything on the backend, billing you 24 hours before the show and making sure its safe till its over -
+                    <a target="_blank" href="https://stripe.com/customers" style="font-size: 13px;color: #FFFFFF;">
+                        Learn more about Stripe
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: inherit">open_in_new</i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!--- Artist description card -->
+        <div class="artist_booking_container">
+
+            <div style="font-size: 34px;padding-bottom: 20px;margin-bottom: 50px;">Artists, it's your time to shine</div>
+
+            <!--- Random artists -->
+            <div id="random_artists" style="float: left;overflow: hidden;max-width: 200px;"></div>
+
+            <!--- Artist showcase --->
+            <div id="artist_showcase" style="float: left; max-width: 500px;margin-bottom: 10px;padding: 30px;border-radius: 5px;background-color: rgba(255, 255, 255, .2)">
+
+                <!--- Header text --->
+                <div style='padding-bottom: 10px;text-align:left;font-size:27px;'>
+                    Show off
+                    <!--- Icon --->
+                    <i class="material-icons" style="font-size: 40px">speaker</i>
+                </div>
+                <div style="text-align: left;">Make a profile that shows all your music upfront. Music videos, songs, and albums all seen in one place.</div>
+
+                <br/>
+                <br/>
+
+                <div style="width: 100%;padding-bottom: 20px;">
+                    <!--- Header text --->
+                    <div>
+                        <div style='padding-bottom: 10px;text-align:left;font-size:27px;'>
+                            Go on tour
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 40px">directions_car</i>
+                        </div>
+                        <div style="text-align: left;">Bid on every show around town, skip the line and get straight to jammin.</div>
+                    </div>
+
+                </div>
+
+                <div style="display: inline-block;width: 100%;font-size: 27px;text-align: left;">
+                    Paid in full
+                    <!--- Icon --->
+                    <i class="material-icons" style="font-size: 40px">card_giftcard</i>
+
+                    <div style="font-size: 16px;">Get paid fast, send it straight to your bank account or debit card</div>
+                </div>
+
             </div>
 
         </div>
@@ -488,21 +612,24 @@
             dataType: "json"
         }).done(function(data) {
 
-            if (data['result']) {
+            if (data['success']) {
 
-                let venue_list = data['result']['venues']
-                let artist_list = data['result']['artists']
+                let artist_list = data['success']
 
                 //Append picture
                 for (i = 0; i < artist_list.length; i++) {
-                    let uid = artist_list[i][0]
+                    let uid = artist_list[i]['uid']
+                    let artist_name = artist_list[i]['artist_name']
 
-                    let random_number = Math.floor(Math.random() * 2000)
-                    random_number = random_number.toString()
+                    let artist_temp = `
+                        <div style="padding: 15px;text-align: center;display: inline-block">
+                            <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" style="height: 160px;border-radius: 100px" />
+                            <br/>
+                            ${artist_name}
+                        </div>
+                    `
 
-                    picture = $(`<img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${uid}_profile.jpg" class="artist_picture" style="animation-delay: ${random_number}ms"/>`)
-
-                    $("#artist_showcase").append(picture)
+                    $("#random_artists").append(artist_temp)
                 }
             }
         })
@@ -756,10 +883,10 @@
         });
 
         if ($(window).width() < 800) {
-            var show_limit = 3
+            var show_limit = 1
         }
         else {
-            var show_limit = 4
+            var show_limit = 2
         }
 
         //Load show postings that are ending soon

@@ -82,7 +82,7 @@ def index():
 
         #Load random artist uids for artist showcase
         if request.form.get("get_random_accounts"):
-            return venuehandler.get_random_accounts_uid()
+            return venuehandler.get_featured_artists(api = "yes", limit = 1)
 
         return render_template(
             'index.html',
