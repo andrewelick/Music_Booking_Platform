@@ -446,23 +446,19 @@
                 <!--- Social bar --->
                 <div class="socialbar">
                     <!--- Spotify button --->
-                    {% if artist_links[1] != "" and artist_links[1] != None %}
-                        <iframe src="https://open.spotify.com/follow/1/?uri=spotify:artist:0iEtIxbK0KxaSlF7G42ZOp&size=basic&theme=light" width="150" height="28" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowtransparency="true"></iframe>                    <!--- Soundcloud --->
+                    {% if artist_links['spotify'] != "" and artist_links['spotify'] != None %}
+                        <iframe src="https://open.spotify.com/follow/1/?uri=spotify:artist:{% print artist_links['spotify'] %}&size=basic&theme=light" width="150" height="28" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowtransparency="true"></iframe>                    <!--- Soundcloud --->
                         <br/>
                     {% endif %}
                     <!--- Twitter --->
-                    {% if artist_links[3] != "" and artist_links[3] != None %}
-                        <a href="https://twitter.com/{% print artist_links[3] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-screen-name="false" data-show-count="true"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    {% if artist_links['twitter'] != "" and artist_links['twitter'] != None %}
+                        <a href="https://twitter.com/{% print artist_links['twitter'] %}?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-screen-name="false" data-show-count="true"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         <br/>
                     {% endif %}
                     <!--- Facebook --->
-                    {% if artist_links[5] != "" and artist_links[5] != None %}
-                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links[5] %}%2F&width=125&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId" width="125" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    {% if artist_links['facebook'] != "" and artist_links['facebook'] != None %}
+                        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F{% print artist_links['facebook'] %}%2F&width=125&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId" width="125" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
                         <br/>
-                    {% endif %}
-                    <!--- Instagram --->
-                    {% if artist_links[4] != "" and artist_links[4] != None %}
-                        <a href="{% print artist_links[4] %}" target="_blank"><img src="static/instagramicon.png" class="socialicon" /></a>
                     {% endif %}
 
                 </div>

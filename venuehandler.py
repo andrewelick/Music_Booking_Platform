@@ -450,7 +450,7 @@ def get_artist_links(email):
     if conn is not False:
         c = conn.cursor()
         try:
-            c.execute("""SELECT * FROM artist_account_links WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
+            c.execute("""SELECT spotify_link, twitter_link, facebook_link FROM artist_account_links WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (email,))
             artist_links = c.fetchone()
 
             #Used to move edited data into
@@ -462,9 +462,21 @@ def get_artist_links(email):
                     x = ""
                 artist_links2.append(x)
 
-            return artist_links2
+            artist_links_dict = {
+                'spotify': artist_links2[0],
+                'twitter': artist_links2[1],
+                'facebook': artist_links2[2],
+            }
+
+            #Format facebook link
+            if (artist_links_dict['facebook'] != ""):
+                artist_links_dict['facebook'] = artist_links_dict['facebook'].split("/")[-1]
+
+            print (artist_links_dict)
+            return artist_links_dict
 
         except Exception as e:
+            print (e)
             return False
         finally:
             if conn:
