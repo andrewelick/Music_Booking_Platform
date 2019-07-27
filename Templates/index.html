@@ -44,7 +44,7 @@
             width: 100%;
             display: inline-block;
             padding: 20px;
-            padding-bottom: 80px;
+            padding-bottom: 30px;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
             float: left;
@@ -80,6 +80,7 @@
             box-sizing: border-box;
             width: 100%;
             margin-top: 35px;
+            margin-bottom: 20px;
             padding: 25px;
             font-size: 14px;
             float: left;
@@ -151,20 +152,17 @@
         #welcometext {
             padding-bottom: 10px;
             padding-top: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid;
-            border-color: rgba(255, 255, 255, .1);
+            padding-bottom: 35px;
             font-size: 24px;
             font-family: inherit;
         }
 
         #welcome_subtext_container {
+            width: 100%;
             padding: 10px;
             margin-top: 30px;
-            margin-bottom: 25px;
             overflow: hidden;
             font-size: 16px;
-            vertical-align: middle;
         }
 
         .band-icon {
@@ -250,13 +248,13 @@
         /* Random listings */
         .singlelisting {
             box-sizing: border-box;
-            width: 100%;
+            margin: auto;
             margin-bottom: 15px;
+            margin-top: 5px;
             padding: 20px;
             border-radius: 5px;
             background-color: #FFFFFF;
             font-size: 12px;
-            float: left;
             transform: translatey(0px);
             animation: show_float 3s ease-in-out infinite;
         }
@@ -274,6 +272,7 @@
         }
 
         .listing_details {
+            overflow: hidden;
             padding-bottom: 10px;
         }
 
@@ -285,12 +284,6 @@
             vertical-align: middle;
         }
 
-        .icon {
-            padding-right: 3px;
-            height: 13px;
-            vertical-align: middle;
-        }
-
         .listing_stats_option {
             margin-top:-5px;
             padding:5px;
@@ -298,6 +291,56 @@
             font-size:10px;
             background-color:#596B83;
             color:#FFFFFF;
+        }
+
+        .learnmore:hover {
+            text-decoration: underline;
+        }
+
+        /* Venue explain text points */
+        .venue_text_explain_box {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .venue_text_explain_header {
+            font-size: 24px;
+            vertical-align: center;
+            padding-bottom: 10px;
+        }
+
+        /* Stripe explain card */
+        #stripe_explain_card {
+            float: left;
+            width: 100%;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-align: left
+        }
+
+        .stripe_explain_logo {
+            height: 100px;
+        }
+
+        .stripe_explain_header {
+            font-size: 22px;
+            padding-bottom: 10px;
+        }
+
+        /* Artist explain card */
+        #artist_explain_header {
+            font-size: 30px;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+        }
+        #random_artists {
+            display: block;
+            margin: auto;
+            overflow: hidden;
+            max-width: 200px;
         }
 
         #artist_showcase {
@@ -341,7 +384,6 @@
             #greeting_card {
                 margin: 0 auto;
                 padding: 30px;
-                padding-bottom: 80px;
             }
 
             #welcometext {
@@ -349,10 +391,13 @@
                 margin-bottom: 20px;
             }
 
-            #welcome_subtext_container {
-                margin: auto;
+            #sign-up-card {
                 margin-bottom: 30px;
-                max-width: 500px;
+            }
+
+            #welcome_subtext_container {
+                max-width: 400px;
+                margin: auto;
                 font-size: 20px;
             }
 
@@ -361,6 +406,7 @@
                 height: 360px;
                 margin-left: 50px;
                 margin-top: -0px;
+                margin-bottom: 0px;
             }
 
             #sign-up-card {
@@ -369,9 +415,30 @@
 
             .singlelisting {
                 box-sizing: border-box;
-                width: 50%;
                 height: 180px;
+                margin: auto;
                 margin: 10px;
+            }
+
+            .venue_text_explain_box {
+                width: 400px;
+            }
+
+            /* Stripe explain card */
+            .stripe_explain_logo {
+                float: left;
+                margin-right: 20px;
+                border-right: 1px solid;
+                border-color: rgba(255,255,255,.2);
+            }
+
+            /* Artist explain card */
+            #artist_explain_header {
+                margin-bottom: 50px;
+            }
+
+            #random_artists {
+                float: left;
             }
 
             .band-icon {
@@ -394,14 +461,6 @@
 
             <!--- Welcome text --->
             <div id="welcometext">Book your next show with Bluff Tour</div>
-
-            <!--- Subtext --->
-            <div id="welcome_subtext_container">
-                <!--- Band image --->
-                <img src="static/band.png" class='band-icon' />
-                <div>Schedule, book, and securely pay for shows effortlessly</div>
-            </div>
-
 
             <!-- Sign up card --->
             <div id='sign-up-card'>
@@ -439,7 +498,7 @@
 
                 <div style="width:100%">
                     <div class="choicebuttons choicebuttonsActive" id="book_choice">
-                        <i class="material-icons">event</i>
+                        <i class="material-icons">event_seat</i>
                         Venues
                     </div>
                     <div class="choicebuttons" id="perform_choice">
@@ -486,34 +545,160 @@
 
             </div>
 
+            <!--- Subtext --->
+            <div id="welcome_subtext_container">
+                <!--- Band image --->
+                <img src="static/band.png" class='band-icon' />
+                <div>Schedule, book, and securely pay for shows effortlessly</div>
+            </div>
+
         </div>
 
         <!--- Venue description card --->
         <div class="venue_booking_container">
 
             <!--- Header text --->
-            <div style='margin-bottom:10px;text-align:center;font-size:24px;'>It has never been easier to schedule and book shows</div>
-
-            <!--- Subheader --->
-            <div style="margin-bottom: 20px;font-size: 15px;">Find bands and book shows for free, absolutely no cost</div>
+            <div style='margin-bottom:50px;text-align:center;font-size:30px;'>It has never been easier to schedule and book shows</div>
 
             <!--- Venue explain --->
             <div style="width: 100%;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
-                <!--- Container for random shows --->
-                <div style="border: 1px solid;overflow: hidden;margin: 0 auto;" id="shows_container"></div>
+
+                <!--- Container for shows --->
+                <div style="overflow: hidden;float: right;margin: auto;" id="shows_container">
+
+                    <!--- Single Past listing --->
+                    <div class="singlelisting">
+
+                        <!--- Listing header --->
+                        <div class="listing_header" style='text-align:left;overflow: hidden'>
+
+                            <img src="static/harryTavern.jpg" style="float: left;height: 45px;padding-right: 10px;"/>
+
+                            <!--- Listing details --->
+                            <div class="listing_details">
+
+                                <!--- Profile name --->
+                                <span class="listing_header_title" style='font-weight:bold;'>Harry's Tavern</span>
+
+                                <!--- Location --->
+                                <div style="padding-top: 10px;">
+                                    <!--- Icon --->
+                                    <i class="material-icons" style="font-size: 17px;">place</i>
+
+                                    <font class="detail_title">123 N Main St, Memphis, TN 38103</font>
+                                </div>
+
+                                <!--- Date --->
+                                <div style="overflow: hidden; padding-top: 10px;">
+                                    <!--- Icon --->
+                                    <i class="material-icons" style="font-size: 17px;">today</i>
+
+                                    <font class="detail_title">
+                                        Nov 26
+                                        <font style='font-size:11px'>@</font>
+                                        10:00pm
+                                    </font>
+
+                                </div>
+
+                                <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
+                                    <!--- Price --->
+                                    <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                        <div style="padding-bottom: 5px;">Budget</div>
+
+                                        <font style="font-weight: bold;font-size: 15px;color: #5f9341">$500</font>
+                                    </div>
+
+                                    <!--- Artist Type --->
+                                    <div style="float: left;overflow: hidden; padding-right: 25px;">
+                                        <div style="padding-bottom: 5px;">Artist</div>
+
+                                        <font style="font-weight: bold;font-size: 15px;">Band</font>
+                                    </div>
+
+                                    <!--- Set length --->
+                                    <div style="float: left;overflow: hidden;">
+                                        <div style="padding-bottom: 5px;">Set length</div>
+
+                                        <font style="font-weight: bold;font-size: 15px;">2 hours</font>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--- Text explain --->
+                <div style="padding: 20px;float: right;color: #FFFFFF;border-radius: 5px;background-color: rgba(255, 255, 255, .2);">
+                    <!-- Save time -->
+                    <div class="venue_text_explain_box">
+                        <!--- Header --->
+                        <div class="venue_text_explain_header">
+                            Quicker booking
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 36px">schedule</i>
+                        </div>
+
+                        <!--- Explain body text -->
+                        <div class="venue_text_explain_body">
+                            Forget having to find artists, send emails, look into music. We bring the artists and everything they offer straight to you
+                        </div>
+                    </div>
+
+                    <!-- Save money -->
+                    <div class="venue_text_explain_box">
+                        <!--- Header --->
+                        <div class="venue_text_explain_header">
+                            Save money
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 36px;vertical-align: middle">attach_money</i>
+                        </div>
+
+                        <!--- Explain body text -->
+                        <div class="venue_text_explain_body">
+                            Absolutely no charges or fees to put on a show. Use your money for the event, not finding it
+                        </div>
+
+                    </div>
+
+                    <!-- Get results -->
+                    <div class="venue_text_explain_box">
+                        <!--- Header --->
+                        <div class="venue_text_explain_header">
+                            Get results
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 36px">check_circle</i>
+                        </div>
+
+                        <!--- Explain body text -->
+                        <div class="venue_text_explain_body">
+                            We like to make sure everybody is happy, this means making sure everything worked out smoothly. If a problem arises let us take care of it for you
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <div style="float: left;width: 100%;margin-top: 40px;margin-bottom: 20px;padding: 20px;box-sizing: border-box;border-radius: 5px;background-color: rgba(255, 255, 255, .2); overflow: hidden;text-align: left">
+            <!--- Stripe explain card --->
+            <div id="stripe_explain_card">
                 <!--- Stripe image -->
-                <img src="static/stripe.png" style="float: left;height: 100px;margin-right: 20px;border-right: 1px solid;border-color: rgba(255,255,255,.2);"/>
+                <img class="stripe_explain_logo" src="static/stripe.png"/>
 
-                <div style="font-size: 22px;padding-bottom: 10px;">
-                    <i class="material-icons" style="font-size: 30px;margin-top: -10px;">lock</i>
+                <!--- Header --->
+                <div class="stripe_explain_header">
                     Worry about the event, not the payment
+                    <!--- Icon --->
+                    <i class="material-icons" style="font-size: 30px;margin-top: -10px;">lock</i>
                 </div>
+
                 <div style="font-size: 15px;">
                     We've partnered with stripe to make booking safe and simple. We handle everything on the backend, billing you 24 hours before the show and making sure its safe till its over -
-                    <a target="_blank" href="https://stripe.com/customers" style="font-size: 13px;color: #FFFFFF;">
+                    <a target="_blank" href="https://stripe.com/customers" style="font-size: 13px;color: #FFFFFF;" class="learnmore">
                         Learn more about Stripe
                         <!--- Icon --->
                         <i class="material-icons" style="font-size: inherit">open_in_new</i>
@@ -526,42 +711,41 @@
         <!--- Artist description card -->
         <div class="artist_booking_container">
 
-            <div style="font-size: 34px;padding-bottom: 20px;margin-bottom: 50px;">Artists, it's your time to shine</div>
+            <div id="artist_explain_header">Artists, it's your time to shine</div>
 
             <!--- Random artists -->
-            <div id="random_artists" style="float: left;overflow: hidden;max-width: 200px;"></div>
+            <div id="random_artists"></div>
 
             <!--- Artist showcase --->
             <div id="artist_showcase" style="float: left; max-width: 500px;margin-bottom: 10px;padding: 30px;border-radius: 5px;background-color: rgba(255, 255, 255, .2)">
 
                 <!--- Header text --->
-                <div style='padding-bottom: 10px;text-align:left;font-size:27px;'>
+                <div style='padding-bottom: 10px;text-align:left;font-size:24px;'>
                     Show off
                     <!--- Icon --->
-                    <i class="material-icons" style="font-size: 40px">speaker</i>
+                    <i class="material-icons" style="font-size: 36px">speaker</i>
                 </div>
-                <div style="text-align: left;">Make a profile that shows all your music upfront. Music videos, songs, and albums all seen in one place.</div>
+                <div style="text-align: left;">Make a profile that shows all your talents upfront. Music videos, songs, and albums all seen in one place.</div>
 
-                <br/>
                 <br/>
 
                 <div style="width: 100%;padding-bottom: 20px;">
                     <!--- Header text --->
                     <div>
-                        <div style='padding-bottom: 10px;text-align:left;font-size:27px;'>
+                        <div style='padding-bottom: 10px;text-align:left;font-size:24px;'>
                             Go on tour
                             <!--- Icon --->
-                            <i class="material-icons" style="font-size: 40px">directions_car</i>
+                            <i class="material-icons" style="font-size: 36px">flight</i>
                         </div>
                         <div style="text-align: left;">Bid on every show around town, skip the line and get straight to jammin.</div>
                     </div>
 
                 </div>
 
-                <div style="display: inline-block;width: 100%;font-size: 27px;text-align: left;">
+                <div style="display: inline-block;width: 100%;padding-bottom: 10px;font-size: 24px;text-align: left;">
                     Paid in full
                     <!--- Icon --->
-                    <i class="material-icons" style="font-size: 40px">card_giftcard</i>
+                    <i class="material-icons" style="font-size: 36px">card_giftcard</i>
 
                     <div style="font-size: 16px;">Get paid fast, send it straight to your bank account or debit card</div>
                 </div>
@@ -570,13 +754,13 @@
 
         </div>
 
-
-            {% include 'footer.html' %}
-
         </div>
         <!--- End of Description card --->
 
     </div>
+
+    {% include 'footer.html' %}
+
 
     <!--- Check screen width and adjust page --->
     <script type="text/javascript">
@@ -601,6 +785,12 @@
                 $("#book_showcase").hide()
             }
         })
+
+        //Scroll to top
+        $("a[href='#top']").click(function() {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
 
         //Get random account pictures
         $.ajax({
@@ -733,7 +923,19 @@
             var fields_empty = []
 
             //Loop through each input field
-            $(":input[type='text'] :input[type='password']").each(function() {
+            $("input[type='text']").each(function() {
+                //Length of field
+                field_length = $(this).val().length
+
+                //If length is 0, invalid
+                if (field_length == 0) {
+                    $(this).addClass("invalidForm")
+                    fields_empty.push("empty")
+                }
+            })
+
+            //Loop through each input field
+            $("input[type='password']").each(function() {
                 //Length of field
                 field_length = $(this).val().length
 
@@ -881,114 +1083,6 @@
                 }
             }
         });
-
-        if ($(window).width() < 800) {
-            var show_limit = 1
-        }
-        else {
-            var show_limit = 2
-        }
-
-        //Load show postings that are ending soon
-        $.ajax({
-            async: true,
-            type: "POST",
-            url: "/show_postings",
-            data: {
-                "get_random_postings": "check",
-                "limit": show_limit,
-            },
-            dataType: "json"
-        }).done(function(data) {
-
-            if (data['success']) {
-                let ending_shows = data['success']
-
-                if (ending_shows.length == 0) {
-                    $("#ending_shows").html("<div class='empty_box_text' style='font-size: 13px;padding: 10px;'>You do not have any shows ending soon</div>")
-                }
-                else {
-
-                    //Loop through each result and format
-                    for (i = 0; i < ending_shows.length; i++) {
-
-                        let random_number = Math.floor(Math.random() * 3550)
-                        random_number = random_number.toString()
-
-                        let single_listing = `
-                            <!--- Single Past listing --->
-                            <div class="singlelisting" style="animation-delay: ${random_number}ms">
-
-                                <!--- Listing header --->
-                                <div class="listing_header" style='text-align:left;overflow: hidden'>
-
-                                    <img src="https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/${ending_shows[i].uid}_profile.jpg" style="float: left;height: 45px;padding-right: 3px;"/>
-
-                                    <!--- Listing details --->
-                                    <div class="listing_details">
-
-                                        <!--- Profile name --->
-                                        <span class="listing_header_title" style='font-weight:bold;'>${ending_shows[i].business_name}</span>
-
-                                        <!--- Location --->
-                                        <div style="padding-top: 10px;">
-                                            <!--- Icon --->
-                                            <img class="icon" src="static/placeholder-black.png" />
-
-                                            <font class="detail_title">${ending_shows[i].location}</font>
-                                        </div>
-
-                                        <!--- Date --->
-                                        <div style="overflow: hidden; padding-top: 10px;">
-                                            <!--- Icon --->
-                                            <img class="icon" src="static/calendar-black.png" />
-
-                                            <font class="detail_title">
-                                                ${ending_shows[i].show_date}
-                                                <font style='font-size:11px'>@</font>
-                                                ${ending_shows[i].show_time}
-                                            </font>
-
-                                        </div>
-
-                                        <div style="margin: auto; margin-top: 7px; padding-top: 7px;overflow: hidden">
-                                            <!--- Price --->
-                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
-                                                <div style="padding-bottom: 5px;">Budget</div>
-
-                                                <font style="font-weight: bold;font-size: 15px;color: #5f9341">$${ending_shows[i].price}</font>
-                                            </div>
-
-                                            <!--- Artist Type --->
-                                            <div style="float: left;overflow: hidden; padding-right: 25px;">
-                                                <div style="padding-bottom: 5px;">Artist</div>
-
-                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].artist_type}</font>
-                                            </div>
-
-                                            <!--- Set length --->
-                                            <div style="float: left;overflow: hidden;">
-                                                <div style="padding-bottom: 5px;">Set length</div>
-
-                                                <font style="font-weight: bold;font-size: 15px;">${ending_shows[i].set_length}</font>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!--- End of Single Past listing --->
-                        `
-
-
-                        $("#shows_container").append(single_listing)
-                    }
-                }
-            }
-        });
-
-
 
     </script>
 
