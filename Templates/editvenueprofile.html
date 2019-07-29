@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <!--- Social Icons -->
+    <link rel="stylesheet" href="https://d1azc1qln24ryf.cloudfront.net/114779/Socicon/style-cf.css?u8vidh">
+
     <!--- Picture editor --->
     <link rel="stylesheet" href="static/croppie.css" />
     <script src="static/croppie.js"></script>
@@ -39,6 +42,10 @@
             padding-right: 50px;
             background-color: #FFFFFF;
             box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .venue_setup_selection {
+            text-align: left;
         }
 
         .button_upload, input[type="submit"] {
@@ -131,7 +138,7 @@
             width:100%;
             padding:10px;
             font-size:14px;
-            margin-top:20px;
+            margin-top: 10px;
             border:1px solid;
             border-radius: 5px;
             border-color:#d2d2d2;
@@ -166,7 +173,6 @@
             vertical-align: middle;
         }
 
-
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -177,6 +183,11 @@
 
             #setupcontainer {
                 border-radius: 5px;
+            }
+
+            .venue_setup_selection {
+                margin: auto;
+                width: 400px;
             }
 
             select, textarea, input[type='text'] {
@@ -190,244 +201,286 @@
 
     </style>
   </head>
-  <body>
-    <!-- Mobile heading -->
-    {% include 'header.html' %}
+    <body>
+        <!-- Mobile heading -->
+        {% include 'header.html' %}
 
-    <div class='mobilegridrow-2'>
+        <div class='mobilegridrow-2'>
 
-      <div id="setupcontainer">
-          <h2 style="color:#383838;">Edit profile</h2>
+            <div id="setupcontainer">
+                <h2 style="color:#383838;">Edit profile</h2>
 
-        <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
 
-          {{ get_flashed_messages()[0] }}
+                    {{ get_flashed_messages()[0] }}
 
-          <!--- Profile picture --->
-          <div>
-              <div id="edit-profile-holder" class="profilepicture">
-                  <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
-              </div>
+                    <!--- Profile picture --->
+                    <div>
+                        <div id="edit-profile-holder" class="profilepicture">
+                            <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
+                        </div>
 
-              <!--- Save picture button --->
-              <a class="button_upload ripple" id="change_picture" style="top: -20px;margin-top: 0px;">
-                  Edit
-              </a>
+                        <!--- Save picture button --->
+                        <a class="button_upload ripple" id="change_picture" style="top: -20px;margin-top: 0px;">
+                            Edit
+                        </a>
 
-              <!--- Edit profile picture buttons --->
-              <div id="edit_buttons_container" style='display: none'>
-                  </br>
+                        <!--- Edit profile picture buttons --->
+                        <div id="edit_buttons_container" style='display: none'>
+                            </br>
 
-                  <!-- Upload button -->
-                  <a class="button_upload ripple" id="upload_picture_button">
-                      <span>Upload</span>
-                      <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
-                  </a>
+                            <!-- Upload button -->
+                            <a class="button_upload ripple" id="upload_picture_button">
+                                <span>Upload</span>
+                                <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
+                            </a>
 
-                  <!--- Save picture button --->
-                  <a class="button_upload ripple" id="save_picture">
-                      <span>Save</span>
-                  </a>
-              </div>
-          </div>
+                            <!--- Save picture button --->
+                            <a class="button_upload ripple" id="save_picture">
+                                <span>Save</span>
+                            </a>
+                        </div>
+                    </div>
 
-          <!--- Business name selection --->
-          <div class='venue_setup_selection'>
-            <div style='margin-top:20px;margin-bottom:20px;'>Name of the business</div>
-            <input type="text" name="business_name" placeholder="Business name" value="{% print venue_details[1] %}" />
-          </div>
-          <!--- Business name selection --->
+                    <!--- Business name selection --->
+                    <div class='venue_setup_selection'>
+                        <div style='margin-top:20px;margin-bottom:10px;'>
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 20px;">person</i>
+                            Name of the business
+                        </div>
+                        <input type="text" name="business_name" placeholder="Business name" value="{% print venue_details[1] %}" />
+                    </div>
+                    <!--- Business name selection --->
 
-          <!--- Venue type section --->
-          <div class='venue_setup_selection'>
-            <div style='margin-top:20px;margin-bottom:20px;'>What type is it?</div>
-              <select name='business_type' id='business_type'>
-                  <option value='Bar'>Bar</option>
-                  <option value='Club'>Club</option>
-                  <option value='Outdoor'>Outdoor</option>
-                  <option value='College'>College</option>
-                  <option value='Other'>Other</option>
-                </select>
-          </div>
-          <!--- End Venue type selection --->
+                    <!--- Venue type section --->
+                    <div class='venue_setup_selection'>
+                        <div style='margin-top:20px;margin-bottom:10px;'>
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 20px;">business</i>
+                            Business type
+                        </div>
 
-          <!--- Venue Address --->
-          <div class="venue_setup_selection">
-            <div style="margin-top:20px;margin-bottom:20px;">Address</div>
-            <input type="text" id="location" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
-          </div>
-          <!--- End of Venue address --->
-          </br>
+                        <select name='business_type' id='business_type'>
+                            <option value='Bar'>Bar</option>
+                            <option value='Club'>Club</option>
+                            <option value='Outdoor'>Outdoor</option>
+                            <option value='College'>College</option>
+                            <option value='Other'>Other</option>
+                        </select>
+                    </div>
+                    <!--- End Venue type selection --->
 
-          <!--- Bio section --->
-          <div class='venue_setup_selection'>
-            <div>Bio</div>
-            <textarea name='bio' placeholder="Who you are, type of crowd, energy level." rows='4'/>{% print venue_details[4] %}</textarea>
-          </div>
-          <!--- End of Bio section --->
+                    <!--- Venue Address --->
+                    <div class="venue_setup_selection">
+                        <div style="margin-top:20px;margin-bottom:10px;">
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 20px;">place</i>
+                            Location
+                        </div>
+                        <input type="text" id="location" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
+                    </div>
+                    <!--- End of Venue address --->
 
-          <div style='margin-top:20px;margin-bottom:10px;'>Website</div>
-          <input type='text' name='personal_website' placeholder='Business website' value="{% print venue_links[4] %}"/>
+                    </br>
 
-          <div style='margin-top:20px;margin-bottom:10px;'>Twitter</div>
-          <input type='text' name='twitter' placeholder='Twitter profile' value="{% print venue_links[1] %}"/>
+                    <!--- Bio section --->
+                    <div class='venue_setup_selection'>
+                        <div>
+                            <!--- Icon --->
+                            <i class="material-icons" style="font-size: 20px;">chat_bubble</i>
+                            Bio
+                        </div>
+                        <textarea name='bio' placeholder="Who you are, type of crowd, energy level." rows='4'/>{% print venue_details[4] %}</textarea>
+                    </div>
+                    <!--- End of Bio section --->
 
-          <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
-          <input type='text' name='instagram' placeholder="Instagram profile" value="{% print venue_links[2] %}"/>
+                    <!--- Website --->
+                    <div class="venue_setup_selection">
+                        <div style='margin-top:20px;margin-bottom:10px;'>Website</div>
+                        <input type='text' name='personal_website' placeholder='Business website' value="{% print venue_links[4] %}"/>
+                    </div>
 
-          <div style='margin-top:20px;margin-bottom:10px;'>Facebook</div>
-          <input type='text' name='facebook' placeholder="Facebook profile" value="{% print venue_links[3] %}"/>
+                    <!--- Twitter --->
+                    <div class="venue_setup_selection">
+                        <div style='margin-top:20px;margin-bottom:10px;'>
+                            <!--- Icon --->
+                            <i class="socicon-twitter"></i>
+                            Twitter
+                        </div>
+                        <input type='text' name='twitter' placeholder='Twitter profile' value="{% print venue_links[1] %}"/>
+                    </div>
 
-         </br>
+                    <!--- Instagram --->
+                    <div class="venue_setup_selection">
+                        <div style='margin-top:20px;margin-bottom:10px;'>
+                            <!--- Icon --->
+                            <i class="socicon-instagram"></i>
+                            Instagram
+                        </div>
+                        <input type='text' name='instagram' placeholder="Instagram profile" value="{% print venue_links[2] %}"/>
+                    </div>
 
-          <input type='Submit' value="Save" id="submit_button" class="ripple"/>
-        </form>
-      </div>
-    </div>
-    <!--- End of mobilesplash-2 --->
+                    <!--- Facebook --->
+                    <div class="venue_setup_selection">
+                        <div style='margin-top:20px;margin-bottom:10px;'>
+                            <!--- Icon --->
+                            <i class="socicon-facebook"></i>
+                            Facebook
+                        </div>
+                        <input type='text' name='facebook' placeholder="Facebook profile" value="{% print venue_links[3] %}"/>
+                    </div>
 
-    {% include 'footer.html' %}
+                    </br>
 
-    <!--- Banner for messages --->
-    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;z-index:99999">You have verified your bank account!</div>
+                    <input type='Submit' value="Save" id="submit_button" class="ripple"/>
+                </form>
+            </div>
+        </div>
+        <!--- End of mobilesplash-2 --->
+
+        {% include 'footer.html' %}
+
+        <!--- Banner for messages --->
+        <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;z-index:99999">You have verified your bank account!</div>
 
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-        //Show picture editor when clicked
-        $("#change_picture").click(function () {
+            //Show picture editor when clicked
+            $("#change_picture").click(function () {
 
-            //Hide edit picture button
-            $(this).hide()
+                //Hide edit picture button
+                $(this).hide()
 
-            //Clear current picture out
-            $('#edit-profile-holder').html("")
+                //Clear current picture out
+                $('#edit-profile-holder').html("")
 
-            //Intial croppie picture editor
-            var basic = $('#edit-profile-holder').croppie({
-                enableExif: true,
-                viewport: {
-                    width: 200,
-                    height: 200,
-                    type: 'circle'
-                },
+                //Intial croppie picture editor
+                var basic = $('#edit-profile-holder').croppie({
+                    enableExif: true,
+                    viewport: {
+                        width: 200,
+                        height: 200,
+                        type: 'circle'
+                    },
+                });
+
+
+                //added to end of picture, prevents CORS getting angry
+                let random_number = Math.floor(Math.random() * 10000)
+
+                //Add AWS picture
+                basic.croppie('bind', {
+                    url: 'https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?'+random_number,
+                });
+
+                //Show profile picture edit buttons
+                $("#edit_buttons_container").show()
+
+                //Show upload button
+                $("#upload_picture_button").show()
             });
 
-
-            //added to end of picture, prevents CORS getting angry
-            let random_number = Math.floor(Math.random() * 10000)
-
-            //Add AWS picture
-            basic.croppie('bind', {
-                url: 'https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?'+random_number,
+            //When new picture is uploaded
+            $('#upload_picture_button input').on('change', function () {
+                readFile(this);
+                $('#save_picture').show()
             });
 
-            //Show profile picture edit buttons
-            $("#edit_buttons_container").show()
+            //Get new profile picture data
+            function readFile(input) {
+              if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-            //Show upload button
-            $("#upload_picture_button").show()
-        });
+                reader.onload = function (e) {
+                    $('#edit-profile-holder').croppie('bind', {
+                        url: e.target.result
+                    });
+                }
 
-        //When new picture is uploaded
-        $('#upload_picture_button input').on('change', function () {
-            readFile(this);
-            $('#save_picture').show()
-        });
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
 
-        //Get new profile picture data
-        function readFile(input) {
-          if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            //Save new profile picture
+            $("#save_picture").click(function() {
+                $("#edit-profile-holder").croppie('result', 'blob').then(function(resp) {
 
-            reader.onload = function (e) {
-                $('#edit-profile-holder').croppie('bind', {
-                    url: e.target.result
+                    var formData = new FormData();
+                    formData.append('picture', resp);
+
+                    $.ajax({
+                        url: '/setupaccount',
+                        type: "POST",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formData
+                    }).done(function(data) {
+
+                        result = JSON.parse(data)
+
+                        if (result['result'] == 'success') {
+                            $(".button_upload").hide()
+
+                            //Tear down croppie instance
+                            $("#edit-profile-holder").croppie('destroy');
+
+                            //added to end of picture, prevents CORS getting angry
+                            let random_number = Math.floor(Math.random() * 10000)
+
+                            //Hide croppie load new picture
+                            $("#edit-profile-holder").html("<img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?"+random_number+"' />")
+
+                            //Show edit picture button again
+                            $("#change_picture").show()
+
+                            let banner_message = `
+                                <div class="banner-header">
+                                    <img src='static/success_checkmark.png' class='bannerIcon'>
+                                    <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                                </div>
+                                Profile picture was saved!
+                            `
+
+                            //Flash message
+                            $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+                        }
+                        else {
+                            let banner_message = `
+                                <div class="banner-header">
+                                    <img src='static/error_x.png' class='bannerIcon'>
+                                    <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Error!</font>
+                                </div>
+                                Something didn't work, try again
+                            `
+                            //Flash message
+                            $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(2000).slideUp()
+                        }
+                    })
+
+                });
+            });
+
+            //Google autocomplete location search
+            function load_google_location() {
+                var input = document.getElementById('location');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+
+                //Get place details
+                autocomplete.addListener('place_changed', function () {
+                    // place variable will have all the information you are looking for.
+                    var place = autocomplete.getPlace();
                 });
             }
 
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        //Save new profile picture
-        $("#save_picture").click(function() {
-            $("#edit-profile-holder").croppie('result', 'blob').then(function(resp) {
-
-                var formData = new FormData();
-                formData.append('picture', resp);
-
-                $.ajax({
-                    url: '/setupaccount',
-                    type: "POST",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: formData
-                }).done(function(data) {
-
-                    result = JSON.parse(data)
-
-                    if (result['result'] == 'success') {
-                        $(".button_upload").hide()
-
-                        //Tear down croppie instance
-                        $("#edit-profile-holder").croppie('destroy');
-
-                        //added to end of picture, prevents CORS getting angry
-                        let random_number = Math.floor(Math.random() * 10000)
-
-                        //Hide croppie load new picture
-                        $("#edit-profile-holder").html("<img src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg?"+random_number+"' />")
-
-                        //Show edit picture button again
-                        $("#change_picture").show()
-
-                        let banner_message = `
-                            <div class="banner-header">
-                                <img src='static/success_checkmark.png' class='bannerIcon'>
-                                <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
-                            </div>
-                            Profile picture was saved!
-                        `
-
-                        //Flash message
-                        $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
-                    }
-                    else {
-                        let banner_message = `
-                            <div class="banner-header">
-                                <img src='static/error_x.png' class='bannerIcon'>
-                                <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Error!</font>
-                            </div>
-                            Something didn't work, try again
-                        `
-                        //Flash message
-                        $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(2000).slideUp()
-                    }
-                })
-
-            });
-        });
-
-        //Google autocomplete location search
-        function load_google_location() {
-            var input = document.getElementById('location');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-
-            //Get place details
-            autocomplete.addListener('place_changed', function () {
-                // place variable will have all the information you are looking for.
-                var place = autocomplete.getPlace();
-            });
-        }
-
-        //Intialize google location search
-        google.maps.event.addDomListener(window, 'load', load_google_location);
+            //Intialize google location search
+            google.maps.event.addDomListener(window, 'load', load_google_location);
 
 
-    </script>
-    <!--- End of upload temp profile script --->
+        </script>
+        <!--- End of upload temp profile script --->
 
-  </body>
+    </body>
 </html>

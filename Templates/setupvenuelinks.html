@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <!--- Social Icons -->
+    <link rel="stylesheet" href="https://d1azc1qln24ryf.cloudfront.net/114779/Socicon/style-cf.css?u8vidh">
+
     <style type='text/css'>
       body {
         margin:0;
@@ -31,6 +34,11 @@
           background-color: #FFFFFF;
           border-radius: 5px;
           box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .venue_setup_selection {
+            text-align: left;
+            overflow: hidden;
         }
 
         .input_title {
@@ -64,6 +72,10 @@
           font-family: inherit;
         }
 
+        #finishbutton {
+            float: right;
+        }
+
         /* Ripple effect */
         .ripple {
             background-color: #328CC1;
@@ -90,6 +102,11 @@
                 margin: 0 auto;
             }
 
+            .venue_setup_selection {
+                width: 400px;
+                margin: auto;
+            }
+
             input[type='text'] {
                 width: 400px;
             }
@@ -111,18 +128,26 @@
             <div class='venue_setup_selection'>
                 <form action="setuplinks" method="POST">
 
-                    <h3 style="margin-top:20px;border-color:#d2d2d2">Lets add some social</h3>
+                    <h3 style="margin-top:20px;border-color:#d2d2d2;text-align: center;">Lets add some social</h3>
 
                     <div class="input_title">Website</div>
                     <input type='text' name='personal_website' placeholder='https://www.BluffTour.com'/>
 
-                    <div class="input_title">Twitter</div>
+                    <div class="input_title">
+                        <i class="socicon-twitter" style="color: #4da7de"></i>
+                        Twitter
+                    </div>
                     <input type='text' name='twitter' placeholder='https://www.Twitter.com/BluffTour'/>
 
-                    <div class="input_title">Instagram</div>
+                    <div class="input_title">
+                        <i class="socicon-instagram"></i>
+                        Instagram</div>
                     <input type='text' name='instagram' placeholder="https://www.Instagram.com/BluffTour" />
 
-                    <div class="input_title">Facebook</div>
+                    <div class="input_title">
+                        <i class="socicon-facebook" style="color: #3e5b98"></i>
+                        Facebook
+                    </div>
                     <input type='text' name='facebook' placeholder="https://www.Facebook.com/BluffTour" />
 
                     <br/>

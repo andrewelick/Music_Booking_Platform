@@ -41,6 +41,11 @@
           box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.2);
         }
 
+        .venue_setup_selection {
+            width: 100%;
+            text-align: left;
+        }
+
         .button_upload, input[type="submit"] {
             position: relative;
             border: 0px;
@@ -128,7 +133,7 @@
             border-radius: 5px;
             font-family: inherit;
             font-size:14px;
-            margin-top:20px;
+            margin-top: 10px;
             border: 1px solid;
             border-color:#d2d2d2;
         }
@@ -157,6 +162,11 @@
             transition: background 0s;
         }
 
+        .icon {
+            color: #383838;
+            vertical-align: bottom;
+        }
+
         /* Google classes */
         .pac-item {
             padding: 5px;
@@ -177,6 +187,11 @@
             .mobilegridrow-2 {
                 width: 800px;
                 margin: 0 auto;
+            }
+
+            .venue_setup_selection {
+                width: 400px;
+                margin: auto;
             }
 
             input[type='text'], select, textarea {
@@ -203,7 +218,7 @@
         <form action="setupaccount" method="POST" enctype="multipart/form-data">
 
             <!--- Upload profile picture --->
-            <div class='venue_setup_selection'>
+            <div class='profile_picture_container'>
                 <div style='margin-top:20px;margin-bottom:10px;'>Upload a profile picture</div>
 
                 <!--- Profile picture --->
@@ -231,9 +246,9 @@
 
           <!--- Business name selection --->
           <div class='venue_setup_selection'>
-              <div style='margin-top:20px;margin-bottom:10px;'>
+              <div style='margin-top:20px;margin-bottom:10px;text-align: left;'>
                   <!-- Icon --->
-                  <i class="material-icons" style="vertical-align: middle">person</i>
+                  <i class="material-icons icon">person</i>
                   Name of the business
               </div>
               <input type="text" name="business_name" id="business_name" placeholder="Business name">
@@ -244,7 +259,7 @@
           <div class='venue_setup_selection'>
             <div style='margin-top:20px;margin-bottom:10px;'>
                 <!-- Icon --->
-                <i class="material-icons" style="vertical-align: middle">business_center</i>
+                <i class="material-icons icon">business_center</i>
 
                 What type is it?
             </div>
@@ -262,7 +277,7 @@
           <div class="venue_setup_selection">
             <div style="margin-top:20px;margin-bottom:10px;">
                 <!-- Icon --->
-                <i class="material-icons" style="vertical-align: middle">place</i>
+                <i class="material-icons icon">place</i>
                 Where are you located?
             </div>
 
@@ -273,11 +288,10 @@
 
           <!--- Bio section --->
           <div class='venue_setup_selection'>
-            <div>
-                <!-- Icon --->
-                <i class="material-icons" style="vertical-align: middle">chat_bubble</i>
-                Tell us about it <font style='font-size: 13px;'>(optional)</font>
-            </div>
+            <!-- Icon --->
+            <i class="material-icons icon">chat_bubble</i>
+            Tell us about it <font style='font-size: 13px;'>(optional)</font>
+
             <textarea name='bio' id="bio" placeholder="Who you are, type of crowd, energy level." rows='4'/></textarea>
           </div>
           <!--- End of Bio section --->
