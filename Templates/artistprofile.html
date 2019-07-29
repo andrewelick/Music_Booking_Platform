@@ -92,7 +92,7 @@
             color: #FFFFFF;
         }
 
-        #editprofile {
+        .editprofile {
             display: inline-block;
             width: 100px;
             padding: 7px;
@@ -369,6 +369,21 @@
             vertical-align: middle;
         }
 
+        /* Ripple effect */
+        .ripple {
+            cursor: pointer;
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
         @media screen and (min-width: 800px) {
 
             .mobilegridrow-2 {
@@ -433,14 +448,14 @@
                 <!--- Contact bar --->
                 <div id="contactbar">
                     {% if email != session['username'] %}
-                        <a class="contact" id="messageartist">Messsage</a>
+                        <a class="contact ripple" id="messageartist">Messsage</a>
                     {% endif %}
                 </div>
                 <!--- End of contact bar --->
 
                 <!--- Edit profile button --->
                 {% if email == session['username'] %}
-                    <a href="/editprofile" id="editprofile">Edit profile</a>
+                    <a href="/editprofile" class="editprofile ripple">Edit profile</a>
                 {% endif %}
 
                 <!--- Social bar --->
@@ -867,11 +882,6 @@
                 //Enable button
                 $("#save_media_button").removeClass("invalidClass").prop("disabled", false)
 
-                //Save new media
-                $("#save_media_button").click(function() {
-                    //Save artist media data
-                    save_artist_media(valid_input_data.type, valid_input_data.src)
-                })
             }
             else {
                 //Show invalid type message
@@ -881,6 +891,19 @@
                 $("#save_media_button").addClass("invalidClass").prop("disabled", true)
             }
         });
+
+        //Save new media when clicked
+        $("#save_media_button").click(function() {
+
+            //Get input from user
+            let media_val = $("#media_input").val()
+
+            //Validate input
+            let valid_input_data = validate_new_media(media_val)
+
+            //Save artist media data
+            save_artist_media(valid_input_data.type, valid_input_data.src)
+        })
 
         //Delete artist media
         $(".delete_media_forever_button").click(function() {

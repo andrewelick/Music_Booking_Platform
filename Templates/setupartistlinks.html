@@ -24,6 +24,7 @@
             padding: 10px;
             margin-bottom: 20px;
             text-align: center;
+            font-family: inherit;
         }
 
         #setupcontainer {
@@ -64,19 +65,72 @@
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
+        #media_container {
+            padding: 20px;
+        }
+
+        #add_media_header {
+            font-size: 20px;
+            padding-bottom: 15px;
+        }
+
+        #add_media_subheader {
+            font-size: 13px;
+            padding-bottom: 10px;
+        }
+
+        .add_media_input {
+
+        }
+
+        #add_media_preview {
+            width: 100%;
+        }
+
+        #add_media_live_holder {
+            width: 100%;
+        }
+
+        .media_preview {
+            width: 100%;
+            height: 180px;
+        }
+
+        .add_media_button {
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0 auto;
+            padding:10px;
+            border: 0px;
+            border-radius: 5px;
+            font-size: 17px;
+            background-color: #328CC1;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .add_media_button:hover {
+            cursor: pointer;
+        }
+
+        .disabledButton {
+            background-color: #d2d2d2;
+            color: #383838;
+        }
+
         #finishbutton {
-          box-sizing: border-box;
-          display: block;
-          width:40%;
-          margin: 0 auto;
-          margin-top: 10px;
-          padding:10px;
-          border: 0px;
-          border-radius: 5px;
-          font-size: 17px;
-          background-color: #328CC1;
-          color: #FFFFFF;
-          text-decoration: none;
+            box-sizing: border-box;
+            display: block;
+            width:40%;
+            margin: 0 auto;
+            margin-top: 10px;
+            padding:10px;
+            border: 0px;
+            border-radius: 5px;
+            font-size: 17px;
+            background-color: #328CC1;
+            color: #FFFFFF;
+            text-decoration: none;
         }
 
         #finishbutton:hover {
@@ -88,9 +142,10 @@
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
-        .media_preview {
-            width: 100%;
+        .bannerIcon {
+            height: 30px;
         }
+
 
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
@@ -107,11 +162,6 @@
             #finishbutton {
                 width: 100px;
             }
-
-            .media_preview {
-                width: 400px;
-            }
-
         }
 
     </style>
@@ -162,6 +212,33 @@
                     <input type='text' name='instagram' placeholder="https://www.instagram.com/BluffTour" />
                     --->
 
+                    <!--- Artist media container --->
+                    <div id="media_container">
+                        <!--- Header --->
+                        <div id="add_media_header">Add some songs</div>
+
+                        <div id="add_media_subheader">Add your songs or albums to showcase on your profile, use an IFrame or link. Accepted websites: Spotify, Soundcloud, and Bandcamp.</div>
+
+                        <div class="add_media_input_container">
+                            <!--- Media input --->
+                            <input type="text" class="add_media_input" placeholder="Link or IFrame" />
+
+                            <!-- Add media button --->
+                            <div class="add_media_button disabledButton">Add</div>
+
+                        </div>
+
+                        <!--- Hidden IFrame holder -->
+                        <div id="add_media_preview"></div>
+
+                        <!-- Media holder --->
+                        <div id="saved_media_container" style="margin-top: 20px;padding: 10px;display:none;border: 1px solid;border-radius: 5px;border-color: #d2d2d2">
+                            <div style="text-align: left;padding-bottom: 10px;">Saved media</div>
+                            <div id="add_media_live_holder"></div>
+                        </div>
+
+                    </div>
+
                     <input type="submit" id='finishbutton' value="Next" />
                     {% if error %}
                         {%print error%}
@@ -172,6 +249,220 @@
     </div>
 
     {% include 'footer.html' %}
+
+    <!--- Success message --->
+    <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;"></div>
+
+
+    <script type="text/javascript">
+
+        //Attach loading gif to any ajax call
+        $(document).ajaxStart(function() {
+            $(".loading_gif").show();
+        });
+
+        $(document).ajaxStop(function() {
+            //Hide loading gif to any ajax call
+            $(".loading_gif").hide();
+        });
+
+
+        //Save new artist media
+        function save_artist_media(type, src) {
+            $.ajax({
+                url: "/artist_media",
+                type: "POST",
+                data: {
+                    save_media: "yes",
+                    type: type,
+                    src: src,
+                },
+                dataType: "json",
+            }).done(function(data) {
+
+                if (data.success) {
+
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/success_checkmark.png' class='bannerIcon'>
+                            <font style='font-size: 20px;font-weight: bold;vertical-align: middle'>Success!</font>
+                        </div>
+                        Added new media
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "green").slideDown().delay(2000).slideUp()
+
+                    //Clear old inputs
+                    $(".add_media_input").val("")
+                    $(".add_media_button").addClass("disabledButton").prop('disabled', true)
+                    $("#add_media_preview").html("")
+
+                    //Show saved media container
+                    $("#saved_media_container").show()
+
+                    //iframe string
+                    let iframe_code = '<iframe class="media_preview" src="'+src+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+
+                    //Put media in preview
+                    $("#add_media_live_holder").prepend(iframe_code).slideDown()
+                }
+                else {
+
+                    let banner_message = `
+                        <div class="banner-header">
+                            <img src='static/error_x.png' class='bannerIcon'>
+                            <font style='font-size: 30px;font-weight: bold;vertical-align: middle'>Success!</font>
+                        </div>
+                        There was an error saving artist content, please try again.
+                    `
+
+                    //Flash message
+                    $("#message_banner").html(banner_message).css("background-color", "red").slideDown().delay(3000).slideUp()
+                }
+            })
+        }
+
+        //Validate new media
+        function validate_new_media(iframe) {
+
+            $("#add_media_preview").html(iframe)
+
+            //Try to get url of iframe
+            let iframe_val = $("#add_media_preview iframe").attr('src')
+
+            //Check if there is a iframe
+            if (iframe_val) {
+                var iframe_src = iframe_val
+            }
+            else {
+                var iframe_src = iframe
+            }
+
+            //Check if there is a valid parsed url
+            if (iframe_src.startsWith("https://w.soundcloud.com/player/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "soundcloud"
+                }
+            }
+            else if (iframe_src.startsWith("https://open.spotify.com/album/")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf("/") + 1);
+                iframe_src = "https://open.spotify.com/embed/album/"+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
+            else if (iframe_src.startsWith("https://open.spotify.com/track/")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf("/") + 1);
+                iframe_src = "https://open.spotify.com/embed/track/"+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
+            else if (iframe_src.startsWith("https://open.spotify.com/embed/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
+            else if (iframe_src.startsWith("https://www.youtube.com/watch")) {
+                iframe_src = iframe_src.substring(iframe_src.lastIndexOf("=") + 1);
+                iframe_src = "https://www.youtube.com/embed/"+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "youtube",
+                }
+            }
+            else if (iframe_src.startsWith("https://youtu.be/")) {
+                iframe_src = iframe_src.split(".be/")[1]
+                iframe_src = "https://www.youtube.com/embed/"+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "youtube",
+                }
+            }
+            else if (iframe_src.startsWith("https://www.youtube.com/embed/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "youtube",
+                }
+            }
+            else if (iframe_src.includes("bandcamp.com/")) {
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "bandcamp",
+                }
+            }
+            else {
+                //Return invalid
+                return {
+                    "valid_input": false
+                }
+            }
+        }
+
+        //Validate and load iFrame preview
+        $(".add_media_input").focusout(function() {
+            //Clear old inputs
+            $("#add_media_preview").html("")
+
+            //Get input from user
+            let media_val = $(".add_media_input").val()
+
+            //Validate input
+            let valid_input_data = validate_new_media(media_val)
+
+            if (valid_input_data.valid_input == true) {
+
+                //iframe string
+                let iframe_code = '<iframe class="media_preview" src="'+valid_input_data.src+'" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
+                //Put media in preview
+                $("#add_media_preview").html(iframe_code)
+
+                //Enable button
+                $(".add_media_button").removeClass("disabledButton").prop("disabled", false)
+
+            }
+            else {
+                //Show invalid type message
+                $("#add_media_preview").html("Invaild input").css("color", "red")
+
+                //Disable save button
+                $(".add_media_button").addClass("disabledButton").prop("disabled", true)
+            }
+        });
+
+        //CLick add media button
+        $(".add_media_button").click(function() {
+
+            //Get input from user
+            let media_val = $(".add_media_input").val()
+
+            //Validate input
+            let valid_input_data = validate_new_media(media_val)
+
+            if (valid_input_data.valid_input == true) {
+                //Save artist media data
+                save_artist_media(valid_input_data.type, valid_input_data.src)
+            }
+        })
+
+    </script>
 
   </body>
 </html>
