@@ -10,7 +10,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
     <style>
       body {
@@ -141,12 +147,6 @@
           outline: none;
           -webkit-transition: box-shadow 300ms ease;
           transition: 300ms ease;
-        }
-
-        button:hover {
-            cursor: pointer;
-            background-color: #3494cb;
-            box-shadow: 0 1px 3px 0 #cfd7df;
         }
 
         .payment_buttons {
@@ -407,6 +407,26 @@
             vertical-align: middle;
         }
 
+        .payment-icons {
+            color: #383838;
+            vertical-align: middle;
+        }
+
+        /* Ripple effect */
+        .ripple {
+            cursor: pointer;
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
         @media screen and (min-width: 800px) {
 
             .mobilegridrow-2 {
@@ -438,7 +458,11 @@
         <div id="available_balance_container" class="bubble_container">
 
             <!--- Header --->
-            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Available Balance</div>
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 20px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">account_balance_wallet</i>
+                Available Balance
+            </div>
 
             <!--- Total amount --->
             <div id="available_balance_number" class="balance_number">
@@ -449,7 +473,7 @@
             <br/>
 
             <!-- Cash out button --->
-            <button id="cash_out">Cash out</button>
+            <button id="cash_out" class="ripple">Cash out</button>
 
             <br/>
             <br/>
@@ -462,7 +486,12 @@
         <div id="pending_balance_container" class="bubble_container">
 
             <!--- Header --->
-            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Pending Balance</div>
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 20px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px">access_time</i>
+
+                Pending Balance
+            </div>
 
             <!--- Total amount --->
             <div id="pending_balance_number" class="balance_number" style="color: grey">
@@ -479,7 +508,12 @@
         <!--- Payout transactions --->
         <div id="payments_transactions_container" class="bubble_container">
             <!--- Header --->
-            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Payments</div>
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 20px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px">receipt</i>
+
+                Transactions
+            </div>
 
             <!--- List of cashout transactions -->
             <div id="payments_transactions"></div>
@@ -494,7 +528,12 @@
         <!--- Payout transactions --->
         <div id="cashout_transactions_container" class="bubble_container">
             <!--- Header --->
-            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Cashouts</div>
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 20px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">cached</i>
+
+                Cashouts
+            </div>
 
             <!--- List of cashout transactions -->
             <div id="cashout_transactions"></div>
@@ -510,10 +549,12 @@
         <div id="accounts_container" class="bubble_container">
 
             <!--- Header --->
-            <div style='font-weight: bold;font-size: 17px;padding-bottom: 10px;'>Payment Accounts</div>
+            <div style='font-weight: bold;font-size: 17px;padding-bottom: 20px;'>Payment Accounts</div>
 
             <!--- Connected cards --->
             <div id="conected_cards_container" style="text-align: left;font-size: 15px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">credit_card</i>
                 Cards
 
                 <!--- Load connect cards --->
@@ -523,6 +564,8 @@
 
             <!--- Connected banks -->
             <div id="connected_banks" style="text-align: left; font-size: 15px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">account_balance</i>
                 Bank Accounts
 
                 <!--- Load connect cards --->
@@ -563,7 +606,7 @@
 
             <div id="cash_out_error_message" class="error_message"></div>
 
-            <button id="confirm_cash_out_button" class="disable_button" disabled>Send funds</button>
+            <button id="confirm_cash_out_button" class="ripple disable_button" disabled>Send funds</button>
 
         </div>
 
@@ -595,7 +638,7 @@
                 <!--- Error message --->
                 <div id="bank_error_message" class="error_message"></div>
 
-                <button name="add_new_bank" id="add_new_bank" class="disable_button" disabled>Add Bank</button>
+                <button name="add_new_bank" id="add_new_bank" class="ripple disable_button" disabled>Add Bank</button>
 
                 <!--- Message telling venue about stripe --->
                 <div style="font-size:12px;color:#383838;padding-top: 10px;text-align: center">
@@ -619,7 +662,7 @@
             <!--- Error message --->
             <div id="card_error_message" class="error_message"></div>
 
-            <button name="add_new_card" id="add_new_card" class="disable_button" disabled>Add Card</button>
+            <button name="add_new_card" id="add_new_card" class="ripple disable_button" disabled>Add Card</button>
 
             <!--- Message telling venue about stripe --->
             <div style="font-size:12px;color:#383838;padding-top: 10px;text-align: center">
@@ -786,7 +829,6 @@
 
                                 <!--- Card details --->
                                 <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
-                                    <img src="static/credit-card.png" class="card_icon" />
                                     ${card_methods[i].card_type}
                                 </div>
 
@@ -795,7 +837,12 @@
                                     <font style="font-size: 11px;">Exp ${card_methods[i].expire_month}/${card_methods[i].expire_year}</font>
                                 </div>
 
-                                <div class="remove_card" id="${card_methods[i].card_id}">Delete</div>
+                                <!-- Delete button --->
+                                <div class="remove_card" id="${card_methods[i].card_id}">
+                                    <!--- Icons -->
+                                    <i class="material-icons payment-icons" style="font-size: 18px;color: inherit">delete</i>
+                                    Delete
+                                </div>
                             </div>
                         `
 
@@ -824,7 +871,6 @@
 
                                 <!--- Card details --->
                                 <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
-                                    <img src="static/bank_icon.png" class="card_icon"/>
                                     ACH
                                 </div>
 
@@ -833,7 +879,12 @@
                                     xxxx-${bank_methods[i].bank_last4}
                                 </div>
 
-                                <div class="remove_card" id="${bank_methods[i].bank_id}">Delete</div>
+                                <!--- Delete button --->
+                                <div class="remove_card" id="${bank_methods[i].bank_id}">
+                                    <!--- Icons -->
+                                    <i class="material-icons payment-icons" style="font-size: 18px;color: inherit">delete</i>
+                                    Delete
+                                </div>
                             </div>
                         `
 

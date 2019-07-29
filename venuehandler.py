@@ -252,24 +252,24 @@ def send_reset_password(email):
                 conn.commit()
 
                 #Reset link that is sent to the user
-                reset_link = "http://localhost/changepassword?uid="+uid+"&reset_code="+reset_code
+                reset_link = "http://localhost:8000/changepassword?uid="+uid+"&reset_code="+reset_code
                 #Get the reset email file
-                with open(r'C:/Users/andye/Desktop/Money scripts/VenueApp/Templates/email_files/resetpassword.txt', 'r', encoding='utf-8') as email_template_file:
+                with open(r'Templates/email_files/resetpassword.html', 'r', encoding='utf-8') as email_template_file:
                     template_content = Template(email_template_file.read())
                     email_template_file.close()
 
                 #Set up SMTP server, SSL connection
                 #ssl_context = pyOpenSSL.SSLv3_METHOD(SSLv3_METHOD)
                 smtp_server = smtplib.SMTP_SSL('smtp.gmail.com',465)
-                smtp_server.login('damndelick@gmail.com', 'penispenis1') #Sender andy.elick@gmail.com, ggixchywavjqvilp
+                smtp_server.login('andrew@blufftour.com', 'fzzicdixhkflkhok')
 
                 msg = MIMEMultipart() #Creates the message
                 message = template_content.substitute(RESET_LINK=reset_link) #Change emailauth.txt variables
                 #Set up email parameters
-                msg['From']= 'VenueApp'
+                msg['From']= 'Bluff Tour'
                 msg['To']= email
-                msg['subject']='Venueapp password reset request'
-                msg.attach(MIMEText(message, 'plain')) #Add emailauth.txt to email
+                msg['subject']='Bluff Tour password reset request'
+                msg.attach(MIMEText(message, 'html')) #Add emailauth.txt to email
                 #Send the message
                 smtp_server.send_message(msg)
                 #Close SMTP connection

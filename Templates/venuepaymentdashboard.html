@@ -10,7 +10,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--- Stripe --->
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style type='text/css'>
       body {
@@ -338,6 +343,11 @@
             vertical-align: middle;
         }
 
+        .payment-icons {
+            color: #383838;
+            vertical-align: middle;
+        }
+
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
 
@@ -369,7 +379,10 @@
         <!--- Payout transactions --->
         <div id="transactions_container" class="bubble_container">
             <!--- Header --->
-            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">Transactions</div>
+            <div style="font-weight: bold;font-size: 17px;padding-bottom: 10px;">
+                <i class='material-icons payment-icons' style="font-size: 20px">receipt</i>
+                Transactions
+            </div>
 
             <!--- List of cashout transactions -->
             <div id="transactions"></div>
@@ -389,6 +402,8 @@
 
             <!--- Connected cards --->
             <div id="conected_cards_container" style="text-align: left;font-size: 15px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">credit_card</i>
                 Cards
 
                 <!--- Load connect cards --->
@@ -398,6 +413,8 @@
 
             <!--- Connected banks -->
             <div id="connected_banks" style="text-align: left; font-size: 15px;">
+                <!--- Icons -->
+                <i class="material-icons payment-icons" style="font-size: 20px;">account_balance</i>
                 Bank Accounts
 
                 <!--- Load connect cards --->
@@ -420,9 +437,14 @@
     <!--- New card --->
     <div id="new_payment_card" class="popup-box">
 
-        <h3 style="text-align: center">Add a Debit card</h3>
+        <!--- Header --->
+        <h3 style="text-align: center">
+            <!--- Icons -->
+            <i class="material-icons payment-icons" style="font-size: 20px;">credit_card</i>
+            Add a card
+        </h3>
 
-        <div style="text-align: left;">Debit Card</div>
+        <div style="text-align: left;">Card</div>
 
         <!--- Load stripe.js card --->
         <div id="card-element"></div>
@@ -430,6 +452,7 @@
         <!--- Error message --->
         <div id="card_error_message" class="error_message"></div>
 
+        <!-- Add card button --->
         <button name="add_new_card" id="add_new_card" class="disable_button" style="display: inline-block;float: right" disabled>Add Card</button>
 
         <!--- Message telling venue about stripe --->
@@ -443,7 +466,13 @@
     <!--- New bank account --->
     <div id="new_payment_bank" class="popup-box">
 
-        <h3 style='text-align: center'>Link a Bank Account</h3>
+        <!--- Header --->
+        <h3 style='text-align: center'>
+            <!--- Icons -->
+            <i class="material-icons payment-icons" style="font-size: 20px;">account_balance</i>
+            Link a Bank Account
+        </h3>
+
         <div style="padding-bottom: 15px;text-align: left;font-size: 12px;">To verify your bank account, you’ll see two deposits and two withdrawals on your bank statement over the next three days, each $1 or less. You will enter these amounts to verify your account.</div>
 
         <form id="new_bank_form">
@@ -617,7 +646,6 @@
 
                                 <!--- Card details --->
                                 <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
-                                    <img src="static/credit-card.png" class="card_icon" />
                                     ${card_methods[i].card_type}
                                 </div>
 
@@ -626,7 +654,12 @@
                                     <font style="font-size: 11px;">Exp ${card_methods[i].expire_month}/${card_methods[i].expire_year}</font>
                                 </div>
 
-                                <div class="remove_card" id="${card_methods[i].card_id}">Delete</div>
+                                <div class="remove_card" id="${card_methods[i].card_id}">
+                                    <!--- Icons -->
+                                    <i class="material-icons payment-icons" style="font-size: 16px;color: inherit">delete</i>
+
+                                    Delete
+                                </div>
                             </div>
                         `
 
@@ -655,7 +688,6 @@
 
                                 <!--- Card details --->
                                 <div class="card_details" style="border-right: 1px solid; border-color: #d2d2d2;">
-                                    <img src="static/bank_icon.png" class="card_icon"/>
                                     ACH
                                 </div>
 
@@ -667,7 +699,12 @@
                                     ${bank_methods[i].bank_status == 'verified' ? '' : '<a class="verify_bank_link" id="verify-'+bank_methods[i].bank_id+'" style="color: blue;">verify</a>'}
                                 </div>
 
-                                <div class="remove_card" id="${bank_methods[i].bank_id}">Delete</div>
+                                <!--- Delete button --->
+                                <div class="remove_card" id="${bank_methods[i].bank_id}">
+                                    <!--- Icons -->
+                                    <i class="material-icons payment-icons" style="font-size: 16px;color: inherit">delete</i>
+                                    Delete
+                                </div>
                             </div>
                         `
 

@@ -13,6 +13,7 @@ import smtplib #Used for sending emails
 import requests
 from email.mime.multipart import MIMEMultipart #Used for sending emails
 from email.mime.text import MIMEText #Used for sending emails
+from email.mime.image import MIMEImage #Used for email images
 import stripe #Used for payment processing
 import shutil
 import json
