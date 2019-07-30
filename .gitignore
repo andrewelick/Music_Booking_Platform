@@ -2,6 +2,7 @@
 
 #Hide these files
 test.env
+.DS_Store
 
 #Hide these folders
 user_pictures/
