@@ -8,7 +8,6 @@ html, body {
     background-size: cover;
     box-sizing: border-box;
     background-repeat:no-repeat;
-    background: rgb(57,161,222);
-    background: linear-gradient(0deg, rgba(57,161,222,1) 1%, rgba(195,107,255,1) 100%) fixed;
+    background: linear-gradient(0, rgba(34, 34, 34, 0.18) 0%, rgba(34, 34, 34, 0.18) 25%,rgba(70, 70, 70, 0.18) 25%, rgba(70, 70, 70, 0.18) 50%,rgba(107, 107, 107, 0.18) 50%, rgba(107, 107, 107, 0.18) 75%,rgba(143, 143, 143, 0.18) 75%, rgba(143, 143, 143, 0.18) 100%),linear-gradient(135deg, rgb(86, 83, 176) 0%, rgb(86, 83, 176) 12.5%,rgb(107, 83, 174) 12.5%, rgb(107, 83, 174) 25%,rgb(128, 82, 173) 25%, rgb(128, 82, 173) 37.5%,rgb(149, 82, 171) 37.5%, rgb(149, 82, 171) 50%,rgb(170, 82, 170) 50%, rgb(170, 82, 170) 62.5%,rgb(191, 82, 168) 62.5%, rgb(191, 82, 168) 75%,rgb(212, 81, 167) 75%, rgb(212, 81, 167) 87.5%,rgb(233, 81, 165) 87.5%, rgb(233, 81, 165) 100%);
     font-family: 'Montserrat', sans-serif;
 }
