@@ -1,7 +1,14 @@
-body {
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-  background-color: #232f42;
-  font-family: 'Montserrat', sans-serif;
+html, body {
+    margin:0;
+    padding:0;
+    min-height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    box-sizing: border-box;
+    background-repeat:no-repeat;
+    background: rgb(57,161,222);
+    background: linear-gradient(0deg, rgba(57,161,222,1) 1%, rgba(195,107,255,1) 100%) fixed;
+    font-family: 'Montserrat', sans-serif;
 }

@@ -1973,7 +1973,26 @@ def create_stripe_payment_method(email, account_type, payment_token):
     except stripe.error.StripeError as error:
         error_code = error.code
 
-        print (error)
+        #If card was declined
+        if error_code == "card_declined":
+
+            #If not enough funds
+            if "insufficient funds" in str(error):
+                error_code = "This card has insufficient funds"
+            else:
+                error_code = "This card was declined"
+
+        #If card is expired
+        if error_code == "expired_card":
+            error_code = "This card is expired"
+
+        #If card has incorrect CVC
+        if error_code == "incorrect_cvc":
+            error_code = "This card's security code is incorrect"
+
+        #If there was an proccessing error
+        if error_code == "processing_error":
+            error_code = "An error occurred while processing your card. Try again in a little bit"
 
         #If card is a credit card
         if error_code == "invalid_card_type":
