@@ -977,11 +977,18 @@ def spotify_resources():
 
 
 
-#------#--------#--------#-------#--------#---------
+#--- Random testing endpoint --#--------#--------#-------#--------#---------
 
 @app.route('/playground', methods=['GET'])
 def playground():
     return render_template('email_files/resetpassword.html')
+
+
+#--- 404 error page -------------------------------------------
+@app.errorhandler(404)
+# inbuilt function which takes error as parameter
+def not_found(e):
+    return render_template("404.html")
 
 app.secret_key = "Jesus Di3d 4or Your Zins"
 
