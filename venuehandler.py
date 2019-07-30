@@ -238,13 +238,19 @@ def send_reset_password(email):
         c = conn.cursor()
 
         try:
-            find_account = c.execute("""SELECT uid FROM accounts WHERE email=%s""", (email,))
+            find_account = c.execute("""SELECT uid, name FROM accounts WHERE email=%s""", (email,))
 
             if find_account == 1:
-                uid = c.fetchone()[0] #User id
-                reset_code = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(10)]) #Combine letters and numbers, in a 12 digit string
+                #User details
+                user_details = c.fetchone()
+                uid = user_details[0]
+                username = user_details[1]
+
+                #Combine letters and numbers, in a 12 digit string
+                reset_code = ''.join([random.choice(string.ascii_uppercase + string.digits) for x in range(10)])
                 find_reset_password = c.execute("""SELECT * FROM password_resets WHERE uid=%s""",(uid,))
 
+                #If reset code already exists
                 if find_reset_password == 1:
                     c.execute("""UPDATE password_resets SET reset_code=%s WHERE uid=%s""", (reset_code,uid,))
                 else:
@@ -253,6 +259,7 @@ def send_reset_password(email):
 
                 #Reset link that is sent to the user
                 reset_link = "http://localhost:8000/changepassword?uid="+uid+"&reset_code="+reset_code
+
                 #Get the reset email file
                 with open(r'Templates/email_files/resetpassword.html', 'r', encoding='utf-8') as email_template_file:
                     template_content = Template(email_template_file.read())
@@ -263,23 +270,30 @@ def send_reset_password(email):
                 smtp_server = smtplib.SMTP_SSL('smtp.gmail.com',465)
                 smtp_server.login('andrew@blufftour.com', 'fzzicdixhkflkhok')
 
-                msg = MIMEMultipart() #Creates the message
-                message = template_content.substitute(RESET_LINK=reset_link) #Change emailauth.txt variables
+                #Creates the message
+                msg = MIMEMultipart()
+
+                #Change emailauth.txt variables
+                message = template_content.substitute(RESET_LINK=reset_link, USERNAME=username)
+
                 #Set up email parameters
                 msg['From']= 'Bluff Tour'
                 msg['To']= email
                 msg['subject']='Bluff Tour password reset request'
                 msg.attach(MIMEText(message, 'html')) #Add emailauth.txt to email
+
                 #Send the message
                 smtp_server.send_message(msg)
+
                 #Close SMTP connection
                 smtp_server.quit()
-                return True
+
+                return json.dumps({'success': 'email sent'})
             else:
-                return "unused"
+                return json.dumps({'error': 'no account'})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'error sending email'})
         finally:
             if conn:
                 conn.close()

@@ -123,19 +123,9 @@ def forgot_password():
 
     if request.method == 'POST':
         reset_email = request.form['reset_email']
-        recover_results = venuehandler.send_reset_password(reset_email)
-
-        if recover_results is True:
-            recover_results = "An email has been sent to your address"
-            return render_template("forgotpassword.html", recover_results=recover_results)
-        elif recover_results == "unused":
-            recover_results = "No account associated with that email address"
-            return render_template("forgotpassword.html", recover_results=recover_results)
-        else:
-            recover_results = "Unable to send password request"
-            return render_template("forgotpassword.html", recover_results=recover_results)
+        return venuehandler.send_reset_password(reset_email)
     else:
-        return render_template('forgotpassword.html', recover_results="")
+        return render_template('forgotpassword.html')
 
 #Change password page
 @app.route("/changepassword", methods=['POST','GET'])
@@ -988,6 +978,10 @@ def spotify_resources():
 
 
 #------#--------#--------#-------#--------#---------
+
+@app.route('/playground', methods=['GET'])
+def playground():
+    return render_template('email_files/resetpassword.html')
 
 app.secret_key = "Jesus Di3d 4or Your Zins"
 
