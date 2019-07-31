@@ -485,16 +485,16 @@
 
                         <!--- Location --->
                         <div style="padding-top: 10px;">
-                            <!--- Icon --->
-                            <img class="icon" src="static/placeholder-black.png" />
+                            <!-- Icon --->
+                            <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">place</i>
 
                             <font class="detail_title">{% print show_details.location %}</font>
                         </div>
 
                         <!--- Date --->
                         <div style="overflow: hidden; padding-top: 10px;">
-                            <!--- Icon --->
-                            <img class="icon" src="static/calendar-black.png" />
+                            <!-- Icon --->
+                            <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">today</i>
 
                             <font class="detail_title">
                                 {% print show_details.show_date %}
@@ -548,8 +548,8 @@
                             <div class="single_show_details_container">
 
                                 <div style="padding-bottom: 10px;">
-                                    <!--- Icon --->
-                                    <img class="icon" src="static/tag-black-shape.png" />
+                                    <!-- Icon --->
+                                    <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">local_offer</i>
 
                                     Genres
                                 </div>
@@ -565,8 +565,8 @@
                             <div class="single_show_details_container">
 
                                 <div style="padding-bottom: 10px;">
-                                    <!--- Icon --->
-                                    <img class="icon" src="static/trophy-black.png" />
+                                    <!-- Icon --->
+                                    <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">star</i>
 
                                     <font class="detail_title">Perks</font>
                                 </div>
@@ -582,8 +582,8 @@
                             <div class="single_show_details_container">
 
                                 <div style="padding-bottom: 10px;">
-                                    <!--- Icon --->
-                                    <img class="icon" src="static/padlock-black.png" />
+                                    <!-- Icon --->
+                                    <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">lock</i>
 
                                     <font class="detail_title">Requirements</font>
                                 </div>
@@ -901,7 +901,7 @@
                         {% if uid == show_details.uid %}
                             <div style="margin-bottom:10px;">This artist will be performing at your show</div>
                         {% else %}
-                            ${winner.artist_uid == current_user_uid ? "<div style='margin-bottom:10px;'>Congrats! You're playing this show, see you there<i class='material-icons' style='font-size: 28px'>where_to_vote</i></div>" : "<div style='margin-bottom:10px;'>An artist has been chosen for this show</div>"}
+                            ${winner.artist_uid == current_user_uid ? "<div style='margin-bottom:10px;'>Congrats! You're playing this show, see you there<i class='material-icons' style='font-size: 24px'>where_to_vote</i></div>" : "<div style='margin-bottom:10px;'>An artist has been chosen for this show</div>"}
                         {% endif %}
 
                         <!--- Profile picture --->
