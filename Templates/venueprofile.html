@@ -10,12 +10,15 @@
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <!--- Material Icons --->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style type='text/css'>
-      body {
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-      }
+        body {
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
 
         .mobilegridrow-2 {
             box-sizing: border-box;
@@ -480,16 +483,16 @@
 
                                     <!--- Location --->
                                     <div style="padding-top: 10px;">
-                                        <!--- Icon --->
-                                        <img class="icon" src="static/placeholder-black.png" />
+                                        <!-- Icon --->
+                                        <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">place</i>
 
                                         <font class="detail_title">${shows[x].location}</font>
                                     </div>
 
                                     <!--- Date --->
                                     <div style="overflow: hidden; padding-top: 10px;">
-                                        <!--- Icon --->
-                                        <img class="icon" src="static/calendar-black.png" />
+                                        <!-- Icon --->
+                                        <i class="material-icons" style="vertical-align: middle;font-size: 18px;color: #383838">today</i>
 
                                         <font class="detail_title">
                                             ${shows[x].show_date}
