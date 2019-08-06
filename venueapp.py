@@ -616,7 +616,7 @@ def payments_dashboard():
             if request.form.get("balance_check"):
                 return venuehandler.get_stripe_account_balance(uid)
 
-            #Stripe Payments check
+            #Stripe Payments check if has any
             if request.form.get("payment_methods"):
                 return venuehandler.get_stripe_payment_methods(uid, account_type)
 

@@ -1080,14 +1080,14 @@
             url: "/payments",
             type: "POST",
             data: {
-                check_stripe_account: "check",
+                payment_methods: "check",
             },
             dataType: "json",
         }).done(function(data) {
 
             let account_result = data['result']
 
-            if (account_result == "Has account") {
+            if (account_result == "has_payment") {
                 console.log("yay")
 
                 //Get payment methods
@@ -1105,7 +1105,7 @@
                     <div class='bubble_container' style="padding: 30px;font-size: 14px;">
                         <h3>You need to create a payment account before viewing this page</h3>
 
-                        This will allow you to post shows and have artist bid on them. We have partnered with Stripe to securely store your information, we at no time will ever be able to view your banking/card details.
+                        This will allow you to post shows and have artists bid on them. We have partnered with Stripe to securely store your information, we at no time will ever be able to view your banking/card details.
 
                         <a href="https://stripe.com/customers" class="add_payment_link" target="_blank">Learn more about Stripe</a>
                         <br/>

@@ -2161,6 +2161,8 @@ def check_stripe_payment_method(email, account_type):
         #Connect to database
         conn = connect_to_database()
 
+        print ("nipple")
+
         if conn is not False:
             c = conn.cursor()
 
@@ -2527,9 +2529,10 @@ def get_stripe_payment_methods(uid, account_type):
         else:
             result = "Could not retrieve payment details"
 
+        return json.dumps({'result': result})
     except Exception as e:
         print (e)
-        return json.dumps({'result': 'error'})
+        return json.dumps({'result': str(e)})
     finally:
         if conn:
             conn.close()
