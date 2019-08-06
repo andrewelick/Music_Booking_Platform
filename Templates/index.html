@@ -12,6 +12,8 @@
     <!--- Material Icons --->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!--- Scroll package --->
+    <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
 
     <style type='text/css'>
       html, body {
@@ -346,7 +348,6 @@
         }
 
         #artist_showcase:hover {
-            animation: artist_shake 1s ease-in-out;
         }
 
         .artist_picture {
@@ -355,26 +356,76 @@
             border-radius: 100%;
         }
 
-        @keyframes artist_shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(0px, 1px) rotate(1deg); }
-            80% { transform: translate(2px, 1px) rotate(0deg); }
-            90% { transform: translate(-1px, 0px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
         .artist_band_icon {
             float: right;
             margin-right: 40px;
             height: 100px;
             display: inline-block;
         }
+
+        /* Scroll settings */
+        [data-scroll] {
+            transition: all 1s;
+        }
+
+        #venue_text_explain_container[data-scroll="in"] {
+            opacity: 1;
+            transform: translatex(0px);
+        }
+
+        #venue_text_explain_container[data-scroll="out"] {
+            opacity: 0;
+            transform: translateX(-200px);
+        }
+
+        .venue_booking_header[data-scroll="in"] {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        .venue_booking_header[data-scroll="out"] {
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+
+        #stripe_explain_card[data-scroll="in"] {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+
+        #stripe_explain_card[data-scroll="out"] {
+            opacity: 0;
+            transform: translateX(200px);
+        }
+
+        #artist_explain_header[data-scroll="in"] {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+
+        #artist_explain_header[data-scroll="out"] {
+            opacity: 0;
+            transform: translateX(-300px);
+        }
+
+        #artist_showcase[data-scroll="in"] {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        #artist_showcase[data-scroll="out"] {
+            opacity: 0;
+            transform: translateY(200px);
+        }
+
+        #random_artists[data-scroll="in"] {
+            opacity: 1;
+        }
+
+        #random_artists[data-scroll="out"] {
+            opacity: 0;
+        }
+
         /* If screen is bigger than 900px */
         @media screen and (min-width: 900px) {
 
@@ -570,7 +621,7 @@
         <div class="venue_booking_container">
 
             <!--- Header text --->
-            <div style='margin-bottom:50px;text-align:center;font-size:30px;'>It has never been easier to schedule and book shows</div>
+            <div class="venue_booking_header" style='margin-bottom:50px;text-align:center;font-size:30px;'>It has never been easier to schedule and book shows</div>
 
             <!--- Venue explain --->
             <div style="width: 100%;overflow: hidden;box-sizing: border-box;border-radius: 5px;color: #383838;">
@@ -645,7 +696,7 @@
                 </div>
 
                 <!--- Text explain --->
-                <div style="padding: 20px;float: right;color: #FFFFFF;border-radius: 5px;background-color: rgba(255, 255, 255, .2);">
+                <div id="venue_text_explain_container" style="padding: 20px;float: right;color: #FFFFFF;border-radius: 5px;background-color: rgba(255, 255, 255, .2);">
                     <!-- Save time -->
                     <div class="venue_text_explain_box">
                         <!--- Header --->
@@ -723,7 +774,7 @@
         <!--- Artist description card -->
         <div class="artist_booking_container">
 
-            <div id="artist_explain_header">Artists, it's your time to shine</div>
+            <div id="artist_explain_header" data-scroll>Artists, it's your time to shine</div>
 
             <!--- Random artists -->
             <div id="random_artists"></div>
@@ -798,11 +849,46 @@
             }
         })
 
-        //Scroll to top
-        $("a[href='#top']").click(function() {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-            return false;
-        });
+        //Venue explain text container
+        ScrollOut({
+            once: true,
+            threshold: .3,
+            targets: '#venue_text_explain_container',
+        })
+
+        //Venue card header
+        ScrollOut({
+            once: true,
+            targets: '.venue_booking_header',
+        })
+
+        //Stripe card
+        ScrollOut({
+            once: true,
+            threshold: .5,
+            targets: '#stripe_explain_card',
+        })
+
+        //Artist card header
+        ScrollOut({
+            once: true,
+            threshold: .5,
+            targets: '#artist_explain_header',
+        })
+
+        //Artist card header
+        ScrollOut({
+            once: true,
+            threshold: .3,
+            targets: '#artist_showcase'
+        })
+
+        //Random artist picture
+        ScrollOut({
+            once: true,
+            threshold: .4,
+            targets: '#random_artists',
+        })
 
         //Get random account pictures
         $.ajax({
