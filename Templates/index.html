@@ -862,12 +862,14 @@
             targets: '.venue_booking_header',
         })
 
-        //Stripe card
-        ScrollOut({
-            once: true,
-            threshold: .5,
-            targets: '#stripe_explain_card',
-        })
+        if (screenWidth > 800) {
+            //Stripe card
+            ScrollOut({
+                once: true,
+                threshold: .5,
+                targets: '#stripe_explain_card',
+            })    
+        }
 
         //Artist card header
         ScrollOut({
