@@ -376,6 +376,15 @@
                     "type": "soundcloud"
                 }
             }
+            else if (iframe_src.startsWith("https://soundcloud.com/")) {
+                iframe_src = "https://w.soundcloud.com/player/?url="+iframe_src
+
+                return {
+                    "valid_input": true,
+                    "src": iframe_src,
+                    "type": "spotify",
+                }
+            }
             else if (iframe_src.startsWith("https://open.spotify.com/album/")) {
                 iframe_src = iframe_src.substring(iframe_src.lastIndexOf("/") + 1);
                 iframe_src = "https://open.spotify.com/embed/album/"+iframe_src
