@@ -370,11 +370,13 @@ def artist_profile_setup(email,genre,member,bio):
                 else:
                     c.execute("""INSERT INTO artist_profile_details (uid,genre,member,bio) VALUES(%s,%s,%s,%s)""", (uid,genre,member,bio,))
                 conn.commit()
-                return uid
+
+                return json.dumps({'success': 'Updated profile'})
             else:
                 return False
         except Exception as e:
             print (e)
+            return json.dumps({'error': 'We were update your profile at this time'})
         finally:
             if conn:
                 conn.close()
@@ -392,10 +394,11 @@ def venue_profile_setup(email,business_name,business_type,location,bio):
             #Get uid for profile picture
             c.execute("""SELECT uid FROM accounts WHERE email=%s""", (email,))
             uid = c.fetchone()[0]
-            return uid
+
+            return json.dumps({'success': 'Your profile has been updated'})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'Error updating profile'})
         finally:
             if conn:
                 conn.close()
@@ -409,10 +412,11 @@ def save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,inst
         try:
             c.execute("""UPDATE artist_account_links SET spotify_link=%s, bandcamp_link=%s, twitter_link=%s, instagram_link=%s, facebook_link=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link,email,))
             conn.commit()
-            return True
+
+            return json.dumps({'success': 'Successfully updated profile links'})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'Unable to update profile links'})
         finally:
             if conn:
                 conn.close()
@@ -426,10 +430,11 @@ def save_venue_profile_links(email,twitter,instagram,facebook,personal_website):
         try:
             c.execute("""UPDATE venue_account_links SET twitter=%s, instagram=%s, facebook=%s, personal_website=%s WHERE uid IN (SELECT uid FROM accounts WHERE email=%s)""", (twitter,instagram,facebook,personal_website,email,))
             conn.commit()
-            return True
+
+            return json.dumps({'success': 'Successfully saved links'})
         except Exception as e:
             print (e)
-            return False
+            return json.dumps({'error': 'Error updating links'})
         finally:
             if conn:
                 conn.close()

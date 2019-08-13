@@ -48,7 +48,7 @@
             text-align: left;
         }
 
-        .button_upload, input[type="submit"] {
+        .button_upload {
             box-sizing: border-box;
             position: relative;
             border: 0px;
@@ -78,7 +78,7 @@
             opacity: 0;
         }
 
-        .upload_picture:hover, .button_upload:hover, input[type="submit"]:hover {
+        .upload_picture:hover, .button_upload:hover, {
             cursor: pointer;
             cursor: pointer;
             -webkit-transition: background-color 200ms linear;
@@ -98,6 +98,15 @@
             background-color: #6eb9f7;
             background-size: 100%;
             transition: background 0s;
+        }
+
+        .disabled {
+            background-color: #d2d2d2;
+        }
+
+        .disabled:hover {
+            background-color: #d2d2d2;
+            cursor: default;
         }
 
         #save_picture {
@@ -146,19 +155,6 @@
             -webkit-appearance:none;
         }
 
-        input[type='submit'] {
-            border: 0;
-            width:30%;
-            margin-top: 10px;
-            padding:10px;
-            font-size: 14px;
-            border-radius: 5px;
-            background-color: #328CC1;
-            color: #FFFFFF;
-            font-family: inherit;
-            -webkit-appearance:none;
-        }
-
         /* Google classes */
         .pac-item {
             padding: 5px;
@@ -171,6 +167,27 @@
         .bannerIcon {
             height: 40px;
             vertical-align: middle;
+        }
+
+        #message {
+            padding: 8px;
+            border-radius: 5px;
+            color: #FFFFFF;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+        #gobacklink {
+            margin-left: -30px;
+            color: blue;
+            float: left;
+            font-size: 14px;
+        }
+
+        #gobacklink:hover {
+            text-decoration: underline;
         }
 
         /* If screen is bigger than 800px */
@@ -208,133 +225,135 @@
         <div class='mobilegridrow-2'>
 
             <div id="setupcontainer">
+
+                <!-- Back to profile link --->
+                <a id="gobacklink" href='/profile'>Go back</a>
+
                 <h2 style="color:#383838;">Edit profile</h2>
 
-                <form action="" method="POST" enctype="multipart/form-data">
+                <!--- Profile picture --->
+                <div>
+                    <div id="edit-profile-holder" class="profilepicture">
+                        <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
+                    </div>
 
-                    {{ get_flashed_messages()[0] }}
+                    <!--- Save picture button --->
+                    <a class="button_upload ripple" id="change_picture" style="top: -20px;margin-top: 0px;">
+                        Edit
+                    </a>
 
-                    <!--- Profile picture --->
-                    <div>
-                        <div id="edit-profile-holder" class="profilepicture">
-                            <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
-                        </div>
+                    <!--- Edit profile picture buttons --->
+                    <div id="edit_buttons_container" style='display: none'>
+                        </br>
 
-                        <!--- Save picture button --->
-                        <a class="button_upload ripple" id="change_picture" style="top: -20px;margin-top: 0px;">
-                            Edit
+                        <!-- Upload button -->
+                        <a class="button_upload ripple" id="upload_picture_button">
+                            <span>Upload</span>
+                            <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
                         </a>
 
-                        <!--- Edit profile picture buttons --->
-                        <div id="edit_buttons_container" style='display: none'>
-                            </br>
+                        <!--- Save picture button --->
+                        <a class="button_upload ripple" id="save_picture">
+                            <span>Save</span>
+                        </a>
+                    </div>
+                </div>
 
-                            <!-- Upload button -->
-                            <a class="button_upload ripple" id="upload_picture_button">
-                                <span>Upload</span>
-                                <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
-                            </a>
+                <!--- Business name selection --->
+                <div class='venue_setup_selection'>
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 20px;">person</i>
+                        Name of the business
+                    </div>
+                    <input type="text" name="business_name" id="business_name" placeholder="Business name" value="{% print venue_details[1] %}" />
+                </div>
+                <!--- Business name selection --->
 
-                            <!--- Save picture button --->
-                            <a class="button_upload ripple" id="save_picture">
-                                <span>Save</span>
-                            </a>
-                        </div>
+                <!--- Venue type section --->
+                <div class='venue_setup_selection'>
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 20px;">business</i>
+                        Business type
                     </div>
 
-                    <!--- Business name selection --->
-                    <div class='venue_setup_selection'>
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 20px;">person</i>
-                            Name of the business
-                        </div>
-                        <input type="text" name="business_name" placeholder="Business name" value="{% print venue_details[1] %}" />
+                    <select name='business_type' id='business_type'>
+                        <option value='Bar'>Bar</option>
+                        <option value='Club'>Club</option>
+                        <option value='Outdoor'>Outdoor</option>
+                        <option value='College'>College</option>
+                        <option value='Other'>Other</option>
+                    </select>
+                </div>
+                <!--- End Venue type selection --->
+
+                <!--- Venue Address --->
+                <div class="venue_setup_selection">
+                    <div style="margin-top:20px;margin-bottom:10px;">
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 20px;">place</i>
+                        Location
                     </div>
-                    <!--- Business name selection --->
+                    <input type="text" id="location" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
+                </div>
+                <!--- End of Venue address --->
 
-                    <!--- Venue type section --->
-                    <div class='venue_setup_selection'>
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 20px;">business</i>
-                            Business type
-                        </div>
+                </br>
 
-                        <select name='business_type' id='business_type'>
-                            <option value='Bar'>Bar</option>
-                            <option value='Club'>Club</option>
-                            <option value='Outdoor'>Outdoor</option>
-                            <option value='College'>College</option>
-                            <option value='Other'>Other</option>
-                        </select>
+                <!--- Bio section --->
+                <div class='venue_setup_selection'>
+                    <div>
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 20px;">chat_bubble</i>
+                        Bio
                     </div>
-                    <!--- End Venue type selection --->
+                    <textarea name='bio' id='bio' placeholder="Who you are, type of crowd, energy level." rows='4'/>{% print venue_details[4] %}</textarea>
+                </div>
+                <!--- End of Bio section --->
 
-                    <!--- Venue Address --->
-                    <div class="venue_setup_selection">
-                        <div style="margin-top:20px;margin-bottom:10px;">
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 20px;">place</i>
-                            Location
-                        </div>
-                        <input type="text" id="location" name="location" placeholder="123 main street, Memphis TN" value="{% print venue_details[3] %}">
+                <!--- Website --->
+                <div class="venue_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>Website</div>
+                    <input type='text' name='personal_website' id='personal_website' placeholder='Business website' value="{% print venue_links[4] %}"/>
+                </div>
+
+                <!--- Twitter --->
+                <div class="venue_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-twitter"></i>
+                        Twitter
                     </div>
-                    <!--- End of Venue address --->
+                    <input type='text' name='twitter' id='twitter_link' placeholder='Twitter profile' value="{% print venue_links[1] %}"/>
+                </div>
 
-                    </br>
-
-                    <!--- Bio section --->
-                    <div class='venue_setup_selection'>
-                        <div>
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 20px;">chat_bubble</i>
-                            Bio
-                        </div>
-                        <textarea name='bio' placeholder="Who you are, type of crowd, energy level." rows='4'/>{% print venue_details[4] %}</textarea>
+                <!--- Instagram --->
+                <div class="venue_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-instagram"></i>
+                        Instagram
                     </div>
-                    <!--- End of Bio section --->
+                    <input type='text' name='instagram' id='instagram_link' placeholder="Instagram profile" value="{% print venue_links[2] %}"/>
+                </div>
 
-                    <!--- Website --->
-                    <div class="venue_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>Website</div>
-                        <input type='text' name='personal_website' placeholder='Business website' value="{% print venue_links[4] %}"/>
+                <!--- Facebook --->
+                <div class="venue_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-facebook"></i>
+                        Facebook
                     </div>
+                    <input type='text' name='facebook' id="facebook_link" placeholder="Facebook profile" value="{% print venue_links[3] %}"/>
+                </div>
 
-                    <!--- Twitter --->
-                    <div class="venue_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-twitter"></i>
-                            Twitter
-                        </div>
-                        <input type='text' name='twitter' placeholder='Twitter profile' value="{% print venue_links[1] %}"/>
-                    </div>
+                </br>
 
-                    <!--- Instagram --->
-                    <div class="venue_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-instagram"></i>
-                            Instagram
-                        </div>
-                        <input type='text' name='instagram' placeholder="Instagram profile" value="{% print venue_links[2] %}"/>
-                    </div>
+                <!--- Message for submitting --->
+                <div id='message'></div>
 
-                    <!--- Facebook --->
-                    <div class="venue_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-facebook"></i>
-                            Facebook
-                        </div>
-                        <input type='text' name='facebook' placeholder="Facebook profile" value="{% print venue_links[3] %}"/>
-                    </div>
-
-                    </br>
-
-                    <input type='Submit' value="Save" id="submit_button" class="ripple"/>
-                </form>
+                <input type='Submit' value="Save" id="submit_button" class="button_upload ripple"/>
             </div>
         </div>
         <!--- End of mobilesplash-2 --->
@@ -478,9 +497,87 @@
             //Intialize google location search
             google.maps.event.addDomListener(window, 'load', load_google_location);
 
+            //Update profile information
+            $('#submit_button').click(function() {
+
+                //Show loading gif
+                $("#message").html('<img class="loading_gif" src="static/loading-spinner.gif" />')
+
+                //Disable button until done
+                $('#submit_button').prop('disabled', true).addClass('disabled')
+
+                business_name = $("#business_name").val()
+                business_type = $("#business_type").val()
+                business_location = $("#location").val()
+                bio = $("#bio").val()
+
+                //Update artist profile
+                $.ajax({
+                    url: '/editprofile',
+                    type: "POST",
+                    data: {
+                        update_venue_profile: 'update',
+                        business_name: business_name,
+                        business_type: business_type,
+                        business_location: business_location,
+                        bio: bio,
+                    },
+                    dataType: 'json',
+                }).done(function(data) {
+
+                    if (data.error) {
+
+                        //Enable button
+                        $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                        //Show error message
+                        $('#message').html('There was an error updating your profile').css('background-color', 'red')
+                    }
+                    else if (data.success) {
+
+                        console.log(data.success)
+
+                        personal_website = $("#personal_website").val()
+                        twitter = $("#twitter_link").val()
+                        facebook = $("#facebook_link").val()
+                        instagram = $("#instagram_link").val()
+
+                        //Update artist links
+                        $.ajax({
+                            url: '/editprofile',
+                            type: "POST",
+                            data: {
+                                update_venue_links: 'update',
+                                personal_website: personal_website,
+                                instagram: instagram,
+                                twitter: twitter,
+                                facebook: facebook,
+                            },
+                            dataType: 'json',
+                        }).done(function(data) {
+
+                            console.log(data)
+
+                            if (data.error) {
+                                //Enable button
+                                $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                                //Show error message
+                                $('#message').html('There was an error updating your profile').css('background-color', 'red')
+                            }
+                            else if (data.success) {
+                                //Enable button
+                                $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                                //Show success message
+                                $('#message').html('Your profile has been updated').css('background-color', 'green')
+                            }
+                        })
+                    }
+                })
+            })
 
         </script>
-        <!--- End of upload temp profile script --->
 
     </body>
 </html>

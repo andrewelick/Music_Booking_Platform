@@ -45,7 +45,7 @@
             text-align: left;
         }
 
-        .button_upload, input[type="submit"] {
+        .button_upload {
             position: relative;
             border: 0px;
             background-color: #328CC1;
@@ -61,6 +61,22 @@
             margin-top: 10px;
         }
 
+        /* Ripple effect */
+        .ripple {
+            cursor: pointer;
+            background-position: center;
+            transition: background 0.8s;
+        }
+        .ripple:hover {
+            cursor: pointer;
+            background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+        }
+        .ripple:active {
+            background-color: #6eb9f7;
+            background-size: 100%;
+            transition: background 0s;
+        }
+
         .upload_picture {
             position: absolute;
             top: 0;
@@ -70,15 +86,14 @@
             opacity: 0;
         }
 
-        .upload_picture:hover, .button_upload:hover, input[type="submit"]:hover {
-            cursor: pointer;
-            background-color: #3494cb;
-            -webkit-transition: background-color 200ms linear;
-            -ms-transition: background-color 200ms linear;
-            transition: background-color 200ms linear;
-            box-shadow: 0 1px 3px 0 #cfd7df;
+        .disabled {
+            background-color: #d2d2d2;
         }
 
+        .disabled:hover {
+            background-color: #d2d2d2;
+            cursor: default;
+        }
 
         #save_picture {
             display: none;
@@ -151,6 +166,25 @@
             vertical-align: middle;
         }
 
+        #message {
+            padding: 8px;
+            border-radius: 5px;
+            color: #FFFFFF;
+        }
+
+        .loading_gif {
+            height: 50px;
+        }
+
+        #gobacklink {
+            color: blue;
+            float: left;
+            font-size: 14px;
+        }
+
+        #gobacklink:hover {
+            text-decoration: underline;
+        }
 
         /* If screen is bigger than 800px */
         @media screen and (min-width: 800px) {
@@ -186,161 +220,160 @@
         <div class='mobilegridrow-2'>
 
             <div id="setupcontainer">
-                <form action="" method="POST">
 
-                    <font style="color: green;font-weight: bold">{{ get_flashed_messages()[0] }}</font>
+                <!-- Back to profile link --->
+                <a id="gobacklink" href='/profile'>Go back</a>
 
-                    <h2 style="color:#383838;">Edit profile</h2>
+                <h2 style="color:#383838;">Edit profile</h2>
 
-                    <!--- Profile picture --->
-                    <div>
-                        <div id="edit-profile-holder" class="profilepicture">
-                            <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
-                        </div>
+                <!--- Profile picture --->
+                <div>
+                    <div id="edit-profile-holder" class="profilepicture">
+                        <img style='width: 200px;border-radius: 100%' src='https://{{AWS_BUCKET_NAME}}.s3.us-east-2.amazonaws.com/static/user_pictures/profile_pictures/{% print uid %}_profile.jpg' alt='profile_picture.jpg' />
+                    </div>
 
-                        <!--- Save picture button --->
-                        <a class="button_upload" id="change_picture" style="top: -20px;margin-top: 0px;">
-                            Edit
+                    <!--- Save picture button --->
+                    <a class="button_upload ripple" id="change_picture" style="top: -20px;margin-top: 0px;">
+                        Edit
+                    </a>
+
+                    <!--- Edit profile picture buttons --->
+                    <div id="edit_buttons_container" style='display: none'>
+
+                        </br>
+
+                        <!-- Upload button -->
+                        <a class="button_upload ripple" id="upload_picture_button">
+                            <span>Upload</span>
+                            <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
                         </a>
 
-                        <!--- Edit profile picture buttons --->
-                        <div id="edit_buttons_container" style='display: none'>
+                        <!--- Save picture button --->
+                        <a class="button_upload ripple" id="save_picture">
+                            <span>Save</span>
+                        </a>
+                    </div>
+                </div>
 
-                            </br>
-
-                            <!-- Upload button -->
-                            <a class="button_upload" id="upload_picture_button">
-                                <span>Upload</span>
-                                <input type='file' name='profile_picture_file' accept='image/*' class='upload_picture' />
-                            </a>
-
-                            <!--- Save picture button --->
-                            <a class="button_upload" id="save_picture">
-                                <span>Save</span>
-                            </a>
-                        </div>
+                <!--- Genre selection --->
+                <div class='artist_setup_selection'>
+                    <div style='margin-top:30px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 20px;color: #383838">music_note</i>
+                        Genre
                     </div>
 
-                    <!--- Genre selection --->
-                    <div class='artist_setup_selection'>
-                        <div style='margin-top:30px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 20px;color: #383838">music_note</i>
-                            Genre
-                        </div>
+                    <select name="genre" id="genre" class='selectform'>
+                        <option id='0'>Rock</option>
+                        <option id='1'>Jazz</option>
+                        <option id='2'>Blues</option>
+                        <option id='3'>Electronic</option>
+                        <option id='4'>Dance</option>
+                        <option id='5'>Folk</option>
+                        <option id='6'>Soul</option>
+                        <option id='7'>Country</option>
+                        <option id='8'>Punk</option>
+                        <option id='9'>R&B</option>
+                        <option id='10'>HipHop/Rap</option>
+                        <option id='11'>Heavy Metal</option>
+                        <option id='12'>Alernative</option>
+                        <option id='13'>Christian</option>
+                        <option id='14'>Gospel</option>
+                        <option id='15'>Other</option>
+                    </select>
+                </div>
+                <!--- End of genre selection --->
 
-                        <select name="genre" class='selectform'>
-                            <option id='0'>Rock</option>
-                            <option id='1'>Jazz</option>
-                            <option id='2'>Blues</option>
-                            <option id='3'>Electronic</option>
-                            <option id='4'>Dance</option>
-                            <option id='5'>Folk</option>
-                            <option id='6'>Soul</option>
-                            <option id='7'>Country</option>
-                            <option id='8'>Punk</option>
-                            <option id='9'>R&B</option>
-                            <option id='10'>HipHop/Rap</option>
-                            <option id='11'>Heavy Metal</option>
-                            <option id='12'>Alernative</option>
-                            <option id='13'>Christian</option>
-                            <option id='14'>Gospel</option>
-                            <option id='15'>Other</option>
-                        </select>
-                    </div>
-                    <!--- End of genre selection --->
-
-                    <!--- Member total section --->
-                    <div class='artist_setup_selection'>
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="material-icons" style="color: #383838">supervisor_account</i>
-                            How big is your group?
-                        </div>
-
-                        <select name='member_total' id='member_number'>
-                            <option value='1'>Soloist</option>
-                            <option value='2'>2 members</option>
-                            <option value='3'>3 members</option>
-                            <option value='4'>4 members</option>
-                            <option value='5'>5 members</option>
-                            <option value='6'>6 members</option>
-                            <option value='7'>7 members</option>
-                            <option value='8'>8 members</option>
-                            <option value='9'>9 members</option>
-                            <option value='10'>10+ members</option>
-                        </select>
-                    </div>
-                    <!--- End member total selection --->
-
-                    </br>
-
-                    <!--- Bio section --->
-                    <div class='artist_setup_selection'>
-                        <div>
-                            <!--- Icon --->
-                            <i class="material-icons" style="font-size: 18px;color: #383838">chat_bubble</i>
-                            Bio
-                        </div>
-                        <textarea name='bio' placeholder="Who you are, what you play, what you need." rows='4'/>{% print profile_details[3] %}</textarea>
-                    </div>
-                    <!--- End of Bio section --->
-
-                    <!--- Spotify profile link --->
-                    <div class="artist_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-spotify" style="background-color: #1DB954;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
-                            Spotify
-                        </div>
-                        <div style="margin-bottom: 10px;font-size: 12px;">Go to your Spotify profile, click the ... and click "Copy Artist Link".</div>
-                        <input type='text' name='spotify_link' placeholder="Spotify followers" value="{% print profile_links['spotify'] %}" />
+                <!--- Member total section --->
+                <div class='artist_setup_selection'>
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="material-icons" style="color: #383838">supervisor_account</i>
+                        How big is your group?
                     </div>
 
-                    <!--- Twitter profile link --->
-                    <div class="artist_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-twitter" style="background-color: #1da1f2;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
-                            Twitter
-                        </div>
-                        <input type='text' name='twitter' placeholder='@TwitterHandle' value="{% print profile_links['twitter'] %}"/>
+                    <select name='member_total' id='member_number'>
+                        <option value='1'>Soloist</option>
+                        <option value='2'>2 members</option>
+                        <option value='3'>3 members</option>
+                        <option value='4'>4 members</option>
+                        <option value='5'>5 members</option>
+                        <option value='6'>6 members</option>
+                        <option value='7'>7 members</option>
+                        <option value='8'>8 members</option>
+                        <option value='9'>9 members</option>
+                        <option value='10'>10+ members</option>
+                    </select>
+                </div>
+                <!--- End member total selection --->
+
+                </br>
+
+                <!--- Bio section --->
+                <div class='artist_setup_selection'>
+                    <div>
+                        <!--- Icon --->
+                        <i class="material-icons" style="font-size: 18px;color: #383838">chat_bubble</i>
+                        Bio
                     </div>
+                    <textarea name='bio' id='bio' placeholder="Who you are, what you play, what you need." rows='4'/>{% print profile_details[3] %}</textarea>
+                </div>
+                <!--- End of Bio section --->
 
-                    <!--- Facebook profile link --->
-                    <div class="artist_setup_selection">
-                        <div style='margin-top:20px;margin-bottom:10px;'>
-                            <!--- Icon --->
-                            <i class="socicon-facebook" style="background-color: #4267b2;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
-                            Facebook page
-                        </div>
-                        <div style="margin-bottom: 10px;font-size: 12px;">Go to your Facebook page, copy the your page name from the URL. ex. https://www.facebook.com/Blufftour/</div>
-                        <input type='text' name='facebook' placeholder="Blufftour" value="{% print profile_links['facebook'] %}" />
+                <!--- Spotify profile link --->
+                <div class="artist_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-spotify" style="background-color: #1DB954;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
+                        Spotify
                     </div>
+                    <div style="margin-bottom: 10px;font-size: 12px;">Go to your Spotify profile, click the ... and click "Copy Artist Link".</div>
+                    <input type='text' name='spotify_link' id="spotify_link" placeholder="Spotify followers" value="{% print profile_links['spotify'] %}" />
+                </div>
 
-                    </br>
+                <!--- Twitter profile link --->
+                <div class="artist_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-twitter" style="background-color: #1da1f2;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
+                        Twitter
+                    </div>
+                    <input type='text' name='twitter' id="twitter_link" placeholder='@TwitterHandle' value="{% print profile_links['twitter'] %}"/>
+                </div>
 
-                    <!--- Bandcamp profile link
-                    <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
-                    <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
-                    --->
+                <!--- Facebook profile link --->
+                <div class="artist_setup_selection">
+                    <div style='margin-top:20px;margin-bottom:10px;'>
+                        <!--- Icon --->
+                        <i class="socicon-facebook" style="background-color: #4267b2;color: #FFFFFF;padding: 5px;border-radius: 100%;font-size: 12px;"></i>
+                        Facebook page
+                    </div>
+                    <div style="margin-bottom: 10px;font-size: 12px;">Go to your Facebook page, copy the your page name from the URL. ex. https://www.facebook.com/Blufftour/</div>
+                    <input type='text' name='facebook' id="facebook_link" placeholder="Blufftour" value="{% print profile_links['facebook'] %}" />
+                </div>
 
-                    <!--- Instagram profile link
-                    <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
-                    <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
-                    --->
+                </br>
 
-                    <input type='Submit' value="Save" id="submit_button" />
+                <!--- Bandcamp profile link
+                <div style='margin-top:20px;margin-bottom:10px;'>Bandcamp</div>
+                <input type='text' name='bandcamp' placeholder="Bandcamp profile" value="{% print profile_links[3] %}" />
+                --->
 
-                </form>
+                <!--- Instagram profile link
+                <div style='margin-top:20px;margin-bottom:10px;'>Instagram</div>
+                <input type='text' name='instagram' placeholder="Instagram profile" value="{% print profile_links[5] %}" />
+                --->
+
+                <!--- Message for submitting --->
+                <div id='message'></div>
+
+                <input type='Submit' value="Save" id="submit_button" class="button_upload ripple" />
+
             </div>
         </div>
         <!--- End of mobilesplash-2 --->
 
         {% include 'footer.html' %}
-
-        <!--- Banner for messages --->
-        <div id="message_banner" style="box-sizing: border-box;position: fixed;top: 0px;left: 0px;width: 100%;padding: 15px;font-size: 18px;text-align: center;color: #FFFFFF;display: none;z-index:99999">You have verified your bank account!</div>
 
         <script type="text/javascript">
 
@@ -465,6 +498,78 @@
 
                 });
             });
+
+            //Update profile information
+            $('#submit_button').click(function() {
+
+                //Show loading gif
+                $("#message").html('<img class="loading_gif" src="static/loading-spinner.gif" />')
+
+                //Disable button until done
+                $('#submit_button').prop('disabled', true).addClass('disabled')
+
+                genre = $("#genre").val()
+                member_total = $("#member_number").val()
+                bio = $("#bio").val()
+
+                //Update artist profile
+                $.ajax({
+                    url: '/editprofile',
+                    type: "POST",
+                    data: {
+                        update_artist_profile: 'update',
+                        genre: genre,
+                        member_total: member_total,
+                        bio: bio,
+                    },
+                    dataType: 'json',
+                }).done(function(data) {
+
+                    if (data.error) {
+
+                        //Enable button
+                        $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                        //Show error message
+                        $('#message').html('There was an error updating your profile').css('background-color', 'red')
+                    }
+                    else if (data.success) {
+
+                        twitter = $("#twitter_link").val()
+                        facebook = $("#facebook_link").val()
+                        spotify_link = $("#spotify_link").val()
+
+                        //Update artist links
+                        $.ajax({
+                            url: '/editprofile',
+                            type: "POST",
+                            data: {
+                                update_artist_links: 'update',
+                                spotify_link: spotify_link,
+                                twitter: twitter,
+                                facebook: facebook,
+                            },
+                            dataType: 'json',
+                        }).done(function(data) {
+
+                            if (data.error) {
+                                //Enable button
+                                $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                                //Show error message
+                                $('#message').html('There was an error updating your profile').css('background-color', 'red')
+                            }
+                            else if (data.success) {
+                                //Enable button
+                                $('#submit_button').prop('disabled', false).removeClass('disabled')
+
+                                //Show success message
+                                $('#message').html('Your profile has been updated').css('background-color', 'green')
+                            }
+                        })
+                    }
+                })
+            })
 
         </script>
 

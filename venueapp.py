@@ -682,69 +682,54 @@ def edit_profile_page():
         if request.method == "POST":
 
             if account_type == "artist":
-                genre = request.form['genre']
-                member = request.form['member_total']
-                bio = request.form['bio']
 
-                #Change profile information
-                changed_artist_profile = venuehandler.artist_profile_setup(email,genre,member,bio)
+                if request.form.get('update_artist_profile'):
+                    genre = request.form['genre']
+                    member = request.form['member_total']
+                    bio = request.form['bio']
 
-                spotify_link = request.form['spotify_link']
-                #bandcamp_link = request.form['bandcamp']
-                bandcamp_link = None
-                twitter_link = request.form['twitter']
-                #instagram_link = request.form['instagram']
-                instagram_link = None
-                facebook_link = request.form['facebook']
+                    #Change profile information
+                    return venuehandler.artist_profile_setup(email,genre,member,bio)
 
-                #Change profile links
-                links_submitted = venuehandler.save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
+                if request.form.get('update_artist_links'):
+                    spotify_link = request.form['spotify_link']
+                    #bandcamp_link = request.form['bandcamp']
+                    bandcamp_link = None
+                    twitter_link = request.form['twitter']
+                    #instagram_link = request.form['instagram']
+                    instagram_link = None
+                    facebook_link = request.form['facebook']
 
-                if changed_artist_profile and links_submitted:
-                    flash("Your changes were saved!")
-                else:
-                    flash("There was an error saving your information")
-
-                return redirect(url_for("edit_profile_page"))
+                    #Change profile links
+                    return venuehandler.save_artist_profile_links(email,spotify_link,bandcamp_link,twitter_link,instagram_link,facebook_link)
             else:
-                #Profile information
-                business_name = request.form['business_name']
-                business_type = request.form['business_type']
-                location = request.form['location']
-                bio = request.form['bio']
 
-                #Update profile picture
-                if 'profile_picture_file' in request.files:
-                    profile_picture_file = request.files['profile_picture_file']
-                    filename = uid+'_profile.jpg'
-                    profile_picture_file.save("static/user_pictures/profile_pictures/"+filename)
+                if request.form.get('update_venue_profile'):
+                    #Profile information
+                    business_name = request.form['business_name']
+                    business_type = request.form['business_type']
+                    location = request.form['business_location']
+                    bio = request.form['bio']
 
+                    return venuehandler.venue_profile_setup(email,business_name,business_type,location,bio)
 
-                changed_venue_profile = venuehandler.venue_profile_setup(email,business_name,business_type,location,bio)
+                if request.form.get('update_venue_links'):
+                    #Links
+                    personal_website = request.form['personal_website']
+                    twitter = request.form['twitter']
+                    instagram = request.form['instagram']
+                    facebook = request.form['facebook']
 
-                #Links
-                personal_website = request.form['personal_website']
-                twitter = request.form['twitter']
-                instagram = request.form['instagram']
-                facebook = request.form['facebook']
+                    if personal_website == "":
+                        personal_website = None
+                    if twitter == "":
+                        twitter = None
+                    if instagram == "":
+                        instagram = None
+                    if facebook == "":
+                        facebook = None
 
-                if personal_website == "":
-                    personal_website = None
-                if twitter == "":
-                    twitter = None
-                if instagram == "":
-                    instagram = None
-                if facebook == "":
-                    facebook = None
-
-                links_submitted = venuehandler.save_venue_profile_links(email,twitter,instagram,facebook,personal_website)
-
-                if changed_venue_profile and links_submitted:
-                    flash("Your changes where saved!")
-                else:
-                    flash("There was an error saving your information")
-
-                return redirect(url_for("edit_profile_page"))
+                    return venuehandler.save_venue_profile_links(email,twitter,instagram,facebook,personal_website)
         else:
             #if account is an artist
             if account_type == "artist":
